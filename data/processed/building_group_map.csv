@@ -1,0 +1,810 @@
+building_id,country,city,lat,lon,raw_climate,label_based_group,geo_override_group,agreement,override_reason
+1,australia,sydney,-33.8688197,151.2092955,humid subtropical,C,C,True,Agrees with geographical location
+2,australia,sydney,-33.8688197,151.2092955,humid subtropical,C,C,True,Agrees with geographical location
+3,usa,grand rapids,42.9633599,-85.6680863,humid midlatitude,C,C,True,Agrees with geographical location
+4,australia,sydney,-33.8688197,151.2092955,humid subtropical,C,C,True,Agrees with geographical location
+5,usa,auburn,32.6098566,-85.4807825,mediterranean,C,C,True,Agrees with geographical location
+6,usa,san ramon,37.7643595,-121.9539616,mediterranean,C,C,True,Agrees with geographical location
+7,usa,san ramon,37.7643595,-121.9539616,mediterranean,C,C,True,Agrees with geographical location
+8,usa,san ramon,37.7643595,-121.9539616,mediterranean,C,C,True,Agrees with geographical location
+9,usa,antioch,38.0049214,-121.805789,mediterranean,C,C,True,Agrees with geographical location
+10,uk,south wales,51.6858341,-3.3821421,west coast marine,C,C,True,Agrees with geographical location
+11,uk,south wales,51.6858341,-3.3821421,west coast marine,C,C,True,Agrees with geographical location
+12,uk,south wales,51.6858341,-3.3821421,west coast marine,C,C,True,Agrees with geographical location
+13,uk,south wales,51.6858341,-3.3821421,west coast marine,C,C,True,Agrees with geographical location
+14,uk,south wales,51.6858341,-3.3821421,west coast marine,C,C,True,Agrees with geographical location
+15,uk,south wales,51.6858341,-3.3821421,west coast marine,C,C,True,Agrees with geographical location
+16,uk,south wales,51.6858341,-3.3821421,west coast marine,C,C,True,Agrees with geographical location
+17,uk,south wales,51.6858341,-3.3821421,west coast marine,C,C,True,Agrees with geographical location
+18,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+19,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+20,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+21,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+22,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+23,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+24,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+25,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+26,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+27,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+28,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+29,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+30,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+31,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+32,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+33,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+34,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+35,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+36,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+37,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+38,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+39,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+40,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+41,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+42,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+43,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+44,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+45,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+46,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+47,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+48,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+49,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+50,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+51,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+52,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+53,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+54,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+55,australia,kalgoorlie,-30.749,121.466,hot arid,B,B,True,Agrees with geographical location
+56,australia,brisbane,-27.4704528,153.0260341,humid subtropical,C,C,True,Agrees with geographical location
+57,australia,brisbane,-27.4704528,153.0260341,humid subtropical,C,C,True,Agrees with geographical location
+58,australia,brisbane,-27.4704528,153.0260341,humid subtropical,C,C,True,Agrees with geographical location
+59,australia,brisbane,-27.4704528,153.0260341,humid subtropical,C,C,True,Agrees with geographical location
+60,australia,brisbane,-27.4704528,153.0260341,humid subtropical,C,C,True,Agrees with geographical location
+61,australia,brisbane,-27.4704528,153.0260341,humid subtropical,C,C,True,Agrees with geographical location
+62,australia,brisbane,-27.4704528,153.0260341,humid subtropical,C,C,True,Agrees with geographical location
+63,australia,brisbane,-27.4704528,153.0260341,humid subtropical,C,C,True,Agrees with geographical location
+64,australia,brisbane,-27.4704528,153.0260341,humid subtropical,C,C,True,Agrees with geographical location
+65,australia,brisbane,-27.4704528,153.0260341,humid subtropical,C,C,True,Agrees with geographical location
+66,australia,darwin,-12.4637333,130.8444446,tropical savanna,A,A,True,Agrees with geographical location
+67,australia,darwin,-12.4637333,130.8444446,tropical savanna,A,A,True,Agrees with geographical location
+68,australia,darwin,-12.4637333,130.8444446,tropical savanna,A,A,True,Agrees with geographical location
+69,australia,darwin,-12.4637333,130.8444446,tropical savanna,A,A,True,Agrees with geographical location
+70,australia,darwin,-12.4637333,130.8444446,tropical savanna,A,A,True,Agrees with geographical location
+71,australia,darwin,-12.4637333,130.8444446,tropical savanna,A,A,True,Agrees with geographical location
+72,australia,darwin,-12.4637333,130.8444446,tropical savanna,A,A,True,Agrees with geographical location
+73,australia,darwin,-12.4637333,130.8444446,tropical savanna,A,A,True,Agrees with geographical location
+74,australia,darwin,-12.4637333,130.8444446,tropical savanna,A,A,True,Agrees with geographical location
+75,australia,darwin,-12.4637333,130.8444446,tropical savanna,A,A,True,Agrees with geographical location
+76,australia,darwin,-12.4637333,130.8444446,tropical savanna,A,A,True,Agrees with geographical location
+77,australia,darwin,-12.4637333,130.8444446,tropical savanna,A,A,True,Agrees with geographical location
+78,australia,darwin,-12.4637333,130.8444446,tropical savanna,A,A,True,Agrees with geographical location
+79,australia,darwin,-12.4637333,130.8444446,tropical savanna,A,A,True,Agrees with geographical location
+80,australia,darwin,-12.4637333,130.8444446,tropical savanna,A,A,True,Agrees with geographical location
+81,australia,melbourne,-37.8136276,144.9630576,temperature marine,C,C,True,Typo for temperate marine (Cfb/Group C)
+82,australia,melbourne,-37.8136276,144.9630576,temperature marine,C,C,True,Typo for temperate marine (Cfb/Group C)
+83,australia,melbourne,-37.8136276,144.9630576,temperature marine,C,C,True,Typo for temperate marine (Cfb/Group C)
+84,australia,melbourne,-37.8136276,144.9630576,temperature marine,C,C,True,Typo for temperate marine (Cfb/Group C)
+85,australia,melbourne,-37.8136276,144.9630576,temperature marine,C,C,True,Typo for temperate marine (Cfb/Group C)
+86,australia,melbourne,-37.8136276,144.9630576,temperature marine,C,C,True,Typo for temperate marine (Cfb/Group C)
+87,australia,melbourne,-37.8136276,144.9630576,temperature marine,C,C,True,Typo for temperate marine (Cfb/Group C)
+88,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+89,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+90,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+91,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+92,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+93,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+94,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+95,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+96,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+97,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+98,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+99,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+100,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+101,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+102,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+103,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+104,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+105,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+106,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+107,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+108,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+109,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+110,australia,townsville,-19.2589635,146.8169483,tropical savanna,A,A,True,Agrees with geographical location
+111,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+112,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+113,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+114,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+115,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+116,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+117,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+118,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+119,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+120,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+121,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+122,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+123,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+124,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+125,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+126,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+127,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+128,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+129,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+130,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+131,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+132,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+133,canada,montreal,45.5016889,-73.567256,continental subarctic,D,D,True,Agrees with geographical location
+134,singapore,singapore,1.352083,103.819836,wet equatorial,A,A,True,Agrees with geographical location
+135,singapore,singapore,1.352083,103.819836,wet equatorial,A,A,True,Agrees with geographical location
+136,thailand,bangkok,13.7563309,100.5017651,tropical savanna,A,A,True,Agrees with geographical location
+137,thailand,bangkok,13.7563309,100.5017651,tropical savanna,A,A,True,Agrees with geographical location
+138,thailand,bangkok,13.7563309,100.5017651,tropical savanna,A,A,True,Agrees with geographical location
+139,thailand,bangkok,13.7563309,100.5017651,tropical savanna,A,A,True,Agrees with geographical location
+140,thailand,bangkok,13.7563309,100.5017651,tropical savanna,A,A,True,Agrees with geographical location
+141,greece,athens,37.9838096,23.7275388,mediterranean,C,C,True,Agrees with geographical location
+142,greece,athens,37.9838096,23.7275388,mediterranean,C,C,True,Agrees with geographical location
+143,greece,athens,37.9838096,23.7275388,mediterranean,C,C,True,Agrees with geographical location
+144,greece,athens,37.9838096,23.7275388,mediterranean,C,C,True,Agrees with geographical location
+145,greece,athens,37.9838096,23.7275388,mediterranean,C,C,True,Agrees with geographical location
+146,greece,athens,37.9838096,23.7275388,mediterranean,C,C,True,Agrees with geographical location
+147,indonesia,jakarta,-6.2087634,106.845599,wet equatorial,A,A,True,Agrees with geographical location
+148,indonesia,jakarta,-6.2087634,106.845599,wet equatorial,A,A,True,Agrees with geographical location
+149,indonesia,jakarta,-6.2087634,106.845599,wet equatorial,A,A,True,Agrees with geographical location
+150,indonesia,jakarta,-6.2087634,106.845599,wet equatorial,A,A,True,Agrees with geographical location
+151,indonesia,jakarta,-6.2087634,106.845599,wet equatorial,A,A,True,Agrees with geographical location
+152,indonesia,jakarta,-6.2087634,106.845599,wet equatorial,A,A,True,Agrees with geographical location
+153,indonesia,jakarta,-6.2087634,106.845599,wet equatorial,A,A,True,Agrees with geographical location
+154,usa,honolulu,21.3098845,-157.8581401,tropical savanna,A,A,True,Agrees with geographical location
+155,usa,honolulu,21.3098845,-157.8581401,tropical savanna,A,A,True,Agrees with geographical location
+156,usa,honolulu,21.3098845,-157.8581401,tropical savanna,A,A,True,Agrees with geographical location
+157,usa,honolulu,21.3098845,-157.8581401,tropical savanna,A,A,True,Agrees with geographical location
+158,usa,honolulu,21.3098845,-157.8581401,tropical savanna,A,A,True,Agrees with geographical location
+159,usa,honolulu,21.3098845,-157.8581401,tropical savanna,A,A,True,Agrees with geographical location
+160,usa,honolulu,21.3098845,-157.8581401,tropical savanna,A,A,True,Agrees with geographical location
+161,usa,honolulu,21.3098845,-157.8581401,tropical savanna,A,A,True,Agrees with geographical location
+162,usa,honolulu,21.3098845,-157.8581401,tropical savanna,A,A,True,Agrees with geographical location
+163,usa,honolulu,21.3098845,-157.8581401,tropical savanna,A,A,True,Agrees with geographical location
+164,usa,honolulu,21.3098845,-157.8581401,tropical savanna,A,A,True,Agrees with geographical location
+165,usa,honolulu,21.3098845,-157.8581401,tropical savanna,A,A,True,Agrees with geographical location
+166,india,mumbai,19.0759837,72.8776559,tropical wet savanna,A,A,True,Agrees with geographical location
+167,india,mumbai,19.0759837,72.8776559,tropical wet savanna,A,A,True,Agrees with geographical location
+168,canada,ottawa,45.4215296,-75.6971931,humid midlatitude,C,D,False,"Canada location (ottawa, lat=45.42) is Continental (Dfb/Group D), not Temperate (Group C)"
+169,canada,ottawa,45.4215296,-75.6971931,humid midlatitude,C,D,False,"Canada location (ottawa, lat=45.42) is Continental (Dfb/Group D), not Temperate (Group C)"
+170,canada,ottawa,45.4215296,-75.6971931,humid midlatitude,C,D,False,"Canada location (ottawa, lat=45.42) is Continental (Dfb/Group D), not Temperate (Group C)"
+171,canada,ottawa,45.4215296,-75.6971931,humid midlatitude,C,D,False,"Canada location (ottawa, lat=45.42) is Continental (Dfb/Group D), not Temperate (Group C)"
+172,pakistan,karachi,24.8607343,67.0011364,desert (hot arid),B,B,True,Agrees with geographical location
+173,pakistan,karachi,24.8607343,67.0011364,desert (hot arid),B,B,True,Agrees with geographical location
+174,pakistan,multan,30.157458,71.5249154,desert (hot arid),B,B,True,Agrees with geographical location
+175,pakistan,peshawar,34.0151366,71.5249154,semi arid midlatitude,B,B,True,Agrees with geographical location
+176,pakistan,peshawar,34.0151366,71.5249154,semi arid midlatitude,B,B,True,Agrees with geographical location
+177,pakistan,quettar,30.1798398,66.9749731,desert (hot arid),B,B,True,Agrees with geographical location
+178,pakistan,quettar,30.1798398,66.9749731,desert (hot arid),B,B,True,Agrees with geographical location
+179,pakistan,saidu,34.7492118,72.3562713,semi arid high altitude,B,B,True,Agrees with geographical location
+180,pakistan,saidu,34.7492118,72.3562713,semi arid high altitude,B,B,True,Agrees with geographical location
+181,uk,oxford,51.7520209,-1.2577263,west coast marine,C,C,True,Agrees with geographical location
+182,uk,oxford,51.7520209,-1.2577263,west coast marine,C,C,True,Agrees with geographical location
+183,uk,oxford,51.7520209,-1.2577263,west coast marine,C,C,True,Agrees with geographical location
+184,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+185,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+186,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+187,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+188,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+189,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+190,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+191,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+192,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+193,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+194,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+195,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+196,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+197,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+198,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+199,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+200,italy,lodi,45.3097228,9.503716,humid subtropical,C,C,True,Agrees with geographical location
+201,italy,varese,45.8205989,8.8250576,temperate oceanic,C,C,True,Agrees with geographical location
+202,italy,imola,44.3599996,11.7124294,humid subtropical,C,C,True,Agrees with geographical location
+203,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+204,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+205,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+206,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+207,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+208,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+209,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+210,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+211,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+212,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+213,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+214,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+215,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+216,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+217,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+218,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+219,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+220,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+221,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+222,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+223,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+224,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+225,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+226,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+227,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+228,italy,catania,37.5078772,15.0830304,temperate,C,C,True,Agrees with geographical location
+229,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+230,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+231,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+232,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+233,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+234,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+235,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+236,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+237,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+238,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+239,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+240,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+241,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+242,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+243,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+244,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+245,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+246,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+247,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+248,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+249,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+250,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+251,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+252,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+253,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+254,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+255,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+256,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+257,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+258,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+259,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+260,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+261,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+262,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+263,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+264,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+265,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+266,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+267,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+268,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+269,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+270,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+271,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+272,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+273,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+274,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+275,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+276,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+277,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+278,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+279,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+280,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+281,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+282,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+283,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+284,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+285,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+286,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+287,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+288,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+289,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+290,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+291,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+292,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+293,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+294,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+295,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+296,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+297,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+298,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+299,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+300,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+301,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+302,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+303,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+304,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+305,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+306,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+307,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+308,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+309,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+310,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+311,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+312,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+313,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+314,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+315,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+316,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+317,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+318,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+319,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+320,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+321,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+322,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+323,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+324,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+325,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+326,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+327,india,bengaluru,12.9715987,77.5945627,tropical wet savanna,A,A,True,Agrees with geographical location
+328,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+329,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+330,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+331,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+332,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+333,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+334,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+335,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+336,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+337,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+338,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+339,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+340,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+341,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+342,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+343,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+344,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+345,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+346,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+347,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+348,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+349,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+350,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+351,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+352,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+353,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+354,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+355,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+356,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+357,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+358,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+359,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+360,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+361,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+362,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+363,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+364,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+365,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+366,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+367,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+368,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+369,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+370,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+371,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+372,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+373,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+374,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+375,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+376,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+377,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+378,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+379,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+380,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+381,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+382,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+383,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+384,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+385,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+386,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+387,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+388,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+389,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+390,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+391,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+392,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+393,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+394,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+395,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+396,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+397,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+398,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+399,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+400,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+401,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+402,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+403,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+404,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+405,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+406,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+407,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+408,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+409,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+410,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+411,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+412,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+413,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+414,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+415,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+416,india,hyderabad,17.385044,78.486671,tropical wet savanna,A,A,True,Agrees with geographical location
+417,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+418,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+419,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+420,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+421,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+422,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+423,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+424,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+425,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+426,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+427,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+428,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+429,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+430,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+431,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+432,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+433,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+434,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+435,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+436,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+437,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+438,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+439,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+440,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+441,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+442,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+443,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+444,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+445,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+446,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+447,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+448,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+449,india,kolkata,22.572646,88.363895,tropical wet savanna,A,A,True,Agrees with geographical location
+450,india,mumbai,19.0759837,72.8776559,tropical wet savanna,A,A,True,Agrees with geographical location
+451,india,mumbai,19.0759837,72.8776559,tropical wet savanna,A,A,True,Agrees with geographical location
+452,india,mumbai,19.0759837,72.8776559,tropical wet savanna,A,A,True,Agrees with geographical location
+453,india,mumbai,19.0759837,72.8776559,tropical wet savanna,A,A,True,Agrees with geographical location
+454,india,mumbai,19.0759837,72.8776559,tropical wet savanna,A,A,True,Agrees with geographical location
+455,india,mumbai,19.0759837,72.8776559,tropical wet savanna,A,A,True,Agrees with geographical location
+456,india,mumbai,19.0759837,72.8776559,tropical wet savanna,A,A,True,Agrees with geographical location
+457,india,mumbai,19.0759837,72.8776559,tropical wet savanna,A,A,True,Agrees with geographical location
+458,india,mumbai,19.0759837,72.8776559,tropical wet savanna,A,A,True,Agrees with geographical location
+459,india,mumbai,19.0759837,72.8776559,tropical wet savanna,A,A,True,Agrees with geographical location
+460,india,mumbai,19.0759837,72.8776559,tropical wet savanna,A,A,True,Agrees with geographical location
+461,india,mumbai,19.0759837,72.8776559,tropical wet savanna,A,A,True,Agrees with geographical location
+462,india,mumbai,19.0759837,72.8776559,tropical wet savanna,A,A,True,Agrees with geographical location
+463,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+464,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+465,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+466,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+467,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+468,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+469,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+470,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+471,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+472,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+473,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+474,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+475,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+476,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+477,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+478,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+479,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+480,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+481,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+482,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+483,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+484,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+485,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+486,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+487,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+488,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+489,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+490,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+491,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+492,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+493,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+494,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+495,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+496,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+497,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+498,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+499,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+500,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+501,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+502,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+503,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+504,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+505,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+506,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+507,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+508,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+509,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+510,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+511,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+512,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+513,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+514,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+515,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+516,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+517,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+518,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+519,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+520,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+521,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+522,india,shimla,31.1048145,77.1734033,monsoon-influenced temperate oceanic,C,C,True,Agrees with geographical location
+523,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+524,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+525,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+526,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+527,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+528,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+529,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+530,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+531,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+532,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+533,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+534,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+535,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+536,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+537,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+538,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+539,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+540,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+541,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+542,usa,san francisco,37.7749295,-122.4194155,mediterranean,C,C,True,Agrees with geographical location
+543,malaysia,kota kinabalu,5.980408,116.0734568,tropical rainforest,A,A,True,Agrees with geographical location
+544,malaysia,kota kinabalu,5.980408,116.0734568,tropical rainforest,A,A,True,Agrees with geographical location
+545,malaysia,kota kinabalu,5.980408,116.0734568,tropical rainforest,A,A,True,Agrees with geographical location
+546,malaysia,kota kinabalu,5.980408,116.0734568,tropical rainforest,A,A,True,Agrees with geographical location
+547,uk,merseyside,53.3976041,-2.9436643,west coast marine,C,C,True,Agrees with geographical location
+548,uk,merseyside,53.3976041,-2.9436643,west coast marine,C,C,True,Agrees with geographical location
+549,uk,merseyside,53.3976041,-2.9436643,west coast marine,C,C,True,Agrees with geographical location
+550,uk,merseyside,53.3976041,-2.9436643,west coast marine,C,C,True,Agrees with geographical location
+551,uk,merseyside,53.3976041,-2.9436643,west coast marine,C,C,True,Agrees with geographical location
+552,uk,merseyside,53.3976041,-2.9436643,west coast marine,C,C,True,Agrees with geographical location
+553,uk,merseyside,53.3976041,-2.9436643,west coast marine,C,C,True,Agrees with geographical location
+554,uk,merseyside,53.3976041,-2.9436643,west coast marine,C,C,True,Agrees with geographical location
+555,uk,merseyside,53.3976041,-2.9436643,west coast marine,C,C,True,Agrees with geographical location
+556,cyprus,famagusta,35.1149116,33.919245,subtropical hot and dry,B,B,True,Agrees with geographical location
+557,germany,karlsruhe,49.0068901,8.4036527,temperate oceanic,C,C,True,Agrees with geographical location
+558,nigeria,bauchi,10.3059966,9.8403959,tropical wet savanna,A,A,True,Agrees with geographical location
+559,nigeria,bauchi,10.3059966,9.8403959,tropical wet savanna,A,A,True,Agrees with geographical location
+560,philippines,makati,14.554729,121.0244452,tropical wet savanna,A,A,True,Agrees with geographical location
+561,south korea,seoul,37.566535,126.9779692,monsoon-influenced hot-summer humid continental,D,D,True,Agrees with geographical location
+562,tunisia,el kef,36.1679648,8.7095789,cold semi-arid,B,B,True,Agrees with geographical location
+563,tunisia,el kef,36.1679648,8.7095789,cold semi-arid,B,B,True,Agrees with geographical location
+564,tunisia,el kef,36.1679648,8.7095789,cold semi-arid,B,B,True,Agrees with geographical location
+565,tunisia,el kef,36.1679648,8.7095789,cold semi-arid,B,B,True,Agrees with geographical location
+566,tunisia,el kef,36.1679648,8.7095789,cold semi-arid,B,B,True,Agrees with geographical location
+567,tunisia,el kef,36.1679648,8.7095789,cold semi-arid,B,B,True,Agrees with geographical location
+568,tunisia,gabes,33.9459648,9.7232673,hot desert,B,B,True,Agrees with geographical location
+569,tunisia,gabes,33.9459648,9.7232673,hot desert,B,B,True,Agrees with geographical location
+570,tunisia,gabes,33.9459648,9.7232673,hot desert,B,B,True,Agrees with geographical location
+571,tunisia,gabes,33.9459648,9.7232673,hot desert,B,B,True,Agrees with geographical location
+572,tunisia,gabes,33.9459648,9.7232673,hot desert,B,B,True,Agrees with geographical location
+573,tunisia,gafsa,34.4311398,8.7756556,hot desert,B,B,True,Agrees with geographical location
+574,tunisia,gafsa,34.4311398,8.7756556,hot desert,B,B,True,Agrees with geographical location
+575,tunisia,gafsa,34.4311398,8.7756556,hot desert,B,B,True,Agrees with geographical location
+576,tunisia,gafsa,34.4311398,8.7756556,hot desert,B,B,True,Agrees with geographical location
+577,tunisia,gafsa,34.4311398,8.7756556,hot desert,B,B,True,Agrees with geographical location
+578,tunisia,sfax,34.739822,10.7600196,hot semi-arid,B,B,True,Agrees with geographical location
+579,tunisia,sfax,34.739822,10.7600196,hot semi-arid,B,B,True,Agrees with geographical location
+580,tunisia,sfax,34.739822,10.7600196,hot semi-arid,B,B,True,Agrees with geographical location
+581,tunisia,sfax,34.739822,10.7600196,hot semi-arid,B,B,True,Agrees with geographical location
+582,tunisia,sfax,34.739822,10.7600196,hot semi-arid,B,B,True,Agrees with geographical location
+583,tunisia,sfax,34.739822,10.7600196,hot semi-arid,B,B,True,Agrees with geographical location
+584,tunisia,sfax,34.739822,10.7600196,hot semi-arid,B,B,True,Agrees with geographical location
+585,tunisia,tunis,36.8064948,10.1815316,hot-summer mediterranean,C,C,True,Agrees with geographical location
+586,tunisia,tunis,36.8064948,10.1815316,hot-summer mediterranean,C,C,True,Agrees with geographical location
+587,tunisia,tunis,36.8064948,10.1815316,hot-summer mediterranean,C,C,True,Agrees with geographical location
+588,tunisia,tunis,36.8064948,10.1815316,hot-summer mediterranean,C,C,True,Agrees with geographical location
+589,tunisia,tunis,36.8064948,10.1815316,hot-summer mediterranean,C,C,True,Agrees with geographical location
+590,tunisia,tunis,36.8064948,10.1815316,hot-summer mediterranean,C,C,True,Agrees with geographical location
+591,brazil,maceio,-9.6660417,-35.7352167,tropical monsoon,A,A,True,Agrees with geographical location
+592,brazil,maceio,-9.6660417,-35.7352167,tropical monsoon,A,A,True,Agrees with geographical location
+593,china,beijing,39.904211,116.407395,monsoon-influenced hot-summer humid continental,D,D,True,Agrees with geographical location
+594,china,beijing,39.904211,116.407395,monsoon-influenced hot-summer humid continental,D,D,True,Agrees with geographical location
+595,china,beijing,39.904211,116.407395,monsoon-influenced hot-summer humid continental,D,D,True,Agrees with geographical location
+596,china,beijing,39.904211,116.407395,monsoon-influenced hot-summer humid continental,D,D,True,Agrees with geographical location
+597,china,beijing,39.904211,116.407395,monsoon-influenced hot-summer humid continental,D,D,True,Agrees with geographical location
+598,brazil,florianopolis,-27.5948036,-48.5569286,humid subtropical,C,C,True,Agrees with geographical location
+599,brazil,florianopolis,-27.5948036,-48.5569286,humid subtropical,C,C,True,Agrees with geographical location
+600,brazil,florianopolis,-27.5948036,-48.5569286,humid subtropical,C,C,True,Agrees with geographical location
+601,brazil,florianopolis,-27.5948036,-48.5569286,humid subtropical,C,C,True,Agrees with geographical location
+602,brazil,florianopolis,-27.5948036,-48.5569286,humid subtropical,C,C,True,Agrees with geographical location
+603,brazil,florianopolis,-27.5948036,-48.5569286,humid subtropical,C,C,True,Agrees with geographical location
+604,australia,sydney,-33.8688197,151.2092955,humid subtropical,C,C,True,Agrees with geographical location
+605,australia,sydney,-33.8688197,151.2092955,humid subtropical,C,C,True,Agrees with geographical location
+606,malaysia,bedong,5.7288367,100.5071369,tropical rainforest,A,A,True,Agrees with geographical location
+607,malaysia,beverly hills,4.210484,101.975766,hot-summer mediterranean,C,A,False,"Malaysia location (beverly hills, lat=4.21) is Equatorial/Tropical (Af/Am/Group A), not Mediterranean (Group C)"
+608,malaysia,kinarut,5.8369702,116.0432527,tropical rainforest,A,A,True,Agrees with geographical location
+609,malaysia,kota kinabalu,5.980408,116.0734568,tropical rainforest,A,A,True,Agrees with geographical location
+610,malaysia,kota kinabalu,5.980408,116.0734568,tropical rainforest,A,A,True,Agrees with geographical location
+611,malaysia,kuala lumpur,3.139003,101.686855,tropical rainforest,A,A,True,Agrees with geographical location
+612,malaysia,kuching,1.553504,110.3592927,tropical rainforest,A,A,True,Agrees with geographical location
+613,malaysia,putra jaya,2.926361,101.696445,tropical rainforest,A,A,True,Agrees with geographical location
+614,malaysia,,,,tropical rainforest,A,A,True,Agrees with geographical location
+615,australia,goulburn,-34.7567489,149.713629,temperate oceanic,C,C,True,Agrees with geographical location
+616,australia,goulburn,-34.7567489,149.713629,temperate oceanic,C,C,True,Agrees with geographical location
+617,australia,wollongong,-34.4248336,150.8931132,humid subtropical,C,C,True,Agrees with geographical location
+618,australia,wollongong,-34.4248336,150.8931132,humid subtropical,C,C,True,Agrees with geographical location
+619,australia,wollongong,-34.4248336,150.8931132,humid subtropical,C,C,True,Agrees with geographical location
+620,australia,wollongong,-34.4248336,150.8931132,humid subtropical,C,C,True,Agrees with geographical location
+621,slovakia,bratislava,48.1485965,17.1077477,temperate oceanic,C,C,True,Agrees with geographical location
+622,slovakia,bratislava,48.1485965,17.1077477,temperate oceanic,C,C,True,Agrees with geographical location
+623,usa,berkeley,37.8715226,-122.273042,warm-summer mediterranean,C,C,True,Agrees with geographical location
+624,usa,berkeley,37.8715226,-122.273042,warm-summer mediterranean,C,C,True,Agrees with geographical location
+625,china,changsha,28.2277799,112.93886,humid subtropical,C,C,True,Agrees with geographical location
+626,china,yueyang,29.3572799,113.12919,humid subtropical,C,C,True,Agrees with geographical location
+627,china,yueyang,29.3572799,113.12919,humid subtropical,C,C,True,Agrees with geographical location
+628,germany,karlsruhe,49.0068901,8.4036527,temperate oceanic,C,C,True,Agrees with geographical location
+629,germany,karlsruhe,49.0068901,8.4036527,temperate oceanic,C,C,True,Agrees with geographical location
+630,germany,karlsruhe,49.0068901,8.4036527,temperate oceanic,C,C,True,Agrees with geographical location
+631,germany,stuttgart,48.7758459,9.1829321,temperate oceanic,C,C,True,Agrees with geographical location
+632,germany,stuttgart,48.7758459,9.1829321,temperate oceanic,C,C,True,Agrees with geographical location
+633,iran,ilam,33.6349736,46.415281,hot-summer mediterranean,C,C,True,Agrees with geographical location
+634,iran,ilam,33.6349736,46.415281,hot-summer mediterranean,C,C,True,Agrees with geographical location
+635,usa,alameda,37.7798721,-122.2821855,cool-summer mediterranean,C,C,True,Agrees with geographical location
+636,usa,alameda,37.7798721,-122.2821855,cool-summer mediterranean,C,C,True,Agrees with geographical location
+637,india,jaipur,26.9124336,75.7872709,hot semi-arid,B,B,True,Agrees with geographical location
+638,india,jaipur,26.9124336,75.7872709,hot semi-arid,B,B,True,Agrees with geographical location
+639,india,jaipur,26.9124336,75.7872709,hot semi-arid,B,B,True,Agrees with geographical location
+640,india,jaipur,26.9124336,75.7872709,hot semi-arid,B,B,True,Agrees with geographical location
+641,india,jaipur,26.9124336,75.7872709,hot semi-arid,B,B,True,Agrees with geographical location
+642,india,jaipur,26.9124336,75.7872709,hot semi-arid,B,B,True,Agrees with geographical location
+643,india,jaipur,26.9124336,75.7872709,hot semi-arid,B,B,True,Agrees with geographical location
+644,india,jaipur,26.9124336,75.7872709,hot semi-arid,B,B,True,Agrees with geographical location
+645,india,jaipur,26.9124336,75.7872709,hot semi-arid,B,B,True,Agrees with geographical location
+646,india,jaipur,26.9124336,75.7872709,hot semi-arid,B,B,True,Agrees with geographical location
+647,india,jaipur,26.9124336,75.7872709,hot semi-arid,B,B,True,Agrees with geographical location
+648,india,jaipur,26.9124336,75.7872709,hot semi-arid,B,B,True,Agrees with geographical location
+649,india,jaipur,26.9124336,75.7872709,hot semi-arid,B,B,True,Agrees with geographical location
+650,india,jaipur,26.9124336,75.7872709,hot semi-arid,B,B,True,Agrees with geographical location
+651,india,jaipur,26.9124336,75.7872709,hot semi-arid,B,B,True,Agrees with geographical location
+652,denmark,elsinore,56.030787,12.592127,temperate oceanic,C,C,True,Agrees with geographical location
+653,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+654,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+655,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+656,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+657,india,hyderabad,17.385044,78.486671,hot semi-arid,B,B,True,Agrees with geographical location
+658,india,hyderabad,17.385044,78.486671,hot semi-arid,B,B,True,Agrees with geographical location
+659,india,hyderabad,17.385044,78.486671,hot semi-arid,B,B,True,Agrees with geographical location
+660,india,hyderabad,17.385044,78.486671,hot semi-arid,B,B,True,Agrees with geographical location
+661,india,hyderabad,17.385044,78.486671,hot semi-arid,B,B,True,Agrees with geographical location
+662,india,hyderabad,17.385044,78.486671,hot semi-arid,B,B,True,Agrees with geographical location
+663,china,chaozhou,23.6566999,116.62296,humid subtropical,C,C,True,Agrees with geographical location
+664,usa,texas,31.9685988,-99.9018131,humid subtropical,C,C,True,Agrees with geographical location
+665,usa,san francisco,37.7749295,-122.4194155,warm-summer mediterranean,C,C,True,Agrees with geographical location
+666,usa,san francisco,37.7749295,-122.4194155,warm-summer mediterranean,C,C,True,Agrees with geographical location
+667,japan,tokyo,35.6761919,139.6503106,humid subtropical,C,C,True,Agrees with geographical location
+668,japan,tokyo,35.6761919,139.6503106,humid subtropical,C,C,True,Agrees with geographical location
+669,south korea,seoul,37.566535,126.9779692,monsoon-influenced hot-summer humid continental,D,D,True,Agrees with geographical location
+670,south korea,seoul,37.566535,126.9779692,monsoon-influenced hot-summer humid continental,D,D,True,Agrees with geographical location
+671,usa,philadelphia,39.9525839,-75.1652215,humid subtropical,C,C,True,Agrees with geographical location
+672,usa,philadelphia,39.9525839,-75.1652215,humid subtropical,C,C,True,Agrees with geographical location
+673,usa,philadelphia,39.9525839,-75.1652215,humid subtropical,C,C,True,Agrees with geographical location
+674,usa,philadelphia,39.9525839,-75.1652215,humid subtropical,C,C,True,Agrees with geographical location
+675,china,nanyang,32.9907299,112.52851,humid subtropical,C,C,True,Agrees with geographical location
+676,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+677,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+678,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+679,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+680,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+681,uk,midland,55.378051,-3.435973,hot-summer mediterranean,C,C,True,Agrees with geographical location
+682,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+683,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+684,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+685,india,ahmedabad,23.022505,72.5713621,hot semi-arid,B,B,True,Agrees with geographical location
+686,india,bangalore,,,tropical wet savanna,A,A,True,Agrees with geographical location
+687,india,bangalore,,,tropical wet savanna,A,A,True,Agrees with geographical location
+688,india,bangalore,,,tropical wet savanna,A,A,True,Agrees with geographical location
+689,india,bangalore,,,tropical wet savanna,A,A,True,Agrees with geographical location
+690,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+691,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+692,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+693,india,chennai,13.0826802,80.2707184,tropical wet savanna,A,A,True,Agrees with geographical location
+694,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+695,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+696,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+697,india,delhi,28.7040592,77.1024902,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+698,india,shimla,31.1048145,77.1734033,subtropical highland,C,C,True,Agrees with geographical location
+699,india,shimla,31.1048145,77.1734033,subtropical highland,C,C,True,Agrees with geographical location
+700,india,shimla,31.1048145,77.1734033,subtropical highland,C,C,True,Agrees with geographical location
+701,india,shimla,31.1048145,77.1734033,subtropical highland,C,C,True,Agrees with geographical location
+702,japan,tsukuba,36.0835255,140.0764454,humid subtropical,C,C,True,Agrees with geographical location
+703,japan,tsukuba,36.0835255,140.0764454,humid subtropical,C,C,True,Agrees with geographical location
+704,slovakia,bratislava,48.1485965,17.1077477,temperate oceanic,C,C,True,Agrees with geographical location
+705,mexico,colima,19.2452342,-103.7240868,tropical wet savanna,A,A,True,Agrees with geographical location
+706,mexico,colima,19.2452342,-103.7240868,tropical wet savanna,A,A,True,Agrees with geographical location
+707,mexico,culiacan,24.8090649,-107.3940117,tropical dry savanna,A,A,True,Agrees with geographical location
+708,mexico,hermosillo,29.0729673,-110.9559192,hot desert,B,B,True,Agrees with geographical location
+709,mexico,hermosillo,29.0729673,-110.9559192,hot desert,B,B,True,Agrees with geographical location
+710,mexico,merida,20.9673702,-89.5925857,tropical wet savanna,A,A,True,Agrees with geographical location
+711,mexico,merida,20.9673702,-89.5925857,tropical wet savanna,A,A,True,Agrees with geographical location
+712,mexico,mexicali,32.6245389,-115.4522623,hot desert,B,B,True,Agrees with geographical location
+713,mexico,mexicali,32.6245389,-115.4522623,hot desert,B,B,True,Agrees with geographical location
+714,singapore,singapore,1.352083,103.819836,tropical rainforest,A,A,True,Agrees with geographical location
+715,india,imphal,24.8170111,93.9368439,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+716,india,imphal,24.8170111,93.9368439,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+717,india,imphal,24.8170111,93.9368439,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+718,india,imphal,24.8170111,93.9368439,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+719,india,shilong,25.5787726,91.8932535,humid subtropical,C,C,True,Agrees with geographical location
+720,india,shilong,25.5787726,91.8932535,humid subtropical,C,C,True,Agrees with geographical location
+721,india,shilong,25.5787726,91.8932535,humid subtropical,C,C,True,Agrees with geographical location
+722,india,shilong,25.5787726,91.8932535,humid subtropical,C,C,True,Agrees with geographical location
+723,india,tezpur,26.6528495,92.7925592,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+724,india,tezpur,26.6528495,92.7925592,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+725,india,tezpur,26.6528495,92.7925592,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+726,india,tezpur,26.6528495,92.7925592,monsoon-influenced humid subtropical,C,C,True,Agrees with geographical location
+727,belgium,liege,50.6329586,5.5697498,temperate oceanic,C,C,True,Agrees with geographical location
+728,indonesia,bandung,-6.9174639,107.6191228,tropical,A,A,True,Agrees with geographical location
+729,indonesia,bandung,-6.9174639,107.6191228,tropical,A,A,True,Agrees with geographical location
+730,indonesia,bandung,-6.9174639,107.6191228,tropical,A,A,True,Agrees with geographical location
+731,japan,setagaya,35.6465615,139.6532924,temperate,C,C,True,Agrees with geographical location
+732,japan,setagaya,35.6465615,139.6532924,temperate,C,C,True,Agrees with geographical location
+733,japan,yokohama,35.4436739,139.6379639,temperate,C,C,True,Agrees with geographical location
+734,japan,yokohama,35.4436739,139.6379639,temperate,C,C,True,Agrees with geographical location
+735,malaysia,kuala lumpur,3.139003,101.686855,tropical,A,A,True,Agrees with geographical location
+736,malaysia,kuala lumpur,3.139003,101.686855,tropical,A,A,True,Agrees with geographical location
+737,malaysia,shah alam,3.073281,101.518461,tropical,A,A,True,Agrees with geographical location
+738,malaysia,shah alam,3.073281,101.518461,tropical,A,A,True,Agrees with geographical location
+739,singapore,singapore,1.352083,103.819836,tropical,A,A,True,Agrees with geographical location
+740,france,lyon,45.764043,4.835659,temperate oceanic,C,C,True,Agrees with geographical location
+741,france,lyon,45.764043,4.835659,temperate oceanic,C,C,True,Agrees with geographical location
+742,france,lyon,45.764043,4.835659,temperate oceanic,C,C,True,Agrees with geographical location
+743,france,lyon,45.764043,4.835659,temperate oceanic,C,C,True,Agrees with geographical location
+744,france,lyon,45.764043,4.835659,temperate oceanic,C,C,True,Agrees with geographical location
+745,france,lyon,45.764043,4.835659,temperate oceanic,C,C,True,Agrees with geographical location
+746,france,lyon,45.764043,4.835659,temperate oceanic,C,C,True,Agrees with geographical location
+747,france,lyon,45.764043,4.835659,temperate oceanic,C,C,True,Agrees with geographical location
+748,france,lyon,45.764043,4.835659,temperate oceanic,C,C,True,Agrees with geographical location
+749,greece,athens,37.9838096,23.7275388,hot-summer mediterranean,C,C,True,Agrees with geographical location
+750,greece,athens,37.9838096,23.7275388,hot-summer mediterranean,C,C,True,Agrees with geographical location
+751,greece,athens,37.9838096,23.7275388,hot-summer mediterranean,C,C,True,Agrees with geographical location
+752,greece,athens,37.9838096,23.7275388,hot-summer mediterranean,C,C,True,Agrees with geographical location
+753,greece,athens,37.9838096,23.7275388,hot-summer mediterranean,C,C,True,Agrees with geographical location
+754,greece,athens,37.9838096,23.7275388,hot-summer mediterranean,C,C,True,Agrees with geographical location
+755,greece,athens,37.9838096,23.7275388,hot-summer mediterranean,C,C,True,Agrees with geographical location
+756,greece,athens,37.9838096,23.7275388,hot-summer mediterranean,C,C,True,Agrees with geographical location
+757,greece,athens,37.9838096,23.7275388,hot-summer mediterranean,C,C,True,Agrees with geographical location
+758,greece,athens,37.9838096,23.7275388,hot-summer mediterranean,C,C,True,Agrees with geographical location
+759,portugal,lisbon,38.7222524,-9.1393366,hot-summer mediterranean,C,C,True,Agrees with geographical location
+760,portugal,lisbon,38.7222524,-9.1393366,hot-summer mediterranean,C,C,True,Agrees with geographical location
+761,portugal,porto,41.1579438,-8.6291053,warm-summer mediterranean,C,C,True,Agrees with geographical location
+762,portugal,porto,41.1579438,-8.6291053,warm-summer mediterranean,C,C,True,Agrees with geographical location
+763,portugal,porto,41.1579438,-8.6291053,warm-summer mediterranean,C,C,True,Agrees with geographical location
+764,portugal,porto,41.1579438,-8.6291053,warm-summer mediterranean,C,C,True,Agrees with geographical location
+765,sweden,gothenburg,57.70887,11.97456,temperate oceanic,C,C,True,Agrees with geographical location
+766,sweden,gothenburg,57.70887,11.97456,temperate oceanic,C,C,True,Agrees with geographical location
+767,sweden,gothenburg,57.70887,11.97456,temperate oceanic,C,C,True,Agrees with geographical location
+768,sweden,gothenburg,57.70887,11.97456,temperate oceanic,C,C,True,Agrees with geographical location
+769,sweden,halmstad,56.6743748,12.8577884,temperate oceanic,C,C,True,Agrees with geographical location
+770,sweden,halmstad,56.6743748,12.8577884,temperate oceanic,C,C,True,Agrees with geographical location
+771,sweden,malmo,55.604981,13.003822,temperate oceanic,C,C,True,Agrees with geographical location
+772,sweden,malmo,55.604981,13.003822,temperate oceanic,C,C,True,Agrees with geographical location
+773,uk,london,51.5072178,-0.1275862,temperate oceanic,C,C,True,Agrees with geographical location
+774,uk,london,51.5072178,-0.1275862,temperate oceanic,C,C,True,Agrees with geographical location
+775,uk,london,51.5072178,-0.1275862,temperate oceanic,C,C,True,Agrees with geographical location
+776,uk,london,51.5072178,-0.1275862,temperate oceanic,C,C,True,Agrees with geographical location
+777,uk,london,51.5072178,-0.1275862,temperate oceanic,C,C,True,Agrees with geographical location
+778,uk,london,51.5072178,-0.1275862,temperate oceanic,C,C,True,Agrees with geographical location
+779,japan,tokyo,35.6761919,139.6503106,humid subtropical,C,C,True,Agrees with geographical location
+780,uk,hampshire,55.378051,-3.435973,warm-summer humid continental,D,C,False,"UK location (hampshire, lat=55.38) is Marine Temperate (Cfb/Group C), not Continental (Group D)"
+781,uk,hampshire,55.378051,-3.435973,warm-summer humid continental,D,C,False,"UK location (hampshire, lat=55.38) is Marine Temperate (Cfb/Group C), not Continental (Group D)"
+782,china,harbin,45.7567307,126.6424173,monsoon-influenced hot-summer humid continental,D,D,True,Agrees with geographical location
+783,china,harbin,45.7567307,126.6424173,monsoon-influenced hot-summer humid continental,D,D,True,Agrees with geographical location
+784,china,harbin,45.7567307,126.6424173,monsoon-influenced hot-summer humid continental,D,D,True,Agrees with geographical location
+785,china,harbin,45.7567307,126.6424173,monsoon-influenced hot-summer humid continental,D,D,True,Agrees with geographical location
+786,china,harbin,45.7567307,126.6424173,monsoon-influenced hot-summer humid continental,D,D,True,Agrees with geographical location
+787,china,harbin,45.7567307,126.6424173,monsoon-influenced hot-summer humid continental,D,D,True,Agrees with geographical location
+788,china,harbin,45.7567307,126.6424173,monsoon-influenced hot-summer humid continental,D,D,True,Agrees with geographical location
+789,brazil,brasilia,-15.7975154,-47.8918874,tropical wet savanna,A,A,True,Agrees with geographical location
+790,brazil,florianopolis,-27.5948036,-48.5569286,humid subtropical,C,C,True,Agrees with geographical location
+791,brazil,florianopolis,-27.5948036,-48.5569286,humid subtropical,C,C,True,Agrees with geographical location
+792,brazil,florianopolis,-27.5948036,-48.5569286,humid subtropical,C,C,True,Agrees with geographical location
+793,brazil,florianopolis,-27.5948036,-48.5569286,humid subtropical,C,C,True,Agrees with geographical location
+794,brazil,florianopolis,-27.5948036,-48.5569286,humid subtropical,C,C,True,Agrees with geographical location
+795,brazil,florianopolis,-27.5948036,-48.5569286,humid subtropical,C,C,True,Agrees with geographical location
+796,brazil,florianopolis,-27.5948036,-48.5569286,humid subtropical,C,C,True,Agrees with geographical location
+797,brazil,recife,-8.0577401,-34.8829629,tropical monsoon,A,A,True,Agrees with geographical location
+798,china,guangzhou,23.1290799,113.26436,humid subtropical,C,C,True,Agrees with geographical location
+799,china,guangzhou,23.1290799,113.26436,humid subtropical,C,C,True,Agrees with geographical location
+800,china,guangzhou,23.1290799,113.26436,humid subtropical,C,C,True,Agrees with geographical location
+801,china,guangzhou,23.1290799,113.26436,humid subtropical,C,C,True,Agrees with geographical location
+802,china,guangzhou,23.1290799,113.26436,humid subtropical,C,C,True,Agrees with geographical location
+803,china,guangzhou,23.1290799,113.26436,humid subtropical,C,C,True,Agrees with geographical location
+804,china,guangzhou,23.1290799,113.26436,humid subtropical,C,C,True,Agrees with geographical location
+805,china,guangzhou,23.1290799,113.26436,humid subtropical,C,C,True,Agrees with geographical location
+806,iran,bandar abbas,27.1916389,56.2594033,hot desert,B,B,True,Agrees with geographical location
+807,iran,bandar abbas,27.1916389,56.2594033,hot desert,B,B,True,Agrees with geographical location
+808,malaysia,kota kinabalu,5.980408,116.0734568,tropical rainforest,A,A,True,Agrees with geographical location
+809,malaysia,kota kinabalu,5.980408,116.0734568,tropical rainforest,A,A,True,Agrees with geographical location

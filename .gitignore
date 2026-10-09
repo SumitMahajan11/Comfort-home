@@ -7,13 +7,18 @@ __pycache__/
 data/raw/
 data/processed/*.parquet
 data/processed/smoke_test/
+data/processed/sim_smoke_test/
+data/processed/sim_runs/
+data/processed/temp_hourly_sims/
+data/processed/temp_aug_sims/
+data/processed/vent_check_test/
 models/*.joblib
 models/*.json
 models/*.pkl
 
-# Explicitly track essential configuration and split artifacts
-!data/processed/koppen_group_map.csv
-!data/processed/splits.json
+# Explicitly track essential configuration, metric summaries, and split artifacts
+!data/processed/*.csv
+!data/processed/*.json
 
 # Environments
 .venv/

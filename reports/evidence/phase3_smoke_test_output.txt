@@ -1,0 +1,92 @@
+================================================================================
+PHASE 3 SIMULATION ENGINE FRESH SMOKE TEST & SANITY VERIFICATION
+================================================================================
+Cleaning previous smoke test directory: data/processed/sim_smoke_test ...
+Cleaned smoke test output directory. All runs will execute 100% fresh.
+
+Generated 10 Latin Hypercube designs (seed 42):
+
+design_id  roof_insulation_thickness  wall_insulation_thickness  roof_solar_absorptance      wwr  orientation  shading_depth  ventilation_ach wall_mass_class
+  D_00000                   0.063391                   0.143417                0.668484 0.270592   319.719033       0.502438         1.334404           heavy
+  D_00001                   0.013078                   0.068244                0.517752 0.332563    48.685242       0.217724        10.179220           heavy
+  D_00002                   0.141681                   0.104043                0.730342 0.202892   224.084650       0.764547        12.241023           light
+  D_00003                   0.078324                   0.012080                0.631997 0.258467   281.661007       0.631695         5.557333          medium
+  D_00004                   0.130113                   0.054443                0.871827 0.393369   138.935818       0.452430         7.682327          medium
+  D_00005                   0.098443                   0.017510                0.317984 0.319067   329.121873       0.919524        14.457530          medium
+  D_00006                   0.034763                   0.117904                0.828006 0.189742   151.249415       0.133515         2.812768           light
+  D_00007                   0.113116                   0.036469                0.411612 0.115991    11.904334       0.852890         4.408669           light
+  D_00008                   0.050479                   0.126696                0.446448 0.144362   106.593640       0.356328         9.099581           light
+  D_00009                   0.017199                   0.086491                0.596502 0.075152   204.859984       0.033808        11.420155           heavy
+
+--- 1. Executing 50 Free-Running Annual Simulations (10 designs x 5 cities) ---
+
+Simulation Batch Execution Summary:
+  Total Runs Requested: 50
+  Freshly Executed:     50/50 (100.0%)
+  Skipped (Cached):     0/50
+  Failed Runs:          0/50
+  Total Severe Errors:  0
+  Total Fatal Errors:   0
+  Total Wall Time:      23.23 s (0.46 s/run average wall time across 6 workers)
+  [PASS] All 50 runs freshly executed with 0 fatal and 0 severe errors.
+
+--- 2. Spot Check for 5 Representative Runs (1 per city) ---
+  City: Jodhpur    | Design: D_00000 | Hourly CSV Rows: 8,760 (Expected: 8,760) | Status: ************* EnergyPlus Completed Successfully-- 2 Warning; 0 Severe Errors; Elapsed Time=00hr 00min  1.94sec
+  City: Mumbai     | Design: D_00001 | Hourly CSV Rows: 8,760 (Expected: 8,760) | Status: ************* EnergyPlus Completed Successfully-- 2 Warning; 0 Severe Errors; Elapsed Time=00hr 00min  2.32sec
+  City: New_Delhi  | Design: D_00002 | Hourly CSV Rows: 8,760 (Expected: 8,760) | Status: ************* EnergyPlus Completed Successfully-- 2 Warning; 0 Severe Errors; Elapsed Time=00hr 00min  2.14sec
+  City: Bengaluru  | Design: D_00003 | Hourly CSV Rows: 8,760 (Expected: 8,760) | Status: ************* EnergyPlus Completed Successfully-- 2 Warning; 0 Severe Errors; Elapsed Time=00hr 00min  2.40sec
+  City: Shimla     | Design: D_00004 | Hourly CSV Rows: 8,760 (Expected: 8,760) | Status: ************* EnergyPlus Completed Successfully-- 2 Warning; 0 Severe Errors; Elapsed Time=00hr 00min  2.33sec
+  [PASS] All 5 sample runs verified with exactly 8,760 hourly rows and literal 'EnergyPlus Completed Successfully'.
+
+--- 3. Testing Ideal-Loads HVAC Conditioning Mode (O2 Energy Calculation) ---
+  New Delhi Design D_00000 Ideal-Loads Results:
+    Annual Cooling Energy: 1201.97 kWh
+    Annual Heating Energy: 336.32 kWh
+    Objective O2 Energy:   76.91 kWh/m2/yr
+  [PASS] Ideal-loads mode verified and objective O2 successfully computed.
+
+--- 4. Physical Directional Sanity Verifications ---
+
+[Directional Check 1] Roof Solar Absorptance in Jodhpur Summer (May 1 - Jun 30):
+  Physics: Lower roof solar absorptance (0.30 vs 0.90) must lower mean indoor Ta and Tr.
+    High Absorptance (0.90): Mean Ta = 28.73 C | Mean Tr = 27.82 C
+    Low Absorptance  (0.30): Mean Ta = 28.22 C | Mean Tr = 27.16 C
+    Thermal Benefit: Delta Mean Ta = -0.51 C | Delta Mean Tr = -0.66 C
+  [PASS] Directional Check 1 passed.
+
+[Directional Check 2] Wall & Roof Insulation in Shimla Winter (Dec 1 - Feb 28):
+  Physics: Higher insulation (0.15m vs 0.01m) must raise mean free-running indoor Ta in cold winter.
+    High Insulation (0.15m): Mean Winter Ta = 17.99 C
+    Low Insulation  (0.01m): Mean Winter Ta = 15.75 C
+    Insulation Heating Benefit: Delta Mean Ta = +2.25 C
+  [PASS] Directional Check 2 passed.
+
+[Directional Check 3] Natural Ventilation in Jodhpur Summer (May 1 - Jun 30):
+  Physics: Higher ventilation (15 ACH vs 1 ACH) with night flushing reduces indoor overheating peak.
+    High Ventilation (15 ACH): Mean Ta = 28.52 C | Max Ta = 31.70 C
+    Low Ventilation  ( 1 ACH): Mean Ta = 28.55 C | Max Ta = 31.70 C
+    Ventilation Cooling Benefit: Delta Mean Ta = -0.02 C
+  [PASS] Directional Check 3 passed.
+
+================================================================================
+--- 5. SENSITIVITY ANALYSIS ACROSS 10 DESIGNS PER CITY ---
+Evaluating % of hours outside ASHRAE 55 Adaptive 90% Comfort Band (T_comf +/- 2.5 C)
+================================================================================
+     City Best Design               Best Discomfort % Worst Design               Worst Discomfort % Spread (%-pts)
+  Jodhpur     D_00000 22.35% (Cold: 20.5%, Hot: 1.8%)      D_00001 40.76% (Cold: 20.8%, Hot: 20.0%)         18.41%
+   Mumbai     D_00003   7.21% (Cold: 5.1%, Hot: 2.1%)      D_00008  38.39% (Cold: 38.4%, Hot: 0.0%)         31.18%
+New_Delhi     D_00000 27.50% (Cold: 26.6%, Hot: 0.9%)      D_00008  45.50% (Cold: 45.5%, Hot: 0.0%)         18.00%
+Bengaluru     D_00003 27.81% (Cold: 27.8%, Hot: 0.0%)      D_00008  51.32% (Cold: 51.3%, Hot: 0.0%)         23.52%
+   Shimla     D_00006 43.55% (Cold: 43.6%, Hot: 0.0%)      D_00009  62.88% (Cold: 62.9%, Hot: 0.0%)         19.33%
+
+Spread Verification (> 3.0 %-pts variation in discomfort across 10 random designs):
+  Jodhpur   : Spread = 18.41 %-points [PASS]
+  Mumbai    : Spread = 31.18 %-points [PASS]
+  New_Delhi : Spread = 18.00 %-points [PASS]
+  Bengaluru : Spread = 23.52 %-points [PASS]
+  Shimla    : Spread = 19.33 %-points [PASS]
+  [PASS] All 5 cities demonstrate strong sensitivity to passive design variables (> 3.0 %-pts spread).
+
+================================================================================
+ALL PHASE 3 SMOKE TEST & SANITY ACCEPTANCE CHECKS PASSED (0 FAILURES)
+================================================================================

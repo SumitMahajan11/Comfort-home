@@ -10,57 +10,73 @@ import pytest
 
 def test_splits_integrity():
     splits_file = "data/processed/splits.json"
+    tsv_file = "data/processed/comfort_tsv_all.parquet"
     clean_file = "data/processed/comfort_clean.parquet"
     
     assert os.path.exists(splits_file), f"Splits file not found: {splits_file}"
+    assert os.path.exists(tsv_file), f"TSV parquet file not found: {tsv_file}"
     assert os.path.exists(clean_file), f"Clean parquet file not found: {clean_file}"
     
     with open(splits_file, "r") as f:
         splits = json.load(f)
         
-    df = pd.read_parquet(clean_file)
-    total_rows = len(df)
+    df_tsv = pd.read_parquet(tsv_file)
+    df_clean = pd.read_parquet(clean_file)
     
-    assert splits["metadata"]["total_rows"] == total_rows, "Total rows mismatch!"
+    total_tsv_rows = len(df_tsv)
+    total_clean_rows = len(df_clean)
+    total_bldgs = df_tsv['building_id'].nunique()
+    
+    assert splits["metadata"]["total_tsv_rows"] == total_tsv_rows, "Total TSV rows mismatch!"
+    assert splits["metadata"]["total_complete_case_rows"] == total_clean_rows, "Total complete case rows mismatch!"
+    assert splits["metadata"]["distinct_buildings"] == total_bldgs, "Total buildings mismatch!"
     
     print("\n" + "="*80)
-    print("NO-LEAKAGE ASSERTION TESTS ON SPLITS")
+    print("NO-LEAKAGE AND EVALUATION INTEGRITY ASSERTION TESTS ON SPLITS")
     print("="*80)
+    print(f"Total TSV rows: {total_tsv_rows:,} | Total Complete-Case rows: {total_clean_rows:,} | Distinct Buildings: {total_bldgs}")
     
     # 1. Test 5-Fold GroupKFold
     print("\n--- 1. Testing 5-Fold GroupKFold (by building_id) ---")
     gkf_folds = splits["group_kfold_5"]
     assert len(gkf_folds) == 5, f"Expected 5 folds, found {len(gkf_folds)}"
     
-    all_test_indices = []
+    all_test_buildings = []
+    total_eval_cc_rows = 0
     
     for fold_name, fold_data in gkf_folds.items():
-        train_idx = set(fold_data["train_indices"])
-        test_idx = set(fold_data["test_indices"])
         train_bldgs = set(fold_data["train_buildings"])
         test_bldgs = set(fold_data["test_buildings"])
         
-        # Row index non-overlap & completeness
-        assert len(train_idx.intersection(test_idx)) == 0, f"Index overlap in {fold_name}!"
-        assert len(train_idx) + len(test_idx) == total_rows, f"Index count mismatch in {fold_name}!"
-        all_test_indices.extend(list(test_idx))
+        # Verify counts in json match actual building list lengths
+        assert len(train_bldgs) == fold_data["n_train_buildings"], f"Train building count mismatch in {fold_name}"
+        assert len(test_bldgs) == fold_data["n_test_buildings"], f"Test building count mismatch in {fold_name}"
         
-        # Building ID non-overlap
+        # Building non-overlap
         bldg_overlap = train_bldgs.intersection(test_bldgs)
         assert len(bldg_overlap) == 0, f"CRITICAL: building_id leakage in {fold_name}: {bldg_overlap}"
         
-        # Verify indices match dataframe building IDs
-        df_train_bldgs = set(df.iloc[list(train_idx)]['building_id'])
-        df_test_bldgs = set(df.iloc[list(test_idx)]['building_id'])
-        assert df_train_bldgs == train_bldgs, f"Train building set mismatch in {fold_name}"
-        assert df_test_bldgs == test_bldgs, f"Test building set mismatch in {fold_name}"
-        assert len(df_train_bldgs.intersection(df_test_bldgs)) == 0, f"Direct DF building leakage in {fold_name}!"
+        # Verify data rows matching these buildings
+        train_tsv_rows = len(df_tsv[df_tsv['building_id'].isin(train_bldgs)])
+        test_cc_rows = len(df_clean[df_clean['building_id'].isin(test_bldgs)])
         
-        print(f"  [PASS] {fold_name}: Train={len(train_idx):,} rows ({len(train_bldgs)} bldgs) | Test={len(test_idx):,} rows ({len(test_bldgs)} bldgs) | Overlap={len(bldg_overlap)}")
+        assert train_tsv_rows == fold_data["n_train_all_tsv_rows"], f"Train TSV row count mismatch in {fold_name}"
+        assert test_cc_rows == fold_data["n_test_complete_case_rows"], f"Test CC row count mismatch in {fold_name}"
         
-    assert len(all_test_indices) == total_rows, "K-Fold test partition does not cover exact total rows!"
-    assert len(set(all_test_indices)) == total_rows, "Duplicate test indices across K-Fold splits!"
-    print("  [PASS] 5-Fold GroupKFold partitions exact 58,512 rows with zero building overlap.")
+        # Verify zero row leakage between train and test
+        df_train_idx = set(df_tsv[df_tsv['building_id'].isin(train_bldgs)]['record_id'])
+        df_test_idx = set(df_clean[df_clean['building_id'].isin(test_bldgs)]['record_id'])
+        assert len(df_train_idx.intersection(df_test_idx)) == 0, f"Record ID leakage in {fold_name}!"
+        
+        all_test_buildings.extend(list(test_bldgs))
+        total_eval_cc_rows += test_cc_rows
+        
+        print(f"  [PASS] {fold_name}: Train={len(train_bldgs)} bldgs ({train_tsv_rows:,} TSV rows) | Test={len(test_bldgs)} bldgs ({test_cc_rows:,} complete cases) | Overlap={len(bldg_overlap)}")
+        
+    assert len(all_test_buildings) == total_bldgs, "K-Fold test building union does not equal total buildings!"
+    assert len(set(all_test_buildings)) == total_bldgs, "Duplicate test buildings across K-Fold splits!"
+    assert total_eval_cc_rows == total_clean_rows, f"Total evaluated complete cases ({total_eval_cc_rows}) != {total_clean_rows}"
+    print(f"  [PASS] 5-Fold GroupKFold cleanly partitions exact {total_bldgs} buildings and {total_clean_rows:,} complete-case test rows.")
     
     # 2. Test Leave-One-Group-Out
     print("\n--- 2. Testing Leave-One-Köppen-Major-Group-Out ---")
@@ -70,26 +86,28 @@ def test_splits_integrity():
     for holdout_name, holdout_data in logo_folds.items():
         grp = holdout_data["held_out_group"]
         grp_name = holdout_data["held_out_name"]
-        train_idx = set(holdout_data["train_indices"])
-        test_idx = set(holdout_data["test_indices"])
+        
         train_bldgs = set(holdout_data["train_buildings"])
         test_bldgs = set(holdout_data["test_buildings"])
-        
-        # Row index non-overlap & completeness
-        assert len(train_idx.intersection(test_idx)) == 0, f"Index overlap in {holdout_name}!"
-        assert len(train_idx) + len(test_idx) == total_rows, f"Index count mismatch in {holdout_name}!"
         
         # Building non-overlap
         bldg_overlap = train_bldgs.intersection(test_bldgs)
         assert len(bldg_overlap) == 0, f"CRITICAL: building_id leakage in {holdout_name}: {bldg_overlap}"
         
         # Verify correct Köppen group isolation
-        test_groups = set(df.iloc[list(test_idx)]['koppen_group'])
-        train_groups = set(df.iloc[list(train_idx)]['koppen_group'])
-        assert test_groups == {grp}, f"Test set in {holdout_name} contains wrong group: {test_groups}"
+        test_df = df_clean[df_clean['building_id'].isin(test_bldgs)]
+        train_df = df_tsv[df_tsv['building_id'].isin(train_bldgs)]
+        
+        test_groups = set(test_df['koppen_group'].dropna())
+        train_groups = set(train_df['koppen_group'].dropna())
+        
+        assert test_groups == {grp}, f"Test set in {holdout_name} contains wrong groups: {test_groups}"
         assert grp not in train_groups, f"Train set in {holdout_name} contains test group {grp}!"
         
-        print(f"  [PASS] {holdout_name} (Group {grp}: {grp_name}): Train={len(train_idx):,} rows ({len(train_bldgs)} bldgs) | Test={len(test_idx):,} rows ({len(test_bldgs)} bldgs) | Overlap={len(bldg_overlap)}")
+        test_cc_rows = len(test_df)
+        train_tsv_rows = len(train_df)
+        
+        print(f"  [PASS] {holdout_name} (Group {grp}: {grp_name}): Train={len(train_bldgs)} bldgs ({train_tsv_rows:,} TSV rows) | Test={len(test_bldgs)} bldgs ({test_cc_rows:,} complete cases) | Overlap={len(bldg_overlap)}")
         
     print("  [PASS] All 4 Leave-One-Group-Out holdout sets strictly isolated with zero building leakage.")
     print("\nALL SPLIT ASSERTION CHECKS PASSED SUCCESSFULLY (0 FAILURES).")
