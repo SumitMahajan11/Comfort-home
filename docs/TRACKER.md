@@ -8,20 +8,20 @@ Updated by the agent at the end of every task (see `AGENTS.md`). Last updated: 2
 |---|---|---|---|
 | 0 | Data audit | DONE | `reports/data_audit.md` |
 | 1 | EDA and reference baselines | DONE (follow-up in Phase 2) | `reports/phase1_eda.md` |
-| 2 | Clean data and comfort models | NEXT (not started) | none yet |
+| 2 | Clean data and comfort models | IN PROGRESS (Human Review Gate) | `data/processed/koppen_group_map.csv`, `reports/evidence/phase2_cleaning_log.txt` |
 | 3 | Simulation engine | NOT STARTED | none yet |
 | 4 | Coupling and surrogates | NOT STARTED | none yet |
 | 5 | Optimization | NOT STARTED | none yet |
 | 6 | Explainability and dashboard | NOT STARTED | none yet |
 | 7 | Packaging and reporting | NOT STARTED | none yet |
 
-**Next action:** Phase 2, step 1: write `src/data/clean.py` and `koppen_group_map.csv`, then stop for human review of the map.
+**Next action:** Awaiting human review of `data/processed/koppen_group_map.csv` and cleaning log before proceeding with `splits.json` and modeling.
 
 ## Phase 2 task checklist
 
-- [ ] Add `src/` layout, `tests/`, `reports/evidence/`
-- [ ] Cleaning script and cleaning log (row count after each rule)
-- [ ] Köppen group mapping file (**human review gate**)
+- [x] Add `src/` layout, `tests/`, `reports/evidence/`
+- [x] Cleaning script and cleaning log (row count after each rule)
+- [x] Köppen group mapping file (**human review gate - READY FOR REVIEW**)
 - [ ] `splits.json` with building-grouped and leave-one-group-out folds
 - [ ] No-overlap assertion test, output saved
 - [ ] Baselines on identical rows
@@ -40,6 +40,8 @@ Updated by the agent at the end of every task (see `AGENTS.md`). Last updated: 2
 | E-005 | Complete cases: Set A 58,512 rows (India 4,642); Set B 82,789 (India 9,796) | `reports/phase1_eda.md` | 2026-10-09 |
 | E-006 | 12 of 31 raw climate classes have fewer than 3 buildings | `reports/phase1_eda.md` | 2026-10-09 |
 | E-007 | Reference baselines, different row subsets (not comparable to ML): PMV macro-F1 0.3999 (full); adaptive 90% 0.4597 (full), 0.4834 (naturally ventilated) | `reports/phase1_eda.md` | 2026-10-09 |
+| E-008 | Data cleaning produced 58,512 clean rows x 83 cols with exact step-by-step row counts | `reports/evidence/phase2_cleaning_log.txt`, `data/processed/comfort_clean.parquet` | 2026-10-09 |
+| E-009 | Köppen group map maps all 31 raw classes to groups A/B/C/D with min 30 buildings/group | `data/processed/koppen_group_map.csv` | 2026-10-09 |
 
 ## Decision log
 
@@ -70,3 +72,4 @@ None yet.
 ## Changelog
 
 - 2026-10-09: Phase 0 and Phase 1 completed. Docs created (`AGENTS.md`, `PROJECT_SPEC.md`, `PHASES.md`, `TRACKER.md`).
+- 2026-10-09: Phase 2 Step 1 completed: `src/data/clean.py` created, `data/processed/comfort_clean.parquet` (58,512 rows) and `data/processed/koppen_group_map.csv` generated. Halted at human review gate.
