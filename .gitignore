@@ -1,16 +1,19 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-*.class
+*$py.class
 
-# Data directories (raw datasets are large)
+# Data directories (raw datasets and large binary artifacts are ignored)
 data/raw/
 data/processed/*.parquet
-data/processed/*.csv
 data/processed/smoke_test/
 models/*.joblib
 models/*.json
 models/*.pkl
+
+# Explicitly track essential configuration and split artifacts
+!data/processed/koppen_group_map.csv
+!data/processed/splits.json
 
 # Environments
 .venv/

@@ -1,14 +1,14 @@
 ================================================================================
 PHASE 2 DATA CLEANING PIPELINE
 ================================================================================
-Generated Köppen group map (31 climate classes) -> data/processed/koppen_group_map.csv
-
 Step 0: Loading raw data from:
   Measurements: data/raw/ashrae_db_ii/ashrae-db-II-master/v2.1.0/db_measurements_v2.1.0.csv.gz
   Metadata:     data/raw/ashrae_db_ii/ashrae-db-II-master/v2.1.0/db_metadata.csv
   Raw measurements rows: 109,033
   Raw metadata buildings: 809
   Merged dataset initial row count: 109,033
+
+Generated Köppen group map (31 climate classes with building counts & rationales) -> data/processed/koppen_group_map.csv
 
 Rule 1: Drop rows with missing thermal_sensation (TSV)
   Rows dropped: 2,862 (2.62%)
@@ -43,5 +43,12 @@ CLEANING COMPLETE: Saved 58,512 rows x 83 cols to data/processed/comfort_clean.p
 Total retention rate from raw merged dataset: 53.66%
 Distinct buildings in clean dataset: 610
 Distinct countries in clean dataset: 21
-India rows in clean dataset: 2,170 across 294 buildings
+
+INDIA SPECIFIC AUDIT BREAKDOWN:
+  Raw India rows: 18,714
+  India rows with valid TSV: 18,639 (dropped 75 missing TSV)
+  India rows with valid ta: 18,639 (0 missing ta)
+  India rows with valid tr: 2,170 (dropped 16,469 rows due to missing tr!)
+  India rows with valid rh, vel, clo, met: 2,170 (all present)
+  Final clean complete-case India rows: 2,170 across 294 buildings
 ================================================================================
