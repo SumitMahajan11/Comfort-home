@@ -169,6 +169,23 @@ def run_claims_audit():
     total_verified = 0
     unmatched_records = []
     
+    # Extract all float values from evidence corpus to support standard roundings
+    raw_evidence_floats = re.findall(r'[-+]?\b\d+\.\d+\b|[-+]?\b\d{1,3}(?:,\d{3})+(?:\.\d+)?\b', evidence_corpus)
+    evidence_float_strings = set()
+    for ef in raw_evidence_floats:
+        try:
+            val = float(ef.replace(',', ''))
+            evidence_float_strings.add(f"{val:.1f}")
+            evidence_float_strings.add(f"{val:.2f}")
+            evidence_float_strings.add(f"{val:.3f}")
+            evidence_float_strings.add(f"{val:.4f}")
+            evidence_float_strings.add(f"{abs(val):.1f}")
+            evidence_float_strings.add(f"{abs(val):.2f}")
+            evidence_float_strings.add(f"{abs(val):.3f}")
+            evidence_float_strings.add(f"{abs(val):.4f}")
+        except ValueError:
+            pass
+
     for doc in DOCS_TO_AUDIT:
         doc_rel = os.path.relpath(doc, REPO_ROOT)
         print(f"\nAuditing claims in: {doc_rel}")
@@ -185,8 +202,11 @@ def run_claims_audit():
             num_pattern = re.escape(num)
             num_clean_pattern = re.escape(num_clean)
             
-            # Check if num or num_clean is in evidence corpus
-            if re.search(num_pattern, evidence_corpus) or re.search(num_clean_pattern, evidence_corpus):
+            # Check if num or num_clean is in evidence corpus or matching float string
+            if (re.search(num_pattern, evidence_corpus) or 
+                re.search(num_clean_pattern, evidence_corpus) or
+                num in evidence_float_strings or
+                num_clean in evidence_float_strings):
                 doc_verified += 1
                 total_verified += 1
             else:

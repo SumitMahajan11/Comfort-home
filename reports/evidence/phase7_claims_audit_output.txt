@@ -1,8 +1,8 @@
 PHASE 7 CLAIMS AUDIT EVIDENCE OUTPUT (v1.1)
 ================================================================================
 
-Total Numerical Claims Extracted: 303
-Total Verified in Literal Evidence: 303
+Total Numerical Claims Extracted: 311
+Total Verified in Literal Evidence: 311
 Verification Pass Rate: 100.00%
 
 PROGRAMMATIC SUCCESS CRITERIA AUDIT (S1 TO S4):

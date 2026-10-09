@@ -559,7 +559,7 @@ elif nav_choice == "5. About":
             "Criterion": "S3: Direct EnergyPlus Optimization Verification",
             "Target Threshold": "Verified Pareto design beats BOTH R1 & R2 on all 3 objectives",
             "Result": "PASS",
-            "Literal Value / Margin": "Passed in all 5 climate zones with large margins (up to -240.47 kWh/m² and -39.08% discomfort)",
+            "Literal Value / Margin": "Passed in all 5 climate zones (Jodhpur 7/10, Mumbai 7/10, New Delhi 6/10, Bengaluru 8/10, Shimla 8/10; 36/50 verified designs). Note: Optimizer used unclipped O2 surrogates (59/500 negative); S3 is unaffected because it rests on direct simulations.",
             "Status": "✅ Verified"
         },
         {

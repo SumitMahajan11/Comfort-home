@@ -71,16 +71,19 @@ Across all five simulated Indian climate zones, the ML Champion comfort model op
 | **New Delhi** | Composite | 99.68% | 59.49% | **53.12%** | **89.86%** | **0.195** | **Low** (Dual-judge rank disagreement) |
 | **Jodhpur** | Hot-Dry | 99.60% | 68.70% | **53.91%** | **86.85%** | **0.109** | **Low** (Dual-judge rank disagreement) |
 
-### B. Why Dual Comfort Judges Disagree in Jodhpur and New Delhi
-Comparing warm/hot and cool/cold discomfort components across all 4,988 simulated designs reveals the exact mechanism behind the low Spearman rank correlations in Jodhpur ($r_s = 0.109$) and New Delhi ($r_s = 0.195$) `[E-018]`:
+> **Mumbai Envelope Note:** In Mumbai, the ML Champion comfort model covers only **27.91%** of conditions (27.9%) due to intense coastal monsoon relative humidity exceeding the DB II 99th percentile training envelope boundary.
 
-1. **Cool/Cold Alignment:** 
-   - In **Jodhpur**, `cool_ml` (mean 30.32%) closely tracks `cold_adapt` (mean 28.91%) with a Pearson correlation of **0.9676**.
-   - In **New Delhi**, `cool_ml` (mean 36.88%) closely tracks `cold_adapt` (mean 34.68%) with a Pearson correlation of **0.9765**.
-2. **Warm/Hot Divergence:**
-   - In **Jodhpur**, `warm_ml` (mean 22.62%) is **4x higher** than `hot_adapt` (mean 5.54%), with Pearson correlation **0.8348**. The physical Adaptive 90% comfort model widens the acceptable operative temperature band at high outdoor running means ($T_{cmf} = 17.8 + 0.31 T_{rm}$ reaches 28–31°C), classifying almost all daytime hours as comfortable. Conversely, the ML Champion accounts for indoor drybulb, radiant heat flux, and low air speed, flagging substantial warm discomfort during summer afternoons.
-   - In **New Delhi**, `warm_ml` (mean 14.29%) is **3.5x higher** than `hot_adapt` (mean 4.02%), with Pearson correlation **0.8787**. During monsoon months, indoor relative humidity exceeds 70%; the ML model penalizes high humidity with increased warm sensation probabilities, whereas the Adaptive 90% model has no humidity boundary.
-3. **Ranking Impact:** Because total discomfort $O_{1,\text{ml}} = \text{warm} + \text{cool}$ sums two negatively correlated seasonal components in semi-arid and composite climates, the ML objective shifts design optimality toward balancing insulation and shading, while the adaptive objective $O_{1,\text{adapt}} = \text{hot} + \text{cold}$ is dominated almost exclusively by winter heating needs.
+### B. Dual Comfort Judge Disagreement Analysis (Jodhpur and New Delhi)
+
+#### 1. Literal Evidence:
+- **Cold-Side Rank Agreement (~0.97):** Across both semi-arid and composite climates, the ML and Adaptive models agree strongly on cool/cold discomfort ranking. In Jodhpur, `cool_ml` (mean 30.32%) correlates with `cold_adapt` (mean 28.91%) with Pearson correlation **0.9676** (~0.97). In New Delhi, `cool_ml` (mean 36.88%) correlates with `cold_adapt` (mean 34.68%) with Pearson correlation **0.9765** (~0.97).
+- **Warm-Side Discrepancy (0.83 to 0.88, 3.5 to 4x hours):** On the warm/hot discomfort side, the models diverge. In Jodhpur, `warm_ml` (mean 22.62%) is **4.08 times higher** (~4x) than `hot_adapt` (mean 5.54%), with Pearson correlation **0.8348** (0.83 to 0.88). In New Delhi, `warm_ml` (mean 14.29%) is **3.55 times higher** (~3.5x) than `hot_adapt` (mean 4.02%), with Pearson correlation **0.8787** (0.83 to 0.88).
+
+#### 2. Clearly Labelled Hypotheses & Untested Mechanisms:
+- **Hypothesis 1 (Adaptive Temperature Band Widening):** The physical Adaptive 90% model ($T_{cmf} = 17.8 + 0.31 T_{rm} \pm 2.5^\circ\text{C}$) expands the acceptable indoor operative temperature boundary up to 31°C during hot weather, categorizing the vast majority of daytime hours as comfortable.
+- **Hypothesis 2 (Multi-Variable Physiological Sensitivity):** The ML Champion evaluates multi-variable physiological interactions (indoor drybulb, mean radiant temperature, air velocity, and dynamic clothing), penalizing extreme radiant loads during hot afternoons.
+- **Hypothesis 3 (Humidity Penalty - UNTESTED):** In composite climates (New Delhi monsoon), elevated indoor relative humidity (>70% RH) may shift ML predicted probabilities toward the warm class. **Note on Humidity Hypothesis:** *This mechanism remains untested in the current pipeline* because ASHRAE DB II features are correlated in complete cases, and no isolated single-variable humidity ablation was executed on the hourly simulation time-series.
+- **Ranking Consequence:** Because total discomfort $O_{1,\text{ml}} = \text{warm} + \text{cool}$ combines two seasonally opposing components with a substantial warm contribution, the overall design ranking diverges from $O_{1,\text{adapt}} = \text{hot} + \text{cold}$ (which is dominated almost purely by winter cold hours).
 
 ---
 
@@ -138,7 +141,7 @@ Examining the 50 directly verified Pareto designs in [`data/processed/pareto_ver
    - New Delhi: Mean Abs Err = $2.67\text{ kWh/m}^2$, Mean Rel Err = $7.16\%$ (7/10 within $\le 10\%$)
    - Bengaluru: Mean Abs Err = $4.35\text{ kWh/m}^2$, Mean Rel Err = $120.23\%$ (0/10 within $\le 10\%$; actual energy near-zero $0.74\text{ to }2.29\text{ kWh/m}^2$)
    - Shimla: Mean Abs Err = $6.08\text{ kWh/m}^2$, Mean Rel Err = $10.10\%$ (5/10 within $\le 10\%$)
-4. **Surrogate Clipping at Zero:** On the unconstrained raw Pareto sets, **59 negative energy predictions** occurred out of 500 designs (32 in Mumbai, min $-9.36\text{ kWh/m}^2$; 27 in Bengaluru, min $-2.80\text{ kWh/m}^2$; 0 in Jodhpur, New Delhi, Shimla). Non-negative physical clipping at $0.0\text{ kWh/m}^2$ was implemented in the surrogate evaluation wrapper (`src/models/explain.py`, `src/app/app.py`).
+4. **Optimizer Unclipped Surrogates & S3 Direct Simulation Independence:** On the unconstrained raw Pareto sets, **59 negative energy predictions** occurred out of 500 designs (32 in Mumbai, min $-9.36\text{ kWh/m}^2$; 27 in Bengaluru, min $-2.80\text{ kWh/m}^2$; 0 in Jodhpur, New Delhi, Shimla) because the NSGA-II optimizer evaluated raw, unclipped $O_2$ surrogate regressors. **Success Criterion S3 is completely unaffected by surrogate under-prediction or negative values**, because S3 evaluation rests entirely on direct, physical EnergyPlus simulations (where verified actual energy is strictly non-negative). Non-negative physical clipping at $0.0\text{ kWh/m}^2$ is enforced in user-facing surrogate wrappers (`src/models/explain.py`, `src/app/app.py`).
 
 ---
 
