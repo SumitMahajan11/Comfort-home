@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.class
+
+# Data directories (raw datasets are large)
+data/raw/
+data/processed/*.parquet
+data/processed/*.csv
+data/processed/smoke_test/
+models/*.joblib
+models/*.json
+models/*.pkl
+
+# Environments
+.venv/
+venv/
+ENV/
+
+# OS and IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
