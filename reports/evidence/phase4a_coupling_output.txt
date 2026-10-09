@@ -1,6 +1,6 @@
 PHASE 4A COUPLING & OBJECTIVES EVIDENCE OUTPUT
 ================================================================================
-
+Measured runtime: 162.3 s
 Total Valid Designs: 4988
 
 SPREAD & SPEARMAN CORRELATION TABLE:

@@ -574,10 +574,10 @@ elif nav_choice == "5. About":
     
     st.subheader("2. Dual Comfort Judges Side-by-Side Comparison")
     st.markdown(r"""
-    | Comfort Judge | Mathematical Formulation | Primary Strengths | Limitations & Applicability Bounds |
+    | Comfort Judge | Mathematical Formulation | Primary Strengths | Limitations & Implementation Notes |
     |---|---|---|---|
-    | **ML Champion (`Ablation_A3_OutdoorTemp`)** | Multi-class calibrated XGBoost classifier trained on ASHRAE DB II ($T_a, T_r, \text{RH}, \text{vel}, \text{clo}, \text{met}, T_{rm}$) | Captures complex non-linear multi-variable interactions (e.g. radiant vs air temperature deltas, humidity coupling) | Trained primarily on developed-economy commercial/residential buildings; partly extrapolates in extreme climate zones |
-    | **Physical Adaptive 90%** | $T_{cmf} = 17.8 + 0.31 T_{rm} \pm 2.5^\circ\text{C}$ (ASHRAE Standard 55 / pythermalcomfort) | Grounded in empirical field adaptation physics; highly interpretable | Strictly defined only for running mean $10.0^\circ\text{C} \le T_{rm} \le 33.5^\circ\text{C}$; invalid during cold mountain winters (Shimla) |
+    | **ML Champion (`Ablation_A3_OutdoorTemp`)** | Discrete argmax class $\hat{y}_t = \arg\max P(\text{class} \mid \mathbf{x}_t) \in \{0=\text{cool}, 1=\text{neutral}, 2=\text{warm}\}$ (`model.predict()`), evaluating $O_{1,\text{ml}} = \frac{100}{N}\sum \mathbf{1}(\hat{y}_t \ne 1)$ | Captures complex non-linear multi-variable interactions (e.g. radiant vs air temperature deltas, humidity coupling) | Trained on DB II; extrapolates in extreme monsoons/deserts. **Deviation Note:** Uses discrete argmax prediction rather than continuous probability summation $\sum(1-P(\text{neutral}))$. |
+    | **Physical Adaptive 90%** | $T_{cmf} = 17.8 + 0.31 T_{rm} \pm 2.5^\circ\text{C}$ on valid hours $10.0^\circ\text{C} \le T_{rm} \le 33.5^\circ\text{C}$ (ASHRAE Standard 55) | Grounded in empirical field adaptation physics; highly interpretable | Strictly defined only for running mean $10.0^\circ\text{C} \le T_{rm} \le 33.5^\circ\text{C}$; invalid during cold mountain winters (Shimla) |
     """)
     
     st.subheader("3. Known Project Limitations (PROJECT_SPEC §10)")
