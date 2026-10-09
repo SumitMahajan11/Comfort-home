@@ -20,24 +20,38 @@ All numbers are grounded strictly in literal command outputs recorded in [`docs/
   - *Target:* Best ML model beats best baseline by $\ge +0.05$ macro-F1 on identical complete-case test rows (58,512 rows) under Leave-One-Köppen-Group-Out cross-validation.
   - *Result:* Physical Adaptive 90% achieved macro-F1 **0.4939** (95% CI: [0.4907, 0.4971]); ML Champion (`Ablation_A3_OutdoorTemp`) achieved macro-F1 **0.4785** (95% CI: [0.4754, 0.4816]).
   - *Margin:* **-0.0154** (reported honestly as a negative result; ML model did not beat the physical adaptive baseline on group-held-out validation).
-- **Success Criterion S2 (Surrogate Model Accuracy): `PASS`** `[E-019]`
+- **Success Criterion S2 (Surrogate Model Accuracy): `PARTIAL`** `[E-019]`
   - *Target:* XGBoost surrogate regressors reach $R^2 \ge 0.95$ on held-out 20% test designs.
-  - *Result:* 23 of 25 surrogate models achieved $R^2 \ge 0.95$; mean $R^2$ on annual HVAC energy ($O_2$) reached **0.987** across all 5 climate zones.
+  - *Result:* **23 of 25 surrogate models** achieved $R^2 \ge 0.95$; Two failures under 0.95 threshold: Mumbai $O_{1,\text{ml}}$ ($R^2 = 0.9406$) and Shimla $\text{warm\_ml}$ ($R^2 = 0.9225$); mean $R^2$ on annual HVAC energy ($O_2$) reached **0.987** across all 5 climate zones.
 - **Success Criterion S3 (Direct EnergyPlus Verification vs Reference Shelters): `PASS`** `[E-020]`
   - *Target:* At least one verified Pareto design per city beats BOTH R1 (Lightweight) and R2 (Conventional) reference shelters across all three objectives ($O_{1,\text{ml}}$, $O_{1,\text{adapt}}$, and $O_2$), confirmed by direct EnergyPlus runs.
-  - *Result:* **Passed in all 5 climate zones** (60% to 80% of verified designs beat both baselines):
-    - **Jodhpur (Hot-Dry):** Discomfort reduced from $75.72\%$ to **$36.64\%$** ($\Delta -39.08\%$), energy reduced from $281.88$ to **$41.40\text{ kWh/m}^2/\text{yr}$** ($\Delta -240.47\text{ kWh/m}^2$).
-    - **Mumbai (Warm-Humid):** Discomfort reduced from $65.95\%$ to **$41.97\%$** ($\Delta -23.97\%$), energy reduced from $199.99$ to **$102.94\text{ kWh/m}^2/\text{yr}$** ($\Delta -97.05\text{ kWh/m}^2$).
-    - **New Delhi (Composite):** Discomfort reduced from $70.40\%$ to **$39.35\%$** ($\Delta -31.05\%$), energy reduced from $279.40$ to **$50.40\text{ kWh/m}^2/\text{yr}$** ($\Delta -229.00\text{ kWh/m}^2$).
-    - **Bengaluru (Temperate):** Discomfort reduced from $59.93\%$ to **$45.74\%$** ($\Delta -14.19\%$), energy reduced from $66.94$ to **$36.61\text{ kWh/m}^2/\text{yr}$** ($\Delta -30.33\text{ kWh/m}^2$).
-    - **Shimla (Cold):** Discomfort reduced from $77.36\%$ to **$67.95\%$** ($\Delta -9.42\%$), energy reduced from $279.54$ to **$74.08\text{ kWh/m}^2/\text{yr}$** ($\Delta -205.46\text{ kWh/m}^2$).
+  - *Result:* **Passed in all 5 climate zones** (36 of 50 verified designs beat both reference shelters on all 3 objectives simultaneously):
+    - **Jodhpur (Hot-Dry):** 7 / 10 verified designs beat both references; Discomfort reduced from $75.72\%$ to **$36.64\%$** ($\Delta -39.08\%$), energy reduced from $281.88$ to **$41.40\text{ kWh/m}^2/\text{yr}$** ($\Delta -240.47\text{ kWh/m}^2$).
+    - **Mumbai (Warm-Humid):** 7 / 10 verified designs beat both references; Discomfort reduced from $65.95\%$ to **$41.97\%$** ($\Delta -23.97\%$), energy reduced from $199.99$ to **$102.94\text{ kWh/m}^2/\text{yr}$** ($\Delta -97.05\text{ kWh/m}^2$).
+    - **New Delhi (Composite):** 6 / 10 verified designs beat both references; Discomfort reduced from $70.40\%$ to **$39.35\%$** ($\Delta -31.05\%$), energy reduced from $279.40$ to **$50.40\text{ kWh/m}^2/\text{yr}$** ($\Delta -229.00\text{ kWh/m}^2$).
+    - **Bengaluru (Temperate):** 8 / 10 verified designs beat both references; Discomfort reduced from $59.93\%$ to **$45.74\%$** ($\Delta -14.19\%$), energy reduced from $66.94$ to **$36.61\text{ kWh/m}^2/\text{yr}$** ($\Delta -30.33\text{ kWh/m}^2$).
+    - **Shimla (Cold):** 8 / 10 verified designs beat both references; Discomfort reduced from $77.36\%$ to **$67.95\%$** ($\Delta -9.42\%$), energy reduced from $279.54$ to **$74.08\text{ kWh/m}^2/\text{yr}$** ($\Delta -205.46\text{ kWh/m}^2$).
 - **Success Criterion S4 (Decision-Support Dashboard): `PASS`** `[E-021]`
   - *Target:* Streamlit dashboard runs locally with one command, read-only on saved artifacts, with zero external network or paid API dependencies, displaying applicability flags.
   - *Result:* Web application starts instantly via `streamlit run src/app/app.py`; automated pytest test suite (`tests/test_app.py`) passed all 6 UI tests in **5.38 seconds** with 0 errors.
 
 ---
 
-## 3. Environment Setup & Installation (Windows PowerShell)
+## 3. Applicability Envelope & Confidence Tiers (Decisions D-015, D-017)
+
+Across all five simulated Indian climate zones, the ML Champion comfort model operates **below the 80% training envelope threshold** (27.91% to 77.26% of hours inside the DB II 1st–99th percentile feature envelope `[E-019]`), driven by severe monsoon relative humidity and dry desert conditions:
+
+| City | Climate Zone | DB II Ta In-Envelope (%) | DB II RH In-Envelope (%) | All Features In-Envelope (%) | Adaptive 90% Valid Hours (%) | Dual-Judge Spearman ($r_s$) | Confidence Tier (D-017) |
+|---|---|---|---|---|---|---|---|
+| **Mumbai** | Warm-Humid | 99.99% | 27.92% | **27.91%** | **100.00%** | **0.945** | **Medium** ($r_s \ge 0.8$, Adapt $\ge 80\%$) |
+| **Bengaluru** | Temperate | 100.00% | 43.39% | **43.39%** | **100.00%** | **0.943** | **Medium** ($r_s \ge 0.8$, Adapt $\ge 80\%$) |
+| **Shimla** | Cold | 98.24% | 79.46% | **77.26%** | **73.97%** | **0.868** | **Low** (Adaptive valid $< 80\%$ in winter) |
+| **New Delhi** | Composite | 99.68% | 59.49% | **53.12%** | **89.86%** | **0.195** | **Low** (Dual-judge rank disagreement) |
+| **Jodhpur** | Hot-Dry | 99.60% | 68.70% | **53.91%** | **86.85%** | **0.109** | **Low** (Dual-judge rank disagreement) |
+
+---
+
+## 4. Environment Setup & Installation (Windows PowerShell)
 
 ### Prerequisites
 - **Operating System:** Windows 10/11 x64 (PowerShell 5.1 / 7.x)
@@ -61,7 +75,7 @@ streamlit run src/app/app.py
 
 ---
 
-## 4. How to Obtain Raw Datasets (`data/raw/` is gitignored)
+## 5. How to Obtain Raw Datasets (`data/raw/` is gitignored)
 
 All derived files under `data/processed/` are generated deterministically. The raw source datasets must be placed in `data/raw/`:
 
@@ -77,7 +91,7 @@ All derived files under `data/processed/` are generated deterministically. The r
 
 ---
 
-## 5. Measured Pipeline Stage Runtimes
+## 6. Measured Pipeline Stage Runtimes
 
 | Stage | Script / Module | Description | Measured Runtime |
 |---|---|---|---|
@@ -93,7 +107,7 @@ All derived files under `data/processed/` are generated deterministically. The r
 
 ---
 
-## 6. Licensing & Educational Terms
+## 7. Licensing & Educational Terms
 
 - **ASHRAE Global Thermal Comfort Database II:** Distributed under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/) and Open Data Commons Attribution License (ODC-By v1.0). Commercial and academic research use permitted with attribution to the authors and CBE UC Berkeley.
 - **Darjeeling / Indian Comfort Field Datasets:** Field measurements contributed to DB II by Indian research institutions under standard academic research attribution terms.
@@ -102,7 +116,7 @@ All derived files under `data/processed/` are generated deterministically. The r
 
 ---
 
-## 7. Repo Architecture
+## 8. Repo Architecture
 
 ```
 ClimateAdapt-Comfort/

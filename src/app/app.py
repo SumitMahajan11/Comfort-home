@@ -202,7 +202,21 @@ if nav_choice == "1. Overview":
     else:
         st.warning("Reference shelter results not found at `data/processed/reference_results.csv`.")
         
-    st.subheader("2. Applicability Domain Summary Table (D-015)")
+    st.subheader("2. Applicability Domain & Confidence Tiers (D-015, D-017)")
+    st.info(
+        "⚠️ **ML Comfort Envelope Coverage Notice:** Across all five simulated Indian climate zones, the ML Champion comfort model operates below the 80% training envelope threshold (27.91% to 77.26% of hours inside the DB II 1st–99th percentile feature envelope), driven primarily by extreme monsoon relative humidity and dry desert conditions."
+    )
+    
+    conf_table = pd.DataFrame([
+        {"City": "Mumbai", "Climate Zone": "Warm-Humid", "DB II Envelope Inside (%)": "27.91%", "Adaptive 90% Valid (%)": "100.00%", "Dual-Judge Spearman (rs)": "0.945", "Confidence Tier (D-017)": "Medium"},
+        {"City": "Bengaluru", "Climate Zone": "Temperate", "DB II Envelope Inside (%)": "43.39%", "Adaptive 90% Valid (%)": "100.00%", "Dual-Judge Spearman (rs)": "0.943", "Confidence Tier (D-017)": "Medium"},
+        {"City": "Shimla", "Climate Zone": "Cold", "DB II Envelope Inside (%)": "77.26%", "Adaptive 90% Valid (%)": "73.97%", "Dual-Judge Spearman (rs)": "0.868", "Confidence Tier (D-017)": "Low (Winter < 10°C)"},
+        {"City": "New_Delhi", "Climate Zone": "Composite", "DB II Envelope Inside (%)": "53.12%", "Adaptive 90% Valid (%)": "89.86%", "Dual-Judge Spearman (rs)": "0.195", "Confidence Tier (D-017)": "Low (Judge Disagreement)"},
+        {"City": "Jodhpur", "Climate Zone": "Hot-Dry", "DB II Envelope Inside (%)": "53.91%", "Adaptive 90% Valid (%)": "86.85%", "Dual-Judge Spearman (rs)": "0.109", "Confidence Tier (D-017)": "Low (Judge Disagreement)"}
+    ])
+    st.dataframe(conf_table.set_index("City"), use_container_width=True)
+    
+    st.markdown("**Detailed Feature Envelope Breakdown:**")
     df_app = load_applicability_data()
     if not df_app.empty:
         st.dataframe(df_app, use_container_width=True)
@@ -537,9 +551,9 @@ elif nav_choice == "5. About":
         {
             "Criterion": "S2: Surrogate Model Accuracy",
             "Target Threshold": "R² >= 0.95 on held-out test designs",
-            "Result": "PASS",
-            "Literal Value / Margin": "23/25 models passed R² >= 0.95; Mean R² on O2 = 0.987",
-            "Status": "✅ Verified"
+            "Result": "PARTIAL",
+            "Literal Value / Margin": "23/25 models passed R² >= 0.95 (Failures: Mumbai O1_ml R²=0.9406, Shimla warm_ml R²=0.9225); Mean R² on O2 = 0.987",
+            "Status": "⚠️ PARTIAL (23/25 verified)"
         },
         {
             "Criterion": "S3: Direct EnergyPlus Optimization Verification",

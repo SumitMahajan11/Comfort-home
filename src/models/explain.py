@@ -306,7 +306,7 @@ def get_top_drivers(city, design_dict, target='O1_ml', top_k=3):
     explainer = shap.TreeExplainer(model)
     shap_vals = explainer.shap_values(X_single)[0]
     base_val = float(explainer.expected_value) if hasattr(explainer, 'expected_value') else float(np.mean(shap_vals))
-    pred_val = float(model.predict(X_single)[0])
+    pred_val = max(0.0, float(model.predict(X_single)[0])) if target == 'O2' else float(model.predict(X_single)[0])
     
     drivers = []
     for f_col, s_val in zip(feature_names, shap_vals):

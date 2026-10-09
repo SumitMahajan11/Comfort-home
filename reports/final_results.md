@@ -3,7 +3,7 @@
 **Project:** ClimateAdapt-Comfort  
 **Phase:** 7 (Packaging and Final Reporting)  
 **Date:** 2026-10-09  
-**Status:** COMPLETE & FROZEN  
+**Status:** COMPLETE & FROZEN (v1.1)  
 **Master Evidence Files:** [`reports/evidence/`](file:///d:/Projects/Comfort%20home/reports/evidence/)  
 **Tracker Reference:** [`docs/TRACKER.md`](file:///d:/Projects/Comfort%20home/docs/TRACKER.md)
 
@@ -18,8 +18,8 @@ The ClimateAdapt-Comfort project built and verified an end-to-end computational 
 | Criterion | Target Requirement | Evaluation Split / Baseline | Achieved Literal Score | Target vs Achieved Margin | Verdict | Evidence ID |
 |---|---|---|---|---|---|---|
 | **S1: Comfort Model Accuracy** | ML model beats best physical baseline by $\ge +0.05$ macro-F1 | Leave-One-Köppen-Group-Out (LOGO) cross-validation on 58,512 complete-case test rows | Best ML: **0.4785** (`Ablation_A3_OutdoorTemp`) vs Best Baseline: **0.4939** (Adaptive 90%) | **-0.0154** (Best baseline leads by +0.0154) | **FAIL** (Reported honestly as negative result) | `[E-012]` |
-| **S2: Surrogate Model Accuracy** | $R^2 \ge 0.95$ on held-out 20% test designs | Held-out 20% independent Latin-hypercube test split (7,483 valid designs total) | 23 of 25 models achieved $R^2 \ge 0.95$; Mean $R^2$ on $O_2 = \mathbf{0.987}$ | Mean $R^2$ on $O_2$ exceeds 0.95 threshold by **+0.037** | **PASS** | `[E-019]` |
-| **S3: Direct Simulation Verification** | At least 1 verified Pareto design beats BOTH R1 and R2 reference shelters on $O_{1,\text{ml}}$, $O_{1,\text{adapt}}$, and $O_2$ | Direct EnergyPlus simulations (100 runs: 10 verified Pareto designs per city) vs R1 & R2 | Verified Pareto designs beat both reference shelters on all 3 objectives in **all 5 climate zones** (60% to 80% pass rate per city) | Substantial multi-objective gains (up to **-39.08%** discomfort and **-240.47 kWh/m²** energy) | **PASS** | `[E-020]` |
+| **S2: Surrogate Model Accuracy** | $R^2 \ge 0.95$ on held-out 20% test designs | Held-out 20% independent Latin-hypercube test split (7,483 valid designs total) | 23 of 25 models achieved $R^2 \ge 0.95$; Two failures: Mumbai $O_{1,\text{ml}}$ ($R^2 = 0.9406$) and Shimla $\text{warm\_ml}$ ($R^2 = 0.9225$); Mean $R^2$ on $O_2 = \mathbf{0.987}$ | 23/25 pass; Mean $R^2$ on $O_2$ exceeds 0.95 threshold by **+0.037** | **PARTIAL** (23/25 verified) | `[E-019]` |
+| **S3: Direct Simulation Verification** | At least 1 verified Pareto design beats BOTH R1 and R2 reference shelters on $O_{1,\text{ml}}$, $O_{1,\text{adapt}}$, and $O_2$ | Direct EnergyPlus simulations (100 runs: 10 verified Pareto designs per city) vs R1 & R2 | Verified Pareto designs beat both reference shelters on all 3 objectives in **all 5 climate zones**: Jodhpur (7/10), Mumbai (7/10), New Delhi (6/10), Bengaluru (8/10), Shimla (8/10); 36/50 total | Substantial multi-objective gains (up to **-39.08%** discomfort and **-240.47 kWh/m²** energy) | **PASS** | `[E-020]` |
 | **S4: Local Decision-Support Dashboard** | Runs locally with 1 command, completely offline, zero external/paid APIs, showing applicability flags | Streamlit application (`src/app/app.py`) verified via automated `AppTest` pytest suite (`tests/test_app.py`) | 6 of 6 automated UI tests passed in **5.38 seconds** with 0 errors; full read-only artifact execution | Zero runtime simulation overhead, 100% offline | **PASS** | `[E-021]` |
 
 ---
@@ -54,11 +54,37 @@ All physical baselines and machine learning models were evaluated on 100% identi
 ### C. Analysis of the S1 Negative Result
 1. **The Physical Adaptive Baseline Leads:** The physical Adaptive 90% comfort model achieved the highest out-of-distribution holdout performance (**0.4939** macro-F1), outperforming the ML Champion (**0.4785** macro-F1) by **+0.0154**.
 2. **Why ML Failed to Beat Adaptive Physics on Climate Holdouts:** Field survey comfort votes in ASHRAE DB II exhibit high subjective variance across buildings and socio-cultural contexts. While tree-based ML captures complex indoor air-radiant interactions, the physical adaptive model's linear running-mean formulation ($T_{cmf} = 17.8 + 0.31 T_{rm}$) provides stronger inductive bias when extrapolating to entirely unseen Köppen climate zones.
-3. **Dual Comfort Judge Solution (Decision D-013):** Rather than discarding either model, both the probability-calibrated ML Champion (`models/champion_comfort_model.joblib` `[E-014]`) and the Physical Adaptive 90% model were retained as dual objective comfort judges throughout Phases 4, 5, and 6 `[E-018]`, `[E-020]`.
+3. **Dual Comfort Judge Solution (Decisions D-013, D-018):** Rather than discarding either model, both the probability-calibrated ML Champion (`models/champion_comfort_model.joblib` `[E-014]`) and the Physical Adaptive 90% model were retained as dual objective comfort judges throughout Phases 4, 5, and 6 `[E-018]`, `[E-020]`.
 
 ---
 
-## 3. Simulation & Coupling Engine (Phases 3 & 4)
+## 3. Applicability Envelope, Confidence Tiers & Judge Disagreement Analysis
+
+### A. Per-City Applicability & Confidence Table (Decisions D-015, D-017)
+Across all five simulated Indian climate zones, the ML Champion comfort model operates **below the 80% training envelope threshold** (27.91% to 77.26% of hours inside the DB II 1st–99th percentile feature envelope `[E-019]`), driven primarily by extreme monsoon relative humidity and dry desert conditions:
+
+| City | Climate Zone | DB II Ta In-Envelope (%) | DB II RH In-Envelope (%) | All Features In-Envelope (%) | Adaptive 90% Valid Hours (%) | Dual-Judge Spearman ($r_s$) | Confidence Tier (D-017) |
+|---|---|---|---|---|---|---|---|
+| **Mumbai** | Warm-Humid | 99.99% | 27.92% | **27.91%** | **100.00%** | **0.945** | **Medium** ($r_s \ge 0.8$, Adapt $\ge 80\%$) |
+| **Bengaluru** | Temperate | 100.00% | 43.39% | **43.39%** | **100.00%** | **0.943** | **Medium** ($r_s \ge 0.8$, Adapt $\ge 80\%$) |
+| **Shimla** | Cold | 98.24% | 79.46% | **77.26%** | **73.97%** | **0.868** | **Low** (Adaptive valid $< 80\%$ in winter) |
+| **New Delhi** | Composite | 99.68% | 59.49% | **53.12%** | **89.86%** | **0.195** | **Low** (Dual-judge rank disagreement) |
+| **Jodhpur** | Hot-Dry | 99.60% | 68.70% | **53.91%** | **86.85%** | **0.109** | **Low** (Dual-judge rank disagreement) |
+
+### B. Why Dual Comfort Judges Disagree in Jodhpur and New Delhi
+Comparing warm/hot and cool/cold discomfort components across all 4,988 simulated designs reveals the exact mechanism behind the low Spearman rank correlations in Jodhpur ($r_s = 0.109$) and New Delhi ($r_s = 0.195$) `[E-018]`:
+
+1. **Cool/Cold Alignment:** 
+   - In **Jodhpur**, `cool_ml` (mean 30.32%) closely tracks `cold_adapt` (mean 28.91%) with a Pearson correlation of **0.9676**.
+   - In **New Delhi**, `cool_ml` (mean 36.88%) closely tracks `cold_adapt` (mean 34.68%) with a Pearson correlation of **0.9765**.
+2. **Warm/Hot Divergence:**
+   - In **Jodhpur**, `warm_ml` (mean 22.62%) is **4x higher** than `hot_adapt` (mean 5.54%), with Pearson correlation **0.8348**. The physical Adaptive 90% comfort model widens the acceptable operative temperature band at high outdoor running means ($T_{cmf} = 17.8 + 0.31 T_{rm}$ reaches 28–31°C), classifying almost all daytime hours as comfortable. Conversely, the ML Champion accounts for indoor drybulb, radiant heat flux, and low air speed, flagging substantial warm discomfort during summer afternoons.
+   - In **New Delhi**, `warm_ml` (mean 14.29%) is **3.5x higher** than `hot_adapt` (mean 4.02%), with Pearson correlation **0.8787**. During monsoon months, indoor relative humidity exceeds 70%; the ML model penalizes high humidity with increased warm sensation probabilities, whereas the Adaptive 90% model has no humidity boundary.
+3. **Ranking Impact:** Because total discomfort $O_{1,\text{ml}} = \text{warm} + \text{cool}$ sums two negatively correlated seasonal components in semi-arid and composite climates, the ML objective shifts design optimality toward balancing insulation and shading, while the adaptive objective $O_{1,\text{adapt}} = \text{hot} + \text{cold}$ is dominated almost exclusively by winter heating needs.
+
+---
+
+## 4. Simulation, Surrogates & Optimization (Phases 3, 4, 5)
 
 ### A. EnergyPlus Simulation Batch Execution `[E-017]`
 - Single-zone passive shelter template parameterized in `src/sim/template.idf` and rendered via `src/sim/render.py` across 8 design variables `[E-016]`.
@@ -66,37 +92,53 @@ All physical baselines and machine learning models were evaluated on 100% identi
 - Batch completed in **3,999.4 seconds (66.7 minutes)** with **9,988 successful runs (99.88% completion rate)** and 0 severe or fatal simulation errors `[E-017]`.
 - Filtered **4,988 strictly valid paired designs** (`data/processed/sim_runs.parquet`) `[E-018]`.
 
-### B. Dual Judge Coupling & Hourly Time-Series `[E-018]`
-- Extracted **43.69 million hourly float32 environmental records** ($T_a, T_r, \text{RH}, T_{out}$) saved into compressed per-city parquets (`data/processed/hourly_fr_{city}.parquet`) `[E-018]`.
-- Verified natural ventilation physics via 1 vs 15 ACH one-factor test in Jodhpur ($\Delta T_a = -0.312^\circ\text{C}$) and Mumbai ($\Delta T_a = -0.171^\circ\text{C}$) `[E-018]`.
-- Evaluated comfort objectives: Spearman rank correlation between ML Champion and Adaptive 90% reached **0.946 in Mumbai**, **0.942 in Bengaluru**, **0.867 in Shimla**, **0.190 in New Delhi**, and **0.099 in Jodhpur** `[E-018]`.
-- Consolidated multi-objective dataset saved to `data/processed/objectives.parquet` (4,988 rows $\times$ 18 columns) `[E-018]`.
-
----
-
-## 4. Surrogate Models & Optimization (Phases 4B & 5)
-
-### A. XGBoost Surrogate Models (Success Criterion S2) `[E-019]`
-- Evaluated DB II applicability envelope: flagged Shimla cold winter running means ($26.03\%$ invalid hours $< 10^\circ\text{C}$, 0 labelled votes in DB II, Decision D-011) and monsoon humidity bounds (`data/processed/applicability.csv`) `[E-019]`.
+### B. Surrogate Model Accuracy (Success Criterion S2: PARTIAL) `[E-019]`
 - Trained **25 XGBoost surrogate regressors** with Optuna 5-fold cross-validation (40 trials each, seed 42) on 7,483 valid designs (including pre-approved 500-design augmentation) `[E-019]`.
-- **23 of 25 surrogate models passed $R^2 \ge 0.95$**, achieving a mean $R^2$ of **0.987 on annual HVAC energy ($O_2$)** (`data/processed/surrogate_metrics.csv`) `[E-019]`.
+- **23 of 25 surrogate models met the $R^2 \ge 0.95$ threshold** (`data/processed/surrogate_metrics.csv`):
+  - **Two Failures under $R^2 \ge 0.95$:**
+    1. `Mumbai O1_ml`: test $R^2 = \mathbf{0.9406}$ (MAE = 1.27%)
+    2. `Shimla warm_ml`: test $R^2 = \mathbf{0.9225}$ (MAE = 0.21%)
+  - **Energy Surrogate Accuracy:** Mean $R^2$ on $O_2$ reached **0.987** across all 5 cities (Jodhpur 0.988, Mumbai 0.987, New Delhi 0.991, Bengaluru 0.971, Shimla 0.999).
 
-### B. NSGA-II Optimization & Direct EnergyPlus Verification (Success Criterion S3) `[E-020]`
+### C. NSGA-II Optimization & Direct EnergyPlus Verification (Success Criterion S3: PASS) `[E-020]`
 Two reference shelter baselines were parameterized in `src/optimize/references.py` (Assumptions A-006 R1 Lightweight, A-007 R2 Conventional) and directly simulated in EnergyPlus across all 5 cities `[E-020]`:
 - **R1 Lightweight Reference (A-006):** No insulation ($0\text{ mm}$), light sheet wall mass, roof absorptance $0.85$, WWR $0.15$, shading $0.0\text{ m}$, ventilation $5.0\text{ ACH}$, orientation $0^\circ$ `[E-020]`.
 - **R2 Conventional Reference (A-007):** Medium clay brick wall mass, no insulation ($0\text{ mm}$), roof absorptance $0.60$, WWR $0.15$, shading $0.0\text{ m}$, ventilation $5.0\text{ ACH}$, orientation $0^\circ$ `[E-020]`.
 
-NSGA-II (`pymoo`, pop=100, gen=200, seed 42) derived 100 non-dominated Pareto designs per city (`data/processed/pareto_{city}.parquet`) `[E-020]`. Ten representative designs per city (50 designs total) were re-simulated directly in EnergyPlus (100 physical runs) to evaluate S3 `[E-020]`:
+NSGA-II derived 100 non-dominated Pareto designs per city (`data/processed/pareto_{city}.parquet`) `[E-020]`. Ten representative designs per city (50 designs total) were re-simulated directly in EnergyPlus (100 physical runs) to evaluate S3 `[E-020]`:
 
 #### Literal S3 Evaluation Results Table ([`data/processed/s3_evaluation_results.csv`](file:///d:/Projects/Comfort%20home/data/processed/s3_evaluation_results.csv)):
 
 | City | Climate Zone | S3 Status | Verified Designs Beating Both R1 & R2 | Benchmark to Beat: $\min(\text{R1, R2})$ $[O_{1,\text{ml}}\% / O_{1,\text{ad}}\% / O_2]$ | Best Verified Pareto Design ID | Best Verified Actual $[O_{1,\text{ml}}\% / O_{1,\text{ad}}\% / O_2]$ | Actual Improvement Margins $[\Delta O_{1,\text{ml}} / \Delta O_{1,\text{ad}} / \Delta O_2]$ |
 |---|---|---|---|---|---|---|---|
-| **Jodhpur** | Hot-Dry (BWh) | **PASS** | 7 / 10 | $75.72\% \,/\, 49.89\% \,/\, 281.88\text{ kWh/m}^2$ | `P_Jodhpur_001` | $36.64\% \,/\, 30.94\% \,/\, 41.40\text{ kWh/m}^2$ | **-39.08% / -18.95% / -240.47 kWh/m²** `[E-020]` |
-| **Mumbai** | Warm-Humid (Aw) | **PASS** | 7 / 10 | $65.95\% \,/\, 34.16\% \,/\, 199.99\text{ kWh/m}^2$ | `P_Mumbai_001` | $41.97\% \,/\, 4.99\% \,/\, 102.94\text{ kWh/m}^2$ | **-23.97% / -29.17% / -97.05 kWh/m²** `[E-020]` |
-| **New Delhi** | Composite (Cwa) | **PASS** | 6 / 10 | $70.40\% \,/\, 50.76\% \,/\, 279.40\text{ kWh/m}^2$ | `P_New_Delhi_002` | $39.35\% \,/\, 31.91\% \,/\, 50.40\text{ kWh/m}^2$ | **-31.05% / -18.85% / -229.00 kWh/m²** `[E-020]` |
-| **Bengaluru** | Temperate (Aw/Cwa) | **PASS** | 8 / 10 | $59.93\% \,/\, 39.27\% \,/\, 66.94\text{ kWh/m}^2$ | `P_Bengaluru_002` | $45.74\% \,/\, 14.89\% \,/\, 36.61\text{ kWh/m}^2$ | **-14.19% / -24.38% / -30.33 kWh/m²** `[E-020]` |
-| **Shimla** | Cold (Cwb) | **PASS** | 8 / 10 | $77.36\% \,/\, 51.45\% \,/\, 279.54\text{ kWh/m}^2$ | `P_Shimla_001` | $67.95\% \,/\, 40.69\% \,/\, 74.08\text{ kWh/m}^2$ | **-9.42% / -10.76% / -205.46 kWh/m²** `[E-020]` |
+| **Jodhpur** | Hot-Dry (BWh) | **PASS** | **7 / 10** | $75.72\% \,/\, 49.89\% \,/\, 281.88\text{ kWh/m}^2$ | `P_Jodhpur_001` | $36.64\% \,/\, 30.94\% \,/\, 41.40\text{ kWh/m}^2$ | **-39.08% / -18.95% / -240.47 kWh/m²** `[E-020]` |
+| **Mumbai** | Warm-Humid (Aw) | **PASS** | **7 / 10** | $65.95\% \,/\, 34.16\% \,/\, 199.99\text{ kWh/m}^2$ | `P_Mumbai_001` | $41.97\% \,/\, 4.99\% \,/\, 102.94\text{ kWh/m}^2$ | **-23.97% / -29.17% / -97.05 kWh/m²** `[E-020]` |
+| **New Delhi** | Composite (Cwa) | **PASS** | **6 / 10** | $70.40\% \,/\, 50.76\% \,/\, 279.40\text{ kWh/m}^2$ | `P_New_Delhi_002` | $39.35\% \,/\, 31.91\% \,/\, 50.40\text{ kWh/m}^2$ | **-31.05% / -18.85% / -229.00 kWh/m²** `[E-020]` |
+| **Bengaluru** | Temperate (Aw/Cwa) | **PASS** | **8 / 10** | $59.93\% \,/\, 39.27\% \,/\, 66.94\text{ kWh/m}^2$ | `P_Bengaluru_002` | $45.74\% \,/\, 14.89\% \,/\, 36.61\text{ kWh/m}^2$ | **-14.19% / -24.38% / -30.33 kWh/m²** `[E-020]` |
+| **Shimla** | Cold (Cwb) | **PASS** | **8 / 10** | $77.36\% \,/\, 51.45\% \,/\, 279.54\text{ kWh/m}^2$ | `P_Shimla_001` | $67.95\% \,/\, 40.69\% \,/\, 74.08\text{ kWh/m}^2$ | **-9.42% / -10.76% / -205.46 kWh/m²** `[E-020]` |
+
+### D. Direct Verification Error & Negative Energy Analysis
+Examining the 50 directly verified Pareto designs in [`data/processed/pareto_verification_results.csv`](file:///d:/Projects/Comfort%20home/data/processed/pareto_verification_results.csv) against the 10% relative-error threshold:
+
+1. **$O_{1,\text{ml}}$ Relative Error:** **50 of 50 designs (100.0%)** fell within $\le 10\%$ relative error:
+   - Jodhpur: Mean Abs Err = $1.75\%$, Mean Rel Err = $3.46\%$ (10/10 within $\le 10\%$)
+   - Mumbai: Mean Abs Err = $1.97\%$, Mean Rel Err = $3.74\%$ (10/10 within $\le 10\%$)
+   - New Delhi: Mean Abs Err = $1.37\%$, Mean Rel Err = $2.50\%$ (10/10 within $\le 10\%$)
+   - Bengaluru: Mean Abs Err = $1.68\%$, Mean Rel Err = $3.39\%$ (10/10 within $\le 10\%$)
+   - Shimla: Mean Abs Err = $1.12\%$, Mean Rel Err = $1.48\%$ (10/10 within $\le 10\%$)
+2. **$O_{1,\text{adapt}}$ Relative Error:**
+   - Jodhpur: Mean Abs Err = $3.76\%$, Mean Rel Err = $12.38\%$ (5/10 within $\le 10\%$)
+   - Mumbai: Mean Abs Err = $1.95\%$, Mean Rel Err = $31.48\%$ (4/10 within $\le 10\%$; high relative % due to low base actual discomfort $\sim 4.2\%$)
+   - New Delhi: Mean Abs Err = $2.86\%$, Mean Rel Err = $6.72\%$ (10/10 within $\le 10\%$)
+   - Bengaluru: Mean Abs Err = $1.97\%$, Mean Rel Err = $11.82\%$ (4/10 within $\le 10\%$)
+   - Shimla: Mean Abs Err = $1.57\%$, Mean Rel Err = $4.50\%$ (8/10 within $\le 10\%$)
+3. **$O_2$ Energy Relative Error & Negative Predictions:**
+   - Jodhpur: Mean Abs Err = $2.97\text{ kWh/m}^2$, Mean Rel Err = $12.68\%$ (6/10 within $\le 10\%$)
+   - Mumbai: Mean Abs Err = $6.81\text{ kWh/m}^2$, Mean Rel Err = $269.40\%$ (4/10 within $\le 10\%$; relative error inflated by actual near-zero energy $0.69\text{ kWh/m}^2$)
+   - New Delhi: Mean Abs Err = $2.67\text{ kWh/m}^2$, Mean Rel Err = $7.16\%$ (7/10 within $\le 10\%$)
+   - Bengaluru: Mean Abs Err = $4.35\text{ kWh/m}^2$, Mean Rel Err = $120.23\%$ (0/10 within $\le 10\%$; actual energy near-zero $0.74\text{ to }2.29\text{ kWh/m}^2$)
+   - Shimla: Mean Abs Err = $6.08\text{ kWh/m}^2$, Mean Rel Err = $10.10\%$ (5/10 within $\le 10\%$)
+4. **Surrogate Clipping at Zero:** On the unconstrained raw Pareto sets, **59 negative energy predictions** occurred out of 500 designs (32 in Mumbai, min $-9.36\text{ kWh/m}^2$; 27 in Bengaluru, min $-2.80\text{ kWh/m}^2$; 0 in Jodhpur, New Delhi, Shimla). Non-negative physical clipping at $0.0\text{ kWh/m}^2$ was implemented in the surrogate evaluation wrapper (`src/models/explain.py`, `src/app/app.py`).
 
 ---
 
