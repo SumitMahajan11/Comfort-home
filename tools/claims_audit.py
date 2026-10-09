@@ -15,35 +15,39 @@ import json
 import pandas as pd
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-EVIDENCE_DIRS = [
-    os.path.join(REPO_ROOT, "reports", "evidence"),
-    os.path.join(REPO_ROOT, "data", "processed")
-]
+EVIDENCE_DIR = os.path.join(REPO_ROOT, "reports", "evidence")
 DOCS_TO_AUDIT = [
     os.path.join(REPO_ROOT, "reports", "final_results.md"),
     os.path.join(REPO_ROOT, "README.md")
 ]
 
-# Patterns to ignore (years, dates, standard integers, markdown section/table syntax)
+# Patterns to ignore (years, dates, standard single digits, version tags)
 IGNORE_NUMBERS = {
     '2026', '2026-10-09', '10', '09', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
-    '3.13', '3.13.7', '26.2.0', '1.0', '1.1', '5.0', '2.1.0', '80', '100', '150', '200', '500', '1000'
+    '3.13', '3.13.7', '26.2.0', '1.0', '1.1', '1.1.1', '1.1.2', '1.1.3', '5.0', '2.1.0',
+    '80', '100', '150', '200', '500', '1000'
 }
 
 def load_all_evidence_text():
     all_text = ""
-    for ev_dir in EVIDENCE_DIRS:
-        if not os.path.exists(ev_dir):
-            continue
-        for root, _, files in os.walk(ev_dir):
-            for f in files:
-                if f.endswith(".txt") or f.endswith(".csv") or f.endswith(".json") or f.endswith(".log"):
-                    path = os.path.join(root, f)
-                    try:
-                        with open(path, "r", encoding="utf-8", errors="ignore") as file:
-                            all_text += f"\n--- {f} ---\n" + file.read()
-                    except Exception as e:
-                        print(f"Warning: could not read {path}: {e}")
+    for root, _, files in os.walk(EVIDENCE_DIR):
+        for f in files:
+            if f.endswith(".txt") or f.endswith(".csv") or f.endswith(".json") or f.endswith(".log"):
+                path = os.path.join(root, f)
+                try:
+                    with open(path, "rb") as file:
+                        raw = file.read()
+                    if raw.startswith(b"\xff\xfe"):
+                        content = raw.decode("utf-16le", errors="ignore")
+                    elif raw.startswith(b"\xfe\xff"):
+                        content = raw.decode("utf-16be", errors="ignore")
+                    elif raw.startswith(b"\xef\xbb\xbf"):
+                        content = raw.decode("utf-8-sig", errors="ignore")
+                    else:
+                        content = raw.decode("utf-8", errors="ignore")
+                    all_text += f"\n--- {f} ---\n" + content
+                except Exception as e:
+                    print(f"Warning: could not read {path}: {e}")
     return all_text
 
 def extract_numbers_from_doc(doc_path):
@@ -169,23 +173,6 @@ def run_claims_audit():
     total_verified = 0
     unmatched_records = []
     
-    # Extract all float values from evidence corpus to support standard roundings
-    raw_evidence_floats = re.findall(r'[-+]?\b\d+\.\d+\b|[-+]?\b\d{1,3}(?:,\d{3})+(?:\.\d+)?\b', evidence_corpus)
-    evidence_float_strings = set()
-    for ef in raw_evidence_floats:
-        try:
-            val = float(ef.replace(',', ''))
-            evidence_float_strings.add(f"{val:.1f}")
-            evidence_float_strings.add(f"{val:.2f}")
-            evidence_float_strings.add(f"{val:.3f}")
-            evidence_float_strings.add(f"{val:.4f}")
-            evidence_float_strings.add(f"{abs(val):.1f}")
-            evidence_float_strings.add(f"{abs(val):.2f}")
-            evidence_float_strings.add(f"{abs(val):.3f}")
-            evidence_float_strings.add(f"{abs(val):.4f}")
-        except ValueError:
-            pass
-
     for doc in DOCS_TO_AUDIT:
         doc_rel = os.path.relpath(doc, REPO_ROOT)
         print(f"\nAuditing claims in: {doc_rel}")
@@ -198,15 +185,12 @@ def run_claims_audit():
         for num in numbers:
             total_claims += 1
             # Search for number or its raw unformatted integer
-            num_clean = num.replace(',', '').replace('-', '').strip()
+            num_clean = num.replace(',', '')
             num_pattern = re.escape(num)
             num_clean_pattern = re.escape(num_clean)
             
-            # Check if num or num_clean is in evidence corpus or matching float string
-            if (re.search(num_pattern, evidence_corpus) or 
-                re.search(num_clean_pattern, evidence_corpus) or
-                num in evidence_float_strings or
-                num_clean in evidence_float_strings):
+            # Check if num or num_clean is in evidence corpus
+            if re.search(num_pattern, evidence_corpus) or re.search(num_clean_pattern, evidence_corpus):
                 doc_verified += 1
                 total_verified += 1
             else:

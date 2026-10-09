@@ -9,7 +9,7 @@ Project: ClimateAdapt-Comfort. Repo root: `D:\Projects\Comfort home`. Shell: Win
 
 ## Hard rules
 
-1. **Evidence gating.** Never state a number, result, or "done" without literal command output behind it. Save that output under `reports/evidence/` and reference the file. If you did not run it, write `Not verified`.
+1. **Evidence gating.** Never state a number, result, or "done" without literal command output behind it. Save that output under `reports/evidence/` and reference the file. If you did not run it, write `Not verified`. Files under `reports/evidence/` are written only by re-running the producing command; never hand-edited.
 2. **Raw data is immutable.** Never edit, move, rename, or delete anything under `data/raw/`. All derived files go to `data/processed/`.
 3. **Stay in the current phase.** Work only on the phase marked `IN PROGRESS` in `docs/TRACKER.md`. Do not start the next phase.
 4. **Locked decisions are not yours to change.** If a decision looks wrong, add an entry under "Proposals" in `docs/TRACKER.md` with the evidence, then stop and ask the human.
