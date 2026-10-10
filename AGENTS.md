@@ -1,6 +1,6 @@
 # AGENTS.md: rules for every AI agent session in this repo
 
-Project: ClimateAdapt-Comfort. Repo root: `D:\Projects\Comfort home`. Shell: Windows PowerShell.
+Project: ClimateAdapt-Comfort. Repo root: `.` (workspace root). Shell: Windows PowerShell.
 
 **Start of every session, read in this order:**
 1. `docs/PROJECT_SPEC.md` (what we are building, locked decisions)

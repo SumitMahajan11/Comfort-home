@@ -38,12 +38,12 @@ All physical baselines and machine learning models were evaluated on 100% identi
 
 | Model / Baseline | Category | 5-Fold GroupKFold Macro-F1 (Mean ± Std) | 4-Fold LOGO Holdout A/B Macro-F1 (95% CI) | Evidence ID |
 |---|---|---|---|---|
-| **Adaptive 90% (ASHRAE 55)** | Physical Baseline | 0.4397 ± 0.0163 | **0.4939** [0.4907, 0.4971] | `[E-011]` |
+| **Adaptive 90% (ASHRAE 55)** | Physical Baseline | 0.4390 ± 0.0166 | **0.4939** (Holdout A: 0.4565 [0.3845, 0.4850], B: 0.5313 [0.4311, 0.6032]) | `[E-011]` |
 | **Adaptive 80% (ASHRAE 55)** | Physical Baseline | 0.3900 ± 0.0177 | 0.4899 [0.4868, 0.4931] | `[E-011]` |
 | **IMAC MM 90% (India Model)** | Physical Baseline | 0.3941 ± 0.0162 | 0.4820 [0.4788, 0.4853] | `[E-011]` |
 | **IMAC NV 90% (India Model)** | Physical Baseline | 0.4312 ± 0.0175 | 0.4775 [0.4742, 0.4807] | `[E-011]` |
 | **PMV (Fanger ISO 7730)** | Physical Baseline | 0.4332 ± 0.0152 | 0.4681 [0.4649, 0.4713] | `[E-011]` |
-| **Ablation A3 (+ Running Mean Tout)** | ML Model (Champion) | **0.4733 ± 0.0194** | **0.4785** [0.4754, 0.4816] | `[E-012]` |
+| **Ablation A3 (+ Running Mean Tout)** | ML Model (Champion) | **0.4733 ± 0.0052** | **0.4785** (Holdout A: 0.4741 [0.4247, 0.5103], B: 0.4829 [0.4075, 0.5533]) | `[E-012]` |
 | **Ablation A2 (+ Cooling Type)** | ML Model | 0.4724 ± 0.0189 | 0.4706 [0.4674, 0.4737] | `[E-012]` |
 | **XGBoost (Complete Cases)** | ML Model | 0.4665 ± 0.0199 | 0.4685 [0.4653, 0.4716] | `[E-012]` |
 | **Random Forest** | ML Model | 0.4645 ± 0.0190 | 0.4697 [0.4665, 0.4729] | `[E-012]` |

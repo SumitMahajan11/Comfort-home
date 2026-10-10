@@ -1,25 +1,20 @@
-# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-*$py.class
-
-# Scratch & temporary development scripts
-scratch/
-
-# Environments & IDEs
+.pytest_cache/
 .venv/
 venv/
 ENV/
 .env
-.DS_Store
-Thumbs.db
 .vscode/
 .idea/
+.DS_Store
+Thumbs.db
+scratch/
 
-# Raw datasets (weather EPW files, raw survey archives)
+# raw data: re-downloadable or licence-restricted
 data/raw/
 
-# Transient and bulky simulation directories
+# bulky generated output
 data/processed/scaling/
 data/processed/scaling_test*/
 data/processed/pilot/
@@ -30,20 +25,27 @@ data/processed/temp_*/
 data/processed/vent_check_test/
 sim_*/
 ver_*/
-
-# Large binary & parquet artifacts
-data/processed/*.parquet
 hourly_*.parquet
 archive_*.zip
 
-# Models directory (binary serialized models)
-models/
+# parquet: ignore, then whitelist the small ones that are needed
+data/processed/*.parquet
+!data/processed/objectives.parquet
+!data/processed/objectives_augmented.parquet
+!data/processed/pareto_*.parquet
+!data/processed/sim_runs.parquet
 
-# Runtime telemetry, batch logs, and memory traces
+# small tables
+!data/processed/*.csv
+!data/processed/*.json
+data/processed/ice_materials_extracted.csv
+
+# models: only the champion
+models/*
+!models/champion_comfort_model.joblib
+
+# telemetry
 reports/mem_trace*.csv
 reports/batch_log*.csv
 reports/batch_errors.log
-
-# Explicitly track essential configuration, metric summaries, and split artifacts
-!data/processed/*.csv
-!data/processed/*.json
+reports/single_test_console.txt

@@ -61,7 +61,7 @@ Across all five simulated Indian climate zones, the ML Champion comfort model op
 ### Installation Steps
 ```powershell
 # 1. Clone repository and navigate to root
-cd "D:\Projects\Comfort home"
+cd "<repo_root>"
 
 # 2. Install required Python packages
 pip install -r requirements.txt
@@ -111,7 +111,7 @@ All derived files under `data/processed/` are generated deterministically. The r
 
 - **ASHRAE Global Thermal Comfort Database II:** Distributed under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/) and Open Data Commons Attribution License (ODC-By v1.0). Commercial and academic research use permitted with attribution to the authors and CBE UC Berkeley.
 - **Darjeeling / Indian Comfort Field Datasets:** Field measurements contributed to DB II by Indian research institutions under standard academic research attribution terms.
-- **ICE Database Educational Version 5.0:** Distributed by Circular Ecology Ltd under **Educational / Non-Commercial Use Only** terms. The data may be used for academic, educational, and research projects; commercial use requires a licensed version from Circular Ecology.
+- **ICE Database Educational Version 5.0:** Distributed by Circular Ecology Ltd under strictly **Educational Use Only** terms ("shall now only be used for educational purposes (i.e., learning, teaching, viewing), and it no longer supports any other types of use... not permitted for use on commercial projects, in software or tools (unless 100% a teaching aid only), or in research or any carbon calculations, other than for the purposes of teaching or learning"). Note: No runtime pipeline or simulation model in this repository utilizes ICE database factors; embodied carbon files are excluded from distribution.
 - **EnergyPlus Engine:** Distributed by the United States Department of Energy (DOE) and National Renewable Energy Laboratory (NREL) under an open-source modified BSD licence.
 
 ---
