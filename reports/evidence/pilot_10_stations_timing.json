@@ -1,0 +1,74 @@
+{
+  "simulations": {
+    "Ahmedabad": 398.69,
+    "Chennai": 361.64,
+    "Kolkata": 360.15,
+    "Jaipur": 365.35,
+    "Srinagar": 370.51,
+    "Hyderabad": 345.45,
+    "Patna": 334.35,
+    "Pune": 344.25,
+    "Guwahati": 339.17,
+    "Leh": 337.26
+  },
+  "coupling": {
+    "Ahmedabad": 0.14,
+    "Chennai": 0.02,
+    "Kolkata": 0.02,
+    "Jaipur": 0.02,
+    "Srinagar": 0.02,
+    "Hyderabad": 0.02,
+    "Patna": 0.02,
+    "Pune": 0.06,
+    "Guwahati": 0.02,
+    "Leh": 0.02
+  },
+  "surrogates": {
+    "Ahmedabad": 13.99,
+    "Chennai": 15.09,
+    "Kolkata": 15.49,
+    "Jaipur": 16.89,
+    "Srinagar": 12.1,
+    "Hyderabad": 14.98,
+    "Patna": 13.67,
+    "Pune": 16.02,
+    "Guwahati": 15.8,
+    "Leh": 11.17
+  },
+  "optimization": {
+    "Ahmedabad": 1.52,
+    "Chennai": 1.21,
+    "Kolkata": 1.35,
+    "Jaipur": 1.32,
+    "Srinagar": 1.27,
+    "Hyderabad": 1.22,
+    "Patna": 1.36,
+    "Pune": 1.17,
+    "Guwahati": 1.29,
+    "Leh": 1.22
+  },
+  "verification": {
+    "Ahmedabad": 9.19,
+    "Chennai": 8.25,
+    "Kolkata": 8.5,
+    "Jaipur": 9.9,
+    "Srinagar": 8.65,
+    "Hyderabad": 8.77,
+    "Patna": 8.53,
+    "Pune": 8.64,
+    "Guwahati": 8.29,
+    "Leh": 8.49
+  },
+  "total": {
+    "Ahmedabad": 423.53,
+    "Chennai": 386.2,
+    "Kolkata": 385.51,
+    "Jaipur": 393.47,
+    "Srinagar": 392.55,
+    "Hyderabad": 370.43,
+    "Patna": 357.93,
+    "Pune": 370.13,
+    "Guwahati": 364.57,
+    "Leh": 358.16
+  }
+}

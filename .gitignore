@@ -3,30 +3,47 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Data directories (raw datasets and large binary artifacts are ignored)
-data/raw/
-data/processed/*.parquet
-data/processed/smoke_test/
-data/processed/sim_smoke_test/
-data/processed/sim_runs/
-data/processed/temp_hourly_sims/
-data/processed/temp_aug_sims/
-data/processed/vent_check_test/
-models/*.joblib
-models/*.json
-models/*.pkl
+# Scratch & temporary development scripts
+scratch/
 
-# Explicitly track essential configuration, metric summaries, and split artifacts
-!data/processed/*.csv
-!data/processed/*.json
-
-# Environments
+# Environments & IDEs
 .venv/
 venv/
 ENV/
-
-# OS and IDE
+.env
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
+
+# Raw datasets (weather EPW files, raw survey archives)
+data/raw/
+
+# Transient and bulky simulation directories
+data/processed/scaling/
+data/processed/scaling_test*/
+data/processed/pilot/
+data/processed/smoke_test/
+data/processed/sim_*/
+data/processed/ver_*/
+data/processed/temp_*/
+data/processed/vent_check_test/
+sim_*/
+ver_*/
+
+# Large binary & parquet artifacts
+data/processed/*.parquet
+hourly_*.parquet
+archive_*.zip
+
+# Models directory (binary serialized models)
+models/
+
+# Runtime telemetry, batch logs, and memory traces
+reports/mem_trace*.csv
+reports/batch_log*.csv
+reports/batch_errors.log
+
+# Explicitly track essential configuration, metric summaries, and split artifacts
+!data/processed/*.csv
+!data/processed/*.json
