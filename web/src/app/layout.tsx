@@ -1,4 +1,3 @@
-import Script from "next/script";
 import type { Metadata } from "next";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
@@ -18,14 +17,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark" data-theme="dark" suppressHydrationWarning>
-      <body suppressHydrationWarning className="min-h-screen flex flex-col antialiased selection:bg-teal-500 selection:text-white relative transition-colors duration-200">
-        <Script
+      <head>
+        <script
           id="theme-init"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light'){document.documentElement.classList.remove('dark');document.documentElement.classList.add('light');document.documentElement.setAttribute('data-theme','light');}else{document.documentElement.classList.add('dark');document.documentElement.classList.remove('light');document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();`,
           }}
         />
+      </head>
+      <body suppressHydrationWarning className="min-h-screen flex flex-col antialiased selection:bg-teal-500 selection:text-white relative transition-colors duration-200">
         {/* Ambient Glassmorphic Background Glow Orbs */}
         <div className="theme-bg-orbs fixed inset-0 pointer-events-none overflow-hidden -z-10 select-none">
           {/* Top-left Cyan / Teal Orb */}

@@ -10,7 +10,7 @@ interface CriteriaScorecardProps {
 }
 
 export const CriteriaScorecard: React.FC<CriteriaScorecardProps> = ({
-  criteria,
+  criteria = [],
   className = ""
 }) => {
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -45,9 +45,11 @@ export const CriteriaScorecard: React.FC<CriteriaScorecardProps> = ({
     }
   };
 
+  const list = criteria || [];
+
   return (
     <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 ${className}`}>
-      {criteria.map((c) => {
+      {list.map((c) => {
         const isExpanded = expandedId === c.id;
 
         return (

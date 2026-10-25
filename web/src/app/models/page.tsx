@@ -91,7 +91,7 @@ export default function ModelLabPage() {
           </h2>
           <span className="text-[11px] font-mono text-slate-400">Fixed Seed: 42 | Phase 0–7 Audited</span>
         </div>
-        <CriteriaScorecard criteria={meta.criteria} />
+        <CriteriaScorecard criteria={meta.success_criteria || []} />
       </div>
 
       {/* Tabs */}

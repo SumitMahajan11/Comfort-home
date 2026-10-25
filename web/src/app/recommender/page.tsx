@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -73,7 +73,7 @@ import { LimitationsDrawer } from "@/components/common/LimitationsDrawer";
 
 type FloorPosition = "ground" | "middle" | "top";
 
-export default function RecommenderPage() {
+function RecommenderContent() {
   const searchParams = useSearchParams();
 
   // Mode and Language State
@@ -1618,5 +1618,13 @@ export default function RecommenderPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function RecommenderPage() {
+  return (
+    <Suspense fallback={<div className="p-12 text-center text-slate-400 font-mono text-sm">Loading Decision-Support Recommender...</div>}>
+      <RecommenderContent />
+    </Suspense>
   );
 }
