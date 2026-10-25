@@ -1,0 +1,11 @@
+dsr_item_code,category,component,specification,unit,rate_inr,source,notes,validation_status
+12.41.1,insulation,roof_insulation_thickness,Expanded polystyrene (EPS) board insulation on roof surface,m2_per_50mm,385.00,CPWD DSR 2021 Item 12.41.1,Density 20 kg/m3 laid in bitumen,VERIFIED
+12.41.2,insulation,wall_insulation_thickness,Expanded polystyrene (EPS) / Mineral wool board on exterior walls,m2_per_50mm,420.00,CPWD DSR 2021 Item 12.41.2,Thermal conductivity 0.038 W/mK with wire mesh plaster,VERIFIED
+6.1.1,masonry,wall_mass_medium,Common burnt clay brick masonry in cement mortar 1:6 in foundation and plinth,m3,5460.00,CPWD DSR 2021 Item 6.1.1,200mm standard brick wall (approx INR 1092/m2 facade),VERIFIED
+11.3.1,masonry,wall_mass_heavy,Reinforced cement concrete work M25 in walls / columns,m3,7820.00,CPWD DSR 2021 Item 11.3.1,High thermal mass 200mm concrete (approx INR 1564/m2 facade),VERIFIED
+6.28.1,masonry,wall_mass_light,Lightweight cement board / aerated panel partition with light gauge framing,m2,850.00,CPWD DSR 2021 Item 6.28.1,Light thermal mass dry wall envelope,VERIFIED
+12.48.1,roof_finish,roof_solar_absorptance,High solar reflectance index (SRI >= 104) cool roof reflective coating,m2,240.00,CPWD DSR 2021 Item 12.48.1,Solar absorptance 0.30 polyurethane based reflective coating,VERIFIED
+12.48.2,roof_finish,roof_solar_absorptance_standard,Standard cementitious water-proofing roof terrace finish,m2,145.00,CPWD DSR 2021 Item 12.48.2,Solar absorptance 0.60 to 0.70 standard gray finish,VERIFIED
+9.117.1,glazing,wwr,Powder coated aluminium window frame with 5mm clear float glass,m2,3850.00,CPWD DSR 2021 Item 9.117.1,Standard single glazed fenestration,VERIFIED
+9.120.1,shading,shading_depth,Exterior horizontal cantilever RCC / metal sunshade overhang projection,m2_projection,1250.00,CPWD DSR 2021 Item 9.120.1,Window shading projection depth 0.0 to 1.0m,VERIFIED
+11.50.1,ventilation,ventilation_ach,Operable glazed louvers / fly-proof wire mesh ventilation shutters,m2,1650.00,CPWD DSR 2021 Item 11.50.1,Enables 1 to 15 ACH passive cross-ventilation,VERIFIED

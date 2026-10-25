@@ -1,0 +1,13 @@
+ ReadVarsESO
+ processing:C:\Users\vardh\OneDrive\Comfort-home-main\data\processed\quick_test_commercial\commercial.rvi
+ input file:C:\Users\vardh\OneDrive\Comfort-home-main\data\processed\quick_test_commercial\eplusout.eso
+ output file:C:\Users\vardh\OneDrive\Comfort-home-main\data\processed\quick_test_commercial\eplusout.csv
+ getting all vars from:C:\Users\vardh\OneDrive\Comfort-home-main\data\processed\quick_test_commercial\eplusout.eso
+  number variables requested for output=           7
+ ReadVars Run Time=00hr 00min  0.03sec
+ ReadVarsESO program completed successfully.
+ ReadVarsESO
+ processing:C:\Users\vardh\OneDrive\Comfort-home-main\data\processed\quick_test_commercial\commercial.mvi
+ Requested ESO file=C:\Users\vardh\OneDrive\Comfort-home-main\data\processed\quick_test_commercial\eplusout.mtr
+ does not exist.  ReadVarsESO program terminated.
+ ReadVarsESO program terminated.

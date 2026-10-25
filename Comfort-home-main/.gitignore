@@ -1,0 +1,51 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+ENV/
+.env
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+scratch/
+
+# raw data: re-downloadable or licence-restricted
+data/raw/
+
+# bulky generated output
+data/processed/scaling/
+data/processed/scaling_test*/
+data/processed/pilot/
+data/processed/smoke_test/
+data/processed/sim_*/
+data/processed/ver_*/
+data/processed/temp_*/
+data/processed/vent_check_test/
+sim_*/
+ver_*/
+hourly_*.parquet
+archive_*.zip
+
+# parquet: ignore, then whitelist the small ones that are needed
+data/processed/*.parquet
+!data/processed/objectives.parquet
+!data/processed/objectives_augmented.parquet
+!data/processed/pareto_*.parquet
+!data/processed/sim_runs.parquet
+
+# small tables
+!data/processed/*.csv
+!data/processed/*.json
+data/processed/ice_materials_extracted.csv
+
+# models: only the champion
+models/*
+!models/champion_comfort_model.joblib
+
+# telemetry
+reports/mem_trace*.csv
+reports/batch_log*.csv
+reports/batch_errors.log
+reports/single_test_console.txt

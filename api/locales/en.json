@@ -1,0 +1,19 @@
+{
+  "app_title": "ClimateAdapt-Comfort Decision-Support API",
+  "disclaimer": "Simulation-based research decision-support estimate, not a measured result or a construction quote.",
+  "cost_unavailable_reason": "Cost rates are currently unpopulated (TO BE FILLED in official CPWD DSR rate schedule). Envelope cost ranges are withheld to prevent price fabrication.",
+  "warning_distance_exceeded": "The requested location is {distance_km:.1f} km from {city}, exceeding the recommended 300 km regional validity threshold. Microclimate and diurnal temperature swings may vary significantly.",
+  "nearest_match_note": "Simulated station: {city} ({zone}, Köppen {koppen}). Distance from query: {distance_km:.1f} km.",
+  "explanations": {
+    "strong_fit": "This package achieves a strong Comfort Fit Score of {score:.1f}/100, outperforming the local typical building by +{gain:.1f} points. Annual discomfort is reduced from {ref_disc:.1f}% down to {cand_disc:.1f}%.",
+    "moderate_fit": "This package achieves a moderate Comfort Fit Score of {score:.1f}/100, showing a +{gain:.1f} point improvement over the baseline.",
+    "heat_priority": "Given your sensitivity to overheating, envelope passive cooling features are strongly aligned with your priorities.",
+    "cold_priority": "Given your sensitivity to cold conditions, winter envelope retention and insulation features are strongly aligned with your priorities.",
+    "dual_judge_note": "Dual-Judge Note: The empirical ML comfort model and physical Adaptive 90% model differ by {diff:.1f} percentage points in {city}, reflecting climate humidity or boundary conditions."
+  },
+  "limitations": [
+    "Simulation-based estimate using EnergyPlus 26.2.0; does not replace structural, MEP, or architectural engineering.",
+    "Cost ranges are early decision estimates with +/-15% contingency band and never a contractor quote.",
+    "Occupant sensation based on empirical DB II India responses and ASHRAE 55 Adaptive 90% standards."
+  ]
+}

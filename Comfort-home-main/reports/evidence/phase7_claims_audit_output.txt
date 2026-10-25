@@ -1,0 +1,173 @@
+PHASE 7 CLAIMS AUDIT EVIDENCE OUTPUT (v1.1)
+================================================================================
+
+Total Numerical Claims Extracted: 319
+Total Verified in Literal Evidence: 204
+Verification Pass Rate: 63.95%
+
+PROGRAMMATIC SUCCESS CRITERIA AUDIT (S1 TO S4):
+{
+  "S1": {
+    "spec_threshold": "ML Macro-F1 - Best Baseline Macro-F1 >= +0.05",
+    "ml_champion_f1": 0.4785,
+    "best_baseline_f1": 0.4939,
+    "achieved_margin": -0.0154,
+    "verdict": "FAIL (Negative Result)",
+    "ground_truth_status": "FAIL"
+  },
+  "S2": {
+    "spec_threshold": "R2 >= 0.95 on held-out test designs across all 25 models",
+    "models_passing": "23/25",
+    "mean_o2_r2": 0.987,
+    "failures_under_0.95": [
+      {
+        "city": "Mumbai",
+        "target": "O1_ml",
+        "r2": 0.9406256345156292
+      },
+      {
+        "city": "Shimla",
+        "target": "warm_ml",
+        "r2": 0.9224626145934482
+      }
+    ],
+    "verdict": "PARTIAL",
+    "ground_truth_status": "PARTIAL"
+  },
+  "S3": {
+    "spec_threshold": ">= 1 verified Pareto design per city beats both reference shelters on O1 and O2",
+    "per_city_verified_counts": {
+      "Jodhpur": 7,
+      "Mumbai": 7,
+      "New_Delhi": 6,
+      "Bengaluru": 8,
+      "Shimla": 8
+    },
+    "total_verified_beating_both": "36/50",
+    "verdict": "PASS",
+    "ground_truth_status": "PASS"
+  },
+  "S4": {
+    "spec_threshold": "Dashboard runs locally with 1 command, read-only on artifacts, shows applicability flags",
+    "automated_test_status": "6 passed in 5.38s",
+    "verdict": "PASS",
+    "ground_truth_status": "PASS"
+  }
+}
+
+UNMATCHED NUMBERS:
+  - reports\final_results.md: -39.08
+  - reports\final_results.md: -240.47
+  - reports\final_results.md: 48.74
+  - reports\final_results.md: 51,749
+  - reports\final_results.md: 26.17
+  - reports\final_results.md: 27,789
+  - reports\final_results.md: 25.08
+  - reports\final_results.md: 26,633
+  - reports\final_results.md: 0.0177
+  - reports\final_results.md: 0.4868
+  - reports\final_results.md: 0.4931
+  - reports\final_results.md: 0.3941
+  - reports\final_results.md: 0.0162
+  - reports\final_results.md: 0.4853
+  - reports\final_results.md: 0.4312
+  - reports\final_results.md: 0.4742
+  - reports\final_results.md: 0.4807
+  - reports\final_results.md: 0.4332
+  - reports\final_results.md: 0.0152
+  - reports\final_results.md: 0.0189
+  - reports\final_results.md: 0.4674
+  - reports\final_results.md: 0.4737
+  - reports\final_results.md: 0.4665
+  - reports\final_results.md: 0.0199
+  - reports\final_results.md: 0.4685
+  - reports\final_results.md: 0.4653
+  - reports\final_results.md: 0.4645
+  - reports\final_results.md: 0.4697
+  - reports\final_results.md: 0.4729
+  - reports\final_results.md: 0.4571
+  - reports\final_results.md: 0.0185
+  - reports\final_results.md: 0.4636
+  - reports\final_results.md: 0.4700
+  - reports\final_results.md: 0.0196
+  - reports\final_results.md: 0.4530
+  - reports\final_results.md: 0.4287
+  - reports\final_results.md: 0.0186
+  - reports\final_results.md: 0.4474
+  - reports\final_results.md: 30.32
+  - reports\final_results.md: 28.91
+  - reports\final_results.md: 0.9676
+  - reports\final_results.md: 36.88
+  - reports\final_results.md: 34.68
+  - reports\final_results.md: 22.62
+  - reports\final_results.md: 0.8348
+  - reports\final_results.md: 14.29
+  - reports\final_results.md: 0.8787
+  - reports\final_results.md: 3,999.4
+  - reports\final_results.md: 281.88
+  - reports\final_results.md: -18.95
+  - reports\final_results.md: 65.95
+  - reports\final_results.md: 34.16
+  - reports\final_results.md: 199.99
+  - reports\final_results.md: 4.99
+  - reports\final_results.md: 102.94
+  - reports\final_results.md: -23.97
+  - reports\final_results.md: -29.17
+  - reports\final_results.md: -97.05
+  - reports\final_results.md: 70.40
+  - reports\final_results.md: 279.40
+  - reports\final_results.md: 39.35
+  - reports\final_results.md: 50.40
+  - reports\final_results.md: -31.05
+  - reports\final_results.md: -18.85
+  - reports\final_results.md: -229.00
+  - reports\final_results.md: 39.27
+  - reports\final_results.md: 36.61
+  - reports\final_results.md: -14.19
+  - reports\final_results.md: -24.38
+  - reports\final_results.md: -30.33
+  - reports\final_results.md: 279.54
+  - reports\final_results.md: 67.95
+  - reports\final_results.md: 74.08
+  - reports\final_results.md: -9.42
+  - reports\final_results.md: -10.76
+  - reports\final_results.md: -205.46
+  - reports\final_results.md: 12.38
+  - reports\final_results.md: 6.72
+  - reports\final_results.md: 11.82
+  - reports\final_results.md: 120.23
+  - reports\final_results.md: -9.36
+  - reports\final_results.md: 26.03
+  - README.md: 0.4907
+  - README.md: 0.4971
+  - README.md: 0.4754
+  - README.md: 0.4816
+  - README.md: -39.08
+  - README.md: 281.88
+  - README.md: -240.47
+  - README.md: 65.95
+  - README.md: -23.97
+  - README.md: 199.99
+  - README.md: 102.94
+  - README.md: -97.05
+  - README.md: 70.40
+  - README.md: 39.35
+  - README.md: -31.05
+  - README.md: 279.40
+  - README.md: 50.40
+  - README.md: -229.00
+  - README.md: -14.19
+  - README.md: 36.61
+  - README.md: -30.33
+  - README.md: 67.95
+  - README.md: -9.42
+  - README.md: 279.54
+  - README.md: 74.08
+  - README.md: -205.46
+  - README.md: 3.11
+  - README.md: 82.5
+  - README.md: 3,999.4
+  - README.md: 162.3
+  - README.md: 640.8
+  - README.md: 124.6
+  - README.md: 140.3

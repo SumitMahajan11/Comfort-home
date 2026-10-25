@@ -1,0 +1,108 @@
+Shadowing Combinations
+..Solar Distribution=FullExterior
+..In the following, only the first 10 reference surfaces will be shown.
+..But all surfaces are used in the calculations.
+==================================
+Surface=APT_LIV_SOUTH_OVERHANG is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=APT_LIV_SOUTH_WALL
+..Surface=APT_BED_SOUTH_WALL
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=Mir-APT_LIV_SOUTH_OVERHANG is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=APT_LIV_SOUTH_WALL
+..Surface=APT_BED_SOUTH_WALL
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=APT_BED_SOUTH_OVERHANG is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=APT_LIV_SOUTH_WALL
+..Surface=APT_BED_SOUTH_WALL
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=Mir-APT_BED_SOUTH_OVERHANG is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=APT_LIV_SOUTH_WALL
+..Surface=APT_BED_SOUTH_WALL
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=APT_LIV_SOUTH_WALL is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=APT_LIV_SOUTH_OVERHANG
+..Surface=APT_BED_SOUTH_OVERHANG
+Number of back surfaces=0
+Number of receiving sub surfaces=1
+....Surface=APT_LIV_SOUTH_WINDOW
+==================================
+Surface=APT_LIV_SOUTH_WINDOW is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=APT_LIV_NORTH_WALL is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=APT_LIV_WEST_WALL is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=APT_LIV_BED_PART_LIV is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=APT_LIVING_FLOOR is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=APT_LIVING_ROOF is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=APT_BED_SOUTH_WALL is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=APT_LIV_SOUTH_OVERHANG
+..Surface=APT_BED_SOUTH_OVERHANG
+Number of back surfaces=0
+Number of receiving sub surfaces=1
+....Surface=APT_BED_SOUTH_WINDOW
+==================================
+Surface=APT_BED_SOUTH_WINDOW is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=APT_BED_EAST_WALL is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=APT_BED_NORTH_WALL is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=APT_LIV_BED_PART_BED is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=APT_BEDROOM_FLOOR is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=APT_BEDROOM_ROOF is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0

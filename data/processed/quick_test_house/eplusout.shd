@@ -1,0 +1,187 @@
+Shadowing Combinations
+..Solar Distribution=FullExterior
+..In the following, only the first 10 reference surfaces will be shown.
+..But all surfaces are used in the calculations.
+==================================
+Surface=LIVING_SOUTH_OVERHANG is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=LIVING_SOUTH_WALL
+..Surface=BEDROOM_SOUTH_WALL
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=Mir-LIVING_SOUTH_OVERHANG is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=LIVING_SOUTH_WALL
+..Surface=BEDROOM_SOUTH_WALL
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=BEDROOM_SOUTH_OVERHANG is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=LIVING_SOUTH_WALL
+..Surface=BEDROOM_SOUTH_WALL
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=Mir-BEDROOM_SOUTH_OVERHANG is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=LIVING_SOUTH_WALL
+..Surface=BEDROOM_SOUTH_WALL
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=LIVING_NORTH_OVERHANG is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=LIVING_NORTH_WALL
+..Surface=KITCHEN_NORTH_WALL
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=Mir-LIVING_NORTH_OVERHANG is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=LIVING_NORTH_WALL
+..Surface=KITCHEN_NORTH_WALL
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=KITCHEN_NORTH_OVERHANG is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=LIVING_NORTH_WALL
+..Surface=KITCHEN_NORTH_WALL
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=Mir-KITCHEN_NORTH_OVERHANG is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=LIVING_NORTH_WALL
+..Surface=KITCHEN_NORTH_WALL
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=LIVING_SOUTH_WALL is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=LIVING_SOUTH_OVERHANG
+..Surface=BEDROOM_SOUTH_OVERHANG
+Number of back surfaces=0
+Number of receiving sub surfaces=1
+....Surface=LIVING_SOUTH_WINDOW
+==================================
+Surface=LIVING_SOUTH_WINDOW is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=LIVING_NORTH_WALL is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=LIVING_NORTH_OVERHANG
+..Surface=KITCHEN_NORTH_OVERHANG
+Number of back surfaces=0
+Number of receiving sub surfaces=1
+....Surface=LIVING_NORTH_WINDOW
+==================================
+Surface=LIVING_NORTH_WINDOW is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=LIVING_WEST_WALL is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=LIVING_BED_PART_LIVING is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=LIVING_KIT_PART_LIVING is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=LIVING_FLOOR is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=LIVING_ROOF is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=BEDROOM_SOUTH_WALL is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=LIVING_SOUTH_OVERHANG
+..Surface=BEDROOM_SOUTH_OVERHANG
+Number of back surfaces=0
+Number of receiving sub surfaces=1
+....Surface=BEDROOM_SOUTH_WINDOW
+==================================
+Surface=BEDROOM_SOUTH_WINDOW is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=BEDROOM_EAST_WALL is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=LIVING_BED_PART_BED is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=BED_KIT_PART_BED is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=BEDROOM_FLOOR is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=BEDROOM_ROOF is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=KITCHEN_NORTH_WALL is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=2
+..Surface=LIVING_NORTH_OVERHANG
+..Surface=KITCHEN_NORTH_OVERHANG
+Number of back surfaces=0
+Number of receiving sub surfaces=1
+....Surface=KITCHEN_NORTH_WINDOW
+==================================
+Surface=KITCHEN_NORTH_WINDOW is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=KITCHEN_EAST_WALL is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=LIVING_KIT_PART_KIT is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=BED_KIT_PART_KIT is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=KITCHEN_FLOOR is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=KITCHEN_ROOF is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0

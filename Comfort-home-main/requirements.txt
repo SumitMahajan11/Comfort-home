@@ -1,0 +1,29 @@
+# ClimateAdapt-Comfort Pinned Dependencies
+# Python Version: 3.13.7 (AMD64 / Windows 11)
+
+# Core Scientific & Data Processing
+numpy==2.2.6
+pandas==2.3.2
+scipy==1.15.3
+pyarrow==21.0.0
+openpyxl==3.1.5
+
+# Machine Learning, Surrogates & Optimization
+scikit-learn==1.7.1
+xgboost==3.4.1
+optuna==5.0.0
+pymoo==0.6.2
+joblib==1.5.2
+shap==0.53.0
+
+# Thermal Comfort Physics & Systems
+pythermalcomfort==4.6.1
+psutil==7.2.2
+
+# Visualization & Interactive Decision Dashboard
+matplotlib==3.10.6
+seaborn==0.13.2
+streamlit==1.36.0
+
+# Dev & Automated Testing
+pytest==9.1.1

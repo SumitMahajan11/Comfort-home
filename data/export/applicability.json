@@ -1,0 +1,60 @@
+{
+  "source": "ASHRAE DB II complete cases (N=58,512)",
+  "bounds": {
+    "ta": [
+      13.9,
+      33.0
+    ],
+    "tr": [
+      13.9,
+      33.6
+    ],
+    "rh": [
+      14.9,
+      82.6
+    ],
+    "vel": [
+      0.0,
+      1.41
+    ],
+    "clo": [
+      0.21,
+      1.65
+    ],
+    "met": [
+      0.8,
+      2.0
+    ],
+    "t_mot_isd": [
+      -19.2,
+      31.9
+    ]
+  },
+  "flags_by_city": {
+    "Jodhpur": {
+      "ml_confidence": "LOW_CONFIDENCE",
+      "adaptive_confidence": "STANDARD",
+      "notes": "Dry desert climate; high summer outdoor temperatures"
+    },
+    "Mumbai": {
+      "ml_confidence": "LOW_CONFIDENCE",
+      "adaptive_confidence": "STANDARD",
+      "notes": "Tropical humid; monsoon RH exceeds DB II training bound (82.6%)"
+    },
+    "New_Delhi": {
+      "ml_confidence": "LOW_CONFIDENCE",
+      "adaptive_confidence": "STANDARD",
+      "notes": "Composite climate; summer heat & monsoon humidity"
+    },
+    "Bengaluru": {
+      "ml_confidence": "STANDARD",
+      "adaptive_confidence": "STANDARD",
+      "notes": "Temperate climate; mostly within DB II bounds"
+    },
+    "Shimla": {
+      "ml_confidence": "LOW_CONFIDENCE",
+      "adaptive_confidence": "FLAGGED",
+      "notes": "Cold climate; winter T_rm < 10 C violates Adaptive-90 validity bound"
+    }
+  }
+}

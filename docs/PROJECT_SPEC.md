@@ -46,6 +46,23 @@ Key DB II columns: `ta, tr, rh, vel, clo, met, thermal_sensation, t_out, t_out_i
 | D-009 | Objectives: O1 = % occupied hours predicted non-neutral (also report warm% and cool% separately). O2 = annual ideal-loads energy, kWh/m2. Stretch O3 = embodied carbon from ICE (thermal properties come from the EnergyPlus material library, not ICE). |
 | D-010 | Stack: Python, pandas, scikit-learn, XGBoost, Optuna, pymoo, SHAP, Streamlit. All free, all local. |
 | D-011 | DB II has no labelled sensation votes for the Shimla building (460 rows, all TSV missing). Shimla results must carry an applicability-domain flag. |
+| D-012 | Champion comfort model selection based on 5-fold GroupKFold CV macro-F1 on complete-case rows (`Ablation_A3_OutdoorTemp` achieves 0.4733 CV mean, 0.4785 Holdout mean). |
+| D-013 | Retain both ML Champion (score 0.4785) and Physical Adaptive 90% (score 0.4939) as dual comfort judges for simulation coupling and optimization. |
+| D-014 | Strict paired-run completeness: drop a (city, design) pair if either free-running or ideal-loads simulation mode fails. |
+| D-015 | Applicability domain defined by 1st-99th percentile of DB II training features; flag cities under 80% validity threshold. |
+| D-016 | Rank design variable sensitivity by XGBoost gain / permutation importance per climate zone. |
+| D-017 | Decision-support confidence tiers: Medium confidence requires dual-judge Spearman $r_s \ge 0.8$ AND Adaptive 90% validity $\ge 80\%$; all other cities assigned Low confidence. |
+| D-018 | Dual comfort judge hourly coupling: discrete argmax prediction $\hat{y}_t \in \{0=\text{cool}, 1=\text{neutral}, 2=\text{warm}\}$ for $O_{1,\text{ml}}$ alongside ASHRAE 55 Adaptive 90% comfort band for $O_{1,\text{adapt}}$. |
+| D-019 | Running mean outdoor temperature ($t\_mot\_isd$) computed from EPW using exact ASHRAE 55 / DB II 7-day exponential formula ($\alpha=0.8$). |
+| D-020 | CPWD DSR Rate Schedule & Cost Engine: envelope cost ranges derived strictly from verified CPWD Delhi Schedule of Rates (DSR 2021/2023) items with +/-15% contingency; never presented as contractor quotes. |
+| D-021 | ClimateAdapt-Comfort v2 decoupled architecture: Next.js frontend + FastAPI backend serving PRECOMPUTED simulation artifacts only; zero runtime EnergyPlus calls; 5-step user flow. |
+| D-022 | Multi-Building Typology Templates: parameterized EnergyPlus text-templated IDFs for House (60 m2, 3 zones), Apartment (55 m2, 2 zones, adiabatic party boundaries), and Commercial (80 m2, internal plug loads). |
+| D-023 | Future-Climate EPW Morphing: monthly mean dry-bulb temperature shifting (+1.5C and +3.0C) with Magnus-Tetens psychrometric proportional humidity conservation. |
+| D-024 | Precomputed API Export Schema (`data/export/`): all Pareto designs, references, monthly profiles, and SHAP drivers serialized with cryptographic `manifest.json` SHA-256 checksums. |
+| D-025 | Strict Null-Gating Policy for Cost Rates: unpopulated CPWD DSR items remain explicitly `null` with status `"UNAVAILABLE"`; system blocks startup unless explicitly run with `-AllowUnfilledCosts`. |
+| D-026 | Area Comfort Norms & User Comfort Fit Scoring Engine (`src/comfort/`): regional EPW summaries, reference discomfort profiles, and DB II occupant preference distributions by Koppen group. |
+| D-027 | Read-Only FastAPI Production Service (`api/`): startup SHA-256 manifest validation, versioned `/api/v1` routes, Pydantic v2 schemas, and ReportLab builder-ready vector PDF generation. |
+| D-028 | ClimateAdapt-Comfort v2 Web Client (`web/`): Next.js 16 (App Router) + TypeScript + Tailwind CSS with 5-step guided wizard, expert architectural studio, bilingual English/Hindi localization, and honest-labelling badges. |
 
 ## 5. Scenario assumptions (change only via decision log)
 

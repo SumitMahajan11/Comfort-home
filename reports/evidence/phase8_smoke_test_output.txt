@@ -1,0 +1,72 @@
+================================================================================
+PHASE 8 SMOKE TESTS & PHYSICAL DIRECTIONAL CHECKS ACROSS BUILDING TYPES
+================================================================================
+Timestamp: 2026-10-24 23:01:58
+Building Types Tested: house, apartment, commercial
+Cities: Jodhpur, Mumbai, New_Delhi, Bengaluru, Shimla
+Fixed Seed: 42
+
+10 Latin Hypercube Designs Sampled (seed 42):
+design_id  roof_insulation_thickness  wall_insulation_thickness  roof_solar_absorptance      wwr  orientation  shading_depth  ventilation_ach wall_mass_class
+  D_00000                   0.063391                   0.143417                0.668484 0.270592   319.719033       0.502438         1.334404           heavy
+  D_00001                   0.013078                   0.068244                0.517752 0.332563    48.685242       0.217724        10.179220           heavy
+  D_00002                   0.141681                   0.104043                0.730342 0.202892   224.084650       0.764547        12.241023           light
+  D_00003                   0.078324                   0.012080                0.631997 0.258467   281.661007       0.631695         5.557333          medium
+  D_00004                   0.130113                   0.054443                0.871827 0.393369   138.935818       0.452430         7.682327          medium
+  D_00005                   0.098443                   0.017510                0.317984 0.319067   329.121873       0.919524        14.457530          medium
+  D_00006                   0.034763                   0.117904                0.828006 0.189742   151.249415       0.133515         2.812768           light
+  D_00007                   0.113116                   0.036469                0.411612 0.115991    11.904334       0.852890         4.408669           light
+  D_00008                   0.050479                   0.126696                0.446448 0.144362   106.593640       0.356328         9.099581           light
+  D_00009                   0.017199                   0.086491                0.596502 0.075152   204.859984       0.033808        11.420155           heavy
+
+Running 150 smoke simulation tasks in parallel...
+
+--- SMOKE TEST AGGREGATE SUMMARY ---
+Total Runs: 150
+Successful Runs: 150 / 150 (100.0%)
+Total Severe Errors: 0
+Total Fatal Errors: 0
+
+Per-Type / Per-City Error Breakdown:
+                         successes  severe_errors  fatal_errors  mean_sec
+building_type city                                                       
+apartment     Bengaluru         10              0             0  1.657800
+              Jodhpur           10              0             0  1.715213
+              Mumbai            10              0             0  1.600855
+              New_Delhi         10              0             0  1.439271
+              Shimla            10              0             0  1.438881
+commercial    Bengaluru         10              0             0  1.639361
+              Jodhpur           10              0             0  1.613002
+              Mumbai            10              0             0  1.701231
+              New_Delhi         10              0             0  1.482257
+              Shimla            10              0             0  1.283795
+house         Bengaluru         10              0             0  1.583030
+              Jodhpur           10              0             0  1.610358
+              Mumbai            10              0             0  1.705995
+              New_Delhi         10              0             0  1.825202
+              Shimla            10              0             0  1.682014
+
+[PASS] Acceptance Criterion 1 Met: 150/150 runs completed with exactly 0 severe and 0 fatal errors.
+
+================================================================================
+PHYSICAL DIRECTIONAL SANITY CHECKS
+================================================================================
+
+[Directional Check 1] Roof Absorptance (0.30 vs 0.90) in Jodhpur Summer (May 1 - Jun 30):
+  house        (abs 0.30): 26.97 C | (abs 0.90): 27.68 C | Delta: +0.71 C -> PASS
+  apartment    (abs 0.30): 34.20 C | (abs 0.90): 35.44 C | Delta: +1.24 C -> PASS
+  commercial   (abs 0.30): 26.76 C | (abs 0.90): 27.51 C | Delta: +0.75 C -> PASS
+Directional Check 1 Result: PASS (lower absorptance reduces indoor temperature)
+
+[Directional Check 2] Wall Insulation (0.15m vs 0.001m) on HVAC Energy O2 in Shimla:
+  house        (ins 0.15m): 15.93 kWh/m2 | (ins 0.001m): 24.86 kWh/m2 | Energy Saved: 8.92 kWh/m2 -> PASS
+  apartment    (ins 0.15m): 2.25 kWh/m2 | (ins 0.001m): 6.14 kWh/m2 | Energy Saved: 3.89 kWh/m2 -> PASS
+  commercial   (ins 0.15m): 16.54 kWh/m2 | (ins 0.001m): 24.64 kWh/m2 | Energy Saved: 8.10 kWh/m2 -> PASS
+Directional Check 2 Result: PASS (insulation reduces HVAC heating load)
+
+[Directional Check 3] Apartment Floor Position ('middle' vs 'top') on HVAC Energy O2:
+  apartment (middle floor): 20.33 kWh/m2 | (top floor): 28.97 kWh/m2 | Excess Solar/Roof Load on Top: +8.64 kWh/m2 -> PASS
+Directional Check 3 Result: PASS (middle floor sheltered by neighbours has lower load)
+
+All Smoke Tests & Directional Checks completed in 52.1 seconds.
+================================================================================

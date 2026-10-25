@@ -1,0 +1,12 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.15, pytest-9.1.1, pluggy-1.7.0 -- C:\Users\vardh\OneDrive\Comfort-home-main\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\vardh\OneDrive\Comfort-home-main
+plugins: anyio-4.15.1, platformdirs-4.13.0
+collecting ... collected 3 items
+
+tests/test_comfort.py::test_city_comfort_norms_integrity_and_d011_shimla_gating PASSED [ 33%]
+tests/test_comfort.py::test_questionnaire_schema_and_profile_parser PASSED [ 66%]
+tests/test_comfort.py::test_comfort_fit_score_formula_and_bounds PASSED  [100%]
+
+============================== 3 passed in 0.51s ==============================

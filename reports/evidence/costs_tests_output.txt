@@ -1,0 +1,13 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.15, pytest-9.1.1, pluggy-1.7.0 -- C:\Users\vardh\OneDrive\Comfort-home-main\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\vardh\OneDrive\Comfort-home-main
+plugins: anyio-4.15.1, platformdirs-4.13.0
+collecting ... collected 4 items
+
+tests/test_costs.py::test_bom_quantity_math_hand_calculated_example PASSED [ 25%]
+tests/test_costs.py::test_cost_range_ordering_and_strict_null_gating PASSED [ 50%]
+tests/test_costs.py::test_validator_fails_when_rate_is_null PASSED       [ 75%]
+tests/test_costs.py::test_packages_never_include_unverified_design_when_verified_exist PASSED [100%]
+
+============================== 4 passed in 0.64s ==============================

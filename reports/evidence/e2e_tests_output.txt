@@ -1,0 +1,36 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.15, pytest-9.1.1, pluggy-1.7.0 -- C:\Users\vardh\OneDrive\Comfort-home-main\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\vardh\OneDrive\Comfort-home-main
+plugins: anyio-4.15.1, platformdirs-4.13.0
+collecting ... collected 1 item
+
+tests/test_e2e_product.py::test_e2e_all_city_building_scenario_combinations 
+================================================================================
+CLIMATEADAPT-COMFORT V2: END-TO-END EVALUATION GRID (45 COMBINATIONS)
+================================================================================
+
+Tested Combinations:  45 / 45 (100.0%)
+Total Packages:       135 packages audited
+--------------------------------------------------------------------------------
+COST STATUS AUDIT (Decision D-025):
+  Packages with Explicitly Null-Gated Costs (UNAVAILABLE): 135 / 135 (100.0%)
+  Packages with Populated Cost Estimates:                  0 / 135
+  Monotonicity Note: All 135 packages correctly return null without fabrication.
+--------------------------------------------------------------------------------
+PERFORMANCE VS CONVENTIONAL REFERENCE R2 BASELINE:
+  Beats reference on BOTH (O1 Discomfort & O2 Energy):    39 (28.9%)
+  Beats reference on O1 Discomfort only:                  18 (13.3%)
+  Beats reference on O2 Energy demand only:               51 (37.8%)
+  Beats reference on NEITHER:                             27 (20.0%)
+  Total beating reference on at least ONE objective:      108 / 135 (80.0%)
+--------------------------------------------------------------------------------
+BREAKDOWN OF 27 PACKAGES NOT BEATING CURRENT REFERENCE R2:
+  By Scenario:      {'current': 9, 'plus1p5': 9, 'plus3p0': 9}
+  By Building Type: {'apartment': 27}
+  Physical explanation: Under +3.0░C warming and/or commercial internal loads, absolute cooling demand
+  exceeds the historical 1-room residential R2 baseline in current climate. This is an honest physical outcome.
+================================================================================
+PASSED
+
+============================== 1 passed in 2.67s ==============================

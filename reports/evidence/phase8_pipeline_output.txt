@@ -1,0 +1,185 @@
+================================================================================
+PHASE 8 MULTI-BUILDING SIMULATION, OPTIMIZATION & FUTURE-CLIMATE PIPELINE
+================================================================================
+Timestamp: 2026-10-24 23:16:20
+Building Types: house, apartment, commercial
+Cities: Jodhpur, Mumbai, New_Delhi, Bengaluru, Shimla
+Fixed Random Seed: 42
+
+
+================================================================================
+[STAGE 1] SIMULATING REFERENCE BUILDINGS (R1 Lightweight & R2 Conventional)
+================================================================================
+Total reference simulation tasks: 120
+Completed reference simulations across all cities and types.
+
+================================================================================
+[STAGE 2] BATCH SIMULATIONS (LATIN HYPERCUBE DESIGNS, SEED 42)
+================================================================================
+Generated 100 Latin Hypercube designs per city per type.
+Total batch simulation tasks: 3000 (parallel workers: 8)...
+Batch simulations finished in 2056.1 s (3000 runs).
+  house      | Jodhpur    -> 98 valid paired designs
+  house      | Mumbai     -> 100 valid paired designs
+  house      | New_Delhi  -> 100 valid paired designs
+  house      | Bengaluru  -> 99 valid paired designs
+  house      | Shimla     -> 100 valid paired designs
+  apartment  | Jodhpur    -> 100 valid paired designs
+  apartment  | Mumbai     -> 100 valid paired designs
+  apartment  | New_Delhi  -> 97 valid paired designs
+  apartment  | Bengaluru  -> 100 valid paired designs
+  apartment  | Shimla     -> 98 valid paired designs
+  commercial | Jodhpur    -> 100 valid paired designs
+  commercial | Mumbai     -> 100 valid paired designs
+  commercial | New_Delhi  -> 100 valid paired designs
+  commercial | Bengaluru  -> 99 valid paired designs
+  commercial | Shimla     -> 100 valid paired designs
+
+================================================================================
+[STAGE 3] OPTUNA SURROGATE MODEL TRAINING (S2 THRESHOLD: R2 >= 0.95)
+================================================================================
+
+--- Training Surrogates for Building Type: HOUSE ---
+Surrogate S2 Pass Rate for house: 1/25 (4.0%) with R2 >= 0.95
+     city   target  test_r2  test_mae  pass_s2
+  Jodhpur    O1_ml   0.6985    4.7976    False
+  Jodhpur  warm_ml   0.6784    4.3472    False
+  Jodhpur  cool_ml   0.8632    0.7387    False
+  Jodhpur O1_adapt   0.7328    6.1429    False
+  Jodhpur       O2   0.8418   10.9653    False
+   Mumbai    O1_ml   0.4181    4.6666    False
+   Mumbai  warm_ml   0.3834    4.1869    False
+   Mumbai  cool_ml   0.4789    0.0113    False
+   Mumbai O1_adapt   0.6471    9.0273    False
+   Mumbai       O2   0.5144   13.2434    False
+New_Delhi    O1_ml   0.7928    3.7627    False
+New_Delhi  warm_ml   0.8259    3.3980    False
+New_Delhi  cool_ml   0.8440    0.8575    False
+New_Delhi O1_adapt   0.6173    7.2931    False
+New_Delhi       O2   0.8860   14.1041    False
+Bengaluru    O1_ml   0.4893    1.2910    False
+Bengaluru  warm_ml   0.4045    1.2955    False
+Bengaluru  cool_ml   0.8413    0.0678    False
+Bengaluru O1_adapt   0.6730    4.6564    False
+Bengaluru       O2   0.0054    5.3374    False
+   Shimla    O1_ml   0.8326    1.7289    False
+   Shimla  warm_ml  -0.0796    0.7249    False
+   Shimla  cool_ml   0.8409    1.4607    False
+   Shimla O1_adapt   0.8177    3.4012    False
+   Shimla       O2   0.9687   20.5385     True
+
+--- Training Surrogates for Building Type: APARTMENT ---
+Surrogate S2 Pass Rate for apartment: 3/25 (12.0%) with R2 >= 0.95
+     city   target  test_r2  test_mae  pass_s2
+  Jodhpur    O1_ml   0.8735    1.4012    False
+  Jodhpur  warm_ml   0.7856    1.8439    False
+  Jodhpur  cool_ml  -0.7293    0.0713    False
+  Jodhpur O1_adapt   0.6738    2.5259    False
+  Jodhpur       O2   0.7848   12.7820    False
+   Mumbai    O1_ml   0.8542    3.4761    False
+   Mumbai  warm_ml   0.8542    3.4761    False
+   Mumbai  cool_ml   1.0000    0.0000     True
+   Mumbai O1_adapt   0.9008    4.8328    False
+   Mumbai       O2   0.7898   13.0656    False
+New_Delhi    O1_ml   0.9140    1.2362    False
+New_Delhi  warm_ml   0.8845    1.5171    False
+New_Delhi  cool_ml   0.8124    0.6643    False
+New_Delhi O1_adapt   0.8201    2.3085    False
+New_Delhi       O2   0.8900    9.9435    False
+Bengaluru    O1_ml   0.8052    5.4798    False
+Bengaluru  warm_ml   0.8052    5.4798    False
+Bengaluru  cool_ml   1.0000    0.0000     True
+Bengaluru O1_adapt   0.7084    5.3285    False
+Bengaluru       O2   0.7629    7.6986    False
+   Shimla    O1_ml   0.8750    2.7156    False
+   Shimla  warm_ml   0.6673    2.2300    False
+   Shimla  cool_ml   0.9304    1.9822    False
+   Shimla O1_adapt   0.6024    5.2824    False
+   Shimla       O2   0.9802   15.9148     True
+
+--- Training Surrogates for Building Type: COMMERCIAL ---
+Surrogate S2 Pass Rate for commercial: 1/25 (4.0%) with R2 >= 0.95
+     city   target  test_r2  test_mae  pass_s2
+  Jodhpur    O1_ml   0.8130    6.1547    False
+  Jodhpur  warm_ml   0.8429    5.3382    False
+  Jodhpur  cool_ml   0.6288    0.9081    False
+  Jodhpur O1_adapt   0.3393    8.0749    False
+  Jodhpur       O2   0.7661   13.9692    False
+   Mumbai    O1_ml   0.6648    5.5852    False
+   Mumbai  warm_ml   0.7056    5.1076    False
+   Mumbai  cool_ml   0.4416    0.0058    False
+   Mumbai O1_adapt   0.3851    8.1663    False
+   Mumbai       O2   0.5635   11.2223    False
+New_Delhi    O1_ml   0.8650    4.5550    False
+New_Delhi  warm_ml   0.7983    5.3311    False
+New_Delhi  cool_ml   0.8144    0.9792    False
+New_Delhi O1_adapt   0.5111    6.4587    False
+New_Delhi       O2   0.8609   15.0761    False
+Bengaluru    O1_ml   0.5658    2.5026    False
+Bengaluru  warm_ml   0.5585    2.5908    False
+Bengaluru  cool_ml   0.4487    0.0409    False
+Bengaluru O1_adapt   0.3867    3.8418    False
+Bengaluru       O2   0.7615    4.2224    False
+   Shimla    O1_ml   0.7427    2.4419    False
+   Shimla  warm_ml  -0.0081    1.3616    False
+   Shimla  cool_ml   0.8026    2.2954    False
+   Shimla O1_adapt   0.6782    4.7997    False
+   Shimla       O2   0.9702   20.4926     True
+
+================================================================================
+[STAGE 4] NSGA-II MULTI-OBJECTIVE PARETO OPTIMIZATION
+================================================================================
+
+--- Running NSGA-II for HOUSE ---
+  house      | Jodhpur    -> 100 Pareto designs derived (10 flagged for EnergyPlus verification)
+  house      | Mumbai     -> 100 Pareto designs derived (10 flagged for EnergyPlus verification)
+  house      | New_Delhi  -> 100 Pareto designs derived (10 flagged for EnergyPlus verification)
+  house      | Bengaluru  -> 100 Pareto designs derived (10 flagged for EnergyPlus verification)
+  house      | Shimla     -> 100 Pareto designs derived (10 flagged for EnergyPlus verification)
+
+--- Running NSGA-II for APARTMENT ---
+  apartment  | Jodhpur    -> 100 Pareto designs derived (5 flagged for EnergyPlus verification)
+  apartment  | Mumbai     -> 100 Pareto designs derived (5 flagged for EnergyPlus verification)
+  apartment  | New_Delhi  -> 100 Pareto designs derived (5 flagged for EnergyPlus verification)
+  apartment  | Bengaluru  -> 100 Pareto designs derived (5 flagged for EnergyPlus verification)
+  apartment  | Shimla     -> 100 Pareto designs derived (5 flagged for EnergyPlus verification)
+
+--- Running NSGA-II for COMMERCIAL ---
+  commercial | Jodhpur    -> 100 Pareto designs derived (5 flagged for EnergyPlus verification)
+  commercial | Mumbai     -> 100 Pareto designs derived (5 flagged for EnergyPlus verification)
+  commercial | New_Delhi  -> 100 Pareto designs derived (5 flagged for EnergyPlus verification)
+  commercial | Bengaluru  -> 100 Pareto designs derived (5 flagged for EnergyPlus verification)
+  commercial | Shimla     -> 100 Pareto designs derived (5 flagged for EnergyPlus verification)
+
+================================================================================
+[STAGE 5] DIRECT ENERGYPLUS VERIFICATION & FUTURE-CLIMATE SIMULATIONS
+================================================================================
+Running 400 direct verification & future climate simulations...
+
+--- DIRECT VERIFICATION ERROR SUMMARY ---
+                         verified_count  beats_r2_count  mae_O1_ml  mae_O1_adapt  mae_O2
+building_type city                                                                      
+apartment     Bengaluru               5               5       1.94          2.87    2.57
+              Jodhpur                 5               5       2.84          1.26    5.62
+              Mumbai                  5               5       0.49          1.15   10.27
+              New_Delhi               5               2       3.36          5.84    3.60
+              Shimla                  5               5       2.53          4.60   20.13
+commercial    Bengaluru               5               5       2.41          2.38    4.51
+              Jodhpur                 5               5       2.65          6.80    5.60
+              Mumbai                  5               5       1.61          6.94    1.16
+              New_Delhi               5               5       2.26          3.54    2.72
+              Shimla                  5               5       0.51          0.39    1.84
+house         Bengaluru              10               8       1.17          4.49    2.94
+              Jodhpur                10               7       1.98          5.19    5.52
+              Mumbai                 10               7       6.34          2.54   15.83
+              New_Delhi              10               9       2.16          3.11    5.05
+              Shimla                 10              10       1.29          5.66   13.02
+
+================================================================================
+[STAGE 6] EXPORTING PRECOMPUTED API ARTIFACTS TO data/export/
+================================================================================
+Exporting baseline shelter_v1 files into data/export/ for complete unification...
+Generated manifest.json with 159 files verified and checksummed.
+
+All Phase 8 pipeline stages completed in 57.5 minutes (3450.7 seconds).
+================================================================================

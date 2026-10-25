@@ -1,0 +1,12 @@
+item_id,description,unit,dsr_item_code,rate_inr_low,rate_inr_high,dsr_edition,cci_Jodhpur,cci_Mumbai,cci_New_Delhi,cci_Bengaluru,cci_Shimla,source_note,status
+wall_medium_brick,Common burnt clay brick masonry 1:6 in cement mortar for exterior walls,m2,TO BE FILLED,,,,TO BE FILLED,,,,,,Awaiting manual entry from CPWD DSR book,TO BE FILLED
+wall_heavy_rcc,Reinforced cement concrete M25 work in walls,m2,TO BE FILLED,,,,TO BE FILLED,,,,,,Awaiting manual entry from CPWD DSR book,TO BE FILLED
+wall_light_drywall,Lightweight fiber cement panel dry wall system with light gauge metal frame,m2,TO BE FILLED,,,,TO BE FILLED,,,,,,Awaiting manual entry from CPWD DSR book,TO BE FILLED
+wall_insulation_eps,Expanded polystyrene (EPS) / mineral wool board insulation on external walls,m3,TO BE FILLED,,,,TO BE FILLED,,,,,,Awaiting manual entry from CPWD DSR book,TO BE FILLED
+roof_slab_rcc,Reinforced cement concrete 150mm roof slab including shuttering and reinforcement,m2,TO BE FILLED,,,,TO BE FILLED,,,,,,Awaiting manual entry from CPWD DSR book,TO BE FILLED
+roof_insulation_eps,Expanded polystyrene (EPS) board roof thermal insulation laid in bitumen,m3,TO BE FILLED,,,,TO BE FILLED,,,,,,Awaiting manual entry from CPWD DSR book,TO BE FILLED
+roof_cool_coating,High solar reflectance index (SRI >= 104) reflective elastomeric cool roof coating,m2,TO BE FILLED,,,,TO BE FILLED,,,,,,Awaiting manual entry from CPWD DSR book,TO BE FILLED
+roof_standard_finish,Standard cementitious water-proofing and wearing coat terrace finish,m2,TO BE FILLED,,,,TO BE FILLED,,,,,,Awaiting manual entry from CPWD DSR book,TO BE FILLED
+window_glazing_standard,Powder coated aluminium window frame with 6mm clear float glass glazing,m2,TO BE FILLED,,,,TO BE FILLED,,,,,,Awaiting manual entry from CPWD DSR book,TO BE FILLED
+shading_overhang_cantilever,Cantilever horizontal exterior RCC / metallic window sunshade overhang,m2,TO BE FILLED,,,,TO BE FILLED,,,,,,Awaiting manual entry from CPWD DSR book,TO BE FILLED
+ventilation_louvers,Operable glazed ventilation louvers / wire-mesh ventilation shutters,m2,TO BE FILLED,,,,TO BE FILLED,,,,,,Awaiting manual entry from CPWD DSR book,TO BE FILLED

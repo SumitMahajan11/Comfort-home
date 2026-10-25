@@ -1,7 +1,12 @@
 """
 IDF Template Generator and Renderer for ClimateAdapt-Comfort.
-Generates fully validated EnergyPlus 26.2.0 single-zone shelter models
-parametrized by design variables:
+Generates fully validated EnergyPlus 26.2.0 building models across 4 building types:
+- shelter_v1: single-zone passive shelter (20 m2, baseline)
+- house: 3-zone detached house (60 m2, living/bedroom/kitchen)
+- apartment: 2-zone apartment unit (55 m2, floor_position: ground, middle, top)
+- commercial: 2-zone small office (80 m2, open office + meeting, weekday 09:00-18:00)
+
+Parametrized by the 8 standard design variables:
 - roof_insulation_thickness (m, 0.0 to 0.15)
 - wall_insulation_thickness (m, 0.0 to 0.15)
 - wall_mass_class ('light', 'medium', 'heavy')
@@ -11,253 +16,24 @@ parametrized by design variables:
 - shading_depth (m, 0.0 to 1.0)
 - ventilation_ach (ACH, 1.0 to 15.0)
 - mode ('free_running' or 'ideal_loads')
+- floor_position ('ground', 'middle', 'top' - for apartment)
 """
 
 import os
 
-def render_shelter_idf(
-    params,
-    output_idf_path,
-    mode='free_running',
-    run_period_days=None # None for annual, or tuple (start_month, start_day, end_month, end_day)
-):
-    """
-    Renders a parametrized single-zone passive shelter IDF.
-    Geometry: 5m (X) x 4m (Y) x 3m (Z) = 20 m2 floor area, 60 m3 volume.
-    """
-    roof_ins_thick = max(0.001, float(params.get('roof_insulation_thickness', 0.0)))
-    wall_ins_thick = max(0.001, float(params.get('wall_insulation_thickness', 0.0)))
-    wall_mass = str(params.get('wall_mass_class', 'medium')).lower()
-    roof_abs = float(params.get('roof_solar_absorptance', 0.7))
-    wwr = float(params.get('wwr', 0.20))
-    orientation = float(params.get('orientation', 0.0))
-    shading_depth = float(params.get('shading_depth', 0.0))
-    vent_ach = float(params.get('ventilation_ach', 5.0))
-    
-    # Wall mass layer mapping
-    if wall_mass == 'heavy':
+def _get_common_materials_idf(wall_mass_class, wall_ins_thick, roof_ins_thick, roof_abs):
+    """Generates standard material and construction IDF definitions."""
+    if wall_mass_class == 'heavy':
         wall_core_mat = 'HeavyConcrete_200mm'
-    elif wall_mass == 'light':
+    elif wall_mass_class == 'light':
         wall_core_mat = 'LightTimber_100mm'
-    else: # medium
+    else:  # medium
         wall_core_mat = 'MediumBrick_200mm'
-        
-    # Window dimensions based on WWR:
-    # South wall is 5.0m wide x 3.0m high = 15.0 m2
-    # North wall is 5.0m wide x 3.0m high = 15.0 m2
-    # East/West walls are 4.0m wide x 3.0m high = 12.0 m2
-    # Total wall area = 54.0 m2
-    # Distribute window evenly across walls or primary south/north
-    # Window on 5m wall: height 1.2m, width = (15.0 * wwr) / 1.2
-    win_h = 1.2
-    win_w_5m = min(4.6, max(0.4, (15.0 * wwr) / win_h))
-    x_start_5m = (5.0 - win_w_5m) / 2.0
-    x_end_5m = x_start_5m + win_w_5m
-    
-    win_w_4m = min(3.6, max(0.4, (12.0 * wwr) / win_h))
-    y_start_4m = (4.0 - win_w_4m) / 2.0
-    y_end_4m = y_start_4m + win_w_4m
-    
-    z_win_bottom = 0.9
-    z_win_top = z_win_bottom + win_h
-    
-    # Shading overhang geometry if shading_depth > 0
-    shading_objects = ""
-    if shading_depth > 0.02:
-        # South window overhang
-        shading_objects += f"""
-Shading:Overhang,
-  SouthWindow_Overhang,    !- Name
-  South_Window,            !- Window or Door Name
-  0.1,                     !- Height above Window or Door {{m}}
-  90,                      !- Tilt Angle from Window/Door {{deg}}
-  0.2,                     !- Left Extension from Window/Door Width {{m}}
-  0.2,                     !- Right Extension from Window/Door Width {{m}}
-  {shading_depth:.3f};              !- Depth {{m}}
 
-Shading:Overhang,
-  NorthWindow_Overhang,    !- Name
-  North_Window,            !- Window or Door Name
-  0.1,                     !- Height above Window or Door {{m}}
-  90,                      !- Tilt Angle from Window/Door {{deg}}
-  0.2,                     !- Left Extension from Window/Door Width {{m}}
-  0.2,                     !- Right Extension from Window/Door Width {{m}}
-  {shading_depth:.3f};              !- Depth {{m}}
-"""
-
-    # Conditioning mode objects
-    hvac_objects = ""
-    if mode == 'ideal_loads':
-        hvac_objects = """
-ZoneHVAC:IdealLoadsAirSystem,
-  Shelter_IdealLoads,      !- Name
-  ,                        !- Availability Schedule Name
-  Shelter_ZoneAirInletNode,!- Zone Supply Air Node Name
-  ,                        !- Zone Exhaust Air Node Name
-  ,                        !- System Inlet Air Node Name
-  50,                      !- Maximum Heating Supply Air Temperature {C}
-  13,                      !- Minimum Cooling Supply Air Temperature {C}
-  0.0156,                  !- Maximum Heating Supply Air Humidity Ratio {kgWater/kgDryAir}
-  0.0077,                  !- Minimum Cooling Supply Air Humidity Ratio {kgWater/kgDryAir}
-  NoLimit,                 !- Heating Limit
-  ,                        !- Maximum Heating Air Flow Rate {m3/s}
-  ,                        !- Maximum Sensible Heating Capacity {W}
-  NoLimit,                 !- Cooling Limit
-  ,                        !- Maximum Cooling Air Flow Rate {m3/s}
-  ,                        !- Maximum Total Cooling Capacity {W}
-  ,                        !- Heating Availability Schedule Name
-  ,                        !- Cooling Availability Schedule Name
-  ConstantSensibleHeatRatio,!- Dehumidification Control Type
-  0.7,                     !- Cooling Sensible Heat Ratio {dimensionless}
-  None,                    !- Humidification Control Type
-  ,                        !- Design Specification Outdoor Air Object Name
-  ,                        !- Outdoor Air Inlet Node Name
-  None,                    !- Demand Controlled Ventilation Type
-  NoEconomizer,            !- Outdoor Air Economizer Type
-  None,                    !- Heat Recovery Type
-  0.7,                     !- Sensible Heat Recovery Effectiveness {dimensionless}
-  0.65;                    !- Latent Heat Recovery Effectiveness {dimensionless}
-
-ZoneHVAC:EquipmentList,
-  Shelter_Equipment,       !- Name
-  SequentialLoad,          !- Load Distribution Scheme
-  ZoneHVAC:IdealLoadsAirSystem, !- Zone Equipment 1 Object Type
-  Shelter_IdealLoads,      !- Zone Equipment 1 Name
-  1,                       !- Zone Equipment 1 Cooling Sequence
-  1,                       !- Zone Equipment 1 Heating or No-Load Sequence
-  ,                        !- Zone Equipment 1 Sequential Cooling Fraction Schedule Name
-  ;                        !- Zone Equipment 1 Sequential Heating Fraction Schedule Name
-
-ZoneHVAC:EquipmentConnections,
-  Main_Zone,               !- Zone Name
-  Shelter_Equipment,       !- Zone Conditioning Equipment List Name
-  Shelter_ZoneInletNodes,  !- Zone Air Inlet Node or NodeList Name
-  ,                        !- Zone Air Exhaust Node or NodeList Name
-  Shelter_ZoneAirNode,     !- Zone Air Node Name
-  Shelter_ZoneReturnNode;  !- Zone Return Air Node or NodeList Name
-
-NodeList,
-  Shelter_ZoneInletNodes,  !- Name
-  Shelter_ZoneAirInletNode;!- Node 1 Name
-
-ThermostatSetpoint:DualSetpoint,
-  Shelter_DualSetpoint,    !- Name
-  Heating_Setpoint_Schedule, !- Heating Setpoint Temperature Schedule Name
-  Cooling_Setpoint_Schedule; !- Cooling Setpoint Temperature Schedule Name
-
-ZoneControl:Thermostat,
-  Shelter_Thermostat,      !- Name
-  Main_Zone,               !- Zone Name
-  Zone_Control_Type_Sched, !- Control Type Schedule Name
-  ThermostatSetpoint:DualSetpoint, !- Control 1 Object Type
-  Shelter_DualSetpoint;    !- Control 1 Name
-
-Schedule:Constant,
-  Heating_Setpoint_Schedule, !- Name
-  Temperature,             !- Schedule Type Limits Name
-  20.0;                    !- Hourly Value {C}
-
-Schedule:Constant,
-  Cooling_Setpoint_Schedule, !- Name
-  Temperature,             !- Schedule Type Limits Name
-  26.0;                    !- Hourly Value {C}
-
-Schedule:Constant,
-  Zone_Control_Type_Sched, !- Name
-  Control_Type,            !- Schedule Type Limits Name
-  4;                       !- 4 is Dual Setpoint with Deadband
-"""
-
-    # Run period
-    if run_period_days is not None:
-        sm, sd, em, ed = run_period_days
-        run_period_str = f"""
-RunPeriod,
-  Custom_Period,           !- Name
-  {sm},                     !- Begin Month
-  {sd},                     !- Begin Day of Month
-  ,                        !- Begin Year
-  {em},                    !- End Month
-  {ed},                    !- End Day of Month
-  ,                        !- End Year
-  Tuesday,                 !- Day of Week for Start Day
-  Yes,                     !- Use Weather File Holidays and Special Days
-  Yes,                     !- Use Weather File Daylight Saving Period
-  No,                      !- Apply Weekend Holiday Rule
-  Yes,                     !- Use Weather File Rain Indicators
-  Yes;                     !- Use Weather File Snow Indicators
-"""
-    else:
-        run_period_str = """
-RunPeriod,
-  Annual,                  !- Name
-  1,                       !- Begin Month
-  1,                       !- Begin Day of Month
-  ,                        !- Begin Year
-  12,                      !- End Month
-  31,                      !- End Day of Month
-  ,                        !- End Year
-  Tuesday,                 !- Day of Week for Start Day
-  Yes,                     !- Use Weather File Holidays and Special Days
-  Yes,                     !- Use Weather File Daylight Saving Period
-  No,                      !- Apply Weekend Holiday Rule
-  Yes,                     !- Use Weather File Rain Indicators
-  Yes;                     !- Use Weather File Snow Indicators
-"""
-
-    idf_text = f"""!- EnergyPlus Single Zone Parametric Shelter Model
-!- ClimateAdapt-Comfort Automated Model Pipeline
-Version, 26.2;
-
-SimulationControl,
-  No,                      !- Do Zone Sizing Calculation
-  No,                      !- Do System Sizing Calculation
-  No,                      !- Do Plant Sizing Calculation
-  No,                      !- Run Simulation for Sizing Periods
-  Yes,                     !- Run Simulation for Weather File Run Periods
-  No;                      !- Do HVAC System Sizing Simulation for Sizing Periods
-
-Building,
-  Passive_Shelter,         !- Name
-  {orientation:.1f},                     !- North Axis {{deg}}
-  Suburbs,                 !- Terrain
-  0.04,                    !- Loads Convergence Tolerance Value {{W}}
-  0.4,                     !- Temperature Convergence Tolerance Value {{deltaC}}
-  FullExterior,            !- Solar Distribution
-  25,                      !- Maximum Number of Warmup Days
-  6;                       !- Minimum Number of Warmup Days
-
-GlobalGeometryRules,
-  UpperLeftCorner,         !- Starting Vertex Position
-  Counterclockwise,        !- Vertex Entry Direction
-  World,                   !- Coordinate System
-  Relative,                !- Daylighting Reference Point Coordinate System
-  Relative;                !- Rectangular Surface Coordinate System
-
-ShadowCalculation,
-  PolygonClipping,         !- Shading Calculation Method
-  Periodic,                !- Shading Calculation Update Frequency Method
-  20;                      !- Shading Calculation Update Frequency {{days}}
-
-SurfaceConvectionAlgorithm:Inside, TARP;
-SurfaceConvectionAlgorithm:Outside, DOE-2;
-HeatBalanceAlgorithm, ConductionTransferFunction;
-Timestep, 4;
-
-{run_period_str}
-
-ScheduleTypeLimits, AnyNumber;
-ScheduleTypeLimits, Fraction, 0.0, 1.0, Continuous;
-ScheduleTypeLimits, Temperature, -60.0, 200.0, Continuous;
-ScheduleTypeLimits, Control_Type, 0, 4, Discrete;
-
-Schedule:Constant, Always_On, Fraction, 1.0;
-
-!- ============================================================================
+    return f"""!- ============================================================================
 !- MATERIALS & CONSTRUCTIONS
 !- ============================================================================
 
-!- 1. Heavy Concrete (200mm)
 Material,
   HeavyConcrete_200mm,     !- Name
   Rough,                   !- Roughness
@@ -266,7 +42,6 @@ Material,
   2240,                    !- Density {{kg/m3}}
   837;                     !- Specific Heat {{J/kg-K}}
 
-!- 2. Medium Clay Brick (200mm)
 Material,
   MediumBrick_200mm,       !- Name
   Rough,                   !- Roughness
@@ -275,7 +50,6 @@ Material,
   1920,                    !- Density {{kg/m3}}
   790;                     !- Specific Heat {{J/kg-K}}
 
-!- 3. Light Timber Stud / Board (100mm)
 Material,
   LightTimber_100mm,       !- Name
   Smooth,                  !- Roughness
@@ -284,16 +58,14 @@ Material,
   600,                     !- Density {{kg/m3}}
   1000;                    !- Specific Heat {{J/kg-K}}
 
-!- 4. Wall Insulation (Parametric)
 Material,
   Wall_Insulation,         !- Name
   VerySmooth,              !- Roughness
-  {wall_ins_thick:.4f},                 !- Thickness {{m}}
+  {wall_ins_thick:.4f},    !- Thickness {{m}}
   0.038,                   !- Conductivity {{W/m-K}}
   30,                      !- Density {{kg/m3}}
   1200;                    !- Specific Heat {{J/kg-K}}
 
-!- 5. Plaster Finish (15mm)
 Material,
   Plaster_15mm,            !- Name
   Smooth,                  !- Roughness
@@ -302,7 +74,6 @@ Material,
   1600,                    !- Density {{kg/m3}}
   840;                     !- Specific Heat {{J/kg-K}}
 
-!- 6. Concrete Roof Slab (100mm)
 Material,
   Roof_Concrete_100mm,     !- Name
   Rough,                   !- Roughness
@@ -311,16 +82,14 @@ Material,
   2000,                    !- Density {{kg/m3}}
   1000;                    !- Specific Heat {{J/kg-K}}
 
-!- 7. Roof Insulation (Parametric)
 Material,
   Roof_Insulation,         !- Name
   VerySmooth,              !- Roughness
-  {roof_ins_thick:.4f},                 !- Thickness {{m}}
+  {roof_ins_thick:.4f},    !- Thickness {{m}}
   0.038,                   !- Conductivity {{W/m-K}}
   30,                      !- Density {{kg/m3}}
   1200;                    !- Specific Heat {{J/kg-K}}
 
-!- 8. Roof Outer Surface with Parametric Solar Absorptance
 Material,
   Roof_Outer_Finish,       !- Name
   Rough,                   !- Roughness
@@ -329,10 +98,9 @@ Material,
   1800,                    !- Density {{kg/m3}}
   900,                     !- Specific Heat {{J/kg-K}}
   0.90,                    !- Thermal Absorptance
-  {roof_abs:.2f},                    !- Solar Absorptance
+  {roof_abs:.2f},          !- Solar Absorptance
   0.90;                    !- Visible Absorptance
 
-!- 9. Floor Slab (150mm)
 Material,
   Floor_Concrete_150mm,    !- Name
   Rough,                   !- Roughness
@@ -341,7 +109,14 @@ Material,
   2240,                    !- Density {{kg/m3}}
   837;                     !- Specific Heat {{J/kg-K}}
 
-!- 10. Clear Window Glass (6mm)
+Material,
+  Partition_Gypsum_12mm,   !- Name
+  Smooth,                  !- Roughness
+  0.012,                   !- Thickness {{m}}
+  0.160,                   !- Conductivity {{W/m-K}}
+  800,                     !- Density {{kg/m3}}
+  1090;                    !- Specific Heat {{J/kg-K}}
+
 WindowMaterial:Glazing,
   Clear_6mm_Glass,         !- Name
   SpectralAverage,         !- Optical Data Type
@@ -377,226 +152,209 @@ Construction,
   Floor_Concrete_150mm;
 
 Construction,
+  Adiabatic_Partition_Construction,
+  Plaster_15mm,
+  MediumBrick_200mm,
+  Plaster_15mm;
+
+Construction,
+  Interior_Partition_Construction,
+  Partition_Gypsum_12mm,
+  Plaster_15mm,
+  Partition_Gypsum_12mm;
+
+Construction,
   Window_Construction,
   Clear_6mm_Glass;
+"""
 
-!- ============================================================================
-!- ZONE GEOMETRY (5m x 4m x 3m)
-!- ============================================================================
+def _get_ideal_loads_hvac_idf(zone_name):
+    """Generates IdealLoadsAirSystem and DualSetpoint thermostat for a zone."""
+    return f"""
+ZoneHVAC:IdealLoadsAirSystem,
+  {zone_name}_IdealLoads,
+  ,
+  {zone_name}_ZoneAirInletNode,
+  ,
+  ,
+  50,
+  13,
+  0.0156,
+  0.0077,
+  NoLimit,
+  ,
+  ,
+  NoLimit,
+  ,
+  ,
+  ,
+  ,
+  ConstantSensibleHeatRatio,
+  0.7,
+  None,
+  ,
+  ,
+  None,
+  NoEconomizer,
+  None,
+  0.7,
+  0.65;
 
-Zone,
-  Main_Zone,               !- Name
-  0.0,                     !- Direction of Relative North {{deg}}
-  0.0, 0.0, 0.0,           !- X, Y, Z Origin {{m}}
-  1,                       !- Type
-  1,                       !- Multiplier
-  3.0,                     !- Ceiling Height {{m}}
-  60.0;                    !- Volume {{m3}}
+ZoneHVAC:EquipmentList,
+  {zone_name}_Equipment,
+  SequentialLoad,
+  ZoneHVAC:IdealLoadsAirSystem,
+  {zone_name}_IdealLoads,
+  1,
+  1,
+  ,
+  ;
 
-!- Floor Surface (Z = 0)
-BuildingSurface:Detailed,
-  Floor_Surface,           !- Name
-  Floor,                   !- Surface Type
-  Floor_Construction,      !- Construction Name
-  Main_Zone,               !- Zone Name
-  ,                        !- Space Name
-  Ground,                  !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  NoSun,                   !- Sun Exposure
-  NoWind,                  !- Wind Exposure
-  0.0,                     !- View Factor to Ground
-  4,                       !- Number of Vertices
-  0.0, 0.0, 0.0,           !- Vertex 1
-  0.0, 4.0, 0.0,           !- Vertex 2
-  5.0, 4.0, 0.0,           !- Vertex 3
-  5.0, 0.0, 0.0;           !- Vertex 4
+ZoneHVAC:EquipmentConnections,
+  {zone_name},
+  {zone_name}_Equipment,
+  {zone_name}_ZoneInletNodes,
+  ,
+  {zone_name}_ZoneAirNode,
+  {zone_name}_ZoneReturnNode;
 
-!- Roof Surface (Z = 3.0)
-BuildingSurface:Detailed,
-  Roof_Surface,            !- Name
-  Roof,                    !- Surface Type
-  Roof_Construction,       !- Construction Name
-  Main_Zone,               !- Zone Name
-  ,                        !- Space Name
-  Outdoors,                !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  SunExposed,              !- Sun Exposure
-  WindExposed,             !- Wind Exposure
-  0.0,                     !- View Factor to Ground
-  4,                       !- Number of Vertices
-  0.0, 4.0, 3.0,           !- Vertex 1
-  0.0, 0.0, 3.0,           !- Vertex 2
-  5.0, 0.0, 3.0,           !- Vertex 3
-  5.0, 4.0, 3.0;           !- Vertex 4
+NodeList,
+  {zone_name}_ZoneInletNodes,
+  {zone_name}_ZoneAirInletNode;
 
-!- South Wall (Y = 0)
-BuildingSurface:Detailed,
-  South_Wall,              !- Name
-  Wall,                    !- Surface Type
-  Exterior_Wall_Construction, !- Construction Name
-  Main_Zone,               !- Zone Name
-  ,                        !- Space Name
-  Outdoors,                !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  SunExposed,              !- Sun Exposure
-  WindExposed,             !- Wind Exposure
-  0.5,                     !- View Factor to Ground
-  4,                       !- Number of Vertices
-  0.0, 0.0, 3.0,           !- Vertex 1
-  0.0, 0.0, 0.0,           !- Vertex 2
-  5.0, 0.0, 0.0,           !- Vertex 3
-  5.0, 0.0, 3.0;           !- Vertex 4
+ThermostatSetpoint:DualSetpoint,
+  {zone_name}_DualSetpoint,
+  Heating_Setpoint_Schedule,
+  Cooling_Setpoint_Schedule;
 
-!- South Window
-FenestrationSurface:Detailed,
-  South_Window,            !- Name
-  Window,                  !- Surface Type
-  Window_Construction,     !- Construction Name
-  South_Wall,              !- Building Surface Name
-  ,                        !- Outside Boundary Condition Object
-  0.5,                     !- View Factor to Ground
-  ,                        !- Frame and Divider Name
-  1.0,                     !- Multiplier
-  4,                       !- Number of Vertices
-  {x_start_5m:.3f}, 0.0, {z_win_top:.3f},
-  {x_start_5m:.3f}, 0.0, {z_win_bottom:.3f},
-  {x_end_5m:.3f}, 0.0, {z_win_bottom:.3f},
-  {x_end_5m:.3f}, 0.0, {z_win_top:.3f};
+ZoneControl:Thermostat,
+  {zone_name}_Thermostat,
+  {zone_name},
+  Zone_Control_Type_Sched,
+  ThermostatSetpoint:DualSetpoint,
+  {zone_name}_DualSetpoint;
+"""
 
-!- North Wall (Y = 4.0)
-BuildingSurface:Detailed,
-  North_Wall,              !- Name
-  Wall,                    !- Surface Type
-  Exterior_Wall_Construction, !- Construction Name
-  Main_Zone,               !- Zone Name
-  ,                        !- Space Name
-  Outdoors,                !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  SunExposed,              !- Sun Exposure
-  WindExposed,             !- Wind Exposure
-  0.5,                     !- View Factor to Ground
-  4,                       !- Number of Vertices
-  5.0, 4.0, 3.0,           !- Vertex 1
-  5.0, 4.0, 0.0,           !- Vertex 2
-  0.0, 4.0, 0.0,           !- Vertex 3
-  0.0, 4.0, 3.0;           !- Vertex 4
+def _get_run_period_idf(run_period_days):
+    if run_period_days is not None:
+        sm, sd, em, ed = run_period_days
+        return f"""
+RunPeriod,
+  Custom_Period,           !- Name
+  {sm},                    !- Begin Month
+  {sd},                    !- Begin Day of Month
+  ,                        !- Begin Year
+  {em},                    !- End Month
+  {ed},                    !- End Day of Month
+  ,                        !- End Year
+  Tuesday,                 !- Day of Week for Start Day
+  Yes,                     !- Use Weather File Holidays and Special Days
+  Yes,                     !- Use Weather File Daylight Saving Period
+  No,                      !- Apply Weekend Holiday Rule
+  Yes,                     !- Use Weather File Rain Indicators
+  Yes;                     !- Use Weather File Snow Indicators
+"""
+    return """
+RunPeriod,
+  Annual,                  !- Name
+  1,                       !- Begin Month
+  1,                       !- Begin Day of Month
+  ,                        !- Begin Year
+  12,                      !- End Month
+  31,                      !- End Day of Month
+  ,                        !- End Year
+  Tuesday,                 !- Day of Week for Start Day
+  Yes,                     !- Use Weather File Holidays and Special Days
+  Yes,                     !- Use Weather File Daylight Saving Period
+  No,                      !- Apply Weekend Holiday Rule
+  Yes,                     !- Use Weather File Rain Indicators
+  Yes;                     !- Use Weather File Snow Indicators
+"""
 
-!- North Window
-FenestrationSurface:Detailed,
-  North_Window,            !- Name
-  Window,                  !- Surface Type
-  Window_Construction,     !- Construction Name
-  North_Wall,              !- Building Surface Name
-  ,                        !- Outside Boundary Condition Object
-  0.5,                     !- View Factor to Ground
-  ,                        !- Frame and Divider Name
-  1.0,                     !- Multiplier
-  4,                       !- Number of Vertices
-  {5.0 - x_start_5m:.3f}, 4.0, {z_win_top:.3f},
-  {5.0 - x_start_5m:.3f}, 4.0, {z_win_bottom:.3f},
-  {5.0 - x_end_5m:.3f}, 4.0, {z_win_bottom:.3f},
-  {5.0 - x_end_5m:.3f}, 4.0, {z_win_top:.3f};
 
-!- East Wall (X = 5.0)
-BuildingSurface:Detailed,
-  East_Wall,               !- Name
-  Wall,                    !- Surface Type
-  Exterior_Wall_Construction, !- Construction Name
-  Main_Zone,               !- Zone Name
-  ,                        !- Space Name
-  Outdoors,                !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  SunExposed,              !- Sun Exposure
-  WindExposed,             !- Wind Exposure
-  0.5,                     !- View Factor to Ground
-  4,                       !- Number of Vertices
-  5.0, 0.0, 3.0,           !- Vertex 1
-  5.0, 0.0, 0.0,           !- Vertex 2
-  5.0, 4.0, 0.0,           !- Vertex 3
-  5.0, 4.0, 3.0;           !- Vertex 4
+def render_building_idf(
+    params,
+    output_idf_path,
+    building_type='shelter_v1',
+    mode='free_running',
+    run_period_days=None,
+    floor_position='middle'
+):
+    """
+    Renders a parametrized EnergyPlus 26.2.0 IDF file.
+    Supports building_type in ['shelter_v1', 'house', 'apartment', 'commercial'].
+    """
+    roof_ins_thick = max(0.001, float(params.get('roof_insulation_thickness', 0.0)))
+    wall_ins_thick = max(0.001, float(params.get('wall_insulation_thickness', 0.0)))
+    wall_mass = str(params.get('wall_mass_class', 'medium')).lower()
+    roof_abs = float(params.get('roof_solar_absorptance', 0.7))
+    wwr = min(0.50, max(0.05, float(params.get('wwr', 0.20))))
+    orientation = float(params.get('orientation', 0.0))
+    shading_depth = float(params.get('shading_depth', 0.0))
+    vent_ach = max(0.5, float(params.get('ventilation_ach', 5.0)))
+    
+    # Header & SimulationControl
+    run_period_str = _get_run_period_idf(run_period_days)
+    materials_str = _get_common_materials_idf(wall_mass, wall_ins_thick, roof_ins_thick, roof_abs)
+    
+    header = f"""!- EnergyPlus Parametric Model ({building_type})
+!- ClimateAdapt-Comfort Automated Model Pipeline
+Version, 26.2;
 
-!- West Wall (X = 0.0)
-BuildingSurface:Detailed,
-  West_Wall,               !- Name
-  Wall,                    !- Surface Type
-  Exterior_Wall_Construction, !- Construction Name
-  Main_Zone,               !- Zone Name
-  ,                        !- Space Name
-  Outdoors,                !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  SunExposed,              !- Sun Exposure
-  WindExposed,             !- Wind Exposure
-  0.5,                     !- View Factor to Ground
-  4,                       !- Number of Vertices
-  0.0, 4.0, 3.0,           !- Vertex 1
-  0.0, 4.0, 0.0,           !- Vertex 2
-  0.0, 0.0, 0.0,           !- Vertex 3
-  0.0, 0.0, 3.0;           !- Vertex 4
+SimulationControl,
+  No,                      !- Do Zone Sizing Calculation
+  No,                      !- Do System Sizing Calculation
+  No,                      !- Do Plant Sizing Calculation
+  No,                      !- Run Simulation for Sizing Periods
+  Yes,                     !- Run Simulation for Weather File Run Periods
+  No;                      !- Do HVAC System Sizing Simulation for Sizing Periods
 
-{shading_objects}
+Building,
+  Building_{building_type},!- Name
+  {orientation:.1f},       !- North Axis {{deg}}
+  Suburbs,                 !- Terrain
+  0.04,                    !- Loads Convergence Tolerance Value {{W}}
+  0.4,                     !- Temperature Convergence Tolerance Value {{deltaC}}
+  FullExterior,            !- Solar Distribution
+  25,                      !- Maximum Number of Warmup Days
+  6;                       !- Minimum Number of Warmup Days
 
-!- ============================================================================
-!- INTERNAL LOADS & VENTILATION
-!- ============================================================================
+GlobalGeometryRules,
+  UpperLeftCorner,         !- Starting Vertex Position
+  Counterclockwise,        !- Vertex Entry Direction
+  Relative,                !- Coordinate System
+  Relative,                !- Daylighting Reference Point Coordinate System
+  Relative;                !- Rectangular Surface Coordinate System
 
-!- 2 Occupants (Assumption A-001: 24h occupancy, A-002: 1.1 met = 125 W/person)
-People,
-  Shelter_Occupants,       !- Name
-  Main_Zone,               !- Zone or ZoneList Name
-  Always_On,               !- Number of People Schedule Name
-  People,                  !- Number of People Calculation Method
-  2.0,                     !- Number of People
-  ,                        !- People per Floor Area {{person/m2}}
-  ,                        !- Floor Area per Person {{m2/person}}
-  0.3,                     !- Fraction Radiant
-  ,                        !- Sensible Heat Fraction
-  Shelter_Activity_Sched;  !- Activity Level Schedule Name
+ShadowCalculation,
+  PolygonClipping,         !- Shading Calculation Method
+  Periodic,                !- Shading Calculation Update Frequency Method
+  20;                      !- Shading Calculation Update Frequency {{days}}
 
-Schedule:Constant,
-  Shelter_Activity_Sched,
-  AnyNumber,
-  125.0;                   !- Activity level in Watts
+SurfaceConvectionAlgorithm:Inside, TARP;
+SurfaceConvectionAlgorithm:Outside, DOE-2;
+HeatBalanceAlgorithm, ConductionTransferFunction;
+Timestep, 4;
 
-!- Natural Ventilation (ACH) with natural cooling control (ventilate when indoor > 20C and outdoor is cooler)
-ZoneVentilation:DesignFlowRate,
-  Natural_Ventilation,     !- Name
-  Main_Zone,               !- Zone or ZoneList Name
-  Always_On,               !- Schedule Name
-  AirChanges/Hour,         !- Design Volume Flow Rate Calculation Method
-  ,                        !- Design Volume Flow Rate {{m3/s}}
-  ,                        !- Flow Rate per Zone Floor Area {{m3/s-m2}}
-  ,                        !- Flow Rate per Person {{m3/s-person}}
-  {vent_ach:.2f},                    !- Air Changes per Hour {{1/hr}}
-  Natural,                 !- Ventilation Type
-  0.0,                     !- Fan Pressure Rise {{Pa}}
-  1.0,                     !- Fan Total Efficiency
-  1.0,                     !- Constant Term Coefficient
-  0.0,                     !- Temperature Term Coefficient
-  0.0,                     !- Velocity Term Coefficient
-  0.0,                     !- Velocity Squared Term Coefficient
-  20.0,                    !- Minimum Indoor Temperature {{C}}
-  ,                        !- Minimum Indoor Temperature Schedule Name
-  ,                        !- Maximum Indoor Temperature {{C}}
-  ,                        !- Maximum Indoor Temperature Schedule Name
-  1.0;                     !- Delta Temperature {{deltaC}}
+{run_period_str}
 
-!- Infiltration (0.5 ACH baseline)
-ZoneInfiltration:DesignFlowRate,
-  Infiltration_0p5ACH,     !- Name
-  Main_Zone,               !- Zone or ZoneList Name
-  Always_On,               !- Schedule Name
-  AirChanges/Hour,         !- Design Volume Flow Rate Calculation Method
-  ,                        !- Design Volume Flow Rate {{m3/s}}
-  ,                        !- Flow Rate per Zone Floor Area {{m3/s-m2}}
-  ,                        !- Flow Rate per Person {{m3/s-person}}
-  0.5;                     !- Air Changes per Hour {{1/hr}}
+ScheduleTypeLimits, AnyNumber;
+ScheduleTypeLimits, Fraction, 0.0, 1.0, Continuous;
+ScheduleTypeLimits, Temperature, -60.0, 200.0, Continuous;
+ScheduleTypeLimits, Control_Type, 0, 4, Discrete;
 
-{hvac_objects}
+Schedule:Constant, Always_On, Fraction, 1.0;
+Schedule:Constant, Heating_Setpoint_Schedule, Temperature, 20.0;
+Schedule:Constant, Cooling_Setpoint_Schedule, Temperature, 26.0;
+Schedule:Constant, Zone_Control_Type_Sched, Control_Type, 4;
 
+{materials_str}
+"""
+
+    outputs_str = """
 !- ============================================================================
 !- OUTPUT VARIABLES (Hourly)
 !- ============================================================================
-
 Output:Variable, *, Zone Mean Air Temperature, Hourly;
 Output:Variable, *, Zone Mean Radiant Temperature, Hourly;
 Output:Variable, *, Zone Air Relative Humidity, Hourly;
@@ -606,7 +364,399 @@ Output:Variable, *, Zone Ideal Loads Zone Total Cooling Rate, Hourly;
 Output:Table:SummaryReports, AllSummary;
 OutputControl:Table:Style, Comma;
 """
+
+    # Build geometry and systems based on building_type
+    if building_type == 'shelter_v1':
+        # 5m x 4m x 3m single-zone
+        win_h = 1.2
+        win_w_5m = min(4.6, max(0.4, (15.0 * wwr) / win_h))
+        x_start_5m = (5.0 - win_w_5m) / 2.0
+        x_end_5m = x_start_5m + win_w_5m
+        z_win_bottom = 0.9
+        z_win_top = z_win_bottom + win_h
+        
+        shading_str = ""
+        if shading_depth > 0.02:
+            shading_str = f"""
+Shading:Overhang, SouthWindow_Overhang, South_Window, 0.1, 90, 0.2, 0.2, {shading_depth:.3f};
+Shading:Overhang, NorthWindow_Overhang, North_Window, 0.1, 90, 0.2, 0.2, {shading_depth:.3f};
+"""
+        hvac_str = _get_ideal_loads_hvac_idf("Main_Zone") if mode == 'ideal_loads' else ""
+        
+        body = f"""
+Zone, Main_Zone, 0.0, 0.0, 0.0, 0.0, 1, 1, 3.0, 60.0;
+
+BuildingSurface:Detailed, Floor_Surface, Floor, Floor_Construction, Main_Zone, , Ground, , NoSun, NoWind, 0.0, 4,
+  0.0, 0.0, 0.0,  0.0, 4.0, 0.0,  5.0, 4.0, 0.0,  5.0, 0.0, 0.0;
+
+BuildingSurface:Detailed, Roof_Surface, Roof, Roof_Construction, Main_Zone, , Outdoors, , SunExposed, WindExposed, 0.0, 4,
+  0.0, 4.0, 3.0,  0.0, 0.0, 3.0,  5.0, 0.0, 3.0,  5.0, 4.0, 3.0;
+
+BuildingSurface:Detailed, South_Wall, Wall, Exterior_Wall_Construction, Main_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  0.0, 0.0, 3.0,  0.0, 0.0, 0.0,  5.0, 0.0, 0.0,  5.0, 0.0, 3.0;
+
+FenestrationSurface:Detailed, South_Window, Window, Window_Construction, South_Wall, , 0.5, , 1.0, 4,
+  {x_start_5m:.3f}, 0.0, {z_win_top:.3f},
+  {x_start_5m:.3f}, 0.0, {z_win_bottom:.3f},
+  {x_end_5m:.3f}, 0.0, {z_win_bottom:.3f},
+  {x_end_5m:.3f}, 0.0, {z_win_top:.3f};
+
+BuildingSurface:Detailed, North_Wall, Wall, Exterior_Wall_Construction, Main_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  5.0, 4.0, 3.0,  5.0, 4.0, 0.0,  0.0, 4.0, 0.0,  0.0, 4.0, 3.0;
+
+FenestrationSurface:Detailed, North_Window, Window, Window_Construction, North_Wall, , 0.5, , 1.0, 4,
+  {5.0 - x_start_5m:.3f}, 4.0, {z_win_top:.3f},
+  {5.0 - x_start_5m:.3f}, 4.0, {z_win_bottom:.3f},
+  {5.0 - x_end_5m:.3f}, 4.0, {z_win_bottom:.3f},
+  {5.0 - x_end_5m:.3f}, 4.0, {z_win_top:.3f};
+
+BuildingSurface:Detailed, East_Wall, Wall, Exterior_Wall_Construction, Main_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  5.0, 0.0, 3.0,  5.0, 0.0, 0.0,  5.0, 4.0, 0.0,  5.0, 4.0, 3.0;
+
+BuildingSurface:Detailed, West_Wall, Wall, Exterior_Wall_Construction, Main_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  0.0, 4.0, 3.0,  0.0, 4.0, 0.0,  0.0, 0.0, 0.0,  0.0, 0.0, 3.0;
+
+{shading_str}
+
+People, Shelter_Occupants, Main_Zone, Always_On, People, 2.0, , , 0.3, , Shelter_Activity_Sched;
+Schedule:Constant, Shelter_Activity_Sched, AnyNumber, 125.0;
+
+ZoneVentilation:DesignFlowRate, Natural_Ventilation, Main_Zone, Always_On, AirChanges/Hour, , , , {vent_ach:.2f}, Natural, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 20.0, , , , 1.0;
+ZoneInfiltration:DesignFlowRate, Infiltration_0p5ACH, Main_Zone, Always_On, AirChanges/Hour, , , , 0.5;
+
+{hvac_str}
+"""
+
+    elif building_type == 'house':
+        # 3 Zones: Living (36m2), Bedroom (14m2), Kitchen (10m2) = 60 m2
+        # Living South wall 6m x 3m = 18 m2
+        # Bedroom South wall 4m x 3m = 12 m2
+        # Living North wall 6m x 3m = 18 m2
+        # Kitchen North wall 4m x 3m = 12 m2
+        win_h = 1.2
+        win_w_liv = min(5.4, max(0.4, (18.0 * wwr) / win_h))
+        x_start_liv_s = (6.0 - win_w_liv) / 2.0
+        x_end_liv_s = x_start_liv_s + win_w_liv
+        
+        win_w_bed = min(3.6, max(0.4, (12.0 * wwr) / win_h))
+        x_start_bed_s = 6.0 + (4.0 - win_w_bed) / 2.0
+        x_end_bed_s = x_start_bed_s + win_w_bed
+
+        win_w_kit = min(3.6, max(0.4, (12.0 * wwr) / win_h))
+        x_start_kit_n = 6.0 + (4.0 - win_w_kit) / 2.0
+        x_end_kit_n = x_start_kit_n + win_w_kit
+
+        z_b = 0.9
+        z_t = z_b + win_h
+
+        shading_str = ""
+        if shading_depth > 0.02:
+            shading_str = f"""
+Shading:Overhang, Living_South_Overhang, Living_South_Window, 0.1, 90, 0.2, 0.2, {shading_depth:.3f};
+Shading:Overhang, Bedroom_South_Overhang, Bedroom_South_Window, 0.1, 90, 0.2, 0.2, {shading_depth:.3f};
+Shading:Overhang, Living_North_Overhang, Living_North_Window, 0.1, 90, 0.2, 0.2, {shading_depth:.3f};
+Shading:Overhang, Kitchen_North_Overhang, Kitchen_North_Window, 0.1, 90, 0.2, 0.2, {shading_depth:.3f};
+"""
+        hvac_str = ""
+        if mode == 'ideal_loads':
+            hvac_str = _get_ideal_loads_hvac_idf("Living_Zone") + \
+                       _get_ideal_loads_hvac_idf("Bedroom_Zone") + \
+                       _get_ideal_loads_hvac_idf("Kitchen_Zone")
+
+        body = f"""
+Zone, Living_Zone, 0.0, 0.0, 0.0, 0.0, 1, 1, 3.0, 108.0;
+Zone, Bedroom_Zone, 0.0, 0.0, 0.0, 0.0, 1, 1, 3.0, 42.0;
+Zone, Kitchen_Zone, 0.0, 0.0, 0.0, 0.0, 1, 1, 3.0, 30.0;
+
+BuildingSurface:Detailed, Living_Floor, Floor, Floor_Construction, Living_Zone, , Ground, , NoSun, NoWind, 0.0, 4,
+  0.0, 0.0, 0.0,  0.0, 6.0, 0.0,  6.0, 6.0, 0.0,  6.0, 0.0, 0.0;
+BuildingSurface:Detailed, Bedroom_Floor, Floor, Floor_Construction, Bedroom_Zone, , Ground, , NoSun, NoWind, 0.0, 4,
+  6.0, 0.0, 0.0,  6.0, 3.5, 0.0,  10.0, 3.5, 0.0,  10.0, 0.0, 0.0;
+BuildingSurface:Detailed, Kitchen_Floor, Floor, Floor_Construction, Kitchen_Zone, , Ground, , NoSun, NoWind, 0.0, 4,
+  6.0, 3.5, 0.0,  6.0, 6.0, 0.0,  10.0, 6.0, 0.0,  10.0, 3.5, 0.0;
+
+BuildingSurface:Detailed, Living_Roof, Roof, Roof_Construction, Living_Zone, , Outdoors, , SunExposed, WindExposed, 0.0, 4,
+  0.0, 6.0, 3.0,  0.0, 0.0, 3.0,  6.0, 0.0, 3.0,  6.0, 6.0, 3.0;
+BuildingSurface:Detailed, Bedroom_Roof, Roof, Roof_Construction, Bedroom_Zone, , Outdoors, , SunExposed, WindExposed, 0.0, 4,
+  6.0, 3.5, 3.0,  6.0, 0.0, 3.0,  10.0, 0.0, 3.0,  10.0, 3.5, 3.0;
+BuildingSurface:Detailed, Kitchen_Roof, Roof, Roof_Construction, Kitchen_Zone, , Outdoors, , SunExposed, WindExposed, 0.0, 4,
+  6.0, 6.0, 3.0,  6.0, 3.5, 3.0,  10.0, 3.5, 3.0,  10.0, 6.0, 3.0;
+
+BuildingSurface:Detailed, Living_South_Wall, Wall, Exterior_Wall_Construction, Living_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  0.0, 0.0, 3.0,  0.0, 0.0, 0.0,  6.0, 0.0, 0.0,  6.0, 0.0, 3.0;
+FenestrationSurface:Detailed, Living_South_Window, Window, Window_Construction, Living_South_Wall, , 0.5, , 1.0, 4,
+  {x_start_liv_s:.3f}, 0.0, {z_t:.3f},  {x_start_liv_s:.3f}, 0.0, {z_b:.3f},  {x_end_liv_s:.3f}, 0.0, {z_b:.3f},  {x_end_liv_s:.3f}, 0.0, {z_t:.3f};
+
+BuildingSurface:Detailed, Bedroom_South_Wall, Wall, Exterior_Wall_Construction, Bedroom_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  6.0, 0.0, 3.0,  6.0, 0.0, 0.0,  10.0, 0.0, 0.0,  10.0, 0.0, 3.0;
+FenestrationSurface:Detailed, Bedroom_South_Window, Window, Window_Construction, Bedroom_South_Wall, , 0.5, , 1.0, 4,
+  {x_start_bed_s:.3f}, 0.0, {z_t:.3f},  {x_start_bed_s:.3f}, 0.0, {z_b:.3f},  {x_end_bed_s:.3f}, 0.0, {z_b:.3f},  {x_end_bed_s:.3f}, 0.0, {z_t:.3f};
+
+BuildingSurface:Detailed, Living_North_Wall, Wall, Exterior_Wall_Construction, Living_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  6.0, 6.0, 3.0,  6.0, 6.0, 0.0,  0.0, 6.0, 0.0,  0.0, 6.0, 3.0;
+FenestrationSurface:Detailed, Living_North_Window, Window, Window_Construction, Living_North_Wall, , 0.5, , 1.0, 4,
+  {6.0 - x_start_liv_s:.3f}, 6.0, {z_t:.3f},  {6.0 - x_start_liv_s:.3f}, 6.0, {z_b:.3f},  {6.0 - x_end_liv_s:.3f}, 6.0, {z_b:.3f},  {6.0 - x_end_liv_s:.3f}, 6.0, {z_t:.3f};
+
+BuildingSurface:Detailed, Kitchen_North_Wall, Wall, Exterior_Wall_Construction, Kitchen_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  10.0, 6.0, 3.0,  10.0, 6.0, 0.0,  6.0, 6.0, 0.0,  6.0, 6.0, 3.0;
+FenestrationSurface:Detailed, Kitchen_North_Window, Window, Window_Construction, Kitchen_North_Wall, , 0.5, , 1.0, 4,
+  {16.0 - x_start_kit_n:.3f}, 6.0, {z_t:.3f},  {16.0 - x_start_kit_n:.3f}, 6.0, {z_b:.3f},  {16.0 - x_end_kit_n:.3f}, 6.0, {z_b:.3f},  {16.0 - x_end_kit_n:.3f}, 6.0, {z_t:.3f};
+
+BuildingSurface:Detailed, Bedroom_East_Wall, Wall, Exterior_Wall_Construction, Bedroom_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  10.0, 0.0, 3.0,  10.0, 0.0, 0.0,  10.0, 3.5, 0.0,  10.0, 3.5, 3.0;
+BuildingSurface:Detailed, Kitchen_East_Wall, Wall, Exterior_Wall_Construction, Kitchen_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  10.0, 3.5, 3.0,  10.0, 3.5, 0.0,  10.0, 6.0, 0.0,  10.0, 6.0, 3.0;
+BuildingSurface:Detailed, Living_West_Wall, Wall, Exterior_Wall_Construction, Living_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  0.0, 6.0, 3.0,  0.0, 6.0, 0.0,  0.0, 0.0, 0.0,  0.0, 0.0, 3.0;
+
+BuildingSurface:Detailed, Living_Bed_Part_Living, Wall, Interior_Partition_Construction, Living_Zone, , Surface, Living_Bed_Part_Bed, NoSun, NoWind, 0.0, 4,
+  6.0, 3.5, 3.0,  6.0, 3.5, 0.0,  6.0, 0.0, 0.0,  6.0, 0.0, 3.0;
+BuildingSurface:Detailed, Living_Bed_Part_Bed, Wall, Interior_Partition_Construction, Bedroom_Zone, , Surface, Living_Bed_Part_Living, NoSun, NoWind, 0.0, 4,
+  6.0, 0.0, 3.0,  6.0, 0.0, 0.0,  6.0, 3.5, 0.0,  6.0, 3.5, 3.0;
+
+BuildingSurface:Detailed, Living_Kit_Part_Living, Wall, Interior_Partition_Construction, Living_Zone, , Surface, Living_Kit_Part_Kit, NoSun, NoWind, 0.0, 4,
+  6.0, 6.0, 3.0,  6.0, 6.0, 0.0,  6.0, 3.5, 0.0,  6.0, 3.5, 3.0;
+BuildingSurface:Detailed, Living_Kit_Part_Kit, Wall, Interior_Partition_Construction, Kitchen_Zone, , Surface, Living_Kit_Part_Living, NoSun, NoWind, 0.0, 4,
+  6.0, 3.5, 3.0,  6.0, 3.5, 0.0,  6.0, 6.0, 0.0,  6.0, 6.0, 3.0;
+
+BuildingSurface:Detailed, Bed_Kit_Part_Bed, Wall, Interior_Partition_Construction, Bedroom_Zone, , Surface, Bed_Kit_Part_Kit, NoSun, NoWind, 0.0, 4,
+  10.0, 3.5, 3.0,  10.0, 3.5, 0.0,  6.0, 3.5, 0.0,  6.0, 3.5, 3.0;
+BuildingSurface:Detailed, Bed_Kit_Part_Kit, Wall, Interior_Partition_Construction, Kitchen_Zone, , Surface, Bed_Kit_Part_Bed, NoSun, NoWind, 0.0, 4,
+  6.0, 3.5, 3.0,  6.0, 3.5, 0.0,  10.0, 3.5, 0.0,  10.0, 3.5, 3.0;
+
+{shading_str}
+
+People, Living_Occupants, Living_Zone, Always_On, People, 2.0, , , 0.3, , House_Activity_Sched;
+People, Bedroom_Occupants, Bedroom_Zone, Always_On, People, 2.0, , , 0.3, , House_Activity_Sched;
+Schedule:Constant, House_Activity_Sched, AnyNumber, 125.0;
+
+ZoneVentilation:DesignFlowRate, Living_Ventilation, Living_Zone, Always_On, AirChanges/Hour, , , , {vent_ach:.2f}, Natural, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 20.0, , , , 1.0;
+ZoneVentilation:DesignFlowRate, Bed_Ventilation, Bedroom_Zone, Always_On, AirChanges/Hour, , , , {vent_ach:.2f}, Natural, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 20.0, , , , 1.0;
+ZoneVentilation:DesignFlowRate, Kit_Ventilation, Kitchen_Zone, Always_On, AirChanges/Hour, , , , {vent_ach:.2f}, Natural, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 20.0, , , , 1.0;
+
+ZoneInfiltration:DesignFlowRate, Living_Infiltration, Living_Zone, Always_On, AirChanges/Hour, , , , 0.5;
+ZoneInfiltration:DesignFlowRate, Bed_Infiltration, Bedroom_Zone, Always_On, AirChanges/Hour, , , , 0.5;
+ZoneInfiltration:DesignFlowRate, Kit_Infiltration, Kitchen_Zone, Always_On, AirChanges/Hour, , , , 0.5;
+
+{hvac_str}
+"""
+
+    elif building_type == 'apartment':
+        # 2 Zones: Apt_Living (33m2: 6x5.5), Apt_Bedroom (22m2: 4x5.5) = 55 m2
+        # South and East walls: exterior. North and West walls: adiabatic party walls.
+        # Floor position: 'ground', 'middle', 'top'
+        pos = floor_position.lower()
+        if pos == 'top':
+            roof_bc = "Outdoors"
+            roof_sun = "SunExposed"
+            roof_wind = "WindExposed"
+            roof_constr = "Roof_Construction"
+            floor_bc = "Adiabatic"
+        elif pos == 'ground':
+            roof_bc = "Adiabatic"
+            roof_sun = "NoSun"
+            roof_wind = "NoWind"
+            roof_constr = "Adiabatic_Partition_Construction"
+            floor_bc = "Ground"
+        else:  # middle
+            roof_bc = "Adiabatic"
+            roof_sun = "NoSun"
+            roof_wind = "NoWind"
+            roof_constr = "Adiabatic_Partition_Construction"
+            floor_bc = "Adiabatic"
+
+        win_h = 1.2
+        win_w_liv = min(5.4, max(0.4, (18.0 * wwr) / win_h))
+        x_s_liv = (6.0 - win_w_liv) / 2.0
+        x_e_liv = x_s_liv + win_w_liv
+
+        win_w_bed = min(3.6, max(0.4, (12.0 * wwr) / win_h))
+        x_s_bed = 6.0 + (4.0 - win_w_bed) / 2.0
+        x_e_bed = x_s_bed + win_w_bed
+
+        z_b = 0.9
+        z_t = z_b + win_h
+
+        shading_str = ""
+        if shading_depth > 0.02:
+            shading_str = f"""
+Shading:Overhang, Apt_Liv_South_Overhang, Apt_Liv_South_Window, 0.1, 90, 0.2, 0.2, {shading_depth:.3f};
+Shading:Overhang, Apt_Bed_South_Overhang, Apt_Bed_South_Window, 0.1, 90, 0.2, 0.2, {shading_depth:.3f};
+"""
+        hvac_str = ""
+        if mode == 'ideal_loads':
+            hvac_str = _get_ideal_loads_hvac_idf("Apt_Living_Zone") + \
+                       _get_ideal_loads_hvac_idf("Apt_Bedroom_Zone")
+
+        body = f"""
+Zone, Apt_Living_Zone, 0.0, 0.0, 0.0, 0.0, 1, 1, 3.0, 99.0;
+Zone, Apt_Bedroom_Zone, 0.0, 0.0, 0.0, 0.0, 1, 1, 3.0, 66.0;
+
+BuildingSurface:Detailed, Apt_Living_Floor, Floor, Floor_Construction, Apt_Living_Zone, , {floor_bc}, , NoSun, NoWind, 0.0, 4,
+  0.0, 0.0, 0.0,  0.0, 5.5, 0.0,  6.0, 5.5, 0.0,  6.0, 0.0, 0.0;
+BuildingSurface:Detailed, Apt_Bedroom_Floor, Floor, Floor_Construction, Apt_Bedroom_Zone, , {floor_bc}, , NoSun, NoWind, 0.0, 4,
+  6.0, 0.0, 0.0,  6.0, 5.5, 0.0,  10.0, 5.5, 0.0,  10.0, 0.0, 0.0;
+
+BuildingSurface:Detailed, Apt_Living_Roof, Roof, {roof_constr}, Apt_Living_Zone, , {roof_bc}, , {roof_sun}, {roof_wind}, 0.0, 4,
+  0.0, 5.5, 3.0,  0.0, 0.0, 3.0,  6.0, 0.0, 3.0,  6.0, 5.5, 3.0;
+BuildingSurface:Detailed, Apt_Bedroom_Roof, Roof, {roof_constr}, Apt_Bedroom_Zone, , {roof_bc}, , {roof_sun}, {roof_wind}, 0.0, 4,
+  6.0, 5.5, 3.0,  6.0, 0.0, 3.0,  10.0, 0.0, 3.0,  10.0, 5.5, 3.0;
+
+BuildingSurface:Detailed, Apt_Liv_South_Wall, Wall, Exterior_Wall_Construction, Apt_Living_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  0.0, 0.0, 3.0,  0.0, 0.0, 0.0,  6.0, 0.0, 0.0,  6.0, 0.0, 3.0;
+FenestrationSurface:Detailed, Apt_Liv_South_Window, Window, Window_Construction, Apt_Liv_South_Wall, , 0.5, , 1.0, 4,
+  {x_s_liv:.3f}, 0.0, {z_t:.3f},  {x_s_liv:.3f}, 0.0, {z_b:.3f},  {x_e_liv:.3f}, 0.0, {z_b:.3f},  {x_e_liv:.3f}, 0.0, {z_t:.3f};
+
+BuildingSurface:Detailed, Apt_Bed_South_Wall, Wall, Exterior_Wall_Construction, Apt_Bedroom_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  6.0, 0.0, 3.0,  6.0, 0.0, 0.0,  10.0, 0.0, 0.0,  10.0, 0.0, 3.0;
+FenestrationSurface:Detailed, Apt_Bed_South_Window, Window, Window_Construction, Apt_Bed_South_Wall, , 0.5, , 1.0, 4,
+  {x_s_bed:.3f}, 0.0, {z_t:.3f},  {x_s_bed:.3f}, 0.0, {z_b:.3f},  {x_e_bed:.3f}, 0.0, {z_b:.3f},  {x_e_bed:.3f}, 0.0, {z_t:.3f};
+
+BuildingSurface:Detailed, Apt_Bed_East_Wall, Wall, Exterior_Wall_Construction, Apt_Bedroom_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  10.0, 0.0, 3.0,  10.0, 0.0, 0.0,  10.0, 5.5, 0.0,  10.0, 5.5, 3.0;
+
+BuildingSurface:Detailed, Apt_Liv_North_Wall, Wall, Adiabatic_Partition_Construction, Apt_Living_Zone, , Adiabatic, , NoSun, NoWind, 0.0, 4,
+  6.0, 5.5, 3.0,  6.0, 5.5, 0.0,  0.0, 5.5, 0.0,  0.0, 5.5, 3.0;
+BuildingSurface:Detailed, Apt_Bed_North_Wall, Wall, Adiabatic_Partition_Construction, Apt_Bedroom_Zone, , Adiabatic, , NoSun, NoWind, 0.0, 4,
+  10.0, 5.5, 3.0,  10.0, 5.5, 0.0,  6.0, 5.5, 0.0,  6.0, 5.5, 3.0;
+
+BuildingSurface:Detailed, Apt_Liv_West_Wall, Wall, Adiabatic_Partition_Construction, Apt_Living_Zone, , Adiabatic, , NoSun, NoWind, 0.0, 4,
+  0.0, 5.5, 3.0,  0.0, 5.5, 0.0,  0.0, 0.0, 0.0,  0.0, 0.0, 3.0;
+
+BuildingSurface:Detailed, Apt_Liv_Bed_Part_Liv, Wall, Interior_Partition_Construction, Apt_Living_Zone, , Surface, Apt_Liv_Bed_Part_Bed, NoSun, NoWind, 0.0, 4,
+  6.0, 5.5, 3.0,  6.0, 5.5, 0.0,  6.0, 0.0, 0.0,  6.0, 0.0, 3.0;
+BuildingSurface:Detailed, Apt_Liv_Bed_Part_Bed, Wall, Interior_Partition_Construction, Apt_Bedroom_Zone, , Surface, Apt_Liv_Bed_Part_Liv, NoSun, NoWind, 0.0, 4,
+  6.0, 0.0, 3.0,  6.0, 0.0, 0.0,  6.0, 5.5, 0.0,  6.0, 5.5, 3.0;
+
+{shading_str}
+
+People, Apt_Living_Occupants, Apt_Living_Zone, Always_On, People, 2.0, , , 0.3, , Apt_Activity_Sched;
+People, Apt_Bedroom_Occupants, Apt_Bedroom_Zone, Always_On, People, 2.0, , , 0.3, , Apt_Activity_Sched;
+Schedule:Constant, Apt_Activity_Sched, AnyNumber, 125.0;
+
+ZoneVentilation:DesignFlowRate, Apt_Liv_Ventilation, Apt_Living_Zone, Always_On, AirChanges/Hour, , , , {vent_ach:.2f}, Natural, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 20.0, , , , 1.0;
+ZoneVentilation:DesignFlowRate, Apt_Bed_Ventilation, Apt_Bedroom_Zone, Always_On, AirChanges/Hour, , , , {vent_ach:.2f}, Natural, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 20.0, , , , 1.0;
+
+ZoneInfiltration:DesignFlowRate, Apt_Liv_Infiltration, Apt_Living_Zone, Always_On, AirChanges/Hour, , , , 0.5;
+ZoneInfiltration:DesignFlowRate, Apt_Bed_Infiltration, Apt_Bedroom_Zone, Always_On, AirChanges/Hour, , , , 0.5;
+
+{hvac_str}
+"""
+
+    elif building_type == 'commercial':
+        # 2 Zones: Open_Office (55m2: 10x5.5), Meeting_Room (25m2: 10x2.5) = 80 m2, Height 3.2m
+        # Commercial Occupancy, Lighting & Equipment Schedules per A-008, A-009, A-010, A-011
+        win_h = 1.4
+        win_w_s = min(9.0, max(0.5, (32.0 * wwr) / win_h))
+        x_s = (10.0 - win_w_s) / 2.0
+        x_e = x_s + win_w_s
+        z_b = 0.9
+        z_t = z_b + win_h
+
+        shading_str = ""
+        if shading_depth > 0.02:
+            shading_str = f"""
+Shading:Overhang, Office_South_Overhang, Office_South_Window, 0.1, 90, 0.2, 0.2, {shading_depth:.3f};
+Shading:Overhang, Meeting_North_Overhang, Meeting_North_Window, 0.1, 90, 0.2, 0.2, {shading_depth:.3f};
+"""
+        hvac_str = ""
+        if mode == 'ideal_loads':
+            hvac_str = _get_ideal_loads_hvac_idf("Open_Office_Zone") + \
+                       _get_ideal_loads_hvac_idf("Meeting_Room_Zone")
+
+        body = f"""
+Schedule:Compact, Office_Occupancy_Schedule, Fraction,
+  Through: 12/31, For: Weekdays, Until: 09:00, 0.0, Until: 18:00, 1.0, Until: 24:00, 0.0,
+  For: Weekends Holidays AllOtherDays, Until: 24:00, 0.0;
+
+Schedule:Compact, Office_Lighting_Schedule, Fraction,
+  Through: 12/31, For: Weekdays, Until: 08:00, 0.05, Until: 19:00, 1.0, Until: 24:00, 0.05,
+  For: Weekends Holidays AllOtherDays, Until: 24:00, 0.05;
+
+Schedule:Compact, Office_Equipment_Schedule, Fraction,
+  Through: 12/31, For: Weekdays, Until: 08:00, 0.20, Until: 19:00, 1.0, Until: 24:00, 0.20,
+  For: Weekends Holidays AllOtherDays, Until: 24:00, 0.20;
+
+Zone, Open_Office_Zone, 0.0, 0.0, 0.0, 0.0, 1, 1, 3.2, 176.0;
+Zone, Meeting_Room_Zone, 0.0, 0.0, 0.0, 0.0, 1, 1, 3.2, 80.0;
+
+BuildingSurface:Detailed, Office_Floor, Floor, Floor_Construction, Open_Office_Zone, , Ground, , NoSun, NoWind, 0.0, 4,
+  0.0, 0.0, 0.0,  0.0, 5.5, 0.0,  10.0, 5.5, 0.0,  10.0, 0.0, 0.0;
+BuildingSurface:Detailed, Meeting_Floor, Floor, Floor_Construction, Meeting_Room_Zone, , Ground, , NoSun, NoWind, 0.0, 4,
+  0.0, 5.5, 0.0,  0.0, 8.0, 0.0,  10.0, 8.0, 0.0,  10.0, 5.5, 0.0;
+
+BuildingSurface:Detailed, Office_Roof, Roof, Roof_Construction, Open_Office_Zone, , Outdoors, , SunExposed, WindExposed, 0.0, 4,
+  0.0, 5.5, 3.2,  0.0, 0.0, 3.2,  10.0, 0.0, 3.2,  10.0, 5.5, 3.2;
+BuildingSurface:Detailed, Meeting_Roof, Roof, Roof_Construction, Meeting_Room_Zone, , Outdoors, , SunExposed, WindExposed, 0.0, 4,
+  0.0, 8.0, 3.2,  0.0, 5.5, 3.2,  10.0, 5.5, 3.2,  10.0, 8.0, 3.2;
+
+BuildingSurface:Detailed, Office_South_Wall, Wall, Exterior_Wall_Construction, Open_Office_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  0.0, 0.0, 3.2,  0.0, 0.0, 0.0,  10.0, 0.0, 0.0,  10.0, 0.0, 3.2;
+FenestrationSurface:Detailed, Office_South_Window, Window, Window_Construction, Office_South_Wall, , 0.5, , 1.0, 4,
+  {x_s:.3f}, 0.0, {z_t:.3f},  {x_s:.3f}, 0.0, {z_b:.3f},  {x_e:.3f}, 0.0, {z_b:.3f},  {x_e:.3f}, 0.0, {z_t:.3f};
+
+BuildingSurface:Detailed, Meeting_North_Wall, Wall, Exterior_Wall_Construction, Meeting_Room_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  10.0, 8.0, 3.2,  10.0, 8.0, 0.0,  0.0, 8.0, 0.0,  0.0, 8.0, 3.2;
+FenestrationSurface:Detailed, Meeting_North_Window, Window, Window_Construction, Meeting_North_Wall, , 0.5, , 1.0, 4,
+  {10.0 - x_s:.3f}, 8.0, {z_t:.3f},  {10.0 - x_s:.3f}, 8.0, {z_b:.3f},  {10.0 - x_e:.3f}, 8.0, {z_b:.3f},  {10.0 - x_e:.3f}, 8.0, {z_t:.3f};
+
+BuildingSurface:Detailed, Office_East_Wall, Wall, Exterior_Wall_Construction, Open_Office_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  10.0, 0.0, 3.2,  10.0, 0.0, 0.0,  10.0, 5.5, 0.0,  10.0, 5.5, 3.2;
+BuildingSurface:Detailed, Meeting_East_Wall, Wall, Exterior_Wall_Construction, Meeting_Room_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  10.0, 5.5, 3.2,  10.0, 5.5, 0.0,  10.0, 8.0, 0.0,  10.0, 8.0, 3.2;
+
+BuildingSurface:Detailed, Office_West_Wall, Wall, Exterior_Wall_Construction, Open_Office_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  0.0, 5.5, 3.2,  0.0, 5.5, 0.0,  0.0, 0.0, 0.0,  0.0, 0.0, 3.2;
+BuildingSurface:Detailed, Meeting_West_Wall, Wall, Exterior_Wall_Construction, Meeting_Room_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  0.0, 8.0, 3.2,  0.0, 8.0, 0.0,  0.0, 5.5, 0.0,  0.0, 5.5, 3.2;
+
+BuildingSurface:Detailed, Office_Meeting_Part_Off, Wall, Interior_Partition_Construction, Open_Office_Zone, , Surface, Office_Meeting_Part_Meet, NoSun, NoWind, 0.0, 4,
+  10.0, 5.5, 3.2,  10.0, 5.5, 0.0,  0.0, 5.5, 0.0,  0.0, 5.5, 3.2;
+BuildingSurface:Detailed, Office_Meeting_Part_Meet, Wall, Interior_Partition_Construction, Meeting_Room_Zone, , Surface, Office_Meeting_Part_Off, NoSun, NoWind, 0.0, 4,
+  0.0, 5.5, 3.2,  0.0, 5.5, 0.0,  10.0, 5.5, 0.0,  10.0, 5.5, 3.2;
+
+{shading_str}
+
+People, Office_Occupants, Open_Office_Zone, Office_Occupancy_Schedule, People, 6.0, , , 0.3, , Office_Activity_Sched;
+People, Meeting_Occupants, Meeting_Room_Zone, Office_Occupancy_Schedule, People, 4.0, , , 0.3, , Office_Activity_Sched;
+Schedule:Constant, Office_Activity_Sched, AnyNumber, 130.0;
+
+Lights, Office_Lights, Open_Office_Zone, Office_Lighting_Schedule, LightingLevel, 467.5, , , 0.2, 0.2, 0.6;
+Lights, Meeting_Lights, Meeting_Room_Zone, Office_Lighting_Schedule, LightingLevel, 212.5, , , 0.2, 0.2, 0.6;
+
+ElectricEquipment, Office_Equipment, Open_Office_Zone, Office_Equipment_Schedule, EquipmentLevel, 440.0, , , 0.3, 0.0, 0.5;
+ElectricEquipment, Meeting_Equipment, Meeting_Room_Zone, Office_Equipment_Schedule, EquipmentLevel, 200.0, , , 0.3, 0.0, 0.5;
+
+ZoneVentilation:DesignFlowRate, Office_Ventilation, Open_Office_Zone, Always_On, AirChanges/Hour, , , , {vent_ach:.2f}, Natural, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 20.0, , , , 1.0;
+ZoneVentilation:DesignFlowRate, Meeting_Ventilation, Meeting_Room_Zone, Always_On, AirChanges/Hour, , , , {vent_ach:.2f}, Natural, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 20.0, , , , 1.0;
+
+ZoneInfiltration:DesignFlowRate, Office_Infiltration, Open_Office_Zone, Always_On, AirChanges/Hour, , , , 0.5;
+ZoneInfiltration:DesignFlowRate, Meeting_Infiltration, Meeting_Room_Zone, Always_On, AirChanges/Hour, , , , 0.5;
+
+{hvac_str}
+"""
+    else:
+        raise ValueError(f"Unknown building_type: {building_type}")
+
+    idf_text = header + body + outputs_str
+
     os.makedirs(os.path.dirname(output_idf_path), exist_ok=True)
     with open(output_idf_path, 'w', encoding='utf-8') as f:
         f.write(idf_text)
     return output_idf_path
+
+
+def render_shelter_idf(
+    params,
+    output_idf_path,
+    mode='free_running',
+    run_period_days=None
+):
+    """Backwards-compatible wrapper for shelter_v1."""
+    return render_building_idf(
+        params=params,
+        output_idf_path=output_idf_path,
+        building_type='shelter_v1',
+        mode=mode,
+        run_period_days=run_period_days
+    )

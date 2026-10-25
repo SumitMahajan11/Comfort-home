@@ -1,0 +1,62 @@
+{
+  "O1_ml": {
+    "roof_insulation_thickness": 0.016,
+    "wall_insulation_thickness": 0.0363,
+    "roof_solar_absorptance": 0.011,
+    "wwr": 0.1576,
+    "orientation": 0.0155,
+    "shading_depth": 0.1078,
+    "ventilation_ach": 0.296,
+    "wall_mass_heavy": 0.1356,
+    "wall_mass_light": 0.0553,
+    "wall_mass_medium": 0.1689
+  },
+  "warm_ml": {
+    "roof_insulation_thickness": 0.016,
+    "wall_insulation_thickness": 0.0363,
+    "roof_solar_absorptance": 0.011,
+    "wwr": 0.1576,
+    "orientation": 0.0155,
+    "shading_depth": 0.1078,
+    "ventilation_ach": 0.296,
+    "wall_mass_heavy": 0.1356,
+    "wall_mass_light": 0.0553,
+    "wall_mass_medium": 0.1689
+  },
+  "cool_ml": {
+    "roof_insulation_thickness": 0.0,
+    "wall_insulation_thickness": 0.0,
+    "roof_solar_absorptance": 0.0,
+    "wwr": 0.0,
+    "orientation": 0.0,
+    "shading_depth": 0.0,
+    "ventilation_ach": 0.0,
+    "wall_mass_heavy": 0.0,
+    "wall_mass_light": 0.0,
+    "wall_mass_medium": 0.0
+  },
+  "O1_adapt": {
+    "roof_insulation_thickness": 0.0097,
+    "wall_insulation_thickness": 0.0284,
+    "roof_solar_absorptance": 0.0347,
+    "wwr": 0.1085,
+    "orientation": 0.0134,
+    "shading_depth": 0.107,
+    "ventilation_ach": 0.2414,
+    "wall_mass_heavy": 0.3952,
+    "wall_mass_light": 0.0609,
+    "wall_mass_medium": 0.0009
+  },
+  "O2": {
+    "roof_insulation_thickness": 0.0502,
+    "wall_insulation_thickness": 0.0592,
+    "roof_solar_absorptance": 0.0385,
+    "wwr": 0.2971,
+    "orientation": 0.0256,
+    "shading_depth": 0.1452,
+    "ventilation_ach": 0.2121,
+    "wall_mass_heavy": 0.1272,
+    "wall_mass_light": 0.0187,
+    "wall_mass_medium": 0.0261
+  }
+}

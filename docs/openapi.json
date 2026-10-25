@@ -1,0 +1,3001 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ClimateAdapt-Comfort Decision-Support API",
+    "description": "Research decision-support API for passive building design across Indian climate zones. Serves verified simulation results, CPWD DSR cost ranges, Comfort Fit Scores, and SHAP explainability. Zero live EnergyPlus runs; all numbers trace to audited repository artifacts.",
+    "version": "2.0.0"
+  },
+  "paths": {
+    "/api/v1/cities": {
+      "get": {
+        "tags": [
+          "Cities & Climate"
+        ],
+        "summary": "Get Cities",
+        "description": "Returns the 5 simulated reference climate stations with confidence tiers and applicability.",
+        "operationId": "get_cities_api_v1_cities_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CitiesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/match": {
+      "get": {
+        "tags": [
+          "Cities & Climate"
+        ],
+        "summary": "Match Location",
+        "description": "Matches any input location query or coordinates to the nearest of the 5 simulated cities.\nReturns strong warning if distance exceeds the configurable threshold (default 300 km).",
+        "operationId": "match_location_api_v1_match_get",
+        "parameters": [
+          {
+            "name": "lat",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Latitude in decimal degrees",
+              "title": "Lat"
+            },
+            "description": "Latitude in decimal degrees"
+          },
+          {
+            "name": "lon",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Longitude in decimal degrees",
+              "title": "Lon"
+            },
+            "description": "Longitude in decimal degrees"
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Location name or place query",
+              "title": "Query"
+            },
+            "description": "Location name or place query"
+          },
+          {
+            "name": "threshold_km",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "description": "Distance threshold in km",
+              "default": 300.0,
+              "title": "Threshold Km"
+            },
+            "description": "Distance threshold in km"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cities/{city}/climate": {
+      "get": {
+        "tags": [
+          "Cities & Climate"
+        ],
+        "summary": "Get City Climate",
+        "description": "Returns monthly climate summary and current/+1.5\u00b0C/+3.0\u00b0C morphed scenarios.",
+        "operationId": "get_city_climate_api_v1_cities__city__climate_get",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "City"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CityClimateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cities/{city}/comfort-norms": {
+      "get": {
+        "tags": [
+          "Cities & Climate"
+        ],
+        "summary": "Get City Comfort Norms",
+        "description": "Returns the empirical city comfort norms, reference building performance, and DB II preferences.",
+        "operationId": "get_city_comfort_norms_api_v1_cities__city__comfort_norms_get",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "City"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Building typology (shelter_v1, house, apartment, commercial)",
+              "default": "house",
+              "title": "Type"
+            },
+            "description": "Building typology (shelter_v1, house, apartment, commercial)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CityComfortNormsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/questionnaire": {
+      "get": {
+        "tags": [
+          "Comfort Profile & Fit Score"
+        ],
+        "summary": "Get Questionnaire",
+        "description": "Returns the bilingual occupant comfort questionnaire schema.",
+        "operationId": "get_questionnaire_api_v1_questionnaire_get",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Language: 'en' or 'hi'",
+              "default": "en",
+              "title": "Lang"
+            },
+            "description": "Language: 'en' or 'hi'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnaireSchemaResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/profile/evaluate": {
+      "post": {
+        "tags": [
+          "Comfort Profile & Fit Score"
+        ],
+        "summary": "Evaluate Profile",
+        "description": "Evaluates user comfort profile against local typical baseline and 3 candidate packages.\nReturns 0-100 Comfort Fit Scores, comfort gain points, and dual-judge disagreement.",
+        "operationId": "evaluate_profile_api_v1_profile_evaluate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileEvaluationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileEvaluationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/packages": {
+      "get": {
+        "tags": [
+          "Packages"
+        ],
+        "summary": "Get Packages",
+        "description": "Returns the three curated design packages (Budget, Balanced, Best-Comfort)\nwith BOM, cost range, carbon, and 12-month before/after temperature profiles.",
+        "operationId": "get_packages_api_v1_packages_get",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Reference city (e.g. Jodhpur, Mumbai, New_Delhi, Bengaluru, Shimla)",
+              "default": "Jodhpur",
+              "title": "City"
+            },
+            "description": "Reference city (e.g. Jodhpur, Mumbai, New_Delhi, Bengaluru, Shimla)"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Building typology (shelter_v1, house, apartment, commercial)",
+              "default": "house",
+              "title": "Type"
+            },
+            "description": "Building typology (shelter_v1, house, apartment, commercial)"
+          },
+          {
+            "name": "scenario",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Climate scenario (current, plus1p5, plus3p0)",
+              "default": "current",
+              "title": "Scenario"
+            },
+            "description": "Climate scenario (current, plus1p5, plus3p0)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PackagesResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/designs/pareto": {
+      "get": {
+        "tags": [
+          "Pareto & Explainability"
+        ],
+        "summary": "Get Pareto Designs",
+        "description": "Returns the 100 Pareto-optimal designs for a given city and building typology,\nwith flexible multi-objective range filters and pagination.",
+        "operationId": "get_pareto_designs_api_v1_designs_pareto_get",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Reference climate city",
+              "default": "Jodhpur",
+              "title": "City"
+            },
+            "description": "Reference climate city"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Building typology (shelter_v1, house, apartment, commercial)",
+              "default": "house",
+              "title": "Type"
+            },
+            "description": "Building typology (shelter_v1, house, apartment, commercial)"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number (1-indexed)",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number (1-indexed)"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Items per page",
+              "default": 20,
+              "title": "Page Size"
+            },
+            "description": "Items per page"
+          },
+          {
+            "name": "min_o1",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Minimum discomfort hours % (O1_ml)",
+              "title": "Min O1"
+            },
+            "description": "Minimum discomfort hours % (O1_ml)"
+          },
+          {
+            "name": "max_o1",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Maximum discomfort hours % (O1_ml)",
+              "title": "Max O1"
+            },
+            "description": "Maximum discomfort hours % (O1_ml)"
+          },
+          {
+            "name": "min_o2",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Minimum HVAC energy kWh/m2/yr (O2)",
+              "title": "Min O2"
+            },
+            "description": "Minimum HVAC energy kWh/m2/yr (O2)"
+          },
+          {
+            "name": "max_o2",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Maximum HVAC energy kWh/m2/yr (O2)",
+              "title": "Max O2"
+            },
+            "description": "Maximum HVAC energy kWh/m2/yr (O2)"
+          },
+          {
+            "name": "verified_only",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Filter for EnergyPlus physically verified designs only",
+              "default": false,
+              "title": "Verified Only"
+            },
+            "description": "Filter for EnergyPlus physically verified designs only"
+          },
+          {
+            "name": "min_wwr",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Minimum window-to-wall ratio fraction",
+              "title": "Min Wwr"
+            },
+            "description": "Minimum window-to-wall ratio fraction"
+          },
+          {
+            "name": "max_wwr",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Maximum window-to-wall ratio fraction",
+              "title": "Max Wwr"
+            },
+            "description": "Maximum window-to-wall ratio fraction"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParetoDesignsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/designs/{id}/explain": {
+      "get": {
+        "tags": [
+          "Pareto & Explainability"
+        ],
+        "summary": "Explain Design",
+        "description": "Returns SHAP feature drivers and plain-language explanation templates (EN/HI)\nfor a specific Pareto design.",
+        "operationId": "explain_design_api_v1_designs__id__explain_get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional city name",
+              "title": "City"
+            },
+            "description": "Optional city name"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional building typology",
+              "title": "Type"
+            },
+            "description": "Optional building typology"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesignExplainResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/model-lab": {
+      "get": {
+        "tags": [
+          "Model Lab & Audit"
+        ],
+        "summary": "Get Model Lab",
+        "description": "Returns full research scorecard (S1-S4), comfort model leaderboard with 95% bootstrap CIs,\nsurrogate accuracy matrices per typology, and chronological phase evidence links.",
+        "operationId": "get_model_lab_api_v1_model_lab_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelLabResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/export/pdf": {
+      "post": {
+        "tags": [
+          "Export PDF"
+        ],
+        "summary": "Export Pdf",
+        "description": "Generates and downloads a builder-ready passive design specification PDF.\nContains BOM, 12-month temperature chart image, design variables, cost statement, and checksum footer.",
+        "operationId": "export_pdf_api_v1_export_pdf_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PDFExportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cities": {
+      "get": {
+        "tags": [
+          "Cities & Climate"
+        ],
+        "summary": "Get Cities",
+        "description": "Returns the 5 simulated reference climate stations with confidence tiers and applicability.",
+        "operationId": "get_cities_cities_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CitiesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/match": {
+      "get": {
+        "tags": [
+          "Cities & Climate"
+        ],
+        "summary": "Match Location",
+        "description": "Matches any input location query or coordinates to the nearest of the 5 simulated cities.\nReturns strong warning if distance exceeds the configurable threshold (default 300 km).",
+        "operationId": "match_location_match_get",
+        "parameters": [
+          {
+            "name": "lat",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Latitude in decimal degrees",
+              "title": "Lat"
+            },
+            "description": "Latitude in decimal degrees"
+          },
+          {
+            "name": "lon",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Longitude in decimal degrees",
+              "title": "Lon"
+            },
+            "description": "Longitude in decimal degrees"
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Location name or place query",
+              "title": "Query"
+            },
+            "description": "Location name or place query"
+          },
+          {
+            "name": "threshold_km",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "description": "Distance threshold in km",
+              "default": 300.0,
+              "title": "Threshold Km"
+            },
+            "description": "Distance threshold in km"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cities/{city}/climate": {
+      "get": {
+        "tags": [
+          "Cities & Climate"
+        ],
+        "summary": "Get City Climate",
+        "description": "Returns monthly climate summary and current/+1.5\u00b0C/+3.0\u00b0C morphed scenarios.",
+        "operationId": "get_city_climate_cities__city__climate_get",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "City"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CityClimateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cities/{city}/comfort-norms": {
+      "get": {
+        "tags": [
+          "Cities & Climate"
+        ],
+        "summary": "Get City Comfort Norms",
+        "description": "Returns the empirical city comfort norms, reference building performance, and DB II preferences.",
+        "operationId": "get_city_comfort_norms_cities__city__comfort_norms_get",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "City"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Building typology (shelter_v1, house, apartment, commercial)",
+              "default": "house",
+              "title": "Type"
+            },
+            "description": "Building typology (shelter_v1, house, apartment, commercial)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CityComfortNormsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/questionnaire": {
+      "get": {
+        "tags": [
+          "Comfort Profile & Fit Score"
+        ],
+        "summary": "Get Questionnaire",
+        "description": "Returns the bilingual occupant comfort questionnaire schema.",
+        "operationId": "get_questionnaire_questionnaire_get",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Language: 'en' or 'hi'",
+              "default": "en",
+              "title": "Lang"
+            },
+            "description": "Language: 'en' or 'hi'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnaireSchemaResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile/evaluate": {
+      "post": {
+        "tags": [
+          "Comfort Profile & Fit Score"
+        ],
+        "summary": "Evaluate Profile",
+        "description": "Evaluates user comfort profile against local typical baseline and 3 candidate packages.\nReturns 0-100 Comfort Fit Scores, comfort gain points, and dual-judge disagreement.",
+        "operationId": "evaluate_profile_profile_evaluate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileEvaluationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileEvaluationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/packages": {
+      "get": {
+        "tags": [
+          "Packages"
+        ],
+        "summary": "Get Packages",
+        "description": "Returns the three curated design packages (Budget, Balanced, Best-Comfort)\nwith BOM, cost range, carbon, and 12-month before/after temperature profiles.",
+        "operationId": "get_packages_packages_get",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Reference city (e.g. Jodhpur, Mumbai, New_Delhi, Bengaluru, Shimla)",
+              "default": "Jodhpur",
+              "title": "City"
+            },
+            "description": "Reference city (e.g. Jodhpur, Mumbai, New_Delhi, Bengaluru, Shimla)"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Building typology (shelter_v1, house, apartment, commercial)",
+              "default": "house",
+              "title": "Type"
+            },
+            "description": "Building typology (shelter_v1, house, apartment, commercial)"
+          },
+          {
+            "name": "scenario",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Climate scenario (current, plus1p5, plus3p0)",
+              "default": "current",
+              "title": "Scenario"
+            },
+            "description": "Climate scenario (current, plus1p5, plus3p0)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PackagesResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/designs/pareto": {
+      "get": {
+        "tags": [
+          "Pareto & Explainability"
+        ],
+        "summary": "Get Pareto Designs",
+        "description": "Returns the 100 Pareto-optimal designs for a given city and building typology,\nwith flexible multi-objective range filters and pagination.",
+        "operationId": "get_pareto_designs_designs_pareto_get",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Reference climate city",
+              "default": "Jodhpur",
+              "title": "City"
+            },
+            "description": "Reference climate city"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Building typology (shelter_v1, house, apartment, commercial)",
+              "default": "house",
+              "title": "Type"
+            },
+            "description": "Building typology (shelter_v1, house, apartment, commercial)"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number (1-indexed)",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number (1-indexed)"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Items per page",
+              "default": 20,
+              "title": "Page Size"
+            },
+            "description": "Items per page"
+          },
+          {
+            "name": "min_o1",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Minimum discomfort hours % (O1_ml)",
+              "title": "Min O1"
+            },
+            "description": "Minimum discomfort hours % (O1_ml)"
+          },
+          {
+            "name": "max_o1",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Maximum discomfort hours % (O1_ml)",
+              "title": "Max O1"
+            },
+            "description": "Maximum discomfort hours % (O1_ml)"
+          },
+          {
+            "name": "min_o2",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Minimum HVAC energy kWh/m2/yr (O2)",
+              "title": "Min O2"
+            },
+            "description": "Minimum HVAC energy kWh/m2/yr (O2)"
+          },
+          {
+            "name": "max_o2",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Maximum HVAC energy kWh/m2/yr (O2)",
+              "title": "Max O2"
+            },
+            "description": "Maximum HVAC energy kWh/m2/yr (O2)"
+          },
+          {
+            "name": "verified_only",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Filter for EnergyPlus physically verified designs only",
+              "default": false,
+              "title": "Verified Only"
+            },
+            "description": "Filter for EnergyPlus physically verified designs only"
+          },
+          {
+            "name": "min_wwr",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Minimum window-to-wall ratio fraction",
+              "title": "Min Wwr"
+            },
+            "description": "Minimum window-to-wall ratio fraction"
+          },
+          {
+            "name": "max_wwr",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Maximum window-to-wall ratio fraction",
+              "title": "Max Wwr"
+            },
+            "description": "Maximum window-to-wall ratio fraction"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParetoDesignsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/designs/{id}/explain": {
+      "get": {
+        "tags": [
+          "Pareto & Explainability"
+        ],
+        "summary": "Explain Design",
+        "description": "Returns SHAP feature drivers and plain-language explanation templates (EN/HI)\nfor a specific Pareto design.",
+        "operationId": "explain_design_designs__id__explain_get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional city name",
+              "title": "City"
+            },
+            "description": "Optional city name"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional building typology",
+              "title": "Type"
+            },
+            "description": "Optional building typology"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesignExplainResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/model-lab": {
+      "get": {
+        "tags": [
+          "Model Lab & Audit"
+        ],
+        "summary": "Get Model Lab",
+        "description": "Returns full research scorecard (S1-S4), comfort model leaderboard with 95% bootstrap CIs,\nsurrogate accuracy matrices per typology, and chronological phase evidence links.",
+        "operationId": "get_model_lab_model_lab_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelLabResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/export/pdf": {
+      "post": {
+        "tags": [
+          "Export PDF"
+        ],
+        "summary": "Export Pdf",
+        "description": "Generates and downloads a builder-ready passive design specification PDF.\nContains BOM, 12-month temperature chart image, design variables, cost statement, and checksum footer.",
+        "operationId": "export_pdf_export_pdf_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PDFExportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Health",
+        "description": "Health check endpoint providing manifest checksum and service status.",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Health",
+        "description": "Health check endpoint providing manifest checksum and service status.",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CitiesResponse": {
+        "properties": {
+          "confidence_tier": {
+            "type": "string",
+            "title": "Confidence Tier",
+            "description": "Decision confidence tier: High, Medium, or Low"
+          },
+          "applicability": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Applicability",
+            "description": "DB II training envelope and adaptive validity metrics"
+          },
+          "verification_status": {
+            "type": "string",
+            "title": "Verification Status",
+            "description": "Verification level: verified, light verification, or estimated"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations",
+            "description": "List of methodological and simulation limitations"
+          },
+          "data_version": {
+            "type": "string",
+            "title": "Data Version",
+            "description": "Cryptographic SHA256 checksum of data/export/manifest.json"
+          },
+          "cities": {
+            "items": {
+              "$ref": "#/components/schemas/CitySummary"
+            },
+            "type": "array",
+            "title": "Cities"
+          },
+          "allowed_cities": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Allowed Cities"
+          }
+        },
+        "type": "object",
+        "required": [
+          "confidence_tier",
+          "applicability",
+          "verification_status",
+          "limitations",
+          "data_version",
+          "cities",
+          "allowed_cities"
+        ],
+        "title": "CitiesResponse",
+        "example": {
+          "applicability": {
+            "adaptive_validity": 100.0,
+            "db2_envelope_pct": 66.8
+          },
+          "confidence_tier": "Medium",
+          "data_version": "0cae9daf6788abf6f685785ba935580d7faf1b105ee4d0def6f504c098f27b35",
+          "limitations": [
+            "Simulation-based estimate using EnergyPlus 26.2.0; not a construction quote."
+          ],
+          "verification_status": "verified"
+        }
+      },
+      "CityClimateResponse": {
+        "properties": {
+          "confidence_tier": {
+            "type": "string",
+            "title": "Confidence Tier",
+            "description": "Decision confidence tier: High, Medium, or Low"
+          },
+          "applicability": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Applicability",
+            "description": "DB II training envelope and adaptive validity metrics"
+          },
+          "verification_status": {
+            "type": "string",
+            "title": "Verification Status",
+            "description": "Verification level: verified, light verification, or estimated"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations",
+            "description": "List of methodological and simulation limitations"
+          },
+          "data_version": {
+            "type": "string",
+            "title": "Data Version",
+            "description": "Cryptographic SHA256 checksum of data/export/manifest.json"
+          },
+          "city": {
+            "type": "string",
+            "title": "City",
+            "example": "Jodhpur"
+          },
+          "current": {
+            "items": {
+              "$ref": "#/components/schemas/MonthlyClimateItem"
+            },
+            "type": "array",
+            "title": "Current"
+          },
+          "plus1p5": {
+            "items": {
+              "$ref": "#/components/schemas/MonthlyClimateItem"
+            },
+            "type": "array",
+            "title": "Plus1P5"
+          },
+          "plus3p0": {
+            "items": {
+              "$ref": "#/components/schemas/MonthlyClimateItem"
+            },
+            "type": "array",
+            "title": "Plus3P0"
+          }
+        },
+        "type": "object",
+        "required": [
+          "confidence_tier",
+          "applicability",
+          "verification_status",
+          "limitations",
+          "data_version",
+          "city",
+          "current",
+          "plus1p5",
+          "plus3p0"
+        ],
+        "title": "CityClimateResponse",
+        "example": {
+          "applicability": {
+            "adaptive_validity": 100.0,
+            "db2_envelope_pct": 66.8
+          },
+          "confidence_tier": "Medium",
+          "data_version": "0cae9daf6788abf6f685785ba935580d7faf1b105ee4d0def6f504c098f27b35",
+          "limitations": [
+            "Simulation-based estimate using EnergyPlus 26.2.0; not a construction quote."
+          ],
+          "verification_status": "verified"
+        }
+      },
+      "CityComfortNormsResponse": {
+        "properties": {
+          "confidence_tier": {
+            "type": "string",
+            "title": "Confidence Tier",
+            "description": "Decision confidence tier: High, Medium, or Low"
+          },
+          "applicability": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Applicability",
+            "description": "DB II training envelope and adaptive validity metrics"
+          },
+          "verification_status": {
+            "type": "string",
+            "title": "Verification Status",
+            "description": "Verification level: verified, light verification, or estimated"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations",
+            "description": "List of methodological and simulation limitations"
+          },
+          "data_version": {
+            "type": "string",
+            "title": "Data Version",
+            "description": "Cryptographic SHA256 checksum of data/export/manifest.json"
+          },
+          "city": {
+            "type": "string",
+            "title": "City",
+            "example": "Jodhpur"
+          },
+          "building_type": {
+            "type": "string",
+            "title": "Building Type",
+            "example": "house"
+          },
+          "monthly_climate_summary": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Monthly Climate Summary"
+          },
+          "reference_building_performance": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Reference Building Performance"
+          },
+          "occupant_preferences_db2": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Occupant Preferences Db2"
+          },
+          "has_labelled_votes": {
+            "type": "boolean",
+            "title": "Has Labelled Votes",
+            "example": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "confidence_tier",
+          "applicability",
+          "verification_status",
+          "limitations",
+          "data_version",
+          "city",
+          "building_type",
+          "monthly_climate_summary",
+          "reference_building_performance",
+          "occupant_preferences_db2",
+          "has_labelled_votes"
+        ],
+        "title": "CityComfortNormsResponse",
+        "example": {
+          "applicability": {
+            "adaptive_validity": 100.0,
+            "db2_envelope_pct": 66.8
+          },
+          "confidence_tier": "Medium",
+          "data_version": "0cae9daf6788abf6f685785ba935580d7faf1b105ee4d0def6f504c098f27b35",
+          "limitations": [
+            "Simulation-based estimate using EnergyPlus 26.2.0; not a construction quote."
+          ],
+          "verification_status": "verified"
+        }
+      },
+      "CitySummary": {
+        "properties": {
+          "city": {
+            "type": "string",
+            "title": "City",
+            "example": "Jodhpur"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name",
+            "example": "Jodhpur"
+          },
+          "zone": {
+            "type": "string",
+            "title": "Zone",
+            "example": "Hot-dry"
+          },
+          "koppen": {
+            "type": "string",
+            "title": "Koppen",
+            "example": "BWh"
+          },
+          "epw": {
+            "type": "string",
+            "title": "Epw",
+            "example": "IND_RJ_Jodhpur.423390_TMYx.epw"
+          },
+          "coordinates": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Coordinates",
+            "example": [
+              26.2389,
+              73.0243
+            ]
+          },
+          "confidence_tier": {
+            "type": "string",
+            "title": "Confidence Tier",
+            "example": "Low"
+          },
+          "confidence_reason": {
+            "type": "string",
+            "title": "Confidence Reason",
+            "example": "Dual-judge disagreement 18.6 pts, high DB II envelope deviation"
+          },
+          "adaptive_validity": {
+            "type": "number",
+            "title": "Adaptive Validity",
+            "example": 98.4
+          },
+          "db2_envelope_pct": {
+            "type": "number",
+            "title": "Db2 Envelope Pct",
+            "example": 68.4
+          }
+        },
+        "type": "object",
+        "required": [
+          "city",
+          "display_name",
+          "zone",
+          "koppen",
+          "epw",
+          "coordinates",
+          "confidence_tier",
+          "confidence_reason",
+          "adaptive_validity",
+          "db2_envelope_pct"
+        ],
+        "title": "CitySummary"
+      },
+      "CostRangeModel": {
+        "properties": {
+          "low_inr": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Low Inr"
+          },
+          "high_inr": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "High Inr"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "UNAVAILABLE",
+            "example": "UNAVAILABLE"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason",
+            "default": "Rates unpopulated in official DSR schedule",
+            "example": "Rates unpopulated in official DSR schedule"
+          },
+          "dsr_edition": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dsr Edition",
+            "default": "CPWD DSR 2021",
+            "example": "CPWD DSR 2021"
+          },
+          "disclaimer": {
+            "type": "string",
+            "title": "Disclaimer",
+            "default": "Estimate for early decisions, never a quote.",
+            "example": "Estimate for early decisions, never a quote."
+          }
+        },
+        "type": "object",
+        "title": "CostRangeModel"
+      },
+      "DesignExplainResponse": {
+        "properties": {
+          "confidence_tier": {
+            "type": "string",
+            "title": "Confidence Tier",
+            "description": "Decision confidence tier: High, Medium, or Low"
+          },
+          "applicability": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Applicability",
+            "description": "DB II training envelope and adaptive validity metrics"
+          },
+          "verification_status": {
+            "type": "string",
+            "title": "Verification Status",
+            "description": "Verification level: verified, light verification, or estimated"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations",
+            "description": "List of methodological and simulation limitations"
+          },
+          "data_version": {
+            "type": "string",
+            "title": "Data Version",
+            "description": "Cryptographic SHA256 checksum of data/export/manifest.json"
+          },
+          "design_id": {
+            "type": "string",
+            "title": "Design Id",
+            "example": "P_Jodhpur_house_063"
+          },
+          "city": {
+            "type": "string",
+            "title": "City",
+            "example": "Jodhpur"
+          },
+          "building_type": {
+            "type": "string",
+            "title": "Building Type",
+            "example": "house"
+          },
+          "top_drivers": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Top Drivers"
+          },
+          "sentences_en": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Sentences En"
+          },
+          "sentences_hi": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Sentences Hi"
+          }
+        },
+        "type": "object",
+        "required": [
+          "confidence_tier",
+          "applicability",
+          "verification_status",
+          "limitations",
+          "data_version",
+          "design_id",
+          "city",
+          "building_type",
+          "top_drivers",
+          "sentences_en",
+          "sentences_hi"
+        ],
+        "title": "DesignExplainResponse",
+        "example": {
+          "applicability": {
+            "adaptive_validity": 100.0,
+            "db2_envelope_pct": 66.8
+          },
+          "confidence_tier": "Medium",
+          "data_version": "0cae9daf6788abf6f685785ba935580d7faf1b105ee4d0def6f504c098f27b35",
+          "limitations": [
+            "Simulation-based estimate using EnergyPlus 26.2.0; not a construction quote."
+          ],
+          "verification_status": "verified"
+        }
+      },
+      "FitScoreResult": {
+        "properties": {
+          "overall_fit_score": {
+            "type": "number",
+            "title": "Overall Fit Score",
+            "example": 78.6
+          },
+          "comfort_subscore": {
+            "type": "number",
+            "title": "Comfort Subscore",
+            "example": 75.3
+          },
+          "energy_subscore": {
+            "type": "number",
+            "title": "Energy Subscore",
+            "example": 91.7
+          },
+          "cost_subscore": {
+            "type": "number",
+            "title": "Cost Subscore",
+            "example": 70.0
+          },
+          "comfort_gain_points": {
+            "type": "number",
+            "title": "Comfort Gain Points",
+            "example": 32.9
+          },
+          "discomfort_reduction_pct": {
+            "type": "number",
+            "title": "Discomfort Reduction Pct",
+            "example": 30.9
+          },
+          "dual_judge": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Dual Judge",
+            "example": {
+              "adaptive_90_o1": 29.1,
+              "disagreement_pts": 18.6,
+              "ml_champion_o1": 10.5
+            }
+          },
+          "explanation_en": {
+            "type": "string",
+            "title": "Explanation En"
+          },
+          "explanation_hi": {
+            "type": "string",
+            "title": "Explanation Hi"
+          }
+        },
+        "type": "object",
+        "required": [
+          "overall_fit_score",
+          "comfort_subscore",
+          "energy_subscore",
+          "cost_subscore",
+          "comfort_gain_points",
+          "discomfort_reduction_pct",
+          "dual_judge",
+          "explanation_en",
+          "explanation_hi"
+        ],
+        "title": "FitScoreResult"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "MatchResponse": {
+        "properties": {
+          "confidence_tier": {
+            "type": "string",
+            "title": "Confidence Tier",
+            "description": "Decision confidence tier: High, Medium, or Low"
+          },
+          "applicability": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Applicability",
+            "description": "DB II training envelope and adaptive validity metrics"
+          },
+          "verification_status": {
+            "type": "string",
+            "title": "Verification Status",
+            "description": "Verification level: verified, light verification, or estimated"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations",
+            "description": "List of methodological and simulation limitations"
+          },
+          "data_version": {
+            "type": "string",
+            "title": "Data Version",
+            "description": "Cryptographic SHA256 checksum of data/export/manifest.json"
+          },
+          "query": {
+            "type": "string",
+            "title": "Query",
+            "example": "Jaipur"
+          },
+          "matched_city": {
+            "type": "string",
+            "title": "Matched City",
+            "example": "Jodhpur"
+          },
+          "distance_km": {
+            "type": "number",
+            "title": "Distance Km",
+            "example": 280.4
+          },
+          "is_nearest_match": {
+            "type": "boolean",
+            "title": "Is Nearest Match",
+            "default": true,
+            "example": true
+          },
+          "exceeds_threshold": {
+            "type": "boolean",
+            "title": "Exceeds Threshold",
+            "default": false,
+            "example": false
+          },
+          "strong_warning": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Strong Warning"
+          },
+          "city_info": {
+            "$ref": "#/components/schemas/CitySummary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "confidence_tier",
+          "applicability",
+          "verification_status",
+          "limitations",
+          "data_version",
+          "query",
+          "matched_city",
+          "distance_km",
+          "city_info"
+        ],
+        "title": "MatchResponse",
+        "example": {
+          "applicability": {
+            "adaptive_validity": 100.0,
+            "db2_envelope_pct": 66.8
+          },
+          "confidence_tier": "Medium",
+          "data_version": "0cae9daf6788abf6f685785ba935580d7faf1b105ee4d0def6f504c098f27b35",
+          "limitations": [
+            "Simulation-based estimate using EnergyPlus 26.2.0; not a construction quote."
+          ],
+          "verification_status": "verified"
+        }
+      },
+      "ModelLabResponse": {
+        "properties": {
+          "confidence_tier": {
+            "type": "string",
+            "title": "Confidence Tier",
+            "description": "Decision confidence tier: High, Medium, or Low"
+          },
+          "applicability": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Applicability",
+            "description": "DB II training envelope and adaptive validity metrics"
+          },
+          "verification_status": {
+            "type": "string",
+            "title": "Verification Status",
+            "description": "Verification level: verified, light verification, or estimated"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations",
+            "description": "List of methodological and simulation limitations"
+          },
+          "data_version": {
+            "type": "string",
+            "title": "Data Version",
+            "description": "Cryptographic SHA256 checksum of data/export/manifest.json"
+          },
+          "scorecard_s1_s4": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Scorecard S1 S4"
+          },
+          "comfort_model_leaderboard": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Comfort Model Leaderboard"
+          },
+          "surrogate_matrices": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Surrogate Matrices"
+          },
+          "phase_timeline": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Phase Timeline"
+          }
+        },
+        "type": "object",
+        "required": [
+          "confidence_tier",
+          "applicability",
+          "verification_status",
+          "limitations",
+          "data_version",
+          "scorecard_s1_s4",
+          "comfort_model_leaderboard",
+          "surrogate_matrices",
+          "phase_timeline"
+        ],
+        "title": "ModelLabResponse",
+        "example": {
+          "applicability": {
+            "adaptive_validity": 100.0,
+            "db2_envelope_pct": 66.8
+          },
+          "confidence_tier": "Medium",
+          "data_version": "0cae9daf6788abf6f685785ba935580d7faf1b105ee4d0def6f504c098f27b35",
+          "limitations": [
+            "Simulation-based estimate using EnergyPlus 26.2.0; not a construction quote."
+          ],
+          "verification_status": "verified"
+        }
+      },
+      "MonthlyClimateItem": {
+        "properties": {
+          "month_index": {
+            "type": "integer",
+            "title": "Month Index",
+            "example": 1
+          },
+          "month_name": {
+            "type": "string",
+            "title": "Month Name",
+            "example": "Jan"
+          },
+          "dry_bulb_mean": {
+            "type": "number",
+            "title": "Dry Bulb Mean",
+            "example": 16.7
+          },
+          "dry_bulb_min": {
+            "type": "number",
+            "title": "Dry Bulb Min",
+            "example": 7.3
+          },
+          "dry_bulb_max": {
+            "type": "number",
+            "title": "Dry Bulb Max",
+            "example": 27.4
+          },
+          "relative_humidity_mean": {
+            "type": "number",
+            "title": "Relative Humidity Mean",
+            "example": 44.9
+          },
+          "adaptive_90_valid_pct": {
+            "type": "number",
+            "title": "Adaptive 90 Valid Pct",
+            "example": 100.0
+          },
+          "outdoor_comfortable_pct": {
+            "type": "number",
+            "title": "Outdoor Comfortable Pct",
+            "example": 27.0
+          },
+          "outdoor_too_warm_pct": {
+            "type": "number",
+            "title": "Outdoor Too Warm Pct",
+            "example": 3.4
+          },
+          "outdoor_too_cool_pct": {
+            "type": "number",
+            "title": "Outdoor Too Cool Pct",
+            "example": 69.6
+          }
+        },
+        "type": "object",
+        "required": [
+          "month_index",
+          "month_name",
+          "dry_bulb_mean",
+          "dry_bulb_min",
+          "dry_bulb_max",
+          "relative_humidity_mean",
+          "adaptive_90_valid_pct",
+          "outdoor_comfortable_pct",
+          "outdoor_too_warm_pct",
+          "outdoor_too_cool_pct"
+        ],
+        "title": "MonthlyClimateItem"
+      },
+      "PDFExportRequest": {
+        "properties": {
+          "package_data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Package Data",
+            "description": "Package details from GET /packages"
+          },
+          "profile": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profile",
+            "description": "User comfort profile answers"
+          },
+          "language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Language",
+            "description": "Language: 'en' or 'hi'",
+            "default": "en"
+          },
+          "project_title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Project Title",
+            "description": "Title in PDF header",
+            "default": "Passive Climate Design Specification"
+          }
+        },
+        "type": "object",
+        "required": [
+          "package_data"
+        ],
+        "title": "PDFExportRequest"
+      },
+      "PackageModel": {
+        "properties": {
+          "package_key": {
+            "type": "string",
+            "title": "Package Key",
+            "example": "balanced"
+          },
+          "package_name": {
+            "type": "string",
+            "title": "Package Name",
+            "example": "Balanced Comfort & Cost"
+          },
+          "design_id": {
+            "type": "string",
+            "title": "Design Id",
+            "example": "P_Jodhpur_house_063"
+          },
+          "verification_status": {
+            "type": "string",
+            "title": "Verification Status",
+            "example": "verified"
+          },
+          "design_variables": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Design Variables"
+          },
+          "objectives": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Objectives"
+          },
+          "cost_range": {
+            "$ref": "#/components/schemas/CostRangeModel"
+          },
+          "carbon": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Carbon"
+          },
+          "payback_years": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payback Years"
+          },
+          "bom": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Bom"
+          },
+          "monthly_series": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Monthly Series"
+          }
+        },
+        "type": "object",
+        "required": [
+          "package_key",
+          "package_name",
+          "design_id",
+          "verification_status",
+          "design_variables",
+          "objectives",
+          "cost_range",
+          "carbon",
+          "bom",
+          "monthly_series"
+        ],
+        "title": "PackageModel"
+      },
+      "PackagesResponse": {
+        "properties": {
+          "confidence_tier": {
+            "type": "string",
+            "title": "Confidence Tier",
+            "description": "Decision confidence tier: High, Medium, or Low"
+          },
+          "applicability": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Applicability",
+            "description": "DB II training envelope and adaptive validity metrics"
+          },
+          "verification_status": {
+            "type": "string",
+            "title": "Verification Status",
+            "description": "Verification level: verified, light verification, or estimated"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations",
+            "description": "List of methodological and simulation limitations"
+          },
+          "data_version": {
+            "type": "string",
+            "title": "Data Version",
+            "description": "Cryptographic SHA256 checksum of data/export/manifest.json"
+          },
+          "city": {
+            "type": "string",
+            "title": "City",
+            "example": "Jodhpur"
+          },
+          "building_type": {
+            "type": "string",
+            "title": "Building Type",
+            "example": "house"
+          },
+          "scenario": {
+            "type": "string",
+            "title": "Scenario",
+            "example": "current"
+          },
+          "packages": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/PackageModel"
+            },
+            "type": "object",
+            "title": "Packages"
+          }
+        },
+        "type": "object",
+        "required": [
+          "confidence_tier",
+          "applicability",
+          "verification_status",
+          "limitations",
+          "data_version",
+          "city",
+          "building_type",
+          "scenario",
+          "packages"
+        ],
+        "title": "PackagesResponse",
+        "example": {
+          "applicability": {
+            "adaptive_validity": 100.0,
+            "db2_envelope_pct": 66.8
+          },
+          "confidence_tier": "Medium",
+          "data_version": "0cae9daf6788abf6f685785ba935580d7faf1b105ee4d0def6f504c098f27b35",
+          "limitations": [
+            "Simulation-based estimate using EnergyPlus 26.2.0; not a construction quote."
+          ],
+          "verification_status": "verified"
+        }
+      },
+      "ParetoDesign": {
+        "properties": {
+          "pareto_id": {
+            "type": "string",
+            "title": "Pareto Id",
+            "example": "P_Jodhpur_house_001"
+          },
+          "city": {
+            "type": "string",
+            "title": "City",
+            "example": "Jodhpur"
+          },
+          "building_type": {
+            "type": "string",
+            "title": "Building Type",
+            "example": "house"
+          },
+          "roof_insulation_thickness": {
+            "type": "number",
+            "title": "Roof Insulation Thickness",
+            "example": 0.1
+          },
+          "wall_insulation_thickness": {
+            "type": "number",
+            "title": "Wall Insulation Thickness",
+            "example": 0.05
+          },
+          "roof_solar_absorptance": {
+            "type": "number",
+            "title": "Roof Solar Absorptance",
+            "example": 0.35
+          },
+          "wwr": {
+            "type": "number",
+            "title": "Wwr",
+            "example": 0.15
+          },
+          "orientation": {
+            "type": "number",
+            "title": "Orientation",
+            "example": 180.0
+          },
+          "shading_depth": {
+            "type": "number",
+            "title": "Shading Depth",
+            "example": 0.6
+          },
+          "ventilation_ach": {
+            "type": "number",
+            "title": "Ventilation Ach",
+            "example": 10.0
+          },
+          "wall_mass_class": {
+            "type": "string",
+            "title": "Wall Mass Class",
+            "example": "medium"
+          },
+          "floor_position": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Floor Position"
+          },
+          "O1_ml": {
+            "type": "number",
+            "title": "O1 Ml",
+            "example": 18.4
+          },
+          "O1_adapt": {
+            "type": "number",
+            "title": "O1 Adapt",
+            "example": 22.1
+          },
+          "O2": {
+            "type": "number",
+            "title": "O2",
+            "example": 42.5
+          },
+          "warm_ml": {
+            "type": "number",
+            "title": "Warm Ml",
+            "example": 15.2
+          },
+          "cool_ml": {
+            "type": "number",
+            "title": "Cool Ml",
+            "example": 3.2
+          },
+          "verified": {
+            "type": "boolean",
+            "title": "Verified",
+            "example": true
+          },
+          "verification_mode": {
+            "type": "string",
+            "title": "Verification Mode",
+            "example": "fully verified"
+          }
+        },
+        "type": "object",
+        "required": [
+          "pareto_id",
+          "city",
+          "building_type",
+          "roof_insulation_thickness",
+          "wall_insulation_thickness",
+          "roof_solar_absorptance",
+          "wwr",
+          "orientation",
+          "shading_depth",
+          "ventilation_ach",
+          "wall_mass_class",
+          "O1_ml",
+          "O1_adapt",
+          "O2",
+          "warm_ml",
+          "cool_ml",
+          "verified",
+          "verification_mode"
+        ],
+        "title": "ParetoDesign"
+      },
+      "ParetoDesignsResponse": {
+        "properties": {
+          "confidence_tier": {
+            "type": "string",
+            "title": "Confidence Tier",
+            "description": "Decision confidence tier: High, Medium, or Low"
+          },
+          "applicability": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Applicability",
+            "description": "DB II training envelope and adaptive validity metrics"
+          },
+          "verification_status": {
+            "type": "string",
+            "title": "Verification Status",
+            "description": "Verification level: verified, light verification, or estimated"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations",
+            "description": "List of methodological and simulation limitations"
+          },
+          "data_version": {
+            "type": "string",
+            "title": "Data Version",
+            "description": "Cryptographic SHA256 checksum of data/export/manifest.json"
+          },
+          "city": {
+            "type": "string",
+            "title": "City",
+            "example": "Jodhpur"
+          },
+          "building_type": {
+            "type": "string",
+            "title": "Building Type",
+            "example": "house"
+          },
+          "total_count": {
+            "type": "integer",
+            "title": "Total Count",
+            "example": 100
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page",
+            "example": 1
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size",
+            "example": 20
+          },
+          "designs": {
+            "items": {
+              "$ref": "#/components/schemas/ParetoDesign"
+            },
+            "type": "array",
+            "title": "Designs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "confidence_tier",
+          "applicability",
+          "verification_status",
+          "limitations",
+          "data_version",
+          "city",
+          "building_type",
+          "total_count",
+          "page",
+          "page_size",
+          "designs"
+        ],
+        "title": "ParetoDesignsResponse",
+        "example": {
+          "applicability": {
+            "adaptive_validity": 100.0,
+            "db2_envelope_pct": 66.8
+          },
+          "confidence_tier": "Medium",
+          "data_version": "0cae9daf6788abf6f685785ba935580d7faf1b105ee4d0def6f504c098f27b35",
+          "limitations": [
+            "Simulation-based estimate using EnergyPlus 26.2.0; not a construction quote."
+          ],
+          "verification_status": "verified"
+        }
+      },
+      "ProfileEvaluationRequest": {
+        "properties": {
+          "building_type": {
+            "type": "string",
+            "title": "Building Type",
+            "default": "house",
+            "example": "house"
+          },
+          "city": {
+            "type": "string",
+            "title": "City",
+            "default": "Jodhpur",
+            "example": "Jodhpur"
+          },
+          "scenario": {
+            "type": "string",
+            "title": "Scenario",
+            "default": "current",
+            "example": "current"
+          },
+          "answers": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Answers",
+            "example": {
+              "priority": {
+                "comfort": 60,
+                "cost": 15,
+                "energy": 25
+              },
+              "sensitivity": "heat_sensitive",
+              "usually_feel_summer": "warm",
+              "usually_feel_winter": "neutral"
+            }
+          }
+        },
+        "type": "object",
+        "title": "ProfileEvaluationRequest"
+      },
+      "ProfileEvaluationResponse": {
+        "properties": {
+          "confidence_tier": {
+            "type": "string",
+            "title": "Confidence Tier",
+            "description": "Decision confidence tier: High, Medium, or Low"
+          },
+          "applicability": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Applicability",
+            "description": "DB II training envelope and adaptive validity metrics"
+          },
+          "verification_status": {
+            "type": "string",
+            "title": "Verification Status",
+            "description": "Verification level: verified, light verification, or estimated"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations",
+            "description": "List of methodological and simulation limitations"
+          },
+          "data_version": {
+            "type": "string",
+            "title": "Data Version",
+            "description": "Cryptographic SHA256 checksum of data/export/manifest.json"
+          },
+          "city": {
+            "type": "string",
+            "title": "City",
+            "example": "Jodhpur"
+          },
+          "building_type": {
+            "type": "string",
+            "title": "Building Type",
+            "example": "house"
+          },
+          "scenario": {
+            "type": "string",
+            "title": "Scenario",
+            "example": "current"
+          },
+          "user_profile_summary": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "User Profile Summary"
+          },
+          "typical_local_building": {
+            "$ref": "#/components/schemas/FitScoreResult"
+          },
+          "packages": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/FitScoreResult"
+            },
+            "type": "object",
+            "title": "Packages"
+          }
+        },
+        "type": "object",
+        "required": [
+          "confidence_tier",
+          "applicability",
+          "verification_status",
+          "limitations",
+          "data_version",
+          "city",
+          "building_type",
+          "scenario",
+          "user_profile_summary",
+          "typical_local_building",
+          "packages"
+        ],
+        "title": "ProfileEvaluationResponse",
+        "example": {
+          "applicability": {
+            "adaptive_validity": 100.0,
+            "db2_envelope_pct": 66.8
+          },
+          "confidence_tier": "Medium",
+          "data_version": "0cae9daf6788abf6f685785ba935580d7faf1b105ee4d0def6f504c098f27b35",
+          "limitations": [
+            "Simulation-based estimate using EnergyPlus 26.2.0; not a construction quote."
+          ],
+          "verification_status": "verified"
+        }
+      },
+      "QuestionnaireSchemaResponse": {
+        "properties": {
+          "confidence_tier": {
+            "type": "string",
+            "title": "Confidence Tier",
+            "description": "Decision confidence tier: High, Medium, or Low"
+          },
+          "applicability": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Applicability",
+            "description": "DB II training envelope and adaptive validity metrics"
+          },
+          "verification_status": {
+            "type": "string",
+            "title": "Verification Status",
+            "description": "Verification level: verified, light verification, or estimated"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations",
+            "description": "List of methodological and simulation limitations"
+          },
+          "data_version": {
+            "type": "string",
+            "title": "Data Version",
+            "description": "Cryptographic SHA256 checksum of data/export/manifest.json"
+          },
+          "language": {
+            "type": "string",
+            "title": "Language",
+            "example": "en"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "example": "Occupant Thermal Comfort Profile"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "example": "Tailors candidate designs to your sensitivity and daily occupancy."
+          },
+          "questions": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Questions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "confidence_tier",
+          "applicability",
+          "verification_status",
+          "limitations",
+          "data_version",
+          "language",
+          "title",
+          "description",
+          "questions"
+        ],
+        "title": "QuestionnaireSchemaResponse",
+        "example": {
+          "applicability": {
+            "adaptive_validity": 100.0,
+            "db2_envelope_pct": 66.8
+          },
+          "confidence_tier": "Medium",
+          "data_version": "0cae9daf6788abf6f685785ba935580d7faf1b105ee4d0def6f504c098f27b35",
+          "limitations": [
+            "Simulation-based estimate using EnergyPlus 26.2.0; not a construction quote."
+          ],
+          "verification_status": "verified"
+        }
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

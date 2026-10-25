@@ -1,0 +1,91 @@
+CLIMATEADAPT-COMFORT V2 CLAIMS & ARTIFACT AUDIT EVIDENCE OUTPUT
+================================================================================
+
+Total Numerical Claims Extracted: 375
+Total Verified in Literal Evidence: 375
+Verification Pass Rate: 100.00%
+
+PROGRAMMATIC SUCCESS CRITERIA AUDIT (S1 TO S4):
+{
+  "S1": {
+    "spec_threshold": "ML Macro-F1 - Best Baseline Macro-F1 >= +0.05",
+    "ml_champion_f1": 0.4785,
+    "best_baseline_f1": 0.4939,
+    "achieved_margin": -0.0154,
+    "verdict": "FAIL (Negative Result)",
+    "ground_truth_status": "FAIL"
+  },
+  "S2": {
+    "spec_threshold": "R2 >= 0.95 on held-out test designs across all 25 models",
+    "models_passing": "23/25",
+    "mean_o2_r2": 0.987,
+    "failures_under_0.95": [
+      {
+        "city": "Mumbai",
+        "target": "O1_ml",
+        "r2": 0.9406256345156292
+      },
+      {
+        "city": "Shimla",
+        "target": "warm_ml",
+        "r2": 0.9224626145934482
+      }
+    ],
+    "verdict": "PARTIAL",
+    "ground_truth_status": "PARTIAL"
+  },
+  "S3": {
+    "spec_threshold": ">= 1 verified Pareto design per city beats both reference shelters on O1 and O2",
+    "per_city_verified_counts": {
+      "Jodhpur": 7,
+      "Mumbai": 7,
+      "New_Delhi": 6,
+      "Bengaluru": 8,
+      "Shimla": 8
+    },
+    "total_verified_beating_both": "36/50",
+    "verdict": "PASS",
+    "ground_truth_status": "PASS"
+  },
+  "S4": {
+    "spec_threshold": "Dashboard runs locally with 1 command, read-only on artifacts, shows applicability flags",
+    "automated_test_status": "6 passed in 5.38s",
+    "verdict": "PASS",
+    "ground_truth_status": "PASS"
+  }
+}
+
+V2 PRODUCT INTEGRITY AUDIT:
+{
+  "manifest": {
+    "file_count": 160,
+    "status": "VERIFIED"
+  },
+  "e2e_grid": {
+    "combinations_tested": "45/45",
+    "packages_audited": 135,
+    "null_gated_costs": "135/135 (100.0%)",
+    "overall_e2e_verdict": "PASS"
+  },
+  "screenshots": {
+    "count": 10,
+    "files": [
+      "expert_design_studio.png",
+      "expert_model_lab.png",
+      "expert_pareto_explorer.png",
+      "wizard_step_1_where.png",
+      "wizard_step_1_where_hindi.png",
+      "wizard_step_2_what.png",
+      "wizard_step_3_climate.png",
+      "wizard_step_4_comfort.png",
+      "wizard_step_5_compare_modal.png",
+      "wizard_step_5_plan.png"
+    ],
+    "status": "VERIFIED"
+  },
+  "pdf_export": {
+    "status": "MISSING"
+  }
+}
+
+ALL NUMERICAL CLAIMS 100% MATCHED IN EVIDENCE AND EXPORT ARTIFACTS.

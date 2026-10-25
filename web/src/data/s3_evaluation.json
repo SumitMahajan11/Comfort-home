@@ -1,0 +1,62 @@
+[
+  {
+    "city": "Jodhpur",
+    "s3_status": "PASS",
+    "n_designs_beating_both": 7,
+    "best_pareto_id": "P_Jodhpur_001",
+    "ref_min_O1_ml": 75.71917808219179,
+    "ref_min_O1_adapt": 49.89484752891693,
+    "ref_min_O2": 281.8758277769065,
+    "margin_O1_ml_pct": 39.07534246575343,
+    "margin_O1_adapt_pct": 18.95373291272345,
+    "margin_O2_kwh_per_m2": 240.4726229765977
+  },
+  {
+    "city": "Mumbai",
+    "s3_status": "PASS",
+    "n_designs_beating_both": 7,
+    "best_pareto_id": "P_Mumbai_001",
+    "ref_min_O1_ml": 65.94748858447488,
+    "ref_min_O1_adapt": 34.15525114155251,
+    "ref_min_O2": 199.9856426320672,
+    "margin_O1_ml_pct": 23.97260273972602,
+    "margin_O1_adapt_pct": 29.166666666666668,
+    "margin_O2_kwh_per_m2": 97.0469226661306
+  },
+  {
+    "city": "New_Delhi",
+    "s3_status": "PASS",
+    "n_designs_beating_both": 6,
+    "best_pareto_id": "P_New_Delhi_002",
+    "ref_min_O1_ml": 70.39954337899543,
+    "ref_min_O1_adapt": 50.762195121951216,
+    "ref_min_O2": 279.3997658148893,
+    "margin_O1_ml_pct": 31.05022831050228,
+    "margin_O1_adapt_pct": 18.85162601626016,
+    "margin_O2_kwh_per_m2": 229.00116968819344
+  },
+  {
+    "city": "Bengaluru",
+    "s3_status": "PASS",
+    "n_designs_beating_both": 8,
+    "best_pareto_id": "P_Bengaluru_002",
+    "ref_min_O1_ml": 59.93150684931506,
+    "ref_min_O1_adapt": 39.26940639269406,
+    "ref_min_O2": 66.94251565955254,
+    "margin_O1_ml_pct": 14.18949771689497,
+    "margin_O1_adapt_pct": 24.383561643835613,
+    "margin_O2_kwh_per_m2": 30.33296223360549
+  },
+  {
+    "city": "Shimla",
+    "s3_status": "PASS",
+    "n_designs_beating_both": 8,
+    "best_pareto_id": "P_Shimla_001",
+    "ref_min_O1_ml": 77.36301369863014,
+    "ref_min_O1_adapt": 51.45061728395062,
+    "ref_min_O2": 279.53601067925143,
+    "margin_O1_ml_pct": 9.417808219178085,
+    "margin_O1_adapt_pct": 10.756172839506178,
+    "margin_O2_kwh_per_m2": 205.45693296215936
+  }
+]

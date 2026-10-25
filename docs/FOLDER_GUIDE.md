@@ -1,6 +1,6 @@
-# Repository Folder Guide
+# Repository Folder Guide: ClimateAdapt-Comfort v2
 
-This guide describes the organization and contents of each folder in the `ClimateAdapt-Comfort` repository to help collaborators navigate and contribute effectively.
+This guide describes the organization and contents of every directory in the `ClimateAdapt-Comfort` repository to support independent navigation, reproducibility, and contribution.
 
 ---
 
@@ -8,49 +8,83 @@ This guide describes the organization and contents of each folder in the `Climat
 
 | Directory / File | Category | Purpose / Description | Git Tracking Status |
 | :--- | :--- | :--- | :--- |
-| `src/` | **Core Code** | Core computational physics, ML modeling, and optimization library | Tracked |
-| `tools/` | **Core Code / Runners** | Operational CLI tools, batch scaling runner, and audit scripts | Tracked |
-| `tests/` | **Core Code / Tests** | Automated pytest suite for splits, comfort coupling, and UI | Tracked |
-| `docs/` | **Documentation** | Specifications, phase gates, decision tracker, and guides | Tracked |
-| `reports/` | **Results & Evidence** | Phase reports, evidence logs, figures, and station registry | Tracked (except bulky telemetry) |
-| `data/processed/` | **Results & Data** | Processed datasets, split definitions, metrics, and Pareto parquets | Summary CSVs/JSONs + core parquets tracked |
-| `data/raw/` | **Generated / Bulky** | Raw immutable weather files (TMYx), ASHRAE DB II, and ICE DB | Gitignored (Re-downloadable / Restricted) |
-| `models/` | **Generated / Bulky** | ML champion comfort model (`champion_comfort_model.joblib`) and surrogates | Champion model tracked; surrogates ignored |
-| `scratch/` | **Scratch / Temporary** | Ad-hoc debugging, inspection, and temporary audit scripts | Gitignored |
+| `api/` | **Backend Service** | Read-only FastAPI service (v1 routes, schemas, PDF generator) | Tracked |
+| `web/` | **Frontend Application** | Next.js 16 (React 19, TypeScript, Tailwind CSS) web product | Tracked (except node_modules/.next) |
+| `scripts/` | **Launchers** | One-command local runners (`run_product.ps1`, `run_product.sh`) | Tracked |
+| `src/` | **Core Physics & ML** | Core computational physics, simulation engine, and optimization | Tracked |
+| `data/costs/` | **Cost Engine** | Materials database, CPWD DSR rate schedules, retail tariffs | Tracked |
+| `data/export/` | **Precomputed Exports**| 160 precomputed runtime artifacts with `manifest.json` SHA-256 | Tracked |
+| `data/processed/` | **Derived Research** | Cleaned datasets, split matrices, simulation parquet files | Core artifacts tracked |
+| `data/raw/` | **Raw Inputs** | Raw weather files (TMYx), ASHRAE DB II, and ICE DB | Gitignored / External |
+| `models/` | **Trained Models** | ML champion model (`champion_comfort_model.joblib`) and surrogates | Champion model tracked |
+| `tools/` | **Utilities & Audits** | Claims auditor, cost validator, screenshot and export tools | Tracked |
+| `tests/` | **Test Suites** | Pytest suites for E2E grid, API, costs, comfort, and Streamlit | Tracked |
+| `docs/` | **Documentation** | Specs, phase gates, thesis artefacts, and user guides | Tracked |
+| `reports/` | **Evidence & Reports** | Final synthesis reports, literal command evidence logs, figures | Tracked |
 
 ---
 
 ## Detailed Directory Breakdown
 
-### 1. `src/` (Core Library)
-Contains the modular, functional building blocks of the project.
-- `src/data/`: Data ingestion, complete-case filtering, Köppen group mapping, and group-aware train/test splitting (`make_splits.py`).
-- `src/models/`: Baseline evaluations (PMV, Adaptive 80%/90%, IMAC), ML comfort classifier training (`train.py`), XGBoost surrogate training (`train_surrogates.py`), and SHAP explainability (`explain.py`).
-- `src/sim/`: EnergyPlus envelope IDF rendering (`render.py`), Latin Hypercube design sampling (`sampler.py`), simulation execution (`runner.py`), and CSV/ESO parsing (`parse.py`).
-- `src/optimize/`: Dual comfort judge coupling (`coupling.py`), reference shelter baselines (`references.py`), and NSGA-II multi-objective optimization (`nsga2.py`).
-- `src/app/`: Interactive Streamlit decision-support dashboard (`app.py`) and survey question mapping (`answer_mapping.py`).
+### 1. `api/` (FastAPI Precomputed Backend)
+Production read-only REST API package serving precomputed research artifacts with zero live EnergyPlus calls.
+- `api/main.py`: Application entrypoint with Starlette lifespan, CORS middleware, and root aliases.
+- `api/routes.py`: Versioned API endpoints under `/api/v1` (`/cities`, `/match`, `/climate`, `/comfort-norms`, `/questionnaire`, `/fit-score`, `/packages`, `/export/pdf`).
+- `api/models.py`: Strongly typed Pydantic v2 request/response schemas with rich field documentation.
+- `api/store.py`: `ArtifactStore` verifying `data/export/manifest.json` SHA-256 checksums at startup and caching artifacts in memory.
+- `api/config.py`: City metadata, reference shelter baselines, and D-017 confidence tiers.
 
-### 2. `tools/` (Pipeline Runners & Utilities)
-Contains execution scripts invoked from the command line:
-- `tools/run_station_pipeline.py`: Full 5-stage pipeline for a single weather station (2,000 EnergyPlus runs, surrogate training, Pareto optimization, and direct verification).
-- `tools/run_batch.py`: Batch runner that sequentially processes stations across India with telemetry logging, memory start guards, and circuit breakers.
-- `tools/build_station_registry.py`: Scans weather folders and compiles `reports/station_registry.csv` (443 total stations, 435 batch stations).
-- `tools/check_station_quality.py`: Audits EPW weather data quality and validity across all stations.
-- `tools/claims_audit.py`: Automated audit verifying all numerical claims against literal files in `reports/evidence/`.
-- `tools/mem_watch.py`: Real-time system RAM and Windows commit limit telemetry logger.
+### 2. `web/` (Next.js 16 Modern Frontend)
+Full-featured, responsive architectural decision-support web application.
+- `web/src/app/`: Next.js 16 App Router pages:
+  - `page.tsx`: Landing page with hero, S1-S4 scorecard, and climate zone overview.
+  - `wizard/`: 5-step guided decision flow (`where`, `what`, `climate`, `comfort`, `plan`).
+  - `expert/`: Professional architectural studio (`design-studio`, `pareto-explorer`, `model-lab`).
+  - `about/`: Project methodology, assumptions A-001..A-014, and decision log D-001..D-028.
+- `web/src/components/`: Reusable components including honest-labelling badges (`<ConfidenceBadge/>`, `<VerificationBadge/>`, `<ApplicabilityGauge/>`, `<LimitationsDrawer/>`), language switchers, and comparison modals.
+- `web/src/lib/`: API client (`api.ts`), bilingual English/Hindi dictionary (`i18n.ts`), and helper utilities.
+- `web/tests/`: Automated Vitest/Jest unit tests covering math, distances, and confidence tiers.
 
-> **Station Naming Convention:** The 8 protected reference stations (`Jodhpur`, `Mumbai`, `New_Delhi`, `Bengaluru`, `Shimla`, `Ahmedabad`, `Chennai`, `Leh`) use plain city names. All batch-scaled stations use unique `{name}_{wmo}` keying (e.g. `Madurai_433590`) to prevent collisions across multiple stations in the same administrative city.
+### 3. `scripts/` (Local Launchers)
+- `scripts/run_product.ps1` (PowerShell): Single-command local startup script. Validates export manifest checksums, runs `tools/validate_costs.py`, enforces Decision D-025 null-gating, and launches FastAPI and Next.js concurrently.
+- `scripts/run_product.sh` (Bash): Linux/macOS equivalent launcher.
 
-### 3. `docs/` (Architecture & Project Governance)
-- `docs/PROJECT_SPEC.md`: Single source of truth containing locked decisions, envelope parameter ranges, and mathematical definitions.
-- `docs/PHASES.md`: Deliverables, verification criteria, and acceptance gates for all phases.
-- `docs/TRACKER.md`: Execution tracker, evidence ledger, decision log, and risk register.
-- `docs/FOLDER_GUIDE.md`: This layout and folder navigation document.
-- `docs/HOW_TO_RUN.md`: Step-by-step instructions for running single stations, batch scaling, and tests.
-- `docs/DATA_AND_MODELS.md`: Comprehensive breakdown of datasets, target variables, and verified model accuracy tables.
+### 4. `src/` (Core Computational Physics & ML)
+- `src/sim/`: Parametric EnergyPlus IDF templates (`shelter`, `house`, `apartment`, `commercial`), renderers (`render.py`), and climate morphing (`morph_weather.py`).
+- `src/models/`: ML comfort classifier training (`train_champion.py`), baseline evaluations (`eval_baselines.py`), and SHAP explainability (`explain.py`).
+- `src/optimize/`: Dual comfort judge coupling (`coupling.py`), XGBoost surrogate training (`train_surrogates.py`), and NSGA-II optimization (`run_nsga2.py`).
+- `src/costs/`: Bill of materials generator (`bom.py`), cost range estimator (`estimate.py`), and embodied carbon calculator (`carbon.py`).
+- `src/comfort/`: City norms calculator (`city_norms.py`), questionnaire profile mapper (`profile.py`), and Comfort Fit Score engine (`fit.py`).
+- `src/app/`: Original standalone Streamlit decision-support application (`app.py`).
 
-### 4. `reports/` (Reports, Evidence & Visualizations)
-- `reports/evidence/`: Command execution outputs and verification logs (`phase1_eda_calc_output.txt`, `phase7_claims_audit_output.txt`, etc.).
-- `reports/figures/`: SHAP summary plots, Pareto frontier charts, and dashboard UI screenshots.
-- `reports/*.md`: Phase completion synthesis reports (`phase1_eda.md` through `final_results.md`).
-- `reports/station_registry.csv`: Catalog of all 443 extracted Indian weather stations.
+### 5. `data/` (Data Layers)
+- `data/costs/`:
+  - `materials.json`: 10 architectural assemblies with thermal conductivity, density, and ICE embodied carbon factors.
+  - `dsr_rates.json`: CPWD DSR rate schedules with "TO BE FILLED" placeholder registry and strict null gating.
+  - `tariffs.json`: Electricity utility tariffs for annual operational cost estimations.
+- `data/export/`: Precomputed runtime vault containing 160 verified JSON files and `manifest.json`.
+- `data/processed/`: Ground-truth datasets (`comfort_clean.parquet`, `splits.json`, `surrogate_metrics.csv`, `s3_evaluation_results.csv`).
+- `data/raw/`: Immutable external data (ASHRAE DB II, EPW weather files).
+
+### 6. `tools/` (Operational Scripts & Audit Tools)
+- `tools/claims_audit.py`: Automated claims audit verifying numerical claims in reports against literal evidence files.
+- `tools/validate_costs.py`: Integrity validator checking that CPWD DSR rates are verified or correctly null-gated.
+- `tools/export_artifacts.py`: Serializes optimization and surrogate results into `data/export/` with SHA-256 hashes.
+- `tools/capture_wizard_screenshots.py`: Headless Playwright script capturing UI evidence screenshots.
+- `tools/test_pdf_export.py`: Verifies vector PDF generation via ReportLab.
+
+### 7. `reports/` (Evidence & Technical Reports)
+- `reports/evidence/`: Immutable command execution outputs:
+  - `e2e_tests_output.txt`: Literal output of 45-combination grid audit (135 packages).
+  - `claims_audit_v2_output.txt`: Output of master 375-claim verification script.
+  - `*.png`: 10 high-resolution evidence screenshots of wizard steps and expert tools.
+  - `pdf_export_verification.txt`: Byte-size and header verification of ReportLab PDF.
+- `reports/final_results_v2.md`: Master v2 synthesis report reviewing S1-S4 across typologies and limitations.
+- `reports/final_results.md`: Baseline v1 synthesis report.
+
+### 8. `docs/` (Specifications & Thesis Compendium)
+- `docs/PROJECT_SPEC.md`: Master project specification with locked decisions D-001 through D-028.
+- `docs/PHASES.md`: Deliverables and acceptance criteria for all Phases 0 through 11.
+- `docs/TRACKER.md`: Project ledger, evidence trail (E-001..E-036), and risk register (R-001..R-014).
+- `docs/THESIS_ARTEFACTS.md`: Compendium featuring Mermaid architecture, data-flow, user-flow diagrams, master evidence table, and 2-page reproduction guide.
+- `docs/HOW_TO_RUN.md`: Execution instructions for pipeline, test suites, and product runners.

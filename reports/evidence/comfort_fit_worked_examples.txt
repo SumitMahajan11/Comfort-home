@@ -1,0 +1,132 @@
+================================================================================
+CLIMATEADAPT-COMFORT V2: WORKED COMFORT FIT SCORE EXAMPLES
+================================================================================
+Demonstrates steps 3 & 4 of product flow across all 5 reference stations.
+Evaluates candidate Pareto designs vs conventional local baseline (R2).
+Dual judges (ML Champion + Physical Adaptive 90%) evaluated with transparent disagreement.
+
+--------------------------------------------------------------------------------
+CITY: JODHPUR (Low Confidence)
+--------------------------------------------------------------------------------
+Climate Description: Hot semi-arid / desert (Rajasthan)
+DB II Sample: 4498 rows across 88 buildings (DB II India records in Koppen Group B (Ahmedabad & Jaipur))
+Typical Occupant Votes: Cool 30.3%, Neutral 38.0%, Warm 31.7% | Median Neutral: 27.0 C
+
+User Profile Scenario: Hot-Dry Desert Resident (Extreme Heat Sensitivity)
+  Warm Discomfort Penalty: 1.35x
+  Cool Discomfort Penalty: 0.95x
+  Priority Weights: Comfort 60%, Energy 25%, Cost 15%
+
+[FIT SCORE EVALUATION]
+  Typical Local Building (R2 Baseline) Fit Score : 45.7 / 100
+  Recommended Design (P_Jodhpur_house_063) Fit Score : 78.6 / 100
+  Comfort Gain Points                            : +32.9 pts
+  Discomfort Hours Reduction                     : -30.9% of year
+  Sub-Scores (Comfort / Energy / Cost)          : 75.3 / 91.7 / 70.0
+  Dual Judges (ML Champion / Adaptive 90%)       : 10.5% vs 29.1% (Disagreement: 18.6 pts)
+
+Explanation (EN):
+  "This package achieves a strong Comfort Fit Score of 78.6/100, outperforming the local typical building by +32.9 points. Annual discomfort is reduced from 50.7% down to 19.8%. Given your sensitivity to overheating, envelope passive cooling features are strongly aligned with your priorities. Dual-Judge Note: The empirical ML comfort model and physical Adaptive 90% model differ by 18.6 percentage points in Jodhpur, reflecting climate humidity or boundary conditions."
+Explanation (HI):
+  "यह पैकेज 78.6/100 का मजबूत कम्फर्ट फिट स्कोर प्रदान करता है, जो स्थानीय सामान्य इमारत से +32.9 अंक बेहतर है। वार्षिक असुविधा समय 50.7% से घटकर 19.8% रह जाता है। आपकी अत्यधिक गर्मी के प्रति संवेदनशीलता को देखते हुए, पैसिव डिज़ाइन आपकी प्राथमिकताओं के अनुकूल है। दोहरा मॉडल मूल्यांकन नोट: Jodhpur में अनुभवजन्य एमएल मॉडल और भौतिक अनुकूली मॉडल के बीच 18.6% का अंतर है, जो जलवायु की उमस व सीमा स्थिति को दर्शाता है।"
+
+--------------------------------------------------------------------------------
+CITY: MUMBAI (Low Confidence)
+--------------------------------------------------------------------------------
+Climate Description: Tropical wet savanna / warm-humid coastal (Maharashtra)
+DB II Sample: 2246 rows across 15 buildings (DB II India Mumbai city records (15 buildings))
+Typical Occupant Votes: Cool 28.5%, Neutral 45.2%, Warm 26.3% | Median Neutral: 26.5 C
+
+User Profile Scenario: Coastal Humid Urban Resident (Ceiling Fan Reliance)
+  Warm Discomfort Penalty: 1.35x
+  Cool Discomfort Penalty: 0.75x
+  Priority Weights: Comfort 50%, Energy 35%, Cost 15%
+
+[FIT SCORE EVALUATION]
+  Typical Local Building (R2 Baseline) Fit Score : 56.9 / 100
+  Recommended Design (P_Mumbai_house_028) Fit Score : 89.1 / 100
+  Comfort Gain Points                            : +32.2 pts
+  Discomfort Hours Reduction                     : -22.4% of year
+  Sub-Scores (Comfort / Energy / Cost)          : 87.4 / 99.7 / 70.0
+  Dual Judges (ML Champion / Adaptive 90%)       : -5.3% vs 30.5% (Disagreement: 35.8 pts)
+
+Explanation (EN):
+  "This package achieves a strong Comfort Fit Score of 89.1/100, outperforming the local typical building by +32.2 points. Annual discomfort is reduced from 35.0% down to 12.6%. Given your sensitivity to overheating, envelope passive cooling features are strongly aligned with your priorities. Dual-Judge Note: The empirical ML comfort model and physical Adaptive 90% model differ by 35.8 percentage points in Mumbai, reflecting climate humidity or boundary conditions."
+Explanation (HI):
+  "यह पैकेज 89.1/100 का मजबूत कम्फर्ट फिट स्कोर प्रदान करता है, जो स्थानीय सामान्य इमारत से +32.2 अंक बेहतर है। वार्षिक असुविधा समय 35.0% से घटकर 12.6% रह जाता है। आपकी अत्यधिक गर्मी के प्रति संवेदनशीलता को देखते हुए, पैसिव डिज़ाइन आपकी प्राथमिकताओं के अनुकूल है। दोहरा मॉडल मूल्यांकन नोट: Mumbai में अनुभवजन्य एमएल मॉडल और भौतिक अनुकूली मॉडल के बीच 35.8% का अंतर है, जो जलवायु की उमस व सीमा स्थिति को दर्शाता है।"
+
+--------------------------------------------------------------------------------
+CITY: NEW_DELHI (Low Confidence)
+--------------------------------------------------------------------------------
+Climate Description: Monsoon-influenced humid subtropical / composite (Delhi NCR)
+DB II Sample: 3115 rows across 31 buildings (DB II India Delhi NCR records (31 buildings))
+Typical Occupant Votes: Cool 27.2%, Neutral 46.1%, Warm 26.7% | Median Neutral: 26.0 C
+
+User Profile Scenario: Composite Climate Resident (Dual Season Sensitivity)
+  Warm Discomfort Penalty: 1.0x
+  Cool Discomfort Penalty: 1.0x
+  Priority Weights: Comfort 45%, Energy 35%, Cost 20%
+
+[FIT SCORE EVALUATION]
+  Typical Local Building (R2 Baseline) Fit Score : 53.6 / 100
+  Recommended Design (P_New_Delhi_house_031) Fit Score : 78.3 / 100
+  Comfort Gain Points                            : +24.7 pts
+  Discomfort Hours Reduction                     : -23.6% of year
+  Sub-Scores (Comfort / Energy / Cost)          : 72.1 / 90.9 / 70.0
+  Dual Judges (ML Champion / Adaptive 90%)       : 8.4% vs 46.3% (Disagreement: 37.9 pts)
+
+Explanation (EN):
+  "This package achieves a strong Comfort Fit Score of 78.3/100, outperforming the local typical building by +24.7 points. Annual discomfort is reduced from 51.0% down to 27.3%. Given your sensitivity to both heat and cold, envelope passive cooling features are strongly aligned with your priorities. Dual-Judge Note: The empirical ML comfort model and physical Adaptive 90% model differ by 37.9 percentage points in New_Delhi, reflecting climate humidity or boundary conditions."
+Explanation (HI):
+  "यह पैकेज 78.3/100 का मजबूत कम्फर्ट फिट स्कोर प्रदान करता है, जो स्थानीय सामान्य इमारत से +24.7 अंक बेहतर है। वार्षिक असुविधा समय 51.0% से घटकर 27.3% रह जाता है। आपकी गर्मी और ठंड दोनों के प्रति संवेदनशीलता को देखते हुए, पैसिव डिज़ाइन आपकी प्राथमिकताओं के अनुकूल है। दोहरा मॉडल मूल्यांकन नोट: New_Delhi में अनुभवजन्य एमएल मॉडल और भौतिक अनुकूली मॉडल के बीच 37.9% का अंतर है, जो जलवायु की उमस व सीमा स्थिति को दर्शाता है।"
+
+--------------------------------------------------------------------------------
+CITY: BENGALURU (Medium Confidence)
+--------------------------------------------------------------------------------
+Climate Description: Tropical wet savanna / temperate plateau (Karnataka)
+DB II Sample: 4028 rows across 36 buildings (DB II India Bengaluru records (36 buildings))
+Typical Occupant Votes: Cool 31.8%, Neutral 51.4%, Warm 16.8% | Median Neutral: 24.8 C
+
+User Profile Scenario: Temperate Plateau Resident (Moderate Preferences)
+  Warm Discomfort Penalty: 1.0x
+  Cool Discomfort Penalty: 1.0x
+  Priority Weights: Comfort 40%, Energy 40%, Cost 20%
+
+[FIT SCORE EVALUATION]
+  Typical Local Building (R2 Baseline) Fit Score : 62.2 / 100
+  Recommended Design (P_Bengaluru_house_040) Fit Score : 86.3 / 100
+  Comfort Gain Points                            : +24.1 pts
+  Discomfort Hours Reduction                     : -11.7% of year
+  Sub-Scores (Comfort / Energy / Cost)          : 82.0 / 98.7 / 70.0
+  Dual Judges (ML Champion / Adaptive 90%)       : 1.3% vs 34.5% (Disagreement: 33.2 pts)
+
+Explanation (EN):
+  "This package achieves a strong Comfort Fit Score of 86.3/100, outperforming the local typical building by +24.1 points. Annual discomfort is reduced from 29.6% down to 17.9%. Given your sensitivity to both heat and cold, envelope passive cooling features are strongly aligned with your priorities. Dual-Judge Note: The empirical ML comfort model and physical Adaptive 90% model differ by 33.2 percentage points in Bengaluru, reflecting climate humidity or boundary conditions."
+Explanation (HI):
+  "यह पैकेज 86.3/100 का मजबूत कम्फर्ट फिट स्कोर प्रदान करता है, जो स्थानीय सामान्य इमारत से +24.1 अंक बेहतर है। वार्षिक असुविधा समय 29.6% से घटकर 17.9% रह जाता है। आपकी गर्मी और ठंड दोनों के प्रति संवेदनशीलता को देखते हुए, पैसिव डिज़ाइन आपकी प्राथमिकताओं के अनुकूल है। दोहरा मॉडल मूल्यांकन नोट: Bengaluru में अनुभवजन्य एमएल मॉडल और भौतिक अनुकूली मॉडल के बीच 33.2% का अंतर है, जो जलवायु की उमस व सीमा स्थिति को दर्शाता है।"
+
+--------------------------------------------------------------------------------
+CITY: SHIMLA (Low Confidence)
+--------------------------------------------------------------------------------
+Climate Description: Subtropical highland / temperate montane (Himachal Pradesh)
+DB II Sample: 460 rows across 64 buildings (DB II India Shimla records (64 buildings))
+Typical Occupant Votes: Decision D-011: Shimla contains 64 buildings in DB II, but 0 labelled thermal sensation votes (all 460 rows NaN). Occupant preference statistics are reported as unavailable; NEVER fabricated.
+
+User Profile Scenario: Cold Montane Resident (Severe Cold Sensitivity)
+  Warm Discomfort Penalty: 0.75x
+  Cool Discomfort Penalty: 1.55x
+  Priority Weights: Comfort 55%, Energy 30%, Cost 15%
+
+[FIT SCORE EVALUATION]
+  Typical Local Building (R2 Baseline) Fit Score : 44.3 / 100
+  Recommended Design (P_Shimla_house_070) Fit Score : 67.8 / 100
+  Comfort Gain Points                            : +23.5 pts
+  Discomfort Hours Reduction                     : -18.2% of year
+  Sub-Scores (Comfort / Energy / Cost)          : 57.0 / 86.5 / 70.0
+  Dual Judges (ML Champion / Adaptive 90%)       : 26.4% vs 38.5% (Disagreement: 12.0 pts)
+
+Explanation (EN):
+  "This package achieves a strong Comfort Fit Score of 67.8/100, outperforming the local typical building by +23.5 points. Annual discomfort is reduced from 50.6% down to 32.4%. Given your sensitivity to chills/cold, envelope passive cooling features are strongly aligned with your priorities. Dual-Judge Note: The empirical ML comfort model and physical Adaptive 90% model differ by 12.0 percentage points in Shimla, reflecting climate humidity or boundary conditions."
+Explanation (HI):
+  "यह पैकेज 67.8/100 का मजबूत कम्फर्ट फिट स्कोर प्रदान करता है, जो स्थानीय सामान्य इमारत से +23.5 अंक बेहतर है। वार्षिक असुविधा समय 50.6% से घटकर 32.4% रह जाता है। आपकी अत्यधिक ठंड के प्रति संवेदनशीलता को देखते हुए, पैसिव डिज़ाइन आपकी प्राथमिकताओं के अनुकूल है। दोहरा मॉडल मूल्यांकन नोट: Shimla में अनुभवजन्य एमएल मॉडल और भौतिक अनुकूली मॉडल के बीच 12.0% का अंतर है, जो जलवायु की उमस व सीमा स्थिति को दर्शाता है।"
+

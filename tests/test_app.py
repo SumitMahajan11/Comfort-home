@@ -107,3 +107,15 @@ def test_research_details_about_page():
     assert not at.exception, f"App raised exception on About page: {at.exception}"
     assert "About ClimateAdapt-Comfort & Research Audit" in at.title[0].value
 
+
+def test_live_weather_card_and_attribution():
+    """Tests the live outdoor temperature card, Open-Meteo attribution, and refresh control."""
+    at = AppTest.from_file("src/app/app.py", default_timeout=30)
+    at.run()
+    assert not at.exception, f"App raised exception: {at.exception}"
+    
+    # Check that live weather heading and markdown contain Open-Meteo attribution
+    all_markdown = " ".join([m.value for m in at.markdown])
+    assert "Open-Meteo" in all_markdown, "Open-Meteo attribution must be present"
+    assert "Current Outdoor Temperature" in all_markdown or "Live Weather-Model Estimate" in all_markdown
+

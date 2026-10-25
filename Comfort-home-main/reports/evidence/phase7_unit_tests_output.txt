@@ -1,0 +1,31 @@
+PHASE 7 UNIT TEST VERIFICATION EVIDENCE OUTPUT
+================================================================================
+
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-9.1.1, pluggy-1.6.0 -- C:\Program Files\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\Projects\Comfort home
+plugins: anyio-4.12.1, asyncio-1.4.0, cov-6.0.0, timeout-2.4.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 12 items
+
+tests/test_app.py::test_app_overview_page PASSED                         [  8%]
+tests/test_app.py::test_app_city_selection PASSED                        [ 16%]
+tests/test_app.py::test_app_evaluate_page PASSED                         [ 25%]
+tests/test_app.py::test_app_recommend_page PASSED                        [ 33%]
+tests/test_app.py::test_app_explain_page PASSED                          [ 41%]
+tests/test_app.py::test_app_about_page PASSED                            [ 50%]
+tests/test_coupling.py::test_adaptive_band_at_25c PASSED                 [ 58%]
+tests/test_coupling.py::test_running_mean_formula_synthetic_series PASSED [ 66%]
+tests/test_coupling.py::test_clo_schedule_a004 PASSED                    [ 75%]
+tests/test_coupling.py::test_adaptive_comfort_evaluation PASSED          [ 83%]
+tests/test_coupling.py::test_ml_champion_model_known_inputs PASSED       [ 91%]
+tests/test_splits.py::test_splits_integrity PASSED                       [100%]
+
+============================== warnings summary ===============================
+tests/test_coupling.py::test_running_mean_formula_synthetic_series
+  D:\Projects\Comfort home\tests\test_coupling.py:44: DeprecationWarning: pythermalcomfort.utilities.running_mean_outdoor_temperature is deprecated; import it from pythermalcomfort.environment instead.
+    expected_trm = running_mean_outdoor_temperature(synthetic_7days, alpha=0.8)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 12 passed, 1 warning in 7.53s ========================

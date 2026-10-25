@@ -1,0 +1,86 @@
+================================================================================
+PHYSICAL BASELINE BENCHMARKS ON COMPLETE-CASE TEST SPLITS
+================================================================================
+
+--- 1. 5-Fold GroupKFold Evaluation ---
+
+[FOLD_0] (Test Rows: 13,304, Buildings: 162)
+  PMV:          Macro-F1 = 0.4194 (95% CI: [0.3727, 0.4815]) | Recall = [0.476, 0.471, 0.325]
+  Adaptive 80%: Macro-F1 = 0.4079 (95% CI: [0.3079, 0.5118]) | Recall = [0.200, 0.712, 0.326]
+  Adaptive 90%: Macro-F1 = 0.4462 (95% CI: [0.3512, 0.5367]) | Recall = [0.258, 0.564, 0.497]
+  IMAC NV 90%:  Macro-F1 = 0.4183 (95% CI: [0.3192, 0.5071]) | Recall = [0.238, 0.333, 0.729]
+  IMAC MM 90%:  Macro-F1 = 0.4148 (95% CI: [0.3174, 0.5186]) | Recall = [0.184, 0.679, 0.393]
+
+[FOLD_1] (Test Rows: 12,319, Buildings: 161)
+  PMV:          Macro-F1 = 0.4508 (95% CI: [0.4102, 0.4843]) | Recall = [0.371, 0.516, 0.459]
+  Adaptive 80%: Macro-F1 = 0.3958 (95% CI: [0.3096, 0.4731]) | Recall = [0.163, 0.822, 0.258]
+  Adaptive 90%: Macro-F1 = 0.4522 (95% CI: [0.3849, 0.5047]) | Recall = [0.286, 0.689, 0.367]
+  IMAC NV 90%:  Macro-F1 = 0.4443 (95% CI: [0.3847, 0.4924]) | Recall = [0.337, 0.607, 0.374]
+  IMAC MM 90%:  Macro-F1 = 0.4008 (95% CI: [0.3202, 0.4765]) | Recall = [0.118, 0.803, 0.337]
+
+[FOLD_2] (Test Rows: 11,840, Buildings: 161)
+  PMV:          Macro-F1 = 0.4425 (95% CI: [0.4084, 0.4810]) | Recall = [0.374, 0.557, 0.388]
+  Adaptive 80%: Macro-F1 = 0.3677 (95% CI: [0.3191, 0.4331]) | Recall = [0.239, 0.735, 0.179]
+  Adaptive 90%: Macro-F1 = 0.4085 (95% CI: [0.3594, 0.4725]) | Recall = [0.420, 0.553, 0.265]
+  IMAC NV 90%:  Macro-F1 = 0.3856 (95% CI: [0.3353, 0.4510]) | Recall = [0.511, 0.431, 0.255]
+  IMAC MM 90%:  Macro-F1 = 0.3668 (95% CI: [0.3106, 0.4370]) | Recall = [0.152, 0.775, 0.234]
+
+[FOLD_3] (Test Rows: 10,248, Buildings: 161)
+  PMV:          Macro-F1 = 0.4309 (95% CI: [0.3963, 0.4660]) | Recall = [0.377, 0.457, 0.454]
+  Adaptive 80%: Macro-F1 = 0.3962 (95% CI: [0.3194, 0.4716]) | Recall = [0.186, 0.812, 0.236]
+  Adaptive 90%: Macro-F1 = 0.4349 (95% CI: [0.3740, 0.4905]) | Recall = [0.247, 0.670, 0.371]
+  IMAC NV 90%:  Macro-F1 = 0.4372 (95% CI: [0.3826, 0.4898]) | Recall = [0.219, 0.613, 0.463]
+  IMAC MM 90%:  Macro-F1 = 0.4039 (95% CI: [0.3288, 0.4752]) | Recall = [0.163, 0.769, 0.307]
+
+[FOLD_4] (Test Rows: 10,801, Buildings: 161)
+  PMV:          Macro-F1 = 0.4297 (95% CI: [0.3834, 0.4627]) | Recall = [0.286, 0.514, 0.481]
+  Adaptive 80%: Macro-F1 = 0.3823 (95% CI: [0.3190, 0.4385]) | Recall = [0.140, 0.834, 0.252]
+  Adaptive 90%: Macro-F1 = 0.4531 (95% CI: [0.3927, 0.4925]) | Recall = [0.307, 0.691, 0.356]
+  IMAC NV 90%:  Macro-F1 = 0.4563 (95% CI: [0.4004, 0.5056]) | Recall = [0.445, 0.600, 0.325]
+  IMAC MM 90%:  Macro-F1 = 0.3829 (95% CI: [0.3191, 0.4419]) | Recall = [0.093, 0.821, 0.324]
+
+5-Fold GroupKFold Mean Macro-F1 across folds:
+  PMV Mean Macro-F1:          0.4347 +/- 0.0109
+  Adaptive 80% Mean Macro-F1: 0.3900 +/- 0.0138
+  Adaptive 90% Mean Macro-F1: 0.4390 +/- 0.0166
+  IMAC NV 90% Mean Macro-F1:  0.4283 +/- 0.0247
+  IMAC MM 90% Mean Macro-F1:  0.3938 +/- 0.0169
+
+--- 2. Leave-One-Köppen-Major-Group-Out Holdouts ---
+
+[Holdout A: Tropical] (Test Rows: 8,968, Buildings: 253)
+  PMV:          Macro-F1 = 0.4598 (95% CI: [0.4123, 0.4800]) | Recall = [0.347, 0.448, 0.593]
+  Adaptive 80%: Macro-F1 = 0.4174 (95% CI: [0.3445, 0.4516]) | Recall = [0.203, 0.771, 0.315]
+  Adaptive 90%: Macro-F1 = 0.4565 (95% CI: [0.3845, 0.4850]) | Recall = [0.362, 0.567, 0.421]
+  IMAC NV 90%:  Macro-F1 = 0.4367 (95% CI: [0.3520, 0.4854]) | Recall = [0.601, 0.477, 0.253]
+  IMAC MM 90%:  Macro-F1 = 0.3948 (95% CI: [0.3227, 0.4280]) | Recall = [0.113, 0.739, 0.412]
+
+[Holdout B: Arid] (Test Rows: 7,890, Buildings: 171)
+  PMV:          Macro-F1 = 0.4765 (95% CI: [0.4066, 0.5349]) | Recall = [0.634, 0.284, 0.692]
+  Adaptive 80%: Macro-F1 = 0.5625 (95% CI: [0.4594, 0.6211]) | Recall = [0.584, 0.587, 0.519]
+  Adaptive 90%: Macro-F1 = 0.5313 (95% CI: [0.4311, 0.6032]) | Recall = [0.652, 0.422, 0.612]
+  IMAC NV 90%:  Macro-F1 = 0.5183 (95% CI: [0.4211, 0.5893]) | Recall = [0.602, 0.479, 0.524]
+  IMAC MM 90%:  Macro-F1 = 0.5693 (95% CI: [0.4608, 0.6286]) | Recall = [0.549, 0.562, 0.596]
+
+[Holdout C: Temperate] (Test Rows: 36,136, Buildings: 342)
+  PMV:          Macro-F1 = 0.4212 (95% CI: [0.4021, 0.4423]) | Recall = [0.316, 0.571, 0.375]
+  Adaptive 80%: Macro-F1 = 0.3450 (95% CI: [0.3123, 0.3832]) | Recall = [0.093, 0.892, 0.195]
+  Adaptive 90%: Macro-F1 = 0.4060 (95% CI: [0.3735, 0.4405]) | Recall = [0.157, 0.776, 0.328]
+  IMAC NV 90%:  Macro-F1 = 0.3956 (95% CI: [0.3679, 0.4262]) | Recall = [0.114, 0.657, 0.454]
+  IMAC MM 90%:  Macro-F1 = 0.3604 (95% CI: [0.3290, 0.3976]) | Recall = [0.076, 0.868, 0.263]
+
+[Holdout D: Continental] (Test Rows: 5,518, Buildings: 40)
+  PMV:          Macro-F1 = 0.3866 (95% CI: [0.3246, 0.5068]) | Recall = [0.545, 0.549, 0.163]
+  Adaptive 80%: Macro-F1 = 0.3342 (95% CI: [0.2490, 0.4514]) | Recall = [0.077, 0.837, 0.252]
+  Adaptive 90%: Macro-F1 = 0.4066 (95% CI: [0.3222, 0.4967]) | Recall = [0.122, 0.693, 0.476]
+  IMAC NV 90%:  Macro-F1 = 0.4090 (95% CI: [0.2927, 0.4944]) | Recall = [0.109, 0.404, 0.833]
+  IMAC MM 90%:  Macro-F1 = 0.3494 (95% CI: [0.2708, 0.4464]) | Recall = [0.061, 0.810, 0.330]
+
+================================================================================
+D-012 CRITERION: MEAN MACRO-F1 ON HOLDOUTS A & B (TROPICAL & ARID)
+================================================================================
+  PMV Baseline Mean Holdout A/B Macro-F1:          0.4681
+  Adaptive 80% Baseline Mean Holdout A/B Macro-F1: 0.4899
+  Adaptive 90% Baseline Mean Holdout A/B Macro-F1: 0.4939
+  IMAC NV 90% Baseline Mean Holdout A/B Macro-F1:  0.4775
+  IMAC MM 90% Baseline Mean Holdout A/B Macro-F1:  0.4820

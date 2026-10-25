@@ -1,0 +1,32 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.15, pytest-9.1.1, pluggy-1.7.0 -- C:\Users\vardh\OneDrive\Comfort-home-main\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\vardh\OneDrive\Comfort-home-main
+plugins: anyio-4.15.1, platformdirs-4.13.0
+collecting ... collected 23 items
+
+tests/test_api.py::test_api_health PASSED                                [  4%]
+tests/test_api.py::test_api_cities PASSED                                [  8%]
+tests/test_api.py::test_api_match_location_direct PASSED                 [ 13%]
+tests/test_api.py::test_api_match_location_distance_notice PASSED        [ 17%]
+tests/test_api.py::test_api_city_averages PASSED                         [ 21%]
+tests/test_api.py::test_api_cost_schedule PASSED                         [ 26%]
+tests/test_api.py::test_api_evaluate_packages PASSED                     [ 30%]
+tests/test_api.py::test_api_future_climate_toggle PASSED                 [ 34%]
+tests/test_app.py::test_get_my_shelter_design_default_page PASSED        [ 39%]
+tests/test_app.py::test_get_my_shelter_design_form_submission PASSED     [ 43%]
+tests/test_app.py::test_research_details_overview_subpage PASSED         [ 47%]
+tests/test_app.py::test_research_details_city_selection PASSED           [ 52%]
+tests/test_app.py::test_research_details_evaluate_page PASSED            [ 56%]
+tests/test_app.py::test_research_details_recommend_page PASSED           [ 60%]
+tests/test_app.py::test_research_details_explain_page PASSED             [ 65%]
+tests/test_app.py::test_research_details_about_page PASSED               [ 69%]
+tests/test_app.py::test_live_weather_card_and_attribution PASSED         [ 73%]
+tests/test_coupling.py::test_adaptive_band_at_25c PASSED                 [ 78%]
+tests/test_coupling.py::test_running_mean_formula_synthetic_series PASSED [ 82%]
+tests/test_coupling.py::test_clo_schedule_a004 PASSED                    [ 86%]
+tests/test_coupling.py::test_adaptive_comfort_evaluation PASSED          [ 91%]
+tests/test_coupling.py::test_ml_champion_model_known_inputs PASSED       [ 95%]
+tests/test_splits.py::test_splits_integrity SKIPPED (Large DB II raw...) [100%]
+
+================= 22 passed, 1 skipped in 52.57s =================

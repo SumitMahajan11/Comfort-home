@@ -1,0 +1,289 @@
+!- EnergyPlus 3-Zone Detached House Model Reference Template (~60 m2)
+!- ClimateAdapt-Comfort Automated Model Pipeline
+Version, 26.2;
+
+SimulationControl,
+  No,                      !- Do Zone Sizing Calculation
+  No,                      !- Do System Sizing Calculation
+  No,                      !- Do Plant Sizing Calculation
+  No,                      !- Run Simulation for Sizing Periods
+  Yes,                     !- Run Simulation for Weather File Run Periods
+  No;                      !- Do HVAC System Sizing Simulation for Sizing Periods
+
+Building,
+  Passive_House,           !- Name
+  0.0,                     !- North Axis {deg}
+  Suburbs,                 !- Terrain
+  0.04,                    !- Loads Convergence Tolerance Value {W}
+  0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+  FullExterior,            !- Solar Distribution
+  25,                      !- Maximum Number of Warmup Days
+  6;                       !- Minimum Number of Warmup Days
+
+GlobalGeometryRules,
+  UpperLeftCorner,         !- Starting Vertex Position
+  Counterclockwise,        !- Vertex Entry Direction
+  World,                   !- Coordinate System
+  Relative,                !- Daylighting Reference Point Coordinate System
+  Relative;                !- Rectangular Surface Coordinate System
+
+ShadowCalculation,
+  PolygonClipping,         !- Shading Calculation Method
+  Periodic,                !- Shading Calculation Update Frequency Method
+  20;                      !- Shading Calculation Update Frequency {days}
+
+SurfaceConvectionAlgorithm:Inside, TARP;
+SurfaceConvectionAlgorithm:Outside, DOE-2;
+HeatBalanceAlgorithm, ConductionTransferFunction;
+Timestep, 4;
+
+RunPeriod,
+  Annual,                  !- Name
+  1,                       !- Begin Month
+  1,                       !- Begin Day of Month
+  ,                        !- Begin Year
+  12,                      !- End Month
+  31,                      !- End Day of Month
+  ,                        !- End Year
+  Tuesday,                 !- Day of Week for Start Day
+  Yes,                     !- Use Weather File Holidays and Special Days
+  Yes,                     !- Use Weather File Daylight Saving Period
+  No,                      !- Apply Weekend Holiday Rule
+  Yes,                     !- Use Weather File Rain Indicators
+  Yes;                     !- Use Weather File Snow Indicators
+
+ScheduleTypeLimits, AnyNumber;
+ScheduleTypeLimits, Fraction, 0.0, 1.0, Continuous;
+ScheduleTypeLimits, Temperature, -60.0, 200.0, Continuous;
+ScheduleTypeLimits, Control_Type, 0, 4, Discrete;
+
+Schedule:Constant, Always_On, Fraction, 1.0;
+
+Material,
+  MediumBrick_200mm,
+  Rough,
+  0.200,
+  0.890,
+  1920,
+  790;
+
+Material,
+  HeavyConcrete_200mm,
+  Rough,
+  0.200,
+  1.740,
+  2400,
+  840;
+
+Material,
+  LightTimber_100mm,
+  Smooth,
+  0.100,
+  0.130,
+  650,
+  1200;
+
+Material,
+  Wall_Insulation,
+  VerySmooth,
+  0.050,
+  0.038,
+  30,
+  1200;
+
+Material,
+  Plaster_15mm,
+  Smooth,
+  0.015,
+  0.720,
+  1600,
+  840;
+
+Material,
+  Roof_Concrete_100mm,
+  Rough,
+  0.100,
+  1.130,
+  2000,
+  1000;
+
+Material,
+  Roof_Insulation,
+  VerySmooth,
+  0.050,
+  0.038,
+  30,
+  1200;
+
+Material,
+  Roof_Outer_Finish,
+  Smooth,
+  0.010,
+  0.800,
+  1800,
+  840,
+  0.90,
+  0.70,
+  0.70;
+
+Material,
+  Floor_Concrete_150mm,
+  Rough,
+  0.150,
+  1.130,
+  2000,
+  1000;
+
+Material,
+  Partition_Gypsum_12mm,
+  Smooth,
+  0.012,
+  0.160,
+  800,
+  1090;
+
+WindowMaterial:Glazing,
+  Clear_6mm_Glass,
+  SpectralAverage,
+  0.006,
+  0.78,
+  0.07,
+  0.07,
+  0.88,
+  0.08,
+  0.08,
+  0.0,
+  0.84,
+  0.84,
+  0.90;
+
+Construction,
+  Exterior_Wall_Construction,
+  Plaster_15mm,
+  MediumBrick_200mm,
+  Wall_Insulation,
+  Plaster_15mm;
+
+Construction,
+  Roof_Construction,
+  Roof_Outer_Finish,
+  Roof_Insulation,
+  Roof_Concrete_100mm,
+  Plaster_15mm;
+
+Construction,
+  Floor_Construction,
+  Floor_Concrete_150mm;
+
+Construction,
+  Interior_Partition_Construction,
+  Partition_Gypsum_12mm,
+  Plaster_15mm,
+  Partition_Gypsum_12mm;
+
+Construction,
+  Window_Construction,
+  Clear_6mm_Glass;
+
+!- Zones: Living (36m2), Bedroom (14m2), Kitchen (10m2)
+Zone, Living_Zone, 0.0, 0.0, 0.0, 0.0, 1, 1, 3.0, 108.0;
+Zone, Bedroom_Zone, 0.0, 0.0, 0.0, 0.0, 1, 1, 3.0, 42.0;
+Zone, Kitchen_Zone, 0.0, 0.0, 0.0, 0.0, 1, 1, 3.0, 30.0;
+
+!- Floor Surfaces (Ground)
+BuildingSurface:Detailed, Living_Floor, Floor, Floor_Construction, Living_Zone, , Ground, , NoSun, NoWind, 0.0, 4,
+  0.0, 0.0, 0.0,  0.0, 6.0, 0.0,  6.0, 6.0, 0.0,  6.0, 0.0, 0.0;
+
+BuildingSurface:Detailed, Bedroom_Floor, Floor, Floor_Construction, Bedroom_Zone, , Ground, , NoSun, NoWind, 0.0, 4,
+  6.0, 0.0, 0.0,  6.0, 3.5, 0.0,  10.0, 3.5, 0.0,  10.0, 0.0, 0.0;
+
+BuildingSurface:Detailed, Kitchen_Floor, Floor, Floor_Construction, Kitchen_Zone, , Ground, , NoSun, NoWind, 0.0, 4,
+  6.0, 3.5, 0.0,  6.0, 6.0, 0.0,  10.0, 6.0, 0.0,  10.0, 3.5, 0.0;
+
+!- Roof Surfaces (Outdoors, SunExposed, WindExposed)
+BuildingSurface:Detailed, Living_Roof, Roof, Roof_Construction, Living_Zone, , Outdoors, , SunExposed, WindExposed, 0.0, 4,
+  0.0, 6.0, 3.0,  0.0, 0.0, 3.0,  6.0, 0.0, 3.0,  6.0, 6.0, 3.0;
+
+BuildingSurface:Detailed, Bedroom_Roof, Roof, Roof_Construction, Bedroom_Zone, , Outdoors, , SunExposed, WindExposed, 0.0, 4,
+  6.0, 3.5, 3.0,  6.0, 0.0, 3.0,  10.0, 0.0, 3.0,  10.0, 3.5, 3.0;
+
+BuildingSurface:Detailed, Kitchen_Roof, Roof, Roof_Construction, Kitchen_Zone, , Outdoors, , SunExposed, WindExposed, 0.0, 4,
+  6.0, 6.0, 3.0,  6.0, 3.5, 3.0,  10.0, 3.5, 3.0,  10.0, 6.0, 3.0;
+
+!- Exterior Walls & Windows
+BuildingSurface:Detailed, Living_South_Wall, Wall, Exterior_Wall_Construction, Living_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  0.0, 0.0, 3.0,  0.0, 0.0, 0.0,  6.0, 0.0, 0.0,  6.0, 0.0, 3.0;
+
+FenestrationSurface:Detailed, Living_South_Window, Window, Window_Construction, Living_South_Wall, , 0.5, , 1.0, 4,
+  1.5, 0.0, 2.1,  1.5, 0.0, 0.9,  4.5, 0.0, 0.9,  4.5, 0.0, 2.1;
+
+BuildingSurface:Detailed, Bedroom_South_Wall, Wall, Exterior_Wall_Construction, Bedroom_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  6.0, 0.0, 3.0,  6.0, 0.0, 0.0,  10.0, 0.0, 0.0,  10.0, 0.0, 3.0;
+
+FenestrationSurface:Detailed, Bedroom_South_Window, Window, Window_Construction, Bedroom_South_Wall, , 0.5, , 1.0, 4,
+  7.0, 0.0, 2.1,  7.0, 0.0, 0.9,  9.0, 0.0, 0.9,  9.0, 0.0, 2.1;
+
+BuildingSurface:Detailed, Living_North_Wall, Wall, Exterior_Wall_Construction, Living_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  6.0, 6.0, 3.0,  6.0, 6.0, 0.0,  0.0, 6.0, 0.0,  0.0, 6.0, 3.0;
+
+FenestrationSurface:Detailed, Living_North_Window, Window, Window_Construction, Living_North_Wall, , 0.5, , 1.0, 4,
+  4.5, 6.0, 2.1,  4.5, 6.0, 0.9,  1.5, 6.0, 0.9,  1.5, 6.0, 2.1;
+
+BuildingSurface:Detailed, Kitchen_North_Wall, Wall, Exterior_Wall_Construction, Kitchen_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  10.0, 6.0, 3.0,  10.0, 6.0, 0.0,  6.0, 6.0, 0.0,  6.0, 6.0, 3.0;
+
+FenestrationSurface:Detailed, Kitchen_North_Window, Window, Window_Construction, Kitchen_North_Wall, , 0.5, , 1.0, 4,
+  9.0, 6.0, 2.1,  9.0, 6.0, 0.9,  7.0, 6.0, 0.9,  7.0, 6.0, 2.1;
+
+BuildingSurface:Detailed, Bedroom_East_Wall, Wall, Exterior_Wall_Construction, Bedroom_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  10.0, 0.0, 3.0,  10.0, 0.0, 0.0,  10.0, 3.5, 0.0,  10.0, 3.5, 3.0;
+
+BuildingSurface:Detailed, Kitchen_East_Wall, Wall, Exterior_Wall_Construction, Kitchen_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  10.0, 3.5, 3.0,  10.0, 3.5, 0.0,  10.0, 6.0, 0.0,  10.0, 6.0, 3.0;
+
+BuildingSurface:Detailed, Living_West_Wall, Wall, Exterior_Wall_Construction, Living_Zone, , Outdoors, , SunExposed, WindExposed, 0.5, 4,
+  0.0, 6.0, 3.0,  0.0, 6.0, 0.0,  0.0, 0.0, 0.0,  0.0, 0.0, 3.0;
+
+!- Inter-Zone Partitions
+BuildingSurface:Detailed, Living_Bed_Part_Living, Wall, Interior_Partition_Construction, Living_Zone, , Zone, Living_Bed_Part_Bed, NoSun, NoWind, 0.0, 4,
+  6.0, 3.5, 3.0,  6.0, 3.5, 0.0,  6.0, 0.0, 0.0,  6.0, 0.0, 3.0;
+
+BuildingSurface:Detailed, Living_Bed_Part_Bed, Wall, Interior_Partition_Construction, Bedroom_Zone, , Zone, Living_Bed_Part_Living, NoSun, NoWind, 0.0, 4,
+  6.0, 0.0, 3.0,  6.0, 0.0, 0.0,  6.0, 3.5, 0.0,  6.0, 3.5, 3.0;
+
+BuildingSurface:Detailed, Living_Kit_Part_Living, Wall, Interior_Partition_Construction, Living_Zone, , Zone, Living_Kit_Part_Kit, NoSun, NoWind, 0.0, 4,
+  6.0, 6.0, 3.0,  6.0, 6.0, 0.0,  6.0, 3.5, 0.0,  6.0, 3.5, 3.0;
+
+BuildingSurface:Detailed, Living_Kit_Part_Kit, Wall, Interior_Partition_Construction, Kitchen_Zone, , Zone, Living_Kit_Part_Living, NoSun, NoWind, 0.0, 4,
+  6.0, 3.5, 3.0,  6.0, 3.5, 0.0,  6.0, 6.0, 0.0,  6.0, 6.0, 3.0;
+
+BuildingSurface:Detailed, Bed_Kit_Part_Bed, Wall, Interior_Partition_Construction, Bedroom_Zone, , Zone, Bed_Kit_Part_Kit, NoSun, NoWind, 0.0, 4,
+  10.0, 3.5, 3.0,  10.0, 3.5, 0.0,  6.0, 3.5, 0.0,  6.0, 3.5, 3.0;
+
+BuildingSurface:Detailed, Bed_Kit_Part_Kit, Wall, Interior_Partition_Construction, Kitchen_Zone, , Zone, Bed_Kit_Part_Bed, NoSun, NoWind, 0.0, 4,
+  6.0, 3.5, 3.0,  6.0, 3.5, 0.0,  10.0, 3.5, 0.0,  10.0, 3.5, 3.0;
+
+!- Occupancy: Assumption A-001 (24h/day, 1.1 met = 125W/person)
+Schedule:Constant, House_Activity_Sched, AnyNumber, 125.0;
+
+People, Living_Occupants, Living_Zone, Always_On, People, 2.0, , , 0.3, , House_Activity_Sched;
+People, Bedroom_Occupants, Bedroom_Zone, Always_On, People, 2.0, , , 0.3, , House_Activity_Sched;
+
+!- Infiltration & Natural Ventilation
+ZoneInfiltration:DesignFlowRate, Living_Infiltration, Living_Zone, Always_On, AirChanges/Hour, , , , 0.5;
+ZoneInfiltration:DesignFlowRate, Bed_Infiltration, Bedroom_Zone, Always_On, AirChanges/Hour, , , , 0.5;
+ZoneInfiltration:DesignFlowRate, Kit_Infiltration, Kitchen_Zone, Always_On, AirChanges/Hour, , , , 0.5;
+
+ZoneVentilation:DesignFlowRate, Living_Ventilation, Living_Zone, Always_On, AirChanges/Hour, , , , 5.0, Natural, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 20.0, , , , 1.0;
+ZoneVentilation:DesignFlowRate, Bed_Ventilation, Bedroom_Zone, Always_On, AirChanges/Hour, , , , 5.0, Natural, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 20.0, , , , 1.0;
+ZoneVentilation:DesignFlowRate, Kit_Ventilation, Kitchen_Zone, Always_On, AirChanges/Hour, , , , 5.0, Natural, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 20.0, , , , 1.0;
+
+!- Outputs
+Output:Variable, *, Zone Mean Air Temperature, Hourly;
+Output:Variable, *, Zone Mean Radiant Temperature, Hourly;
+Output:Variable, *, Zone Air Relative Humidity, Hourly;
+Output:Variable, *, Site Outdoor Air Drybulb Temperature, Hourly;
+Output:Variable, *, Zone Ideal Loads Zone Total Heating Rate, Hourly;
+Output:Variable, *, Zone Ideal Loads Zone Total Cooling Rate, Hourly;
+Output:Table:SummaryReports, AllSummary;
+OutputControl:Table:Style, Comma;

@@ -1,0 +1,213 @@
+{
+  "kpis": {
+    "survey_records": 109033,
+    "clean_complete_case": 58512,
+    "total_simulations": 10000,
+    "valid_paired_designs": 4988,
+    "surrogate_models": 25,
+    "pareto_designs": 500,
+    "verified_in_energyplus": 50
+  },
+  "success_criteria": [
+    {
+      "id": "S1",
+      "name": "Comfort Model Generalization vs Baseline",
+      "threshold": "Best ML model beats best baseline by >= +0.05 macro-F1 on identical complete-case test rows (58,512 rows) under Leave-One-K\u00f6ppen-Group-Out CV",
+      "status": "FAIL",
+      "ml_score": 0.4785,
+      "baseline_score": 0.4939,
+      "margin": -0.0154,
+      "evidence": "E-012",
+      "explanation": "Reported honestly as a negative result: the ML champion (Ablation A3 with outdoor temperature) achieved 0.4785 macro-F1, falling short of physical Adaptive 90% (0.4939). Dual comfort judges are therefore retained throughout coupling and optimization to avoid single-model bias."
+    },
+    {
+      "id": "S2",
+      "name": "XGBoost Surrogate Model Accuracy",
+      "threshold": "Surrogates reach R2 >= 0.95 on held-out 20% test designs across all 25 models",
+      "status": "PARTIAL",
+      "passing_models": 23,
+      "total_models": 25,
+      "mean_o2_r2": 0.987,
+      "evidence": "E-019",
+      "explanation": "23 of 25 surrogate models exceeded R2 >= 0.95. Two targets marginally missed the strict threshold: Mumbai O1_ml (R2 = 0.9406) and Shimla warm_ml (R2 = 0.9225). Annual HVAC energy (O2) achieved high fidelity with mean R2 = 0.987 across all 5 climate zones."
+    },
+    {
+      "id": "S3",
+      "name": "Direct EnergyPlus Simulation Verification",
+      "threshold": "At least 1 verified Pareto design per city beats BOTH R1 (Lightweight) and R2 (Conventional) reference shelters across all three objectives (O1_ml, O1_adapt, and O2)",
+      "status": "PASS",
+      "passing_cities": 5,
+      "total_cities": 5,
+      "verified_beating_both": "36 / 50",
+      "evidence": "E-020",
+      "explanation": "Verified in all 5 climate zones by 100 direct EnergyPlus physical simulation runs. Pareto designs beat both reference shelters simultaneously in Jodhpur (7/10), Mumbai (7/10), New Delhi (6/10), Bengaluru (8/10), and Shimla (8/10)."
+    },
+    {
+      "id": "S4",
+      "name": "Decision-Support Application Usability",
+      "threshold": "Dashboard runs locally with one command, operates strictly read-only on saved artifacts, with zero external network or paid API dependencies, displaying applicability flags",
+      "status": "PASS",
+      "evidence": "E-021",
+      "explanation": "Full application operates completely client-side and offline on precomputed simulation and surrogate artifacts. All test cases passed with zero exceptions."
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "A-001",
+      "name": "Continuous Occupancy",
+      "value": "24 hours/day occupancy reflecting emergency/passive shelter use."
+    },
+    {
+      "id": "A-002",
+      "name": "Metabolic Rate",
+      "value": "Constant 1.1 met (light seated resting activity)."
+    },
+    {
+      "id": "A-003",
+      "name": "Indoor Air Velocity",
+      "value": "Constant 0.15 m/s still indoor baseline air speed."
+    },
+    {
+      "id": "A-004",
+      "name": "Dynamic Clothing Model",
+      "value": "0.5 clo if Daily Mean Ta >= 25\u00b0C; 0.7 clo if 15\u00b0C <= Ta < 25\u00b0C; 1.0 clo if Ta < 15\u00b0C."
+    },
+    {
+      "id": "A-005",
+      "name": "Ideal-Loads HVAC Setpoints",
+      "value": "Cooling setpoint 26\u00b0C, heating setpoint 20\u00b0C for objective O2."
+    },
+    {
+      "id": "A-006",
+      "name": "Reference R1 Lightweight",
+      "value": "No insulation (roof=0, wall=0), light mass, solar absorptance 0.85, WWR 0.15, shading 0.0 m, 5 ACH."
+    },
+    {
+      "id": "A-007",
+      "name": "Reference R2 Conventional",
+      "value": "No insulation (roof=0, wall=0), medium clay brick mass, solar absorptance 0.60, WWR 0.15, shading 0.0 m, 5 ACH."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D-001",
+      "title": "Single-zone shelter baseline",
+      "description": "Single-zone, low-rise shelter simulated in EnergyPlus across 5 Indian climate zones."
+    },
+    {
+      "id": "D-002",
+      "title": "Representative Climate Stations",
+      "description": "Jodhpur (hot-dry), Mumbai (warm-humid), New Delhi (composite), Bengaluru (temperate), Shimla (cold)."
+    },
+    {
+      "id": "D-004a",
+      "title": "NaN-tolerant training, complete-case evaluation",
+      "description": "Model learns from 18,061 Indian rows while preserving 100% identical-row complete-case evaluation."
+    },
+    {
+      "id": "D-005",
+      "title": "Never impute tr = ta",
+      "description": "Radiant temperature is the primary physics altered by envelope design; imputing removes optimization leverage."
+    },
+    {
+      "id": "D-011",
+      "title": "Shimla applicability warning",
+      "description": "Shimla has no labelled votes in DB II; cold winter hours carry explicit extrapolation flag."
+    },
+    {
+      "id": "D-013",
+      "title": "Dual comfort judges",
+      "description": "Retain both ML Champion and Physical Adaptive 90% as dual judges to prevent single-model bias."
+    },
+    {
+      "id": "D-017",
+      "title": "Decision-support confidence tiers",
+      "description": "Medium confidence requires Spearman rs >= 0.8 AND Adaptive 90% validity >= 80%; otherwise Low confidence."
+    }
+  ],
+  "design_variables": [
+    {
+      "id": "roof_insulation_thickness",
+      "name": "Roof Insulation",
+      "unit": "mm",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 50,
+      "description": "Expanded polystyrene roof insulation thickness."
+    },
+    {
+      "id": "wall_insulation_thickness",
+      "name": "Wall Insulation",
+      "unit": "mm",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 40,
+      "description": "Mineral wool wall insulation thickness."
+    },
+    {
+      "id": "wall_mass_class",
+      "name": "Wall Mass Class",
+      "unit": "",
+      "type": "categorical",
+      "options": [
+        "light",
+        "medium",
+        "heavy"
+      ],
+      "default": "medium",
+      "description": "Thermal mass: Light (timber/sheet), Medium (clay brick), Heavy (concrete block)."
+    },
+    {
+      "id": "roof_solar_absorptance",
+      "name": "Roof Solar Absorptance",
+      "unit": "",
+      "min": 0.3,
+      "max": 0.9,
+      "step": 0.05,
+      "default": 0.5,
+      "description": "Fraction of solar radiation absorbed by the roof (lower = cool white roof)."
+    },
+    {
+      "id": "wwr",
+      "name": "Window-to-Wall Ratio",
+      "unit": "%",
+      "min": 5,
+      "max": 40,
+      "step": 1,
+      "default": 15,
+      "description": "Glazing area as percentage of external wall area."
+    },
+    {
+      "id": "orientation",
+      "name": "Orientation",
+      "unit": "deg",
+      "min": 0,
+      "max": 359,
+      "step": 5,
+      "default": 0,
+      "description": "Azimuth angle (0\u00b0 = North, 90\u00b0 = East, 180\u00b0 = South, 270\u00b0 = West)."
+    },
+    {
+      "id": "shading_depth",
+      "name": "Overhang Shading Depth",
+      "unit": "m",
+      "min": 0.0,
+      "max": 1.0,
+      "step": 0.05,
+      "default": 0.4,
+      "description": "Horizontal overhang projection over windows."
+    },
+    {
+      "id": "ventilation_ach",
+      "name": "Natural Ventilation",
+      "unit": "ACH",
+      "min": 1.0,
+      "max": 15.0,
+      "step": 0.5,
+      "default": 5.0,
+      "description": "Air changes per hour provided by passive cross-ventilation."
+    }
+  ]
+}

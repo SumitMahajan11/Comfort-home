@@ -1,0 +1,37 @@
+================================================================================
+CPWD DSR RATE VALIDATION AUDITOR (tools/validate_costs.py)
+================================================================================
+
+[VALIDATION FAILED - RATES NOT LOADED]
+The following 10 required envelope cost items have null rates:
+--------------------------------------------------------------------------------
+  - wall_medium_brick              | Status: Awaiting manual entry from CPWD DSR book | Reason: RATE_IS_NULL
+    Desc: Common burnt clay brick masonry 1:6 in cement mortar for exterior walls
+  - wall_heavy_rcc                 | Status: Awaiting manual entry from CPWD DSR book | Reason: RATE_IS_NULL
+    Desc: Reinforced cement concrete M25 work in walls
+  - wall_light_drywall             | Status: Awaiting manual entry from CPWD DSR book | Reason: RATE_IS_NULL
+    Desc: Lightweight fiber cement panel dry wall system with light gauge metal frame
+  - wall_insulation_eps            | Status: Awaiting manual entry from CPWD DSR book | Reason: RATE_IS_NULL
+    Desc: Expanded polystyrene (EPS) / mineral wool board insulation on external walls
+  - roof_slab_rcc                  | Status: Awaiting manual entry from CPWD DSR book | Reason: RATE_IS_NULL
+    Desc: Reinforced cement concrete 150mm roof slab including shuttering and reinforcement
+  - roof_insulation_eps            | Status: Awaiting manual entry from CPWD DSR book | Reason: RATE_IS_NULL
+    Desc: Expanded polystyrene (EPS) board roof thermal insulation laid in bitumen
+  - roof_cool_coating              | Status: Awaiting manual entry from CPWD DSR book | Reason: RATE_IS_NULL
+    Desc: High solar reflectance index (SRI >= 104) reflective elastomeric cool roof coating
+  - roof_standard_finish           | Status: Awaiting manual entry from CPWD DSR book | Reason: RATE_IS_NULL
+    Desc: Standard cementitious water-proofing and wearing coat terrace finish
+  - window_glazing_standard        | Status: Awaiting manual entry from CPWD DSR book | Reason: RATE_IS_NULL
+    Desc: Powder coated aluminium window frame with 6mm clear float glass glazing
+  - shading_overhang_cantilever    | Status: Awaiting manual entry from CPWD DSR book | Reason: RATE_IS_NULL
+    Desc: Cantilever horizontal exterior RCC / metallic window sunshade overhang
+--------------------------------------------------------------------------------
+ACTION REQUIRED:
+Fill the official CPWD DSR rate figures in data/costs/dsr_rates_template.csv
+and re-run tools/csv_to_dsr_json.py.
+
+API ENFORCEMENT:
+In accordance with project rules, the web API must display:
+  "Cost range unavailable: rates not yet loaded"
+and refuse to fabricate arbitrary monetary figures.
+================================================================================

@@ -9,10 +9,15 @@ param (
 
 $env:ENERGYPLUS_EXE = $EnergyPlus
 
+$PyExe = "python"
+if (Test-Path ".\.venv\Scripts\python.exe") {
+    $PyExe = ".\.venv\Scripts\python.exe"
+}
+
 if ($Smoke) {
-    python src/run_all.py --smoke --energyplus $EnergyPlus
+    & $PyExe src/run_all.py --smoke --energyplus $EnergyPlus
 } elseif ($Stage -ne "") {
-    python src/run_all.py --stage $Stage --energyplus $EnergyPlus
+    & $PyExe src/run_all.py --stage $Stage --energyplus $EnergyPlus
 } else {
-    python src/run_all.py --energyplus $EnergyPlus
+    & $PyExe src/run_all.py --energyplus $EnergyPlus
 }

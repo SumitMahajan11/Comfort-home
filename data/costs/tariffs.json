@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "description": "State electricity regulator domestic/commercial retail electricity tariffs (INR/kWh) for reference stations.",
+  "status": "TO BE FILLED",
+  "source_note": "Awaiting manual entry from respective State Electricity Regulatory Commissions (SERC) tariff schedules. Never invented per project rules.",
+  "tariffs_inr_per_kwh": {
+    "Jodhpur": null,
+    "Mumbai": null,
+    "New_Delhi": null,
+    "Bengaluru": null,
+    "Shimla": null
+  },
+  "tariff_editions": {
+    "Jodhpur": "TO BE FILLED",
+    "Mumbai": "TO BE FILLED",
+    "New_Delhi": "TO BE FILLED",
+    "Bengaluru": "TO BE FILLED",
+    "Shimla": "TO BE FILLED"
+  }
+}
