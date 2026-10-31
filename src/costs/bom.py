@@ -14,43 +14,46 @@ Strict Evidence & Geometric Integrity:
 
 from typing import Dict, Any, List
 
-# Standard default dimensions matching IDF templates
-TYPOLOGY_GEOMETRY = {
-    "shelter_v1": {
-        "floor_area_m2": 20.25,
-        "height_m": 3.0,
-        "perimeter_m": 18.0,
-        "gross_wall_area_m2": 54.0,
-        "roof_area_m2": 20.25,
-        "exposed_roof_default": True,
-        "window_height_m": 1.2
-    },
-    "house": {
-        "floor_area_m2": 59.0,
-        "height_m": 3.0,
-        "perimeter_m": 31.5,
-        "gross_wall_area_m2": 94.5,
-        "roof_area_m2": 59.0,
-        "exposed_roof_default": True,
-        "window_height_m": 1.2
-    },
-    "apartment": {
-        "floor_area_m2": 55.0,
-        "height_m": 2.8,
-        "perimeter_m": 15.0, # 2 exterior walls (North & South, 7.5m each); East/West are adiabatic shared party walls
-        "gross_wall_area_m2": 42.0, # 15.0 * 2.8
-        "roof_area_m2": 0.0, # middle floor has adiabatic ceiling to upper unit
-        "exposed_roof_default": False,
-        "window_height_m": 1.2
-    },
-    "commercial": {
-        "floor_area_m2": 80.0,
-        "height_m": 3.5,
-        "perimeter_m": 36.0, # 10m x 8m footprint
-        "gross_wall_area_m2": 126.0, # 36.0 * 3.5
-        "roof_area_m2": 80.0,
-        "exposed_roof_default": True,
-        "window_height_m": 1.5
+try:
+    from src.geometry import TYPOLOGY_GEOMETRY
+except ImportError:
+    # Standard default dimensions matching IDF templates
+    TYPOLOGY_GEOMETRY = {
+        "shelter_v1": {
+            "floor_area_m2": 20.0,
+            "height_m": 3.0,
+            "perimeter_m": 18.0,
+            "gross_wall_area_m2": 54.0,
+            "roof_area_m2": 20.0,
+            "exposed_roof_default": True,
+            "window_height_m": 1.2
+        },
+        "house": {
+            "floor_area_m2": 59.0,
+            "height_m": 3.0,
+            "perimeter_m": 31.5,
+            "gross_wall_area_m2": 94.5,
+            "roof_area_m2": 59.0,
+            "exposed_roof_default": True,
+            "window_height_m": 1.2
+        },
+        "apartment": {
+            "floor_area_m2": 55.0,
+            "height_m": 2.8,
+            "perimeter_m": 15.0,
+            "gross_wall_area_m2": 42.0,
+            "roof_area_m2": 0.0,
+            "exposed_roof_default": False,
+            "window_height_m": 1.2
+        },
+        "commercial": {
+            "floor_area_m2": 80.0,
+            "height_m": 3.5,
+            "perimeter_m": 36.0,
+            "gross_wall_area_m2": 126.0,
+            "roof_area_m2": 80.0,
+            "exposed_roof_default": True,
+            "window_height_m": 1.5
     }
 }
 

@@ -1,0 +1,5 @@
+Executing Builder-Ready PDF Export Engine verification...
+PDF Export status: HTTP 200
+Generated PDF bytes: 118638 (118,638 bytes)
+Checksum header: 21ffde668fc5350db5bd39829ec85c86be6ac570c053966186e7e243e3ac72ae
+Builder-Ready PDF Export Engine verified successfully.

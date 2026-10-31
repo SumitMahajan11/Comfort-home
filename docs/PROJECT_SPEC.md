@@ -1,4 +1,6 @@
 # PROJECT_SPEC: ClimateAdapt-Comfort
+Status: FINALIZED
+Finalized: 2026-10-25
 
 Single source of truth. Changes only through the decision log in `TRACKER.md`.
 

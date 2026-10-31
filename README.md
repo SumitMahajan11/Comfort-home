@@ -51,25 +51,62 @@ Across all five simulated Indian climate zones, the ML Champion comfort model op
 
 ---
 
-## 4. Environment Setup & Installation (Windows PowerShell)
+## 4. Environment Setup & Launch Commands
 
 ### Prerequisites
-- **Operating System:** Windows 10/11 x64 (PowerShell 5.1 / 7.x)
+- **Operating System:** Windows 10/11 x64 (PowerShell 5.1 / 7.x) or macOS / Linux (Bash / Zsh)
 - **Python Version:** Python 3.13.7 (or $\ge 3.11$)
-- **EnergyPlus Engine:** EnergyPlus Version 26.2.0 (Installed to `C:\EnergyPlusV26-2-0\energyplus.exe` or set via `$env:ENERGYPLUS_EXE`)
+- **Node.js Version:** Node.js $\ge 18.18$ (LTS recommended)
+- **EnergyPlus Engine (Pipeline simulation only):** EnergyPlus Version 26.2.0 (Installed to `C:\EnergyPlusV26-2-0\energyplus.exe` or set via `$env:ENERGYPLUS_EXE`)
 
-### Installation Steps
+### Production Decision-Support Web Application (`web/`)
+The primary interactive user interface is the Next.js web application in `web/`. The legacy Streamlit app in `src/app/app.py` is the Phase 6 research prototype preserved for replication and benchmark verification (`tests/test_app.py`).
+
+#### Launch Steps (PowerShell)
 ```powershell
 # 1. Clone repository and navigate to root
 cd "<repo_root>"
 
-# 2. Install required Python packages
-pip install -r requirements.txt
+# 2. Export precomputed simulation and surrogate artifacts to web data
+python tools/export_web_data.py
 
-# 3. Verify unit tests
+# 3. Navigate to web directory
+cd web
+
+# 4. Install Node dependencies
+npm install
+
+# 5. Launch local development server
+npm run dev
+```
+
+#### Launch Steps (Bash)
+```bash
+# 1. Clone repository and navigate to root
+cd "<repo_root>"
+
+# 2. Export precomputed simulation and surrogate artifacts to web data
+python tools/export_web_data.py
+
+# 3. Navigate to web directory
+cd web
+
+# 4. Install Node dependencies
+npm install
+
+# 5. Launch local development server
+npm run dev
+```
+
+### Python Unit Test Suite
+```bash
+# Verify Python test suite (45 passed unit & integration tests)
 python -m pytest tests/ -v
+```
 
-# 4. Launch the local interactive decision-support dashboard
+### Legacy Streamlit Research Prototype
+```bash
+# Launch Phase 6 legacy research prototype
 streamlit run src/app/app.py
 ```
 
@@ -144,16 +181,19 @@ ClimateAdapt-Comfort/
 │   ├── phase6_dashboard.md   # Phase 6 SHAP explainability & Streamlit dashboard report
 │   └── final_results.md      # Final comprehensive synthesis report
 ├── src/
-│   ├── app/app.py            # 5-page interactive decision-support dashboard
+│   ├── app/app.py            # Legacy Streamlit prototype preserved for Phase 6 research replication
 │   ├── data/                 # Data cleaning, group mapping, and split generation
 │   ├── models/               # Model training, baseline evaluation, surrogates, and SHAP
 │   ├── optimize/             # Coupling engine, reference shelters, and NSGA-II optimizer
 │   ├── sim/                  # IDF rendering, LHS sampling, runner, and output parser
 │   └── run_all.py            # Master end-to-end Python pipeline orchestrator
-├── tests/
-│   ├── test_app.py           # Automated Streamlit AppTest unit test suite
-│   ├── test_coupling.py      # Comfort judge coupling and running mean unit tests
-│   └── test_splits.py        # Group split integrity and building leakage tests
-└── tools/
-    └── claims_audit.py       # Automated evidence audit verification script
+├── tests/                    # Unit and integration test suite (45 passed, splits, coupling, app tests)
+├── tools/
+│   ├── export_web_data.py    # Pipeline artifact exporter to static typed JSON for web app
+│   └── claims_audit.py       # Automated evidence audit verification script
+└── web/                      # Production Next.js 16 decision-support web application
+    ├── src/app/              # 8 application routes (Overview, Plan, Cities, Evaluate, Trade-offs, Explain, Models, About)
+    ├── src/components/       # UI components (IndiaClimateMap with Survey of India boundary, CommandPalette, 3D Canvas)
+    ├── src/data/             # Preprojected SOI map SVG and exported static JSON data
+    └── tests/                # 47 automated TypeScript unit tests
 ```

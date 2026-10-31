@@ -279,6 +279,27 @@ def get_top_drivers(city, design_dict, target='O1_ml', top_k=3):
     """
     model_path = f"models/surrogate_{city}_{target}.joblib"
     if not os.path.exists(model_path):
+        csv_path = "data/processed/shap_surrogates_summary.csv"
+        if os.path.exists(csv_path):
+            df_s = pd.read_csv(csv_path)
+            sub = df_s[(df_s['city'] == city) & (df_s['target'] == target)].sort_values('mean_abs_shap', ascending=False)
+            drivers = []
+            for _, r in sub.head(top_k).iterrows():
+                feat = r['feature']
+                val = design_dict.get(feat, 0.0)
+                mean_shap = float(r['mean_abs_shap'])
+                drivers.append({
+                    'feature': feat,
+                    'feature_name': r['feature_name'],
+                    'input_value': val,
+                    'shap_value': mean_shap,
+                    'abs_shap': mean_shap,
+                    'direction': 'increases',
+                    'effect_desc': f"{r['feature_name']} has precomputed mean |SHAP| impact of {mean_shap:.3f}",
+                    'base_value': 0.0,
+                    'predicted_value': 0.0
+                })
+            return drivers
         raise FileNotFoundError(f"Surrogate model not found: {model_path}")
         
     s_dict = joblib.load(model_path)

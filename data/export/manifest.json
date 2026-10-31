@@ -1,11 +1,19 @@
 {
-  "timestamp": "2026-10-25 00:13:48",
-  "source_script": "tools/run_phase8_pipeline.py",
-  "total_files": 160,
+  "timestamp": "2026-10-26 13:10:32",
+  "source_script": "tools/export_web_data.py",
+  "total_files": 161,
   "files": {
     "applicability.json": {
-      "size_bytes": 1352,
-      "sha256": "a9f45c05aa419474bb0a4b6d500ee27d23a5f61c4e725cda4f3decad93b19988"
+      "size_bytes": 3566,
+      "sha256": "e56e0e8cad5fd1e1bf2630582a0d19f292219bb1cb4e1a97682487a4e9f2ec6d"
+    },
+    "city_comfort_norms.json": {
+      "size_bytes": 35203,
+      "sha256": "c3ef3dedcb9f4a675926f2905e8070f30e119106636028f13fa07f91a7350be2"
+    },
+    "geometry.json": {
+      "size_bytes": 2469,
+      "sha256": "ef1c24e3bf6524e323ef483f2467a0beb6cddd9e7a7e5f6a4bd56896b3bf021d"
     },
     "monthly_indoor_Bengaluru_apartment_P_Bengaluru_apartment_024.json": {
       "size_bytes": 10555,
@@ -420,8 +428,8 @@
       "sha256": "0d13cdf5bc722e61e5877bca93c116929440a4cc75ed45d3c08a14e12d2ec0fd"
     },
     "pareto_Bengaluru_shelter_v1.json": {
-      "size_bytes": 13712,
-      "sha256": "77c046ad1419498bd3ad9c6857bbad656d85449d972fadc1405c97d84aa59c86"
+      "size_bytes": 12353,
+      "sha256": "44c0c5a777f07f50b69a4f1ed0814609d6406504bf57bcca937975a3858b1f70"
     },
     "pareto_Jodhpur_apartment.json": {
       "size_bytes": 63463,
@@ -436,8 +444,8 @@
       "sha256": "49b2bda50b48da4edf18e7a5897443e173338a88b4bcb80e6173cfbef1421216"
     },
     "pareto_Jodhpur_shelter_v1.json": {
-      "size_bytes": 13641,
-      "sha256": "44f4d97882e9ac26d68da7651bebe713c5f6d7b31958561150f137f702a0feb7"
+      "size_bytes": 12289,
+      "sha256": "1772945914ca58de7b053dbc44178012e5f84240c3da2fb5838b02bfbcec83a1"
     },
     "pareto_Mumbai_apartment.json": {
       "size_bytes": 63212,
@@ -452,8 +460,8 @@
       "sha256": "c85800884a50c4e6c99b4464e8467349c56748938deefb5a49d919d91f684f89"
     },
     "pareto_Mumbai_shelter_v1.json": {
-      "size_bytes": 13628,
-      "sha256": "54d2591ab2b9789080f7b03e7629aa944bca79857a1062b2940e2ec2a33dcea5"
+      "size_bytes": 12277,
+      "sha256": "c9444b4f1156a9f5ee4fee2bde2b281efcc4dc5c320070a331c0cd967684805d"
     },
     "pareto_New_Delhi_apartment.json": {
       "size_bytes": 63951,
@@ -468,8 +476,8 @@
       "sha256": "917b58690b1621da7bb8bfe4e3a5cef62a6e74f23090d247777931c075dddcd5"
     },
     "pareto_New_Delhi_shelter_v1.json": {
-      "size_bytes": 13692,
-      "sha256": "580ac9e19fb7cbad74f4c5a02da4680208d1a10a6abbb507006716473988dc0e"
+      "size_bytes": 12337,
+      "sha256": "377838a55092ef52b336e9af4cceeb7cd1df3fdb855b6aa6b950623978b0f2b4"
     },
     "pareto_Shimla_apartment.json": {
       "size_bytes": 62974,
@@ -484,8 +492,8 @@
       "sha256": "4904c86ad5966eeae49f5a53f689d02fea73da316184eb8e4657460767a4b331"
     },
     "pareto_Shimla_shelter_v1.json": {
-      "size_bytes": 13687,
-      "sha256": "1d7ccb3212b91343046aafe67e1f4122e1aa578ac89e07bc1aaa36f057ddfd1f"
+      "size_bytes": 12268,
+      "sha256": "6333a1ea34674e12c52798fb7565d94ed7c438d41ee1332337371c6d9e4e15e1"
     },
     "reference_Bengaluru_apartment.json": {
       "size_bytes": 1423,
@@ -638,10 +646,6 @@
     "surrogate_metrics_house.json": {
       "size_bytes": 5210,
       "sha256": "d876a432ba9c67a9e4a09a9956204fb444abd0d8208c5813a5b5254f022e4175"
-    },
-    "city_comfort_norms.json": {
-      "size_bytes": 35203,
-      "sha256": "c3ef3dedcb9f4a675926f2905e8070f30e119106636028f13fa07f91a7350be2"
     }
   }
 }

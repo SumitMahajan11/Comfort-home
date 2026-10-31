@@ -1,8 +1,8 @@
 CLIMATEADAPT-COMFORT V2 CLAIMS & ARTIFACT AUDIT EVIDENCE OUTPUT
 ================================================================================
 
-Total Numerical Claims Extracted: 375
-Total Verified in Literal Evidence: 375
+Total Numerical Claims Extracted: 376
+Total Verified in Literal Evidence: 376
 Verification Pass Rate: 100.00%
 
 PROGRAMMATIC SUCCESS CRITERIA AUDIT (S1 TO S4):
@@ -70,21 +70,22 @@ V2 PRODUCT INTEGRITY AUDIT:
   "screenshots": {
     "count": 10,
     "files": [
-      "expert_design_studio.png",
-      "expert_model_lab.png",
-      "expert_pareto_explorer.png",
-      "wizard_step_1_where.png",
-      "wizard_step_1_where_hindi.png",
       "wizard_step_2_what.png",
-      "wizard_step_3_climate.png",
-      "wizard_step_4_comfort.png",
       "wizard_step_5_compare_modal.png",
-      "wizard_step_5_plan.png"
+      "wizard_step_1_where.png",
+      "wizard_step_5_plan.png",
+      "wizard_step_4_comfort.png",
+      "wizard_step_3_climate.png",
+      "expert_design_studio.png",
+      "wizard_step_1_where_hindi.png",
+      "expert_pareto_explorer.png",
+      "expert_model_lab.png"
     ],
     "status": "VERIFIED"
   },
   "pdf_export": {
-    "status": "MISSING"
+    "status": "VERIFIED",
+    "details": "Executing Builder-Ready PDF Export Engine verification...\nPDF Export status: HTTP 200\nGenerated PDF bytes: 118638 (118,638 bytes)\nChecksum header: 21ffde668fc5350db5bd39829ec85c86be6ac570c053966186e7e243e3ac72ae\nBuilder-Ready PDF Export Engine verified successfully."
   }
 }
 

@@ -97,7 +97,7 @@ export interface TranslationDictionary {
 
 export const TRANSLATIONS: Record<LanguageCode, TranslationDictionary> = {
   en: {
-    appName: "ClimateAdapt-Comfort v2",
+    appName: "Plan my shelter",
     appSubtitle: "Passive Shelter Decision-Support System",
     tagline: "Evidence-gated passive building envelopes for Indian climate zones",
     disclaimerSimulation: "Simulation-based estimate, not a measured result or a construction quote.",
@@ -123,7 +123,7 @@ export const TRANSLATIONS: Record<LanguageCode, TranslationDictionary> = {
 
     // Step 1
     selectCityPrompt: "Choose one of 5 simulated climate stations:",
-    searchPlaceholder: "Search any Indian city, town, or state (e.g. Pune, Jaipur, Manali)...",
+    searchPlaceholder: "Search city or state",
     searchBtn: "Match Nearest Station",
     nearestMatchWarning: "Nearest Simulated Climate Station",
     distanceKm: "km away",
@@ -156,7 +156,7 @@ export const TRANSLATIONS: Record<LanguageCode, TranslationDictionary> = {
     clothingNormal: "Standard everyday casual (0.7 clo)",
     clothingHeavy: "Warm layers / woolens (1.0 clo)",
     priorityLabel: "Design Optimization Priority",
-    priorityBudget: "Budget / Low Cost Interventions",
+    priorityBudget: "Lowest Energy Interventions",
     priorityBalanced: "Balanced (Cost vs Comfort Knee-Point)",
     priorityComfort: "Maximum Comfort (Minimum Discomfort Hours)",
     typicalAreaAverageBadge: "Regional Area Average",
@@ -173,9 +173,9 @@ export const TRANSLATIONS: Record<LanguageCode, TranslationDictionary> = {
 
     // Step 5
     packagesHeading: "Recommended Passive Envelope Packages",
-    packageBudget: "Budget Package (Low-Cost Passive)",
-    packageBalanced: "Balanced Package (Optimal Tradeoff)",
-    packageBestComfort: "Best-Comfort Package (Maximum Thermal Stability)",
+    packageBudget: "Lowest energy",
+    packageBalanced: "Balanced",
+    packageBestComfort: "Lowest discomfort",
     envelopeMaterials: "Bill of Materials & Specifications",
     costBreakdown: "CPWD DSR 2021 Estimated Cost Range",
     costScheduleSource: "Based on official CPWD Delhi Schedule of Rates (DSR 2021)",
@@ -191,7 +191,7 @@ export const TRANSLATIONS: Record<LanguageCode, TranslationDictionary> = {
     exportPdf: "Download Builder-Ready PDF Spec"
   },
   hi: {
-    appName: "क्लाइमेटएडॉप्ट-कम्फर्ट v2",
+    appName: "अपने शेल्टर की योजना बनाएं",
     appSubtitle: "पैसिव भवन डिज़ाइन निर्णय-समर्थन प्रणाली",
     tagline: "भारतीय जलवायु क्षेत्रों के लिए साक्ष्य-आधारित पैसिव भवन आवरण",
     disclaimerSimulation: "यह सिमुलेशन-आधारित अनुमान है, कोई मापा गया परिणाम या निर्माण उद्धरण (कोटेशन) नहीं।",
@@ -217,7 +217,7 @@ export const TRANSLATIONS: Record<LanguageCode, TranslationDictionary> = {
 
     // Step 1
     selectCityPrompt: "5 सिमुलेटेड जलवायु स्टेशनों में से एक चुनें:",
-    searchPlaceholder: "भारत का कोई भी शहर, कस्बा या राज्य खोजें (जैसे पुणे, जयपुर, शिमला)...",
+    searchPlaceholder: "शहर या राज्य खोजें",
     searchBtn: "निकटतम स्टेशन खोजें",
     nearestMatchWarning: "निकटतम सिमुलेटेड जलवायु स्टेशन",
     distanceKm: "किमी दूर",
@@ -250,7 +250,7 @@ export const TRANSLATIONS: Record<LanguageCode, TranslationDictionary> = {
     clothingNormal: "सामान्य कैजुअल कपड़े (0.7 clo)",
     clothingHeavy: "गर्म ऊनी कपड़े (1.0 clo)",
     priorityLabel: "डिज़ाइन प्राथमिकता",
-    priorityBudget: "किफायती / कम लागत वाले उपाय",
+    priorityBudget: "न्यूनतम ऊर्जा (Lowest Energy)",
     priorityBalanced: "संतुलित (लागत बनाम कम्फर्ट)",
     priorityComfort: "अधिकतम कम्फर्ट (न्यूनतम असुविधा घंटे)",
     typicalAreaAverageBadge: "क्षेत्रीय औसत",
@@ -267,9 +267,9 @@ export const TRANSLATIONS: Record<LanguageCode, TranslationDictionary> = {
 
     // Step 5
     packagesHeading: "अनुशंसित पैसिव भवन पैकेज",
-    packageBudget: "बजट पैकेज (किफायती पैसिव)",
-    packageBalanced: "संतुलित पैकेज (सर्वोत्तम संतुलन)",
-    packageBestComfort: "सर्वश्रेष्ठ कम्फर्ट पैकेज (अधिकतम स्थिरता)",
+    packageBudget: "न्यूनतम ऊर्जा (Lowest energy)",
+    packageBalanced: "संतुलित (Balanced)",
+    packageBestComfort: "न्यूनतम असुविधा (Lowest discomfort)",
     envelopeMaterials: "सामग्री सूची एवं तकनीकी विनिर्देश",
     costBreakdown: "सीपीडब्ल्यूडी डीएसआर 2021 अनुमानित लागत सीमा",
     costScheduleSource: "आधिकारिक सीपीडब्ल्यूडी दिल्ली दर अनुसूची (DSR 2021) पर आधारित",

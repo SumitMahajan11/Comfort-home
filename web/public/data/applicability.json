@@ -16,7 +16,7 @@
     "display_name": "Jodhpur",
     "zone": "Hot-Dry (BWh)",
     "confidence": "Low",
-    "spearman": 0.109,
+    "spearman": 0.099,
     "coordinates": [
       26.2389,
       73.0243
@@ -39,7 +39,7 @@
     "display_name": "Mumbai",
     "zone": "Warm-Humid (Aw)",
     "confidence": "Medium",
-    "spearman": 0.945,
+    "spearman": 0.946,
     "coordinates": [
       19.076,
       72.8777
@@ -62,7 +62,7 @@
     "display_name": "New Delhi",
     "zone": "Composite (Cwa)",
     "confidence": "Low",
-    "spearman": 0.195,
+    "spearman": 0.19,
     "coordinates": [
       28.6139,
       77.209
@@ -85,7 +85,7 @@
     "display_name": "Bengaluru",
     "zone": "Temperate (Aw/Cwb)",
     "confidence": "Medium",
-    "spearman": 0.943,
+    "spearman": 0.942,
     "coordinates": [
       12.9716,
       77.5946
@@ -108,7 +108,7 @@
     "display_name": "Shimla",
     "zone": "Cold (Cwb)",
     "confidence": "Low",
-    "spearman": 0.868,
+    "spearman": 0.867,
     "coordinates": [
       31.1048,
       77.1734

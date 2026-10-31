@@ -23,9 +23,9 @@ from tools.validate_costs import validate_cost_rates
 def test_bom_quantity_math_hand_calculated_example():
     """
     Hand-calculated reference example:
-    Building type: shelter_v1 (4.5m x 4.5m, height 3.0m)
+    Building type: shelter_v1 (5.0m x 4.0m, height 3.0m)
     Gross wall area: 18.0m * 3.0m = 54.0 m2
-    Roof area: 20.25 m2
+    Roof area: 20.00 m2
     WWR: 0.20
     Roof insulation: 0.05 m (50 mm)
     Wall insulation: 0.05 m (50 mm)
@@ -47,7 +47,7 @@ def test_bom_quantity_math_hand_calculated_example():
     bom = build_bom(
         building_type="shelter_v1",
         design_variables=design_vars,
-        floor_area_m2=20.25,
+        floor_area_m2=20.0,
         city="Jodhpur"
     )
 
@@ -65,17 +65,17 @@ def test_bom_quantity_math_hand_calculated_example():
     assert "wall_insulation_eps" in items_dict
     assert pytest.approx(items_dict["wall_insulation_eps"]["quantity"], rel=1e-3) == 2.160
 
-    # 4. Roof slab = 20.25 m2
+    # 4. Roof slab = 20.00 m2
     assert "roof_slab_rcc" in items_dict
-    assert pytest.approx(items_dict["roof_slab_rcc"]["quantity"], rel=1e-3) == 20.25
+    assert pytest.approx(items_dict["roof_slab_rcc"]["quantity"], rel=1e-3) == 20.00
 
-    # 5. Roof insulation volume = 20.25 * 0.05 = 1.0125 m3
+    # 5. Roof insulation volume = 20.00 * 0.05 = 1.000 m3
     assert "roof_insulation_eps" in items_dict
-    assert pytest.approx(items_dict["roof_insulation_eps"]["quantity"], rel=1e-3) == 1.0125
+    assert pytest.approx(items_dict["roof_insulation_eps"]["quantity"], rel=1e-3) == 1.000
 
-    # 6. Roof finish: absorptance 0.30 <= 0.45 -> Cool roof coating = 20.25 m2
+    # 6. Roof finish: absorptance 0.30 <= 0.45 -> Cool roof coating = 20.00 m2
     assert "roof_cool_coating" in items_dict
-    assert pytest.approx(items_dict["roof_cool_coating"]["quantity"], rel=1e-3) == 20.25
+    assert pytest.approx(items_dict["roof_cool_coating"]["quantity"], rel=1e-3) == 20.00
     assert "roof_standard_finish" not in items_dict
 
     # 7. Shading projection area = (10.80 m2 / 1.2 m) * 0.50 m = 9.0 m * 0.50 m = 4.50 m2

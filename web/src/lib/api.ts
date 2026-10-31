@@ -22,6 +22,7 @@ import {
   CostRangeEstimate
 } from "@/types";
 import { CITIES_DATA } from "./constants";
+import { getCityApplicability, getCityBaselines } from "./metrics";
 
 // Static reference baselines from data/processed/reference_results.csv
 import paretoJodhpur from "@/data/pareto_Jodhpur.json";
@@ -29,8 +30,10 @@ import paretoMumbai from "@/data/pareto_Mumbai.json";
 import paretoDelhi from "@/data/pareto_New_Delhi.json";
 import paretoBengaluru from "@/data/pareto_Bengaluru.json";
 import paretoShimla from "@/data/pareto_Shimla.json";
+import geometryData from "@/data/geometry.json";
+import cityComfortNorms from "@/data/city_comfort_norms.json";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
 const PARETO_BY_CITY: Record<CityKey, any[]> = {
   Jodhpur: paretoJodhpur,
@@ -50,6 +53,15 @@ const MONTHLY_OUTDOOR_TA: Record<CityKey, number[]> = {
   Shimla: [5.6, 7.2, 11.4, 16.1, 19.5, 20.2, 18.9, 18.4, 17.1, 14.2, 10.8, 7.6]
 };
 
+function getCityComfortPref(city: CityKey): string {
+  const norms = (cityComfortNorms as any)[city]?.occupant_preferences_db2;
+  if (!norms || !norms.has_labelled_votes || !norms.tsv_distribution_pct) {
+    return "not available (no labelled votes)";
+  }
+  const t = norms.tsv_distribution_pct;
+  return `Neutral ${t.neutral}%, Cool ${t.cool}%, Warm ${t.warm}% (N=${norms.n_rows})`;
+}
+
 const AREA_AVERAGES: Record<CityKey, {
   usually_feel: string;
   hours_occupied: string;
@@ -57,33 +69,33 @@ const AREA_AVERAGES: Record<CityKey, {
   clothing_summer: string;
 }> = {
   Jodhpur: {
-    usually_feel: "Too hot (74% survey respondents)",
-    hours_occupied: "18.5 hours/day average",
-    cooling_available: "Ceiling fan (62%), No active cooling (31%), AC (7%)",
+    usually_feel: getCityComfortPref("Jodhpur"),
+    hours_occupied: "24 h/day continuous (A-001)",
+    cooling_available: "Passive cross-ventilation / fan",
     clothing_summer: "Light cotton (0.5 clo)"
   },
   Mumbai: {
-    usually_feel: "Too warm & muggy (68% survey respondents)",
-    hours_occupied: "16.0 hours/day average",
-    cooling_available: "Ceiling fan (82%), AC (14%), None (4%)",
+    usually_feel: getCityComfortPref("Mumbai"),
+    hours_occupied: "24 h/day continuous (A-001)",
+    cooling_available: "Passive cross-ventilation / fan",
     clothing_summer: "Light breathable (0.5 clo)"
   },
   New_Delhi: {
-    usually_feel: "Too hot in summer (58%), Too cold in winter (38%)",
-    hours_occupied: "17.2 hours/day average",
-    cooling_available: "Ceiling fan + evaporative cooler (71%), AC (22%), None (7%)",
+    usually_feel: getCityComfortPref("New_Delhi"),
+    hours_occupied: "24 h/day continuous (A-001)",
+    cooling_available: "Passive cross-ventilation / fan",
     clothing_summer: "Seasonal: 0.5 clo summer / 1.0 clo winter"
   },
   Bengaluru: {
-    usually_feel: "About right (61% survey respondents)",
-    hours_occupied: "15.8 hours/day average",
-    cooling_available: "Ceiling fan (88%), None (9%), AC (3%)",
+    usually_feel: getCityComfortPref("Bengaluru"),
+    hours_occupied: "24 h/day continuous (A-001)",
+    cooling_available: "Passive cross-ventilation / fan",
     clothing_summer: "Moderate casual (0.6 clo)"
   },
   Shimla: {
-    usually_feel: "Too cold for 6+ months (81% survey respondents)",
-    hours_occupied: "19.0 hours/day average",
-    cooling_available: "Space heaters/wood (94%), Fan (6%)",
+    usually_feel: getCityComfortPref("Shimla"),
+    hours_occupied: "24 h/day continuous (A-001)",
+    cooling_available: "Passive solar heating / natural ventilation",
     clothing_summer: "Layered woolens (1.0 clo winter / 0.8 clo summer)"
   }
 };
@@ -110,9 +122,9 @@ export function estimateEnvelopeCost(design: {
   shading_depth: number;
   wwr: number;
 }): CostRangeEstimate {
-  const roofArea = 64.0; // m2
-  const grossWallArea = 96.0; // m2
-  const carpetArea = 48.0; // m2
+  const roofArea = geometryData.shelter_v1.roof_area_m2; // 20.0 m2 (5m x 4m)
+  const grossWallArea = geometryData.shelter_v1.gross_wall_area_m2; // 54.0 m2 (18m perimeter x 3m height)
+  const carpetArea = geometryData.shelter_v1.carpet_area_m2; // 20.0 m2
   const wwrFraction = design.wwr > 1.0 ? design.wwr / 100.0 : design.wwr;
   const windowArea = grossWallArea * wwrFraction;
   const netWallArea = grossWallArea - windowArea;
@@ -168,17 +180,14 @@ export function computeComfortFitScore(
   discomfortPct: number,
   energyKwh: number,
   userFeel: UserFeel,
-  zone: string
+  cooling: CoolingType = "none"
 ): number {
   const comfortShare = Math.max(0, Math.min(100, 100 - discomfortPct));
-  const energyPenalty = Math.min(20, (energyKwh / 300) * 15);
-  let feelPenalty = 0;
-  if (userFeel === "too hot" && ["Hot-Dry", "Warm-Humid", "Composite"].some(z => zone.includes(z))) {
-    feelPenalty = 5;
-  } else if (userFeel === "too cold" && zone.includes("Cold")) {
-    feelPenalty = 6;
-  }
-  const score = Math.round(comfortShare * 0.85 - energyPenalty - feelPenalty + 15);
+  const feelWeight = userFeel === "too hot" ? 1.15 : userFeel === "too cold" ? 0.90 : 1.0;
+  // Fans are free-running: zero active HVAC energy penalty
+  const isFreeRunning = cooling === "none" || cooling === "fan";
+  const energyPenalty = isFreeRunning ? 0 : Math.min(25, (energyKwh / 200) * 20);
+  const score = Math.round(comfortShare * 0.85 * (2 - feelWeight) - energyPenalty + 15);
   return Math.max(10, Math.min(98, score));
 }
 
@@ -188,7 +197,9 @@ function buildLocalPackages(
   bldgType: BuildingType,
   userFeel: UserFeel,
   priority: UserPriority,
-  futureClimate: boolean
+  futureClimate: boolean,
+  hoursOccupied: number = 24,
+  cooling: CoolingType = "none"
 ): EvaluationPackagesResponse {
   const paretoRows = PARETO_BY_CITY[city] || PARETO_BY_CITY["Jodhpur"];
   const cityInfo = CITIES_DATA[city];
@@ -196,22 +207,25 @@ function buildLocalPackages(
   const outdoorTa = MONTHLY_OUTDOOR_TA[city];
 
   const futureTempDelta = futureClimate ? 1.5 : 0.0;
-  const futureDiscomfortPenalty = futureClimate
-    ? (city === "Shimla" ? -3.0 : 4.2)
-    : 0.0;
 
-  // Filter 3 distinct packages from Pareto front
-  // 1. Budget: low insulation (<=60mm roof, <=30mm wall), cool roof
-  let budgetRow = paretoRows.find(
-    r => r.roof_insulation_thickness <= 0.06 && r.wall_insulation_thickness <= 0.03
-  ) || paretoRows[0];
+  // Filter verified points from Pareto front
+  const verifiedRows = paretoRows.filter(r => r.is_verified);
+  const pool = verifiedRows.length > 0 ? verifiedRows : paretoRows;
 
-  // 2. Balanced: middle range insulation
-  let balancedRow = paretoRows[Math.floor(paretoRows.length / 2)] || paretoRows[0];
+  // 1. Lowest energy: min O2 (selection_role === "Best_O2" or lowest O2)
+  const lowestEnergyRow =
+    pool.find(r => r.selection_role === "Best_O2") ||
+    [...pool].sort((a, b) => Number(a.verified_O2 ?? a.O2) - Number(b.verified_O2 ?? b.O2))[0];
 
-  // 3. Best Comfort: lowest O1_adapt
-  const sortedByComfort = [...paretoRows].sort((a, b) => a.O1_adapt - b.O1_adapt);
-  let bestRow = sortedByComfort[0] || paretoRows[0];
+  // 2. Balanced: Knee point
+  const balancedRow =
+    pool.find(r => r.selection_role === "Knee_Point") ||
+    pool[Math.floor(pool.length / 2)];
+
+  // 3. Lowest discomfort: min O1 (selection_role === "Best_O1_ml" or lowest O1_ml)
+  const lowestDiscomfortRow =
+    pool.find(r => r.selection_role === "Best_O1_ml") ||
+    [...pool].sort((a, b) => Number(a.verified_O1_ml ?? a.O1_ml) - Number(b.verified_O1_ml ?? b.O1_ml))[0];
 
   function formatPackage(
     row: any,
@@ -231,21 +245,42 @@ function buildLocalPackages(
     };
 
     const costInfo = estimateEnvelopeCost(design);
-    const discomfort = Math.max(5, Math.min(95, (row.O1_adapt || 30.0) + futureDiscomfortPenalty));
-    const mlDiscomfort = Number(row.O1_ml || discomfort);
-    const energy = Math.max(0, (row.O2 || 50.0) + (futureClimate ? 12.0 : 0.0));
-    const fitScore = computeComfortFitScore(discomfort, energy, userFeel, cityInfo.zone);
+    const discomfort = Math.round(Number(row.verified_O1_ml ?? row.O1_ml ?? 40.0) * 10) / 10;
+    const mlDiscomfort = discomfort;
+    const rawO2 = Number(row.verified_O2 ?? row.O2 ?? 50.0);
+    const energy = Math.round(rawO2 * 10) / 10;
+    const fitScore = computeComfortFitScore(discomfort, energy, userFeel, cooling);
 
     const roofMm = Math.round(design.roof_insulation_thickness * 1000);
     const wallMm = Math.round(design.wall_insulation_thickness * 1000);
     const wwrPct = Math.round(design.wwr > 1 ? design.wwr : design.wwr * 100);
+    const carpetArea = geometryData.shelter_v1.carpet_area_m2; // 20.0 m2 (5m x 4m)
+    const grossWallArea = geometryData.shelter_v1.gross_wall_area_m2; // 54.0 m2
+    const windowArea = Math.round((grossWallArea * (wwrPct / 100)) * 10) / 10;
+    const netWallArea = Math.round((grossWallArea - windowArea) * 10) / 10;
+
+    const quantities = {
+      roof_insulation_mm: roofMm,
+      wall_insulation_mm: wallMm,
+      roof_area_m2: carpetArea,
+      wall_area_m2: netWallArea,
+      wwr_pct: wwrPct,
+      overhang_m: Math.round(design.shading_depth * 100) / 100,
+      ventilation_ach: Math.round(design.ventilation_ach * 10) / 10,
+      wall_mass: design.wall_mass_class
+    };
 
     const materials = [
-      `Roof: ${roofMm} mm Expanded Polystyrene (EPS) with high-SRI reflective cool roof coating (absorptance ${design.roof_solar_absorptance.toFixed(2)})`,
-      `Exterior Walls: ${wallMm} mm mineral wool on 200 mm ${design.wall_mass_class} mass masonry`,
-      `Fenestration: ${wwrPct}% WWR with ${design.shading_depth.toFixed(2)} m exterior overhang projection`,
+      `Roof: ${roofMm} mm Expanded Polystyrene (EPS) over ${carpetArea} m² roof slab`,
+      `Roof Finish: Reflective high-SRI coating (absorptance: ${design.roof_solar_absorptance.toFixed(2)})`,
+      `Exterior Walls: ${wallMm} mm mineral wool over ${netWallArea} m² net exterior wall area`,
+      `Wall Construction: 200 mm ${design.wall_mass_class} mass masonry`,
+      `Fenestration: ${wwrPct}% WWR (${windowArea} m² glazing) with ${design.shading_depth.toFixed(2)} m exterior overhang projection`,
       `Ventilation: Operable louvers providing ${design.ventilation_ach.toFixed(1)} ACH natural cross-ventilation`
     ];
+
+    const hoursScored = Math.round(hoursOccupied * 365);
+    const annualDiscomfortHours = Math.round(hoursScored * (discomfort / 100));
 
     // Monthly Indoor Before vs After
     const monthlyBefore: number[] = [];
@@ -266,18 +301,44 @@ function buildLocalPackages(
       }
     });
 
+    const isVerifiedDirect = Boolean(row.is_verified || row.value_source === "energyplus");
+    const valueSource: "energyplus" | "surrogate" = isVerifiedDirect ? "energyplus" : "surrogate";
+    const badge = isVerifiedDirect ? "EnergyPlus verified" : "Estimated (Surrogate)";
+    const isFreeRunning = cooling === "none" || cooling === "fan";
+
     return {
       id,
       name,
       description: desc,
       pareto_id: row.pareto_id || "P_VERIFIED",
+      selection_role: row.selection_role || (id === "pkg_budget" ? "Best_O2" : id === "pkg_balanced" ? "Knee_Point" : "Best_O1_ml"),
       comfort_fit_score: fitScore,
-      comfort_gain_vs_baseline_pts: Math.round((55.0 - discomfort) * 10) / 10,
-      energy_reduction_pct: Math.round(((240.0 - energy) / 240.0) * 1000) / 10,
-      discomfort_pct: Math.round(discomfort * 10) / 10,
-      ml_discomfort_pct: Math.round(mlDiscomfort * 10) / 10,
-      annual_energy_kwh_per_m2: Math.round(energy * 10) / 10,
+      comfort_gain_vs_baseline_pts: Math.max(0, Math.round((getCityBaselines(city).r2.discomfort_ml_pct - discomfort) * 10) / 10),
+      energy_reduction_pct: Math.max(
+        0,
+        Math.round(
+          ((getCityBaselines(city).r2.energy_kwh_per_m2_yr - energy) /
+            getCityBaselines(city).r2.energy_kwh_per_m2_yr) *
+            1000
+        ) / 10
+      ),
+      discomfort_pct: discomfort,
+      ml_discomfort_pct: mlDiscomfort,
+      annual_energy_kwh_per_m2: isFreeRunning ? 0.0 : energy,
+      annual_discomfort_hours: annualDiscomfortHours,
+      hours_scored: hoursScored,
+      cooling_mode: (cooling === "AC" || cooling === "ac")
+        ? "Active cooling (Ideal-loads HVAC)"
+        : cooling === "fan"
+        ? "Free-running (fan effect not yet modelled)"
+        : "Free-running (0 HVAC energy)",
+      is_verified: isVerifiedDirect,
+      value_source: valueSource,
+      badge: badge,
+      o2_raw_pred: row.o2_raw_pred ?? row.pred_O2 ?? rawO2,
+      o2_was_clipped: Boolean(row.o2_was_clipped ?? ((row.o2_raw_pred ?? row.pred_O2 ?? 0) < 0)),
       design_variables: design,
+      quantities,
       materials_list: materials,
       cost_range: costInfo,
       monthly_performance: {
@@ -290,24 +351,24 @@ function buildLocalPackages(
   }
 
   const pkgBudget = formatPackage(
-    budgetRow,
+    lowestEnergyRow,
     "pkg_budget",
-    "Budget Package (Low-Cost Passive)",
-    "Focuses on cost-effective surface treatments: cool roof reflective coating, basic window shading, and maximized natural cross-ventilation."
+    "Lowest energy",
+    "Minimizes active heating and cooling demand (min O2) on the verified Pareto front through envelope thermal protection."
   );
 
   const pkgBalanced = formatPackage(
     balancedRow,
     "pkg_balanced",
-    "Balanced Package (Optimal Tradeoff)",
-    "Engineered knee-point tradeoff: 60-75 mm roof insulation, moderate wall thermal break, and 0.5 m overhangs."
+    "Balanced",
+    "Pareto knee-point design offering the best balance between uncomfortable hours and active energy demand."
   );
 
   const pkgBestComfort = formatPackage(
-    bestRow,
+    lowestDiscomfortRow,
     "pkg_best_comfort",
-    "Best-Comfort Package (Maximum Thermal Stability)",
-    "High-performance thermal boundary: 100-140 mm EPS insulation, double-glazed fenestration, and optimized mass buffering."
+    "Lowest discomfort",
+    "Minimizes annual uncomfortable hours (min O1) on the verified Pareto front with maximized thermal stability."
   );
 
   return {
@@ -316,7 +377,7 @@ function buildLocalPackages(
     climate_zone: cityInfo.zone,
     confidence_tier: cityInfo.confidence,
     confidence_reason: cityInfo.envelopeAlert || "Precomputed EnergyPlus surrogate prediction.",
-    adaptive_validity: city === "Shimla" ? "73.97%" : "100.0%",
+    adaptive_validity: `${getCityApplicability(city).adaptive_validity_pct.toFixed(1)}%`,
     future_climate_applied: futureClimate,
     packages: {
       budget: pkgBudget,
@@ -327,9 +388,9 @@ function buildLocalPackages(
     user_comparison: {
       user_feel: userFeel,
       area_feel: areaAvg.usually_feel,
-      user_occupied_hours: 24,
+      user_occupied_hours: hoursOccupied,
       area_occupied_hours: areaAvg.hours_occupied,
-      user_cooling: "none",
+      user_cooling: cooling,
       area_cooling: areaAvg.cooling_available
     },
     disclaimer: "Simulation-based estimate, not a measured result or a construction quote.",
@@ -435,17 +496,19 @@ export async function evaluateQuestionnaire(params: {
   priority: UserPriority;
   future_climate: boolean;
 }): Promise<EvaluationPackagesResponse> {
-  try {
-    const res = await fetch(`${API_BASE}/evaluate-packages`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(params)
-    });
-    if (res.ok) {
-      return await res.json();
+  if (API_BASE) {
+    try {
+      const res = await fetch(`${API_BASE}/evaluate-packages`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(params)
+      });
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch {
+      // Backend offline; continue to deterministic client fallback
     }
-  } catch (err) {
-    // Backend offline; continue to deterministic client fallback
   }
 
   return buildLocalPackages(
@@ -453,7 +516,9 @@ export async function evaluateQuestionnaire(params: {
     params.building_type,
     params.usually_feel,
     params.priority,
-    params.future_climate
+    params.future_climate,
+    params.hours_occupied,
+    params.has_cooling
   );
 }
 

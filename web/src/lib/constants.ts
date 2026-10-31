@@ -80,13 +80,27 @@ export const DEFAULT_DESIGN: DesignVariables = {
 };
 
 export const COLOR_PALETTE = {
-  navy: "#0B1F3A",
-  navyCard: "#112A4A",
-  navyBorder: "#1E3E6B",
-  teal: "#2A7F8E",
-  tealGlow: "rgba(42, 127, 142, 0.35)",
-  amberWarm: "#F59E0B",
-  blueCool: "#3B82F6",
-  emeraldPass: "#10B981",
-  roseFail: "#EF4444"
+  bg: "var(--bg)",
+  surface: "var(--surface)",
+  surface2: "var(--surface-2)",
+  line: "var(--line)",
+  ink: "var(--ink)",
+  ink2: "var(--ink-2)",
+  primary: "var(--primary)",
+  link: "var(--link)",
+  good: "var(--good)",
+  warn: "var(--warn)",
+  bad: "var(--bad)",
+  cool: "var(--cool)",
+  hot: "var(--hot)"
 };
+
+export const PIPELINE_CONSTANTS = {
+  ENERGYPLUS_VERSION: "26.2.0",
+  SEED: 42,
+  TOTAL_SIMULATIONS: 10000,
+  TOTAL_SURVEY_VOTES: 109033,
+  COMPLETE_CASES: 58512
+};
+
+

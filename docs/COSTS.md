@@ -29,7 +29,7 @@ All material quantities in `src/costs/bom.py` are derived geometrically from the
 
 | Building Typology | Floor Area ($A_{\text{floor}}$) | Ceiling Height ($H$) | Envelope Perimeter ($P$) | Gross Exterior Wall Area ($A_{\text{wall, gross}}$) | Roof Area ($A_{\text{roof}}$) | Window Height ($H_{\text{win}}$) | Roof Exposure |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`shelter_v1`** | $20.25\text{ m}^2$ ($4.5\text{m} \times 4.5\text{m}$) | $3.0\text{ m}$ | $18.0\text{ m}$ | $54.00\text{ m}^2$ | $20.25\text{ m}^2$ | $1.2\text{ m}$ | Always exposed |
+| **`shelter_v1`** | $20.00\text{ m}^2$ ($5.0\text{m} \times 4.0\text{m}$) | $3.0\text{ m}$ | $18.0\text{ m}$ | $54.00\text{ m}^2$ | $20.00\text{ m}^2$ | $1.2\text{ m}$ | Always exposed |
 | **`house`** | $59.00\text{ m}^2$ (3 zones) | $3.0\text{ m}$ | $31.5\text{ m}$ | $94.50\text{ m}^2$ | $59.00\text{ m}^2$ | $1.2\text{ m}$ | Always exposed |
 | **`apartment`** | $55.00\text{ m}^2$ (2 zones) | $2.8\text{ m}$ | $15.0\text{ m}$ (2 exposed walls) | $42.00\text{ m}^2$ | $0.0\text{ m}^2$ (mid/ground), $55.0\text{ m}^2$ (top) | $1.2\text{ m}$ | Exposed only if `floor_position == "top"` |
 | **`commercial`** | $80.00\text{ m}^2$ ($10\text{m} \times 8\text{m}$) | $3.5\text{ m}$ | $36.0\text{ m}$ | $126.00\text{ m}^2$ | $80.00\text{ m}^2$ | $1.5\text{ m}$ | Always exposed |

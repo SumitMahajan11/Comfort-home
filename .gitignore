@@ -10,6 +10,10 @@ ENV/
 .DS_Store
 Thumbs.db
 scratch/
+node_modules/
+.next/
+web/node_modules/
+web/.next/
 
 # raw data: re-downloadable or licence-restricted
 data/raw/
@@ -49,3 +53,7 @@ reports/mem_trace*.csv
 reports/batch_log*.csv
 reports/batch_errors.log
 reports/single_test_console.txt
+
+# ui evidence: keep only final-verification
+reports/evidence/ui/*
+!reports/evidence/ui/final-verification/

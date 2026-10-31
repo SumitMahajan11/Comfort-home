@@ -36,7 +36,8 @@ import {
   Home,
   Briefcase,
   ChevronRight,
-  X
+  X,
+  Copy
 } from "lucide-react";
 import {
   ResponsiveContainer,
@@ -51,7 +52,7 @@ import {
   Bar,
   Cell
 } from "recharts";
-import { CITIES_DATA } from "@/lib/constants";
+import { CITIES_DATA, PIPELINE_CONSTANTS } from "@/lib/constants";
 import {
   CityKey,
   BuildingType,
@@ -68,20 +69,60 @@ import { matchLocation, evaluateQuestionnaire, downloadBuilderPdf } from "@/lib/
 import { IndiaClimateMap } from "@/components/maps/IndiaClimateMap";
 import { ConfidenceBadge } from "@/components/common/ConfidenceBadge";
 import { VerificationBadge } from "@/components/common/VerificationBadge";
+import { StatusPairing } from "@/components/common/StatusPairing";
 import { ApplicabilityGauge } from "@/components/common/ApplicabilityGauge";
 import { LimitationsDrawer } from "@/components/common/LimitationsDrawer";
-
-type FloorPosition = "ground" | "middle" | "top";
+import { InfoTip } from "@/components/ui/Tooltip";
+import { getCityApplicability, getCityBaselines, formatPercentagePoints, formatEnergyDelta } from "@/lib/metrics";
 
 function RecommenderContent() {
   const searchParams = useSearchParams();
 
+  // URL Query Parameters parsing with fallback defaults
+  const initialStep = Math.max(1, Math.min(5, parseInt(searchParams.get("step") || "1", 10) || 1));
+  const rawCity = searchParams.get("city");
+  let normalizedCity: CityKey = "Jodhpur";
+  if (rawCity) {
+    const key = rawCity.replace(/[\s+]+/g, "_");
+    if (key in CITIES_DATA) {
+      normalizedCity = key as CityKey;
+    }
+  }
+  const initialCity = normalizedCity;
+  const initialFeel = searchParams.get("feel") || "too_hot";
+  const initialHours = parseInt(searchParams.get("hours") || "18", 10) || 18;
+  const initialCooling = (searchParams.get("cooling") as CoolingType) || "fan";
+  const initialPriority = (searchParams.get("priority") as UserPriority) || "balanced";
+  const initialPkg = (searchParams.get("pkg") as any) || (initialPriority === "low energy" ? "pkg_budget" : initialPriority === "comfort" ? "pkg_best_comfort" : "pkg_balanced");
+
   // Mode and Language State
   const [lang, setLang] = useState<LanguageCode>("en");
-  const [isExpert, setIsExpert] = useState(false);
-  const [currentStep, setCurrentStep] = useState<number>(1);
-  const [futureClimate, setFutureClimate] = useState<"current" | "plus1p5" | "plus3p0">("current");
+  // Simple Mode: persists in localStorage. Hides technical metrics (R², Spearman, CI), shows plain-language terms, one recommendation.
+  const [simpleMode, setSimpleMode] = useState<boolean>(true);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("comfort_simple_mode");
+      if (saved !== null) {
+        setSimpleMode(saved === "true");
+      }
+    } catch {}
+  }, []);
+
+  const toggleSimpleMode = () => {
+    setSimpleMode((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem("comfort_simple_mode", String(next));
+      } catch {}
+      return next;
+    });
+  };
+
+  const [currentStep, setCurrentStep] = useState<number>(initialStep);
+  const [maxStepReached, setMaxStepReached] = useState<number>(Math.max(initialStep, 1));
   const [copiedLink, setCopiedLink] = useState(false);
+  const [copiedSummary, setCopiedSummary] = useState(false);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
 
   // Data Table View Toggles (WCAG AA requirement)
@@ -89,56 +130,60 @@ function RecommenderContent() {
   const [showMonthlyDataTable, setShowMonthlyDataTable] = useState(false);
 
   // Step 1: Location state
-  const [selectedCity, setSelectedCity] = useState<CityKey>(
-    (searchParams.get("city") as CityKey) || "Jodhpur"
-  );
+  const [selectedCity, setSelectedCity] = useState<CityKey>(initialCity);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [nearestNotice, setNearestNotice] = useState<string | null>(null);
   const [distanceKm, setDistanceKm] = useState<number>(0);
 
-  // Step 2: Typology & Budget state
-  const [buildingType, setBuildingType] = useState<BuildingType>(
-    (searchParams.get("type") as BuildingType) || "house"
-  );
-  const [floorPosition, setFloorPosition] = useState<FloorPosition>("middle");
-  const [budgetFlexible, setBudgetFlexible] = useState(true);
-  const [budgetMaxInr, setBudgetMaxInr] = useState<number>(250000);
+  // Step 2: Typology (Locked single-zone shelter_v1, 24 h/day continuous occupancy per A-001..A-007)
+  const buildingType: BuildingType = "shelter_v1";
 
-  // Step 3 & 4: Comfort Questionnaire state
-  const [summerFeel, setSummerFeel] = useState<string>("too_hot");
-  const [winterFeel, setWinterFeel] = useState<string>("comfortable");
-  const [monsoonFeel, setMonsoonFeel] = useState<string>("muggy");
-  const [sensitivity, setSensitivity] = useState<"heat" | "cold" | "balanced">("heat");
-  const [hoursOccupied, setHoursOccupied] = useState<number>(18);
-  const [cooling, setCooling] = useState<CoolingType>("fan");
-  const [clothing, setClothing] = useState<ClothingType>("light");
-  const [priority, setPriority] = useState<UserPriority>("balanced");
-  const [specialNeeds, setSpecialNeeds] = useState<{
-    elderly: boolean;
-    infants: boolean;
-    wfh: boolean;
-    respiratory: boolean;
-  }>({
-    elderly: false,
-    infants: false,
-    wfh: true,
-    respiratory: false
-  });
+  // Step 4: Comfort Questionnaire state
+  const [summerFeel, setSummerFeel] = useState<string>(initialFeel);
+  const [hoursOccupied, setHoursOccupied] = useState<number>(initialHours);
+  const [cooling, setCooling] = useState<CoolingType>(initialCooling);
+  const [priority, setPriority] = useState<UserPriority>(initialPriority);
 
   // Step 5: Packages & Results state
   const [evaluation, setEvaluation] = useState<EvaluationPackagesResponse | null>(null);
-  const [activePackageId, setActivePackageId] = useState<"pkg_budget" | "pkg_balanced" | "pkg_best_comfort">("pkg_balanced");
+  const [activePackageId, setActivePackageId] = useState<"pkg_budget" | "pkg_balanced" | "pkg_best_comfort">(initialPkg);
   const [loading, setLoading] = useState(false);
   const [pdfDownloading, setPdfDownloading] = useState(false);
 
   const t = TRANSLATIONS[lang];
   const cityInfo = CITIES_DATA[selectedCity];
+  const cityBaselines = getCityBaselines(selectedCity);
+  const cityApp = getCityApplicability(selectedCity);
 
-  // Auto-evaluate when city, building type, priority, or future-climate changes
+  // URL state persistence & max step tracker
   useEffect(() => {
-    runEvaluation();
-  }, [selectedCity, buildingType, floorPosition, summerFeel, hoursOccupied, cooling, clothing, priority, futureClimate]);
+    setMaxStepReached((prev) => Math.max(prev, currentStep));
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      params.set("step", currentStep.toString());
+      params.set("city", selectedCity);
+      params.set("feel", summerFeel);
+      params.set("hours", hoursOccupied.toString());
+      params.set("cooling", cooling);
+      params.set("priority", priority);
+      params.set("pkg", activePackageId);
+      const newUrl = `${window.location.pathname}?${params.toString()}`;
+      window.history.replaceState(null, "", newUrl);
+    }
+  }, [currentStep, selectedCity, summerFeel, hoursOccupied, cooling, priority, activePackageId]);
+
+  // Priority change handler: updates both priority and recommended package
+  const handlePriorityChange = (newPriority: UserPriority) => {
+    setPriority(newPriority);
+    if (newPriority === "low energy") {
+      setActivePackageId("pkg_budget");
+    } else if (newPriority === "comfort") {
+      setActivePackageId("pkg_best_comfort");
+    } else {
+      setActivePackageId("pkg_balanced");
+    }
+  };
 
   const runEvaluation = async () => {
     setLoading(true);
@@ -148,14 +193,14 @@ function RecommenderContent() {
 
       const res = await evaluateQuestionnaire({
         city: selectedCity,
-        building_type: buildingType,
+        building_type: "shelter_v1",
         usually_feel: userFeelParam,
         hours_occupied: hoursOccupied,
         has_cooling: cooling,
-        summer_clothing: clothing,
+        summer_clothing: "light",
         winter_clothing: "normal",
         priority: priority,
-        future_climate: futureClimate !== "current"
+        future_climate: false
       });
       setEvaluation(res);
     } catch (err) {
@@ -164,6 +209,11 @@ function RecommenderContent() {
       setLoading(false);
     }
   };
+
+  // Auto-evaluate when city, feel, hours, cooling, or priority changes
+  useEffect(() => {
+    runEvaluation();
+  }, [selectedCity, summerFeel, hoursOccupied, cooling, priority]);
 
   const handleLocationSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -196,19 +246,22 @@ function RecommenderContent() {
     setPdfDownloading(true);
     try {
       const profile = {
-        summer_feel: summerFeel,
-        winter_feel: winterFeel,
-        hours_occupied: hoursOccupied,
-        cooling_type: cooling,
-        priority: priority,
-        building_type: buildingType,
-        floor_position: floorPosition
+        city: selectedCity,
+        comfort_sensation: summerFeel,
+        occupancy_hours: hoursOccupied,
+        cooling_equipment: cooling,
+        optimization_priority: priority,
+        building_type: "shelter_v1",
+        model_assumptions: "Single-zone 20.0 m² passive shelter (5 m x 4 m, 3 m high), 24 h/day continuous occupancy (A-001..A-007)",
+        confidence_tier: cityInfo.confidence,
+        confidence_reason: cityInfo.envelopeAlert || "Precomputed EnergyPlus surrogate prediction.",
+        limitations: "Simulation-based estimate, not a measured result or construction quote. Rates unpopulated in official DSR schedule."
       };
       await downloadBuilderPdf(
         {
           ...activePackage,
           city: selectedCity,
-          building_type: buildingType
+          building_type: "shelter_v1"
         },
         profile,
         lang
@@ -224,13 +277,49 @@ function RecommenderContent() {
   // Shareable URL Copy
   const handleShareLink = () => {
     const url = new URL(window.location.href);
+    url.searchParams.set("step", currentStep.toString());
     url.searchParams.set("city", selectedCity);
-    url.searchParams.set("type", buildingType);
-    url.searchParams.set("scenario", futureClimate);
+    url.searchParams.set("feel", summerFeel);
+    url.searchParams.set("hours", hoursOccupied.toString());
+    url.searchParams.set("cooling", cooling);
+    url.searchParams.set("priority", priority);
     url.searchParams.set("pkg", activePackageId);
     navigator.clipboard.writeText(url.toString());
     setCopiedLink(true);
     setTimeout(() => setCopiedLink(false), 2500);
+  };
+
+  // Plain-text Summary Copy
+  const handleCopySummary = () => {
+    if (!activePackage) return;
+    const summaryText = [
+      `ClimateAdapt-Comfort — Passive Design Specification`,
+      `City: ${cityInfo.name} (${cityInfo.zone})`,
+      `Package: ${activePackage.name} (${activePackage.selection_role || "Pareto-verified"})`,
+      `Design ID: ${activePackage.pareto_id}`,
+      `Confidence Tier: ${cityInfo.confidence}`,
+      `Model Assumptions: Single-zone 60 m² shelter, 24 h/day continuous occupancy (A-001..A-007)`,
+      ``,
+      `Key Envelope Variables:`,
+      `- Roof EPS Insulation: ${(activePackage.design_variables.roof_insulation_thickness * 1000).toFixed(0)} mm (~60 m² area)`,
+      `- Roof Solar Absorptance: ${activePackage.design_variables.roof_solar_absorptance.toFixed(2)} (High-SRI reflective finish)`,
+      `- Wall Mineral Wool: ${(activePackage.design_variables.wall_insulation_thickness * 1000).toFixed(0)} mm (~72 m² net wall area)`,
+      `- Wall Construction: 200 mm ${activePackage.design_variables.wall_mass_class} mass masonry`,
+      `- Fenestration: ${(activePackage.design_variables.wwr > 1 ? activePackage.design_variables.wwr : activePackage.design_variables.wwr * 100).toFixed(0)}% WWR with ${activePackage.design_variables.shading_depth.toFixed(2)} m exterior overhang projection`,
+      `- Natural Ventilation: ${activePackage.design_variables.ventilation_ach.toFixed(1)} ACH`,
+      ``,
+      `Simulated Performance:`,
+      `- Discomfort: ${activePackage.discomfort_pct}% (${activePackage.annual_discomfort_hours ?? Math.round(hoursOccupied * 365 * activePackage.discomfort_pct / 100)} h/yr out of ${activePackage.hours_scored ?? hoursOccupied * 365} h/yr scored)`,
+      `- HVAC Energy: ${cooling === "none" ? "0 kWh/m²/yr (free-running: no HVAC)" : `${activePackage.annual_energy_kwh_per_m2} kWh/m²/yr (${activePackage.cooling_mode || "Active cooling"})`}`,
+      `- Comfort vs Baseline R2: ${formatPercentagePoints(activePackage.discomfort_pct - cityBaselines.r2.discomfort_ml_pct)}`,
+      `- Energy vs Baseline R2: ${formatEnergyDelta(activePackage.annual_energy_kwh_per_m2 - cityBaselines.r2.energy_kwh_per_m2_yr)}`,
+      ``,
+      `Notice: Simulation-based estimate, not a measured result or construction quote. CPWD DSR rate schedule unpopulated; showing engineering bill of quantities only.`
+    ].join("\n");
+
+    navigator.clipboard.writeText(summaryText);
+    setCopiedSummary(true);
+    setTimeout(() => setCopiedSummary(false), 2500);
   };
 
   // Climate norms data for Step 3
@@ -263,40 +352,41 @@ function RecommenderContent() {
       {/* HEADER CONTROLS BAR */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
         <div>
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-teal-950/70 border border-teal-500/40 text-teal-300 text-xs font-mono mb-2">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-[8px] bg-[var(--surface-2)] border border-[var(--line)] text-[var(--primary)] text-xs font-semibold mb-2">
             <span className="w-2 h-2 rounded-full bg-teal-400 animate-ping" />
-            <span>Passive Decision-Support Wizard (v2)</span>
+            <span>Plan (Passive Decision-Support)</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-[var(--ink)] tracking-tight">
             {t.appName}
           </h1>
-          <p className="text-sm text-slate-300 mt-1">{t.tagline}</p>
+          <p className="text-sm text-[var(--ink-2)] mt-1">{t.tagline}</p>
         </div>
 
         {/* Global Controls */}
         <div className="flex flex-wrap items-center gap-2 print:hidden">
-          {/* Language Toggle */}
-          <button
-            onClick={() => setLang(lang === "en" ? "hi" : "en")}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl glass-button text-xs font-medium text-slate-200 hover:text-white"
-            title="Toggle English / हिंदी"
-          >
-            <Languages className="w-3.5 h-3.5 text-teal-400" />
-            <span>{t.langSwitch}</span>
-          </button>
+          {/* Simple Mode Toggle */}
+          <div className="relative group">
+            <button
+              type="button"
+              onClick={toggleSimpleMode}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-[8px] text-xs font-semibold transition border focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2 ${
+                simpleMode
+                  ? "bg-[var(--primary)] text-white border-[var(--primary)] shadow-sm"
+                  : "bg-[var(--surface-2)] text-[var(--ink)] border-[var(--line)] hover:border-[var(--primary)]"
+              }`}
+              aria-pressed={simpleMode}
+              aria-label="Toggle Simple Mode"
+            >
+              <Eye className="w-3.5 h-3.5" />
+              <span>{simpleMode ? "Simple Mode: ON" : "Simple Mode: OFF"}</span>
+            </button>
 
-          {/* Simple vs Expert Mode Toggle */}
-          <button
-            onClick={() => setIsExpert(!isExpert)}
-            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-medium transition ${
-              isExpert
-                ? "bg-indigo-600/30 text-indigo-300 border border-indigo-400/40 shadow-[0_0_15px_rgba(99,102,241,0.25)]"
-                : "glass-button text-slate-300 hover:text-white"
-            }`}
-          >
-            <Eye className="w-3.5 h-3.5 text-indigo-400" />
-            <span>{isExpert ? t.expertMode : t.simpleMode}</span>
-          </button>
+            {/* Tooltip defining Simple Mode */}
+            <div className="absolute top-full left-0 mt-2 hidden group-hover:block w-72 p-3 bg-[var(--surface)] border border-[var(--line)] rounded-[8px] text-[12px] text-[var(--ink)] shadow-xl z-30 leading-snug">
+              <strong className="block font-semibold mb-0.5 text-[var(--primary)]">Simple Mode:</strong>
+              Hides technical metrics (R², Spearman correlation, confidence intervals), displays plain-language descriptions only, and highlights a single recommended shelter package.
+            </div>
+          </div>
 
           {/* Limitations Drawer Modal Button */}
           <LimitationsDrawer />
@@ -309,21 +399,26 @@ function RecommenderContent() {
           {stepsConfig.map((s, idx) => {
             const isActive = currentStep === s.num;
             const isCompleted = currentStep > s.num;
+            const isClickable = s.num <= maxStepReached;
             return (
               <React.Fragment key={s.num}>
                 <button
                   type="button"
+                  disabled={!isClickable}
                   onClick={() => setCurrentStep(s.num)}
+                  aria-label={`Go to step ${s.num}: ${s.title}`}
                   className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-xs font-semibold transition ${
                     isActive
-                      ? "bg-teal-500 text-slate-950 font-bold shadow-[0_0_20px_rgba(42,127,142,0.4)]"
+                      ? "bg-teal-500 text-slate-950 font-bold shadow-[0_0_20px_rgba(42,127,142,0.4)] cursor-default"
                       : isCompleted
-                      ? "bg-white/[0.05] text-teal-300 hover:bg-white/[0.09]"
-                      : "text-slate-400 hover:text-white hover:bg-white/[0.04]"
+                      ? "bg-white/[0.05] text-teal-300 hover:bg-white/[0.09] cursor-pointer"
+                      : isClickable
+                      ? "text-slate-300 hover:text-white hover:bg-white/[0.04] cursor-pointer"
+                      : "text-slate-500 opacity-40 cursor-not-allowed"
                   }`}
                 >
                   <span
-                    className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono ${
+                    className={`w-5 h-5 rounded-full flex items-center justify-center text-xs tabular-nums ${
                       isActive
                         ? "bg-slate-950 text-teal-300 font-bold"
                         : isCompleted
@@ -356,24 +451,24 @@ function RecommenderContent() {
         <section className="rounded-2xl glass-card p-6 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
             <div>
-              <h2 className="text-xl font-bold text-white flex items-center space-x-2">
+              <h2 className="text-xl font-bold text-[var(--ink)] flex items-center space-x-2">
                 <MapPin className="w-5 h-5 text-teal-400" />
                 <span>{lang === "hi" ? "चरण 1: स्थान का चयन करें" : "Step 1: Where is your project located?"}</span>
               </h2>
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="text-xs text-[var(--ink-2)] mt-1">
                 {lang === "hi"
                   ? "सिमुलेटेड 5 भारतीय संदर्भ स्टेशनों में से चुनें या किसी भी शहर को खोजें।"
                   : "Pick one of the 5 simulated reference stations on the map, or search any Indian location."}
               </p>
             </div>
-            <span className="text-[11px] font-mono text-teal-400/80">
+            <span className="text-xs text-[var(--ink-2)]">
               {t.simulatedStationsOnly}
             </span>
           </div>
 
           {/* India Climate Map Component */}
           <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+            <label className="text-xs font-bold text-[var(--ink)] uppercase tracking-wider block">
               {lang === "hi" ? "मानचित्र पर जलवायु स्टेशन चुनें:" : "Select Representative Climate Station:"}
             </label>
             <IndiaClimateMap
@@ -403,14 +498,16 @@ function RecommenderContent() {
                     }}
                     className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold transition ${
                       isSelected
-                        ? "bg-teal-500 text-slate-950 font-bold shadow-[0_0_20px_rgba(42,127,142,0.4)]"
-                        : "glass-button text-slate-200 hover:text-white"
+                        ? "bg-[var(--ink)] text-[var(--surface)] font-bold shadow-sm"
+                        : "bg-[var(--surface-2)] border border-[var(--line)] text-[var(--ink)] hover:border-[var(--primary)]"
                     }`}
                   >
                     <span>{c.name}</span>
                     <span
-                      className={`text-[10px] px-1.5 py-0.5 rounded ${
-                        isSelected ? "bg-slate-900/40 text-slate-900 font-bold" : "bg-white/10 text-slate-400"
+                      className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
+                        isSelected
+                          ? "bg-[var(--surface)] text-[var(--ink)] font-bold"
+                          : "bg-[var(--surface)] border border-[var(--line)] text-[var(--ink-2)]"
                       }`}
                     >
                       {c.zone.split(" ")[0]}
@@ -420,28 +517,42 @@ function RecommenderContent() {
               })}
             </div>
 
+            {/* In-Card Text Link to City Explorer */}
+            <div className="flex items-center justify-between text-xs pt-1 border-t border-[var(--line)]">
+              <span className="text-[var(--ink-2)]">
+                Selected Station: <strong className="text-[var(--ink)]">{cityInfo.name}</strong> ({cityInfo.zone} Climate Zone)
+              </span>
+              <Link
+                href={`/cities?city=${selectedCity}`}
+                className="inline-flex items-center space-x-1 text-[var(--primary)] hover:underline text-xs font-medium"
+              >
+                <span>Explore {cityInfo.name} in City Explorer</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
             {/* Search Bar */}
             <form onSubmit={handleLocationSearch} className="flex gap-2 max-w-xl">
               <div className="relative flex-1">
-                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                <Search className="w-4 h-4 text-[var(--ink-2)] absolute left-3 top-3" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={t.searchPlaceholder}
-                  className="w-full glass-input text-white text-xs pl-9 pr-3 py-2.5 rounded-xl focus:outline-none focus:ring-1 focus:ring-teal-400"
+                  placeholder="Search city or state"
+                  className="w-full bg-[var(--surface-2)] border border-[var(--line)] text-[var(--ink)] placeholder:text-[var(--ink-2)] text-xs pl-9 pr-3 py-2.5 rounded-xl focus:outline-none focus:ring-1 focus:ring-[var(--primary)]"
                 />
               </div>
               <button
                 type="submit"
                 disabled={isSearching}
-                className="px-4 py-2.5 rounded-xl bg-teal-500/20 hover:bg-teal-500/30 border border-teal-400/40 text-teal-300 font-semibold text-xs transition"
+                className="px-4 py-2.5 rounded-xl bg-[var(--ink)] hover:opacity-90 text-[var(--surface)] font-semibold text-xs transition"
               >
-                {isSearching ? "Matching..." : t.searchBtn}
+                {isSearching ? "Matching..." : "Match Nearest Station"}
               </button>
             </form>
 
-            {/* Nearest Station Caveat Warning */}
+            {/* Nearest Station Match and Warning Chip */}
             {nearestNotice && (
               <div
                 className={`rounded-xl border p-4 text-xs flex items-start space-x-3 ${
@@ -451,13 +562,24 @@ function RecommenderContent() {
                 }`}
               >
                 <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <div>
-                  <div className="font-bold">
-                    {t.nearestMatchWarning} ({distanceKm} km away)
+                <div className="space-y-1.5 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-bold">
+                      Matched Station: {cityInfo.name} ({distanceKm} km away)
+                    </span>
+                    {distanceKm > 300 ? (
+                      <span className="px-2 py-0.5 rounded bg-rose-500/30 text-rose-200 border border-rose-400/50 text-[11px] font-bold">
+                        ⚠️ Distance &gt; 300 km (Proxy Station)
+                      </span>
+                    ) : (
+                      <span className="px-2 py-0.5 rounded bg-teal-500/20 text-teal-200 border border-teal-400/40 text-[11px] font-semibold">
+                        Proxy Station Match
+                      </span>
+                    )}
                   </div>
-                  <p className="mt-1 leading-relaxed">{nearestNotice}</p>
+                  <p className="leading-relaxed">{nearestNotice}</p>
                   {distanceKm > 300 && (
-                    <p className="mt-1 font-semibold text-rose-300">
+                    <p className="font-semibold text-rose-300">
                       ⚠️ Warning: Distance exceeds 300 km threshold. Microclimates, topography, and seasonal temperature swings may differ significantly from this proxy station.
                     </p>
                   )}
@@ -473,7 +595,7 @@ function RecommenderContent() {
               onClick={() => setCurrentStep(2)}
               className="px-6 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs transition shadow-md flex items-center space-x-2"
             >
-              <span>{lang === "hi" ? "अगला: भवन प्रकार चुनें" : "Next: Choose Building Type"}</span>
+              <span>Next: Building Typology</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -481,7 +603,7 @@ function RecommenderContent() {
       )}
 
       {/* ========================================================================= */}
-      {/* STEP 2: WHAT (BUILDING TYPOLOGY & BUDGET RANGE) */}
+      {/* STEP 2: WHAT (BUILDING TYPOLOGY & LOCKED MODEL ASSUMPTIONS) */}
       {/* ========================================================================= */}
       {currentStep === 2 && (
         <section className="rounded-2xl glass-card p-6 space-y-6">
@@ -489,14 +611,17 @@ function RecommenderContent() {
             <div>
               <h2 className="text-xl font-bold text-white flex items-center space-x-2">
                 <Building className="w-5 h-5 text-teal-400" />
-                <span>{lang === "hi" ? "चरण 2: भवन प्रकार एवं बजट" : "Step 2: What are you building?"}</span>
+                <span>{lang === "hi" ? "चरण 2: भवन प्रकार एवं मॉडल धारणाएं" : "Step 2: What are you building?"}</span>
               </h2>
               <p className="text-xs text-slate-400 mt-1">
                 {lang === "hi"
-                  ? "भवन का प्रकार, अपार्टमेंट तल स्थिति और प्रारंभिक बजट सीमा निर्दिष्ट करें।"
-                  : "Select building typology, apartment floor position, and your optional target budget."}
+                  ? "वर्तमान सिमुलेशन केवल सिंगल-ज़ोन पैसिव आश्रय के लिए मान्य हैं।"
+                  : "All Pareto simulations represent single-zone detached buildings under 24 h/day continuous occupancy (A-001..A-007)."}
               </p>
             </div>
+            <span className="text-xs px-2.5 py-1 rounded-[6px] bg-teal-500/10 border border-teal-500/30 text-teal-300 font-medium">
+              Calibrated Single-Zone Envelope
+            </span>
           </div>
 
           {/* Building Typology Cards */}
@@ -505,130 +630,92 @@ function RecommenderContent() {
               {lang === "hi" ? "भवन संरचना का प्रकार:" : "Building Architecture & Typology:"}
             </label>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {[
-                {
-                  id: "house",
-                  name: lang === "hi" ? "स्वतंत्र घर (House)" : "Detached House",
-                  area: "~60 m² carpet area",
-                  desc: "Single-storey, 3 zones (living, bedroom, service), direct roof exposure to solar insolation.",
-                  icon: <Home className="w-6 h-6 text-teal-400" />
-                },
-                {
-                  id: "apartment",
-                  name: lang === "hi" ? "अपार्टमेंट यूनिट (Apartment)" : "Apartment Unit",
-                  area: "~55 m² carpet area",
-                  desc: "Mid-floor unit in a multi-storey block, 2 zones, adiabatic shared walls to neighbours.",
-                  icon: <Building className="w-6 h-6 text-sky-400" />
-                },
-                {
-                  id: "commercial",
-                  name: lang === "hi" ? "छोटा कार्यालय / व्यवसाय" : "Small Commercial / Office",
-                  area: "~80 m² carpet area",
-                  desc: "Open plan office, higher internal equipment gain (12 W/m²), daytime 8am-6pm occupancy.",
-                  icon: <Briefcase className="w-6 h-6 text-indigo-400" />
-                }
-              ].map((b) => (
-                <button
-                  key={b.id}
-                  type="button"
-                  onClick={() => setBuildingType(b.id as BuildingType)}
-                  className={`p-5 rounded-2xl text-left transition border flex flex-col justify-between space-y-3 ${
-                    buildingType === b.id
-                      ? "bg-teal-500/15 border-teal-400/60 shadow-[0_0_25px_rgba(42,127,142,0.3)]"
-                      : "glass-panel border-white/5 hover:border-white/20"
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10">{b.icon}</div>
-                    {buildingType === b.id && <CheckCircle2 className="w-5 h-5 text-teal-400" />}
+              {/* Active Single-Zone Option */}
+              <div
+                className="p-5 rounded-2xl text-left border flex flex-col justify-between space-y-3 bg-teal-500/15 border-teal-400/60 shadow-[0_0_25px_rgba(42,127,142,0.3)]"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10">
+                    <Home className="w-6 h-6 text-teal-400" />
                   </div>
-                  <div>
-                    <h3 className="text-sm font-bold text-white">{b.name}</h3>
-                    <span className="text-[11px] font-mono text-teal-400 block mt-0.5">{b.area}</span>
-                    <p className="text-xs text-slate-300 mt-2 leading-relaxed">{b.desc}</p>
+                  <div className="flex items-center space-x-1 px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 text-[10px] font-bold">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Active Simulation</span>
                   </div>
-                </button>
-              ))}
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-white">Single-Zone Passive Shelter</h3>
+                  <span className="text-xs text-[var(--primary)] font-medium block mt-0.5">~60 m² carpet area</span>
+                  <p className="text-xs text-slate-300 mt-2 leading-relaxed">
+                    Single-storey detached shelter with direct solar exposure on all four facades and roof. 24 h/day continuous residential occupancy per locked assumptions A-001 and A-002.
+                  </p>
+                </div>
+              </div>
+
+              {/* Disabled Apartment Option */}
+              <div
+                className="p-5 rounded-2xl text-left border flex flex-col justify-between space-y-3 glass-panel border-white/5 opacity-60 cursor-not-allowed"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10">
+                    <Building className="w-6 h-6 text-slate-400" />
+                  </div>
+                  <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    Coming later
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-300">Apartment Unit</h3>
+                  <span className="text-xs text-slate-400 font-medium block mt-0.5">~55 m² carpet area</span>
+                  <p className="text-xs text-slate-400 mt-2 leading-relaxed">
+                    Multi-zone party walls and intermediate floor boundary simulations are scheduled for upcoming research phases.
+                  </p>
+                </div>
+              </div>
+
+              {/* Disabled Commercial Option */}
+              <div
+                className="p-5 rounded-2xl text-left border flex flex-col justify-between space-y-3 glass-panel border-white/5 opacity-60 cursor-not-allowed"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10">
+                    <Briefcase className="w-6 h-6 text-slate-400" />
+                  </div>
+                  <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    Coming later
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-300">Small Commercial / Office</h3>
+                  <span className="text-xs text-slate-400 font-medium block mt-0.5">~80 m² carpet area</span>
+                  <p className="text-xs text-slate-400 mt-2 leading-relaxed">
+                    Daytime-only schedules and internal equipment density simulations are scheduled for upcoming research phases.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Floor Position Option for Apartments */}
-          {buildingType === "apartment" && (
-            <div className="rounded-xl glass-panel p-5 space-y-3 border border-sky-500/30 bg-sky-950/20">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-sky-200 uppercase tracking-wider">
-                  {lang === "hi" ? "अपार्टमेंट की तल स्थिति (Floor Position):" : "Apartment Floor Position:"}
-                </label>
-                <span className="text-[11px] font-mono text-sky-300">Affects roof thermal boundary condition</span>
+          {/* Model Assumptions Panel */}
+          <div className="rounded-xl glass-panel p-5 space-y-3 border border-white/10">
+            <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center space-x-2">
+              <Info className="w-4 h-4 text-teal-400" />
+              <span>Locked Physical Assumptions (A-001..A-007)</span>
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs text-slate-300">
+              <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5 space-y-1">
+                <span className="text-teal-300 font-semibold block">Geometry</span>
+                <p>Detached single-zone building, ~60 m² carpet area, 3.0 m floor-to-ceiling height (A-001).</p>
               </div>
-              <div className="grid grid-cols-3 gap-3">
-                {[
-                  { id: "ground", label: "Ground Floor", note: "Soil contact slab, shaded" },
-                  { id: "middle", label: "Middle Floor", note: "Adiabatic roof and floor (surrounded)" },
-                  { id: "top", label: "Top Floor", note: "Full solar exposure on roof slab" }
-                ].map((f) => (
-                  <button
-                    key={f.id}
-                    type="button"
-                    onClick={() => setFloorPosition(f.id as FloorPosition)}
-                    className={`p-3 rounded-xl text-left text-xs transition border ${
-                      floorPosition === f.id
-                        ? "bg-sky-500/30 text-white border-sky-400 font-bold"
-                        : "bg-white/[0.03] text-slate-300 border-white/10 hover:bg-white/[0.07]"
-                    }`}
-                  >
-                    <span className="block font-semibold">{f.label}</span>
-                    <span className="text-[10px] text-slate-400 block mt-1">{f.note}</span>
-                  </button>
-                ))}
+              <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5 space-y-1">
+                <span className="text-teal-300 font-semibold block">Occupancy</span>
+                <p>Continuous 24 hours/day residential occupancy schedule (A-002).</p>
+              </div>
+              <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5 space-y-1">
+                <span className="text-teal-300 font-semibold block">Ventilation</span>
+                <p>Natural cross-ventilation through operable louvers when indoor temp &gt; outdoor (A-003, A-004).</p>
               </div>
             </div>
-          )}
-
-          {/* Optional Budget Range Slider */}
-          <div className="rounded-xl glass-panel p-5 space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <label className="text-xs font-bold text-white uppercase tracking-wider block">
-                  {lang === "hi" ? "लक्ष्य बजट सीमा (वैकल्पिक):" : "Target Envelope Budget Range (Optional):"}
-                </label>
-                <span className="text-xs text-slate-400">
-                  {budgetFlexible
-                    ? "Flexible / Any budget — optimizer explores full Pareto envelope spectrum."
-                    : `Filtered up to max ₹${budgetMaxInr.toLocaleString("en-IN")}`}
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setBudgetFlexible(!budgetFlexible)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
-                  budgetFlexible
-                    ? "bg-teal-500/20 text-teal-300 border border-teal-500/40"
-                    : "glass-button text-slate-300"
-                }`}
-              >
-                {budgetFlexible ? "Flexible (Any Budget)" : "Set Budget Limit"}
-              </button>
-            </div>
-
-            {!budgetFlexible && (
-              <div className="space-y-2 pt-2">
-                <input
-                  type="range"
-                  min="50000"
-                  max="600000"
-                  step="25000"
-                  value={budgetMaxInr}
-                  onChange={(e) => setBudgetMaxInr(Number(e.target.value))}
-                  className="w-full accent-teal-400 cursor-pointer"
-                />
-                <div className="flex justify-between text-[11px] font-mono text-slate-400">
-                  <span>₹50,000 (Low-Cost)</span>
-                  <span className="text-teal-300 font-bold">₹{budgetMaxInr.toLocaleString("en-IN")}</span>
-                  <span>₹6,00,000 (High-Spec)</span>
-                </div>
-              </div>
-            )}
           </div>
 
           {/* Navigation */}
@@ -646,7 +733,7 @@ function RecommenderContent() {
               onClick={() => setCurrentStep(3)}
               className="px-6 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs transition shadow-md flex items-center space-x-2"
             >
-              <span>{lang === "hi" ? "अगला: जलवायु डेटा देखें" : "Next: Review Climate Data"}</span>
+              <span>Next: Review Climate Data</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -669,38 +756,54 @@ function RecommenderContent() {
             <div className="flex items-center space-x-2">
               <ConfidenceBadge
                 tier={cityInfo.confidence}
-                spearman={cityInfo.spearman}
+                spearman={simpleMode ? undefined : cityInfo.spearman}
                 reason={cityInfo.envelopeAlert}
               />
             </div>
           </div>
 
+          {/* Low Confidence Plain-Language Guidance */}
+          {cityInfo.confidence === "Low" && (
+            <div className="rounded-xl border border-amber-500/40 bg-amber-950/20 p-4 text-xs text-amber-200 space-y-1.5">
+              <div className="font-bold flex items-center space-x-2 text-amber-300">
+                <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+                <span>Confidence: Low in {cityInfo.name} ({cityInfo.zone} Zone)</span>
+              </div>
+              <p className="leading-relaxed">
+                {cityInfo.envelopeAlert || "Dual comfort checks diverge or seasonal weather extremes operate outside empirical ASHRAE 55 calibration regimes."}
+              </p>
+              <p className="font-semibold text-amber-300 pt-0.5">
+                What to do: Use these recommendations as an early-stage passive starting point; verify thermal performance and HVAC sizing with a local building services engineer.
+              </p>
+            </div>
+          )}
+
           {/* Key Climate Gauges */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <div className="rounded-xl glass-panel p-4">
-              <span className="text-[11px] font-mono text-slate-400 block">{t.climateZone}</span>
+              <span className="text-xs text-[var(--ink-2)] block">{t.climateZone}</span>
               <span className="text-base font-bold text-white mt-1 block">{cityInfo.zone}</span>
               <span className="text-[10px] text-teal-400 mt-0.5 block">Elevation: {cityInfo.elevation} | Köppen: {cityInfo.climateCode}</span>
             </div>
 
             <div className="rounded-xl glass-panel p-4">
-              <span className="text-[11px] font-mono text-slate-400 block">Annual Mean Outdoor Temp</span>
+              <span className="text-xs text-[var(--ink-2)] block">Annual mean outdoor temp</span>
               <span className="text-base font-bold text-white mt-1 block">
-                {selectedCity === "Shimla" ? "14.2°C" : selectedCity === "Jodhpur" ? "27.5°C" : selectedCity === "Bengaluru" ? "24.1°C" : "26.8°C"}
+                {cityBaselines.r1.mean_ta_c.toFixed(1)}°C
               </span>
               <span className="text-[10px] text-slate-400 mt-0.5 block">EPW: {cityInfo.epw}</span>
             </div>
 
             <ApplicabilityGauge
               label="Adaptive 90% Validity"
-              value={selectedCity === "Shimla" ? 74.0 : selectedCity === "New_Delhi" ? 94.2 : 100.0}
+              value={cityApp.adaptive_validity_pct}
               threshold={80}
               subtitle="ASHRAE 55 valid temperature regime"
             />
 
             <ApplicabilityGauge
               label="DB II ML Envelope Validity"
-              value={selectedCity === "Mumbai" ? 27.9 : selectedCity === "Shimla" ? 52.1 : selectedCity === "New_Delhi" ? 64.5 : 68.4}
+              value={cityApp.envelope_validity_pct}
               threshold={70}
               subtitle="Empirical survey training domain"
             />
@@ -710,17 +813,17 @@ function RecommenderContent() {
           <div className="rounded-xl glass-panel p-5 space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-2">
               <div>
-                <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center space-x-2">
+                <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center space-x-2">
                   <Thermometer className="w-4 h-4 text-teal-400" />
                   <span>Monthly Outdoor Temperature Bands & Comfort Hours</span>
-                </h4>
+                </h3>
                 <span className="text-[10px] text-slate-400">Monthly Min, Mean, Max Dry-Bulb (°C) from TMYx Weather</span>
               </div>
               <div className="flex items-center space-x-2">
                 <button
                   type="button"
                   onClick={() => setShowClimateDataTable(!showClimateDataTable)}
-                  className="px-2.5 py-1 rounded-lg glass-button text-[11px] font-mono text-slate-300 hover:text-white flex items-center space-x-1"
+                  className="px-2.5 py-1 rounded-[6px] bg-[var(--surface-2)] border border-[var(--line)] text-xs text-[var(--ink)] hover:bg-[var(--surface)] flex items-center space-x-1"
                 >
                   <Table className="w-3.5 h-3.5 text-teal-400" />
                   <span>{showClimateDataTable ? "Show Chart" : "Data Table"}</span>
@@ -737,11 +840,11 @@ function RecommenderContent() {
                     <YAxis stroke="#94a3b8" fontSize={11} domain={['auto', 'auto']} unit="°C" />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: "#0B1F3A",
-                        borderColor: "rgba(42,127,142,0.4)",
-                        borderRadius: "0.75rem",
+                        backgroundColor: "var(--surface)",
+                        borderColor: "var(--line)",
+                        borderRadius: "8px",
                         fontSize: "12px",
-                        color: "#fff"
+                        color: "var(--ink)"
                       }}
                     />
                     <Line type="monotone" dataKey="max" name="Max Temp" stroke="#f43f5e" strokeWidth={2} dot={{ r: 3 }} />
@@ -753,27 +856,27 @@ function RecommenderContent() {
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-xs text-left">
-                  <thead className="bg-white/[0.04] text-slate-400 font-mono text-[11px] border-b border-white/10">
+                  <thead className="bg-[var(--surface-2)] text-[var(--ink-2)] text-xs border-b border-[var(--line)]">
                     <tr>
-                      <th className="p-2.5">Month</th>
-                      <th className="p-2.5 text-rose-300">Max (°C)</th>
-                      <th className="p-2.5 text-teal-300">Mean (°C)</th>
-                      <th className="p-2.5 text-sky-300">Min (°C)</th>
-                      <th className="p-2.5">RH (%)</th>
-                      <th className="p-2.5 text-emerald-300">Comfortable Hours</th>
-                      <th className="p-2.5 text-amber-300">Overheated Hours</th>
+                      <th className="p-2.5 text-left">Month</th>
+                      <th className="p-2.5 text-right text-rose-300">Max (°C)</th>
+                      <th className="p-2.5 text-right text-teal-300">Mean (°C)</th>
+                      <th className="p-2.5 text-right text-sky-300">Min (°C)</th>
+                      <th className="p-2.5 text-right">RH (%)</th>
+                      <th className="p-2.5 text-right text-emerald-300">Comfortable Hours</th>
+                      <th className="p-2.5 text-right text-amber-300">Overheated Hours</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/5 font-mono text-slate-200">
+                  <tbody className="divide-y divide-[var(--line)] text-xs tabular-nums text-[var(--ink)]">
                     {monthlyClimateData.map((row) => (
                       <tr key={row.month}>
-                        <td className="p-2.5 font-bold text-white">{row.month}</td>
-                        <td className="p-2.5 text-rose-300">{row.max}°C</td>
-                        <td className="p-2.5 text-teal-300">{row.mean}°C</td>
-                        <td className="p-2.5 text-sky-300">{row.min}°C</td>
-                        <td className="p-2.5">{row.rh}%</td>
-                        <td className="p-2.5 text-emerald-300">{row.comfortableHours} h</td>
-                        <td className="p-2.5 text-amber-300">{row.warmHours} h</td>
+                        <td className="p-2.5 font-bold text-white text-left">{row.month}</td>
+                        <td className="p-2.5 text-right text-rose-300">{row.max}°C</td>
+                        <td className="p-2.5 text-right text-teal-300">{row.mean}°C</td>
+                        <td className="p-2.5 text-right text-sky-300">{row.min}°C</td>
+                        <td className="p-2.5 text-right">{row.rh}%</td>
+                        <td className="p-2.5 text-right text-emerald-300">{row.comfortableHours} h</td>
+                        <td className="p-2.5 text-right text-amber-300">{row.warmHours} h</td>
                       </tr>
                     ))}
                   </tbody>
@@ -791,7 +894,7 @@ function RecommenderContent() {
             <p className="text-slate-300 leading-relaxed">
               In conventional uninsulated masonry buildings (R2 baseline), occupants experience{" "}
               <strong className="text-white">
-                {selectedCity === "Jodhpur" ? "38.2% annual discomfort hours (mostly acute summer overheating)" : selectedCity === "Shimla" ? "44.5% annual discomfort hours (severe winter chill below 10°C)" : "22.5% discomfort hours"}
+                {cityBaselines.r2.discomfort_ml_pct.toFixed(1)}% annual discomfort hours under the ML comfort model ({cityBaselines.r2.discomfort_adapt_pct.toFixed(1)}% under ASHRAE 55 Adaptive)
               </strong>
               . Solar heat gain through uninsulated roof slabs causes indoor operative temperatures to peak up to 6.5°C above outdoor ambient during summer afternoons.
             </p>
@@ -832,28 +935,32 @@ function RecommenderContent() {
               </h2>
               <p className="text-xs text-slate-400 mt-1">
                 {lang === "hi"
-                  ? "अपनी तापीय संवेदना और उपयोग की आदतें बताएं। आपके उत्तर क्षेत्रीय औसत के साथ तुलना किए जाते हैं।"
-                  : "Tell us how you experience indoor temperatures. Each question displays the typical regional baseline beside your answer."}
+                  ? "अपनी तापीय संवेदना और उपयोग की आदतें बताएं। प्रत्येक उत्तर सीधे परिणाम को प्रभावित करता है।"
+                  : "Tell us how you experience indoor temperatures. Each question directly changes specific simulation and scoring outputs."}
               </p>
             </div>
-            <span className="text-[11px] font-mono text-amber-300">
-              Live Baseline Comparison Active
+            <span className="text-xs px-2.5 py-1 rounded-[6px] bg-teal-500/10 border border-teal-500/30 text-teal-300 font-medium">
+              4 Wired Parameters
             </span>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* Left Column: Full Questionnaire (7 Questions) */}
+            {/* Left Column: 4 Wired Questions */}
             <div className="lg:col-span-7 space-y-4">
-              {/* Question 1: Summer Feel */}
+              {/* Question 1: Sensation Preference */}
               <div className="rounded-xl glass-panel p-4 space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-white">1. Summer Indoor Sensation</label>
-                  <span className="text-[10px] text-amber-300 font-mono">Area: 74% Too Hot</span>
+                  <div>
+                    <label className="text-xs font-bold text-white block">1. Indoor Thermal Sensation Preference</label>
+                    <span className="text-[11px] text-teal-300 font-medium block">
+                      Changes: Comfort fit score weighting (feel sensitivity)
+                    </span>
+                  </div>
                 </div>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-2 pt-1">
                   {[
                     { id: "too_hot", label: "Too hot & stuffy" },
-                    { id: "comfortable", label: "Comfortable" },
+                    { id: "comfortable", label: "About right" },
                     { id: "too_cold", label: "Too chilly" }
                   ].map((opt) => (
                     <button
@@ -872,69 +979,17 @@ function RecommenderContent() {
                 </div>
               </div>
 
-              {/* Question 2: Winter Feel */}
+              {/* Question 2: Daily Occupancy Duration */}
               <div className="rounded-xl glass-panel p-4 space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-white">2. Winter Indoor Sensation</label>
-                  <span className="text-[10px] text-amber-300 font-mono">Area: 38% Chilly</span>
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                  {[
-                    { id: "too_cold", label: "Too cold & chilly" },
-                    { id: "comfortable", label: "Comfortable" },
-                    { id: "too_warm", label: "Pleasantly warm" }
-                  ].map((opt) => (
-                    <button
-                      key={opt.id}
-                      type="button"
-                      onClick={() => setWinterFeel(opt.id)}
-                      className={`p-2.5 rounded-lg text-left text-xs transition border ${
-                        winterFeel === opt.id
-                          ? "bg-teal-500/20 text-teal-200 border-teal-400/50 font-bold"
-                          : "bg-white/[0.03] text-slate-300 border-white/5 hover:bg-white/[0.06]"
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Question 3: Sensitivity Focus */}
-              <div className="rounded-xl glass-panel p-4 space-y-2">
-                <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-white">3. Individual Thermal Sensitivity</label>
-                  <span className="text-[10px] text-teal-400 font-mono">Weighting Multiplier</span>
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                  {[
-                    { id: "heat", label: "Heat-Sensitive" },
-                    { id: "balanced", label: "Balanced Sensation" },
-                    { id: "cold", label: "Cold-Sensitive" }
-                  ].map((opt) => (
-                    <button
-                      key={opt.id}
-                      type="button"
-                      onClick={() => setSensitivity(opt.id as any)}
-                      className={`p-2.5 rounded-lg text-left text-xs transition border ${
-                        sensitivity === opt.id
-                          ? "bg-teal-500/20 text-teal-200 border-teal-400/50 font-bold"
-                          : "bg-white/[0.03] text-slate-300 border-white/5 hover:bg-white/[0.06]"
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Question 4: Daily Occupancy Duration */}
-              <div className="rounded-xl glass-panel p-4 space-y-2">
-                <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-white">
-                    4. Daily Occupancy: <strong className="text-teal-300">{hoursOccupied} hours/day</strong>
-                  </label>
-                  <span className="text-[10px] text-amber-300 font-mono">Area: 17.5 hours/day</span>
+                  <div>
+                    <label className="text-xs font-bold text-white block">
+                      2. Daily Occupancy Duration: <strong className="text-teal-300">{hoursOccupied} hours/day</strong>
+                    </label>
+                    <span className="text-[11px] text-teal-300 font-medium block">
+                      Changes: Annual uncomfortable hours scored ({hoursOccupied} h/day × 365 = {Math.round(hoursOccupied * 365)} h/yr)
+                    </span>
+                  </div>
                 </div>
                 <input
                   type="range"
@@ -943,22 +998,26 @@ function RecommenderContent() {
                   step="1"
                   value={hoursOccupied}
                   onChange={(e) => setHoursOccupied(Number(e.target.value))}
-                  className="w-full accent-teal-400 cursor-pointer"
+                  className="w-full accent-teal-400 cursor-pointer pt-1"
                 />
-                <div className="flex justify-between text-[10px] font-mono text-slate-400">
-                  <span>4 h (Office)</span>
-                  <span>16 h (Apartment)</span>
-                  <span>24 h (Residence)</span>
+                <div className="flex justify-between text-xs tabular-nums text-slate-400">
+                  <span>4 h (Daytime work)</span>
+                  <span>12 h (Evening/Night)</span>
+                  <span>24 h (Continuous full-day)</span>
                 </div>
               </div>
 
-              {/* Question 5: Cooling Equipment */}
+              {/* Question 3: Existing Cooling Available */}
               <div className="rounded-xl glass-panel p-4 space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-white">5. Existing Cooling Available</label>
-                  <span className="text-[10px] text-amber-300 font-mono">Area: 82% Ceiling Fan</span>
+                  <div>
+                    <label className="text-xs font-bold text-white block">3. Existing Cooling Available</label>
+                    <span className="text-[11px] text-teal-300 font-medium block">
+                      Changes: Free-running mode (0 HVAC energy) vs active HVAC cooling demand
+                    </span>
+                  </div>
                 </div>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-2 pt-1">
                   {[
                     { id: "none", label: "None (Free-running)" },
                     { id: "fan", label: "Ceiling fan only" },
@@ -980,50 +1039,26 @@ function RecommenderContent() {
                 </div>
               </div>
 
-              {/* Question 6: Clothing Regime */}
+              {/* Question 4: Design Optimization Priority */}
               <div className="rounded-xl glass-panel p-4 space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-white">6. Indoor Clothing Habits</label>
-                  <span className="text-[10px] text-amber-300 font-mono">Area: 0.5 clo cotton</span>
+                  <div>
+                    <label className="text-xs font-bold text-white block">4. Design Optimization Priority</label>
+                    <span className="text-[11px] text-teal-300 font-medium block">
+                      Changes: Preselected Pareto recommendation in Step 5
+                    </span>
+                  </div>
                 </div>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-2 pt-1">
                   {[
-                    { id: "light", label: "Light (0.5 clo)" },
-                    { id: "normal", label: "Normal (0.7 clo)" },
-                    { id: "heavy", label: "Warm (1.0 clo)" }
-                  ].map((opt) => (
-                    <button
-                      key={opt.id}
-                      type="button"
-                      onClick={() => setClothing(opt.id as ClothingType)}
-                      className={`p-2.5 rounded-lg text-left text-xs transition border ${
-                        clothing === opt.id
-                          ? "bg-teal-500/20 text-teal-200 border-teal-400/50 font-bold"
-                          : "bg-white/[0.03] text-slate-300 border-white/5 hover:bg-white/[0.06]"
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Question 7: Priority Slider */}
-              <div className="rounded-xl glass-panel p-4 space-y-2">
-                <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-white">7. Design Optimization Priority</label>
-                  <span className="text-[10px] text-teal-400 font-mono">Knee Point Focus</span>
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                  {[
-                    { id: "low energy", label: "Low Cost / Budget" },
+                    { id: "low energy", label: "Lowest Energy" },
                     { id: "balanced", label: "Balanced (Knee-Point)" },
-                    { id: "comfort", label: "Max Thermal Comfort" }
+                    { id: "comfort", label: "Lowest Discomfort" }
                   ].map((opt) => (
                     <button
                       key={opt.id}
                       type="button"
-                      onClick={() => setPriority(opt.id as UserPriority)}
+                      onClick={() => handlePriorityChange(opt.id as UserPriority)}
                       className={`p-2.5 rounded-lg text-left text-xs transition border ${
                         priority === opt.id
                           ? "bg-teal-500/20 text-teal-200 border-teal-400/50 font-bold"
@@ -1037,20 +1072,20 @@ function RecommenderContent() {
               </div>
             </div>
 
-            {/* Right Column: Live You vs Area Comparison Card & Gap Sentences */}
+            {/* Right Column: Live You vs Area Baseline Comparison */}
             <div className="lg:col-span-5 space-y-4">
               <div className="rounded-xl glass-panel p-5 space-y-4 border border-amber-500/30 bg-amber-950/10">
                 <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                  <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center space-x-2">
+                  <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center space-x-2">
                     <Sparkles className="w-4 h-4 text-amber-400" />
                     <span>You vs Regional Area Baseline</span>
-                  </h4>
-                  <span className="text-[10px] font-mono text-amber-300">{cityInfo.name}</span>
+                  </h3>
+                  <span className="text-xs tabular-nums text-amber-300 font-semibold">{cityInfo.name}</span>
                 </div>
 
-                {/* Comparison Matrix Table */}
+                {/* Comparison Matrix Table with Empirical Tooltips */}
                 <table className="w-full text-xs text-left">
-                  <thead className="bg-white/[0.04] text-slate-400 font-mono text-[10px] border-b border-white/10">
+                  <thead className="bg-[var(--surface-2)] text-[var(--ink-2)] text-xs border-b border-[var(--line)]">
                     <tr>
                       <th className="p-2">Attribute</th>
                       <th className="p-2 text-teal-300">Your Answer</th>
@@ -1059,59 +1094,82 @@ function RecommenderContent() {
                   </thead>
                   <tbody className="divide-y divide-white/5 text-slate-200">
                     <tr>
-                      <td className="p-2 text-slate-400 font-medium">Summer Feel</td>
+                      <td className="p-2 text-slate-400 font-medium">Dominant Sensation</td>
                       <td className="p-2 font-bold text-teal-200 capitalize">{summerFeel.replace("_", " ")}</td>
-                      <td className="p-2 text-slate-300">Too Hot (74%)</td>
+                      <td className="p-2 text-slate-300">
+                        <span className="inline-flex items-center">
+                          {selectedCity === "Shimla"
+                            ? "Too cold (81%)"
+                            : selectedCity === "Bengaluru"
+                            ? "About right (61%)"
+                            : selectedCity === "Mumbai"
+                            ? "Too warm & muggy (68%)"
+                            : "Too hot (74%)"}
+                          <InfoTip
+                            label="ASHRAE DB II Survey"
+                            content="Source: ASHRAE Global Thermal Comfort Database II (India subset, empirical field survey)."
+                          />
+                        </span>
+                      </td>
                     </tr>
                     <tr>
-                      <td className="p-2 text-slate-400 font-medium">Daily Occupancy</td>
-                      <td className="p-2 font-bold text-teal-200">{hoursOccupied} h/day</td>
-                      <td className="p-2 text-slate-300">17.5 h/day</td>
+                      <td className="p-2 text-slate-400 font-medium">Model Typology</td>
+                      <td className="p-2 font-bold text-teal-200">Single-Zone (~60 m²)</td>
+                      <td className="p-2 text-slate-300">
+                        <span className="inline-flex items-center">
+                          R2 Uninsulated
+                          <InfoTip
+                            label="Reference Shelter R2"
+                            content="Source: reference_results.csv (R2 baseline: 200 mm uninsulated brick masonry, 150 mm concrete roof, 0 mm insulation)."
+                          />
+                        </span>
+                      </td>
                     </tr>
                     <tr>
-                      <td className="p-2 text-slate-400 font-medium">Cooling Access</td>
-                      <td className="p-2 font-bold text-teal-200 capitalize">{cooling}</td>
-                      <td className="p-2 text-slate-300">Fan (82%)</td>
+                      <td className="p-2 text-slate-400 font-medium">Baseline Discomfort</td>
+                      <td className="p-2 font-bold text-teal-200">Step 5 Package</td>
+                      <td className="p-2 text-slate-300">
+                        <span className="inline-flex items-center">
+                          {cityBaselines.r2.discomfort_ml_pct.toFixed(1)}%
+                          <InfoTip
+                            label="Baseline Discomfort Hours"
+                            content="Source: reference_results.csv (R2 baseline simulated in EnergyPlus across 8,760 hours)."
+                          />
+                        </span>
+                      </td>
                     </tr>
                     <tr>
-                      <td className="p-2 text-slate-400 font-medium">Sensitivity</td>
-                      <td className="p-2 font-bold text-teal-200 capitalize">{sensitivity}</td>
-                      <td className="p-2 text-slate-300">Balanced</td>
+                      <td className="p-2 text-slate-400 font-medium">Baseline HVAC Energy</td>
+                      <td className="p-2 font-bold text-teal-200">
+                        {cooling === "none" ? "0 kWh/m² (Free-running)" : "Active cooling"}
+                      </td>
+                      <td className="p-2 text-slate-300">
+                        <span className="inline-flex items-center">
+                          {cityBaselines.r2.energy_kwh_per_m2_yr.toFixed(1)} kWh/m²/yr
+                          <InfoTip
+                            label="Baseline HVAC Energy"
+                            content="Source: reference_results.csv (R2 baseline annual ideal-loads heating & cooling energy)."
+                          />
+                        </span>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
 
-                {/* Comfort Gap Plain-Language Sentences */}
-                <div className="pt-2 border-t border-white/10 space-y-2">
-                  <h5 className="text-[11px] font-bold text-amber-300 uppercase tracking-wider">
-                    Comfort Gap Analysis
-                  </h5>
-                  <ul className="space-y-1.5 text-xs text-slate-300 leading-relaxed">
-                    <li className="flex items-start space-x-2">
-                      <span className="text-teal-400 font-bold mt-0.5">•</span>
-                      <span>
-                        {hoursOccupied > 18
-                          ? `With ${hoursOccupied} hours/day indoor occupancy, your daytime overheating exposure is 15% higher than typical regional residents.`
-                          : `With ${hoursOccupied} hours/day occupancy, nighttime thermal radiation from heavy walls is your primary comfort factor.`}
-                      </span>
-                    </li>
-                    <li className="flex items-start space-x-2">
-                      <span className="text-teal-400 font-bold mt-0.5">•</span>
-                      <span>
-                        {sensitivity === "heat"
-                          ? "Your heat sensitivity warrants aggressive roof insulation (≥50mm) and high-albedo cool roof finish to suppress ceiling radiant temperatures."
-                          : "Your balanced sensitivity allows relying on natural cross-ventilation (6-10 ACH) to evacuate evening warmth."}
-                      </span>
-                    </li>
-                    <li className="flex items-start space-x-2">
-                      <span className="text-teal-400 font-bold mt-0.5">•</span>
-                      <span>
-                        {cooling === "none"
-                          ? "In a purely free-running shelter, deep exterior overhangs (0.5–0.7 m) are required to block 85% of peak summer window solar loads."
-                          : "With existing cooling, envelope insulation yields direct cash savings by cutting annual cooling electricity burden by 30–45%."}
-                      </span>
-                    </li>
-                  </ul>
+                {/* Plain-Language Parameter Summary */}
+                <div className="pt-2 border-t border-white/10 space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                  <div className="text-[11px] font-bold text-amber-300 uppercase tracking-wider">
+                    How Your Inputs Shape Step 5
+                  </div>
+                  <p>
+                    • <strong>Occupancy ({hoursOccupied} h/day)</strong>: Directly scales total annual uncomfortable hours scored ({Math.round(hoursOccupied * 365)} hours evaluated per year).
+                  </p>
+                  <p>
+                    • <strong>Cooling Mode ({cooling === "none" ? "Free-running" : cooling})</strong>: {cooling === "none" ? "Evaluates passive comfort only with 0 HVAC energy burden." : "Simulates active ideal-loads cooling demand in kWh/m²/yr."}
+                  </p>
+                  <p>
+                    • <strong>Priority ({priority})</strong>: Highlights the corresponding verified Pareto candidate in Step 5.
+                  </p>
                 </div>
               </div>
             </div>
@@ -1132,7 +1190,7 @@ function RecommenderContent() {
               onClick={() => setCurrentStep(5)}
               className="px-6 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs transition shadow-md flex items-center space-x-2"
             >
-              <span>{lang === "hi" ? "अगला: अनुशंसित पैसिव योजना देखें" : "Next: View Recommended Plan"}</span>
+              <span>Next: View Recommended Plan</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -1140,7 +1198,7 @@ function RecommenderContent() {
       )}
 
       {/* ========================================================================= */}
-      {/* STEP 5: YOUR PLAN (THREE PACKAGES, CPWD DSR NULL GATED, 12-MONTH CHART) */}
+      {/* STEP 5: YOUR PLAN (THREE HONEST PACKAGES, QUANTITIES ONLY, OUTPUTS) */}
       {/* ========================================================================= */}
       {currentStep === 5 && evaluation && activePackage && (
         <section className="space-y-6">
@@ -1148,48 +1206,68 @@ function RecommenderContent() {
           <div className="rounded-2xl glass-card p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="flex items-center space-x-2">
-                <span className="px-2.5 py-1 rounded-full text-xs font-mono font-bold bg-teal-500/20 text-teal-300 border border-teal-500/30">
-                  {selectedCity} • {buildingType.toUpperCase()}
+                <span className="px-2.5 py-1 rounded-[6px] text-xs font-semibold bg-[var(--surface-2)] border border-[var(--line)] text-[var(--ink)]">
+                  {selectedCity} • SINGLE-ZONE SHELTER (60 m²)
                 </span>
-                <ConfidenceBadge tier={cityInfo.confidence} spearman={cityInfo.spearman} />
-                <VerificationBadge status="verified" />
+                <StatusPairing
+                  confidenceTier={cityInfo.confidence}
+                  isVerified={true}
+                />
               </div>
               <h2 className="text-2xl font-extrabold text-white mt-2">
-                {lang === "hi" ? "आपकी अनुकूलित पैसिव योजना" : "Your Recommended Passive Design Plan"}
+                Your Recommended Passive Design Plan
               </h2>
               <p className="text-xs text-slate-400 mt-0.5">
                 Precomputed EnergyPlus Pareto-optimal envelopes tailored to your regional climate and comfort profile.
               </p>
             </div>
 
-            {/* Scenario Toggle */}
-            <div className="flex flex-col items-end space-y-1.5">
-              <span className="text-[10px] font-mono text-slate-400">Climate Scenario:</span>
-              <div className="flex p-1 rounded-xl bg-white/[0.04] border border-white/10">
-                {[
-                  { id: "current", label: "Today (TMYx)" },
-                  { id: "plus1p5", label: "+1.5°C Warmer" },
-                  { id: "plus3p0", label: "+3.0°C High" }
-                ].map((scen) => (
+            {/* Climate Scenario Buttons with Not-Simulated Guard */}
+            <div className="flex flex-col sm:items-end space-y-1.5">
+              <span className="text-xs tabular-nums text-slate-400">Climate Scenario:</span>
+              <div className="flex p-1 rounded-xl bg-white/[0.04] border border-white/10 gap-1">
+                <button
+                  type="button"
+                  className="px-3 py-1.5 rounded-lg text-xs font-bold bg-teal-500 text-slate-950 shadow-md"
+                >
+                  Today (TMYx Weather)
+                </button>
+                <div className="relative group inline-block">
                   <button
-                    key={scen.id}
                     type="button"
-                    onClick={() => setFutureClimate(scen.id as any)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
-                      futureClimate === scen.id
-                        ? "bg-amber-500 text-slate-950 font-bold shadow-md"
-                        : "text-slate-300 hover:text-white"
-                    }`}
+                    disabled={true}
+                    className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-500 opacity-60 cursor-not-allowed border border-white/5"
                   >
-                    {scen.label}
+                    +1.5°C (Not simulated)
                   </button>
-                ))}
+                  <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 hidden group-hover:block w-48 p-2 bg-slate-900 border border-white/15 rounded-lg text-[10px] text-slate-300 shadow-xl z-20 pointer-events-none">
+                    Warming projections (+1.5°C) were not re-simulated in EnergyPlus for the Pareto candidate set. Disabled to prevent speculative numbers.
+                  </div>
+                </div>
+                <div className="relative group inline-block">
+                  <button
+                    type="button"
+                    disabled={true}
+                    className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-500 opacity-60 cursor-not-allowed border border-white/5"
+                  >
+                    +3.0°C (Not simulated)
+                  </button>
+                  <div className="absolute bottom-full mb-2 right-0 hidden group-hover:block w-48 p-2 bg-slate-900 border border-white/15 rounded-lg text-[10px] text-slate-300 shadow-xl z-20 pointer-events-none">
+                    Warming projections (+3.0°C) were not re-simulated in EnergyPlus for the Pareto candidate set. Disabled to prevent speculative numbers.
+                  </div>
+                </div>
               </div>
-              <span className="text-[10px] text-amber-300/80 italic">
-                Illustrative scenario, not a forecast.
-              </span>
             </div>
           </div>
+
+          {/* Simple Mode Guidance Notice */}
+          {simpleMode && (
+            <div className="p-3 rounded-[8px] bg-[var(--surface-2)] border border-[var(--line)] text-xs text-[var(--ink)] flex items-center justify-between">
+              <span>
+                <strong>Simple Mode:</strong> Displaying plain-language shelter recommendations. Your primary recommended shelter is highlighted below.
+              </span>
+            </div>
+          )}
 
           {/* THREE PACKAGES SIDE-BY-SIDE CARDS */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -1198,25 +1276,31 @@ function RecommenderContent() {
                 id: "pkg_budget",
                 key: "budget",
                 pkg: evaluation.packages.budget,
-                badge: "Budget Passive",
-                desc: "Focus on reflective roof & shading louvers with minimal wall insulation."
+                badge: "Lowest energy",
+                roleText: simpleMode ? "Lowest energy demand" : "Min O2 (EnergyPlus verified)",
+                desc: "Minimizes active heating and cooling energy demand on the verified Pareto front."
               },
               {
                 id: "pkg_balanced",
                 key: "balanced",
                 pkg: evaluation.packages.balanced,
-                badge: "Balanced (Recommended)",
-                desc: "Knee-point Pareto tradeoff balancing annual comfort hours and envelope cost."
+                badge: "Balanced",
+                roleText: simpleMode ? "Best balance of comfort & energy" : "Knee Point (EnergyPlus verified)",
+                desc: "Pareto knee-point design balancing annual uncomfortable hours and active HVAC energy."
               },
               {
                 id: "pkg_best_comfort",
                 key: "best_comfort",
                 pkg: evaluation.packages.best_comfort,
-                badge: "Best-Comfort",
-                desc: "Maximum thermal inertia and heavy insulation for minimum annual discomfort."
+                badge: "Lowest discomfort",
+                roleText: simpleMode ? "Maximum comfort stability" : "Min O1 (EnergyPlus verified)",
+                desc: "Minimizes annual uncomfortable hours on the verified Pareto front with maximum passive thermal stability."
               }
-            ].map(({ id, key, pkg, badge, desc }) => {
+            ].map(({ id, key, pkg, badge, roleText, desc }) => {
               const isSelected = activePackageId === id;
+              const hoursScored = pkg.hours_scored ?? Math.round(hoursOccupied * 365);
+              const discomfortHours = pkg.annual_discomfort_hours ?? Math.round(hoursScored * (pkg.discomfort_pct / 100));
+
               return (
                 <div
                   key={id}
@@ -1227,99 +1311,134 @@ function RecommenderContent() {
                       : "glass-panel border-white/10 hover:border-white/20 opacity-90"
                   }`}
                 >
-                  {/* Top Badge */}
+                  {/* Top Badge & Role */}
                   <div className="flex items-center justify-between">
-                    <span
-                      className={`px-2.5 py-1 rounded-full text-[11px] font-mono font-bold ${
-                        isSelected
-                          ? "bg-teal-500 text-slate-950"
-                          : "bg-white/10 text-slate-300"
-                      }`}
-                    >
-                      {badge}
-                    </span>
+                    <div>
+                      <span
+                        className={`px-2.5 py-1 rounded-[6px] text-xs font-bold ${
+                          isSelected
+                            ? "bg-teal-500 text-slate-950"
+                            : "bg-white/10 text-slate-300"
+                        }`}
+                      >
+                        {badge}
+                      </span>
+                      <span className="text-[10px] text-teal-300/80 block mt-1">
+                        {roleText}
+                      </span>
+                    </div>
                     <VerificationBadge status="verified" showTooltip={false} />
                   </div>
 
-                  {/* Comfort Fit Score Radial Gauge */}
-                  <div className="flex items-center space-x-4 py-2">
-                    <div className="relative w-20 h-20 rounded-full border-4 border-teal-500/40 flex items-center justify-center shadow-[0_0_20px_rgba(42,127,142,0.25)] shrink-0">
-                      <span className="text-2xl font-black text-white font-mono">
+                  <p className="text-xs text-slate-300 leading-relaxed">{desc}</p>
+
+                  {/* Discomfort & Energy Metrics (Prominent Real Numbers) */}
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/10 text-xs">
+                    <div className="bg-white/[0.02] p-2.5 rounded-xl border border-white/5 space-y-0.5">
+                      <span className="text-[10px] text-slate-400 block">Annual Discomfort</span>
+                      <span className="text-xl font-bold text-[var(--hot)] tabular-nums">{pkg.discomfort_pct}%</span>
+                      <span className="text-[11px] text-slate-300 block tabular-nums">
+                        {discomfortHours} h/yr ({hoursScored} h scored)
+                      </span>
+                      <span className="text-xs text-[var(--good)] block tabular-nums pt-1">
+                        vs R2: {formatPercentagePoints(pkg.discomfort_pct - cityBaselines.r2.discomfort_ml_pct)}
+                      </span>
+                    </div>
+                    <div className="bg-white/[0.02] p-2.5 rounded-xl border border-white/5 space-y-0.5">
+                      <span className="text-[10px] text-slate-400 block">HVAC Energy (O2)</span>
+                      {cooling === "none" ? (
+                        <span className="text-xs font-bold text-[var(--ink)] block tabular-nums leading-snug pt-1" data-testid="energy-line">
+                          0 kWh/m²/yr (free-running: no HVAC)
+                        </span>
+                      ) : (
+                        <>
+                          <span className="text-xl font-bold text-[var(--ink)] tabular-nums" data-testid="energy-line">
+                            {pkg.annual_energy_kwh_per_m2}
+                          </span>
+                          <span className="text-[10px] text-slate-400 block">
+                            kWh/m²/yr (Ideal-loads)
+                          </span>
+                        </>
+                      )}
+                      <span className="text-xs text-[var(--link)] block tabular-nums pt-1">
+                        vs R2: {formatEnergyDelta((cooling === "none" ? 0 : pkg.annual_energy_kwh_per_m2) - cityBaselines.r2.energy_kwh_per_m2_yr)}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Comfort Fit Score with Published Formula Tooltip */}
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                    <div>
+                      <div className="flex items-center">
+                        <span className="text-xs text-slate-400 uppercase font-semibold">Comfort Fit Score</span>
+                        <InfoTip
+                          label="Comfort Fit Score Formula"
+                          content="Formula: max(10, min(98, round((100 - Discomfort%) × 0.85 × FeelMultiplier - EnergyPenalty + 15))). FeelMultiplier: 0.85 (Too Hot), 1.00 (About Right), 1.10 (Too Cold). EnergyPenalty: 0 for free-running, or (kWh/m² / 200) × 20 for active cooling."
+                        />
+                      </div>
+                      <span className="text-[10px] text-slate-400 block">
+                        Occupant Sensitivity: {summerFeel.replace("_", " ")}
+                      </span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-xl font-extrabold text-teal-300 tabular-nums">
                         {pkg.comfort_fit_score}
                       </span>
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-mono text-slate-400 block uppercase">
-                        Comfort Fit Score
-                      </span>
-                      <span className="text-sm font-bold text-teal-300">
-                        {pkg.comfort_fit_score >= 80 ? "High Potential" : "Balanced Fit"}
-                      </span>
-                      <span className="text-[10px] text-slate-400 block mt-0.5">
-                        Typical Local Building: 48/100
-                      </span>
+                      <span className="text-[10px] text-slate-400 block">/ 100</span>
                     </div>
                   </div>
 
-                  {/* Discomfort & Energy Metrics */}
-                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/10 text-xs">
-                    <div className="bg-white/[0.02] p-2.5 rounded-xl border border-white/5">
-                      <span className="text-[10px] text-slate-400 block">Discomfort</span>
-                      <span className="text-lg font-black text-white font-mono">{pkg.discomfort_pct}%</span>
-                      <span className="text-[10px] text-emerald-400 block">+{pkg.comfort_gain_vs_baseline_pts}% gain</span>
+                  {/* Materials list (quantities only) — CPWD DSR Null Gated */}
+                  <div className="rounded-xl border border-white/10 bg-white/[0.02] p-3 text-xs space-y-1.5">
+                    <div className="flex justify-between items-center text-xs text-slate-300 font-bold border-b border-white/5 pb-1">
+                      <span>Materials list (quantities only):</span>
+                      <span className="text-[10px] text-amber-300 font-normal">Rates unpopulated</span>
                     </div>
-                    <div className="bg-white/[0.02] p-2.5 rounded-xl border border-white/5">
-                      <span className="text-[10px] text-slate-400 block">Energy Burden</span>
-                      <span className="text-lg font-black text-white font-mono">{pkg.annual_energy_kwh_per_m2}</span>
-                      <span className="text-[10px] text-slate-400 block">kWh/m²/yr</span>
+                    <div className="space-y-1 text-[11px] text-slate-300">
+                      <div className="flex items-center space-x-1.5">
+                        <Check className="w-3.5 h-3.5 text-teal-400 shrink-0" />
+                        <span>Roof EPS: {(pkg.design_variables.roof_insulation_thickness * 1000).toFixed(0)} mm (~60 m² area)</span>
+                      </div>
+                      <div className="flex items-center space-x-1.5">
+                        <Check className="w-3.5 h-3.5 text-teal-400 shrink-0" />
+                        <span>Roof Coating: Reflective finish (absorptance: {pkg.design_variables.roof_solar_absorptance.toFixed(2)})</span>
+                      </div>
+                      <div className="flex items-center space-x-1.5">
+                        <Check className="w-3.5 h-3.5 text-teal-400 shrink-0" />
+                        <span>Wall Mineral Wool: {(pkg.design_variables.wall_insulation_thickness * 1000).toFixed(0)} mm (~72 m² net wall)</span>
+                      </div>
+                      <div className="flex items-center space-x-1.5">
+                        <Check className="w-3.5 h-3.5 text-teal-400 shrink-0" />
+                        <span>Windows & Overhang: {(pkg.design_variables.wwr > 1 ? pkg.design_variables.wwr : pkg.design_variables.wwr * 100).toFixed(0)}% WWR, {pkg.design_variables.shading_depth.toFixed(2)} m overhang</span>
+                      </div>
+                      <div className="flex items-center space-x-1.5">
+                        <Check className="w-3.5 h-3.5 text-teal-400 shrink-0" />
+                        <span>Natural Ventilation: {pkg.design_variables.ventilation_ach.toFixed(1)} ACH cross-ventilation louvers</span>
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Cost Range: Strict Null Gating */}
-                  <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3 text-xs space-y-1">
-                    <div className="flex justify-between items-center text-[10px] text-slate-400 font-mono">
-                      <span>CPWD DSR Cost:</span>
-                      <span className="text-amber-300">Rates Unpopulated</span>
-                    </div>
-                    <div className="text-xs text-amber-200/90 italic">
-                      Rates unpopulated in official DSR schedule.
-                    </div>
-                    <span className="text-[9px] text-slate-400 block">
-                      Estimate for early decisions, never a quote.
+                    <span className="text-[10px] text-slate-400 block pt-1 border-t border-white/5">
+                      CPWD DSR rate schedule unpopulated; showing engineering bill of quantities only.
                     </span>
                   </div>
 
-                  {/* Top BOM Materials list */}
-                  <div className="space-y-1.5 text-xs text-slate-300">
-                    <span className="text-[10px] font-mono text-slate-400 uppercase block">Top BOM Elements:</span>
-                    <div className="space-y-1 text-[11px]">
-                      <div className="flex items-center space-x-1.5">
-                        <Check className="w-3.5 h-3.5 text-teal-400 shrink-0" />
-                        <span>Roof: {(pkg.design_variables.roof_insulation_thickness * 1000).toFixed(0)} mm EPS</span>
-                      </div>
-                      <div className="flex items-center space-x-1.5">
-                        <Check className="w-3.5 h-3.5 text-teal-400 shrink-0" />
-                        <span>Walls: {(pkg.design_variables.wall_insulation_thickness * 1000).toFixed(0)} mm Mineral Wool</span>
-                      </div>
-                      <div className="flex items-center space-x-1.5">
-                        <Check className="w-3.5 h-3.5 text-teal-400 shrink-0" />
-                        <span>Shading: {pkg.design_variables.shading_depth.toFixed(2)} m Louver</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Select button */}
-                  <button
-                    type="button"
-                    onClick={() => setActivePackageId(id as any)}
-                    className={`w-full py-2 rounded-xl text-xs font-bold transition ${
-                      isSelected
-                        ? "bg-teal-500 text-slate-950 shadow-md"
-                        : "glass-button text-slate-200 hover:text-white"
-                    }`}
-                  >
-                    {isSelected ? "Active Selected Package" : "Select Package"}
-                  </button>
+                  {/* Selected / Select Button */}
+                  {isSelected ? (
+                    <button
+                      type="button"
+                      className="w-full py-2.5 rounded-xl text-xs font-bold bg-teal-500 text-slate-950 flex items-center justify-center space-x-1.5 shadow-md"
+                    >
+                      <Check className="w-4 h-4" />
+                      <span>Selected ✓</span>
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setActivePackageId(id as any)}
+                      className="w-full py-2.5 rounded-xl text-xs font-semibold glass-button text-slate-200 hover:text-white"
+                    >
+                      Select this plan
+                    </button>
+                  )}
                 </div>
               );
             })}
@@ -1332,7 +1451,7 @@ function RecommenderContent() {
                 <Sparkles className="w-4 h-4 text-teal-400" />
                 <span>Why This Design Works (Physics & SHAP Explainability)</span>
               </h3>
-              <span className="text-[11px] font-mono text-teal-400">Design ID: {activePackage.pareto_id}</span>
+              <span className="text-xs text-[var(--primary)] font-semibold">Design ID: <code>{activePackage.pareto_id}</code></span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-300">
@@ -1342,7 +1461,7 @@ function RecommenderContent() {
                   <span>1. Roof Solar Shielding</span>
                 </div>
                 <p className="leading-relaxed">
-                  Roof solar absorptance of {activePackage.design_variables.roof_solar_absorptance.toFixed(2)} coupled with {(activePackage.design_variables.roof_insulation_thickness * 1000).toFixed(0)} mm insulation suppresses peak slab heat flux by 76%, reducing daytime ceiling radiant temperatures.
+                  Roof solar absorptance of {activePackage.design_variables.roof_solar_absorptance.toFixed(2)} coupled with {(activePackage.design_variables.roof_insulation_thickness * 1000).toFixed(0)} mm insulation suppresses peak slab heat flux, reducing daytime ceiling radiant temperatures.
                 </p>
               </div>
 
@@ -1352,7 +1471,7 @@ function RecommenderContent() {
                   <span>2. Window Overhang Protection</span>
                 </div>
                 <p className="leading-relaxed">
-                  Exterior overhang projection of {activePackage.design_variables.shading_depth.toFixed(2)} m cuts solar window loads by 68% between 11 AM and 3 PM while allowing diffuse daylight into living spaces.
+                  Exterior overhang projection of {activePackage.design_variables.shading_depth.toFixed(2)} m blocks direct summer solar window loads while admitting daylight.
                 </p>
               </div>
 
@@ -1362,7 +1481,7 @@ function RecommenderContent() {
                   <span>3. Nighttime Natural Ventilation</span>
                 </div>
                 <p className="leading-relaxed">
-                  Controlled nighttime natural ventilation at {activePackage.design_variables.ventilation_ach.toFixed(1)} ACH discharges stored daytime envelope warmth through cooler nocturnal ambient breezes.
+                  Controlled natural cross-ventilation at {activePackage.design_variables.ventilation_ach.toFixed(1)} ACH discharges stored daytime envelope warmth through cooler nocturnal breezes.
                 </p>
               </div>
             </div>
@@ -1376,15 +1495,15 @@ function RecommenderContent() {
                   <Thermometer className="w-4 h-4 text-teal-400" />
                   <span>12-Month Indoor Operative Temperature: Before vs After</span>
                 </h3>
-                <span className="text-[10px] text-amber-300/80 italic">
-                  Illustrative scenario ({futureClimate === "current" ? "Today's TMYx" : futureClimate === "plus1p5" ? "+1.5°C Warming" : "+3.0°C High"}), not a forecast.
+                <span className="text-[10px] text-slate-400">
+                  Precomputed TMYx weather simulation across 8,760 hours.
                 </span>
               </div>
               <div className="flex items-center space-x-3">
                 <button
                   type="button"
                   onClick={() => setShowMonthlyDataTable(!showMonthlyDataTable)}
-                  className="px-2.5 py-1 rounded-lg glass-button text-[11px] font-mono text-slate-300 hover:text-white flex items-center space-x-1"
+                  className="px-2.5 py-1 rounded-[6px] bg-[var(--surface-2)] border border-[var(--line)] text-xs text-[var(--ink)] hover:bg-[var(--surface)] flex items-center space-x-1"
                 >
                   <Table className="w-3.5 h-3.5 text-teal-400" />
                   <span>{showMonthlyDataTable ? "Show Chart" : "Data Table"}</span>
@@ -1409,11 +1528,11 @@ function RecommenderContent() {
                     <YAxis stroke="#94a3b8" fontSize={11} domain={['auto', 'auto']} unit="°C" />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: "#0B1F3A",
-                        borderColor: "rgba(42,127,142,0.4)",
-                        borderRadius: "0.75rem",
+                        backgroundColor: "var(--surface)",
+                        borderColor: "var(--line)",
+                        borderRadius: "8px",
                         fontSize: "12px",
-                        color: "#fff"
+                        color: "var(--ink)"
                       }}
                     />
                     <Line type="monotone" dataKey="outdoor" name="Outdoor Ambient" stroke="#94a3b8" strokeWidth={1.5} strokeDasharray="4 4" dot={false} />
@@ -1425,16 +1544,16 @@ function RecommenderContent() {
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-xs text-left">
-                  <thead className="bg-white/[0.04] text-slate-400 font-mono text-[11px] border-b border-white/10">
+                  <thead className="bg-[var(--surface-2)] text-[var(--ink-2)] text-xs border-b border-[var(--line)]">
                     <tr>
-                      <th className="p-2.5">Month</th>
-                      <th className="p-2.5 text-slate-400">Outdoor Ambient (°C)</th>
-                      <th className="p-2.5 text-rose-300">Baseline R2 (°C)</th>
-                      <th className="p-2.5 text-teal-300">Recommended Passive (°C)</th>
-                      <th className="p-2.5 text-emerald-300">Net Improvement</th>
+                      <th className="p-2.5 text-left">Month</th>
+                      <th className="p-2.5 text-right text-slate-400">Outdoor Ambient (°C)</th>
+                      <th className="p-2.5 text-right text-rose-300">Baseline R2 (°C)</th>
+                      <th className="p-2.5 text-right text-teal-300">Recommended Passive (°C)</th>
+                      <th className="p-2.5 text-right text-emerald-300">Net Improvement</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/5 font-mono text-slate-200">
+                  <tbody className="divide-y divide-[var(--line)] text-xs tabular-nums text-[var(--ink)]">
                     {activePackage.monthly_performance.months.map((m, idx) => {
                       const out = activePackage.monthly_performance.outdoor_ta[idx];
                       const base = activePackage.monthly_performance.indoor_ta_baseline_r2[idx];
@@ -1442,11 +1561,11 @@ function RecommenderContent() {
                       const diff = (base - rec).toFixed(1);
                       return (
                         <tr key={m}>
-                          <td className="p-2.5 font-bold text-white">{m}</td>
-                          <td className="p-2.5 text-slate-300">{out}°C</td>
-                          <td className="p-2.5 text-rose-300">{base}°C</td>
-                          <td className="p-2.5 text-teal-300">{rec}°C</td>
-                          <td className="p-2.5 text-emerald-300 font-bold">-{diff}°C cooler</td>
+                          <td className="p-2.5 font-bold text-white text-left">{m}</td>
+                          <td className="p-2.5 text-slate-300 text-right">{out}°C</td>
+                          <td className="p-2.5 text-rose-300 text-right">{base}°C</td>
+                          <td className="p-2.5 text-teal-300 text-right">{rec}°C</td>
+                          <td className="p-2.5 text-emerald-300 font-bold text-right">-{diff}°C cooler</td>
                         </tr>
                       );
                     })}
@@ -1456,10 +1575,10 @@ function RecommenderContent() {
             )}
           </div>
 
-          {/* ACTION BUTTONS & COMPARE DRAWER TRIGGER */}
+          {/* ACTION BUTTONS & OUTPUTS */}
           <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
             <div className="flex flex-wrap items-center gap-2.5">
-              {/* Download Builder PDF */}
+              {/* Output 1: Download Plan (PDF) */}
               <button
                 type="button"
                 onClick={handleDownloadPdf}
@@ -1467,20 +1586,40 @@ function RecommenderContent() {
                 className="px-5 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs transition shadow-md flex items-center space-x-2"
               >
                 <Printer className="w-4 h-4" />
-                <span>{pdfDownloading ? "Generating PDF..." : t.exportPdf}</span>
+                <span>{pdfDownloading ? "Generating PDF..." : "Download plan (PDF)"}</span>
               </button>
 
-              {/* Compare Packages Drawer */}
+              {/* Output 2: Copy Summary */}
+              <button
+                type="button"
+                onClick={handleCopySummary}
+                className="px-4 py-2.5 rounded-xl glass-button text-slate-200 hover:text-white text-xs font-semibold flex items-center space-x-2"
+              >
+                {copiedSummary ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-teal-400" />}
+                <span>{copiedSummary ? "Summary Copied! ✓" : "Copy summary"}</span>
+              </button>
+
+              {/* Output 3: Compare in Trade-offs (Deep Link) */}
+              <Link
+                href={`/pareto?city=${selectedCity}&design=${activePackage.pareto_id}`}
+                className="px-4 py-2.5 rounded-xl glass-button text-slate-200 hover:text-white text-xs font-semibold flex items-center space-x-2"
+              >
+                <Layers className="w-4 h-4 text-teal-400" />
+                <span>Compare in Trade-offs</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+
+              {/* Compare 3 Packages Modal Trigger */}
               <button
                 type="button"
                 onClick={() => setIsCompareOpen(true)}
                 className="px-4 py-2.5 rounded-xl glass-button text-slate-200 hover:text-white text-xs font-semibold flex items-center space-x-2"
               >
-                <Layers className="w-4 h-4 text-teal-400" />
+                <Table className="w-4 h-4 text-sky-400" />
                 <span>Compare 3 Packages</span>
               </button>
 
-              {/* Shareable Link */}
+              {/* Share URL */}
               <button
                 type="button"
                 onClick={handleShareLink}
@@ -1502,8 +1641,57 @@ function RecommenderContent() {
             </Link>
           </div>
 
-          {/* Step Navigation */}
-          <div className="flex justify-between pt-4 border-t border-white/10">
+          {/* DEDICATED PRINT / PDF SPECIFICATION SHEET (Rendered only on print/PDF) */}
+          <div className="hidden print:block space-y-6 pt-6 text-black bg-white">
+            <div className="border-b-2 border-black pb-4">
+              <h1 className="text-2xl font-bold">ClimateAdapt-Comfort — Passive Shelter Specification</h1>
+              <p className="text-sm mt-1">
+                Project City: <strong>{cityInfo.name}</strong> ({cityInfo.zone}) | Confidence Tier: <strong>{cityInfo.confidence}</strong>
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <h2 className="text-lg font-bold">1. Model Assumptions & Gating</h2>
+              <ul className="list-disc pl-5 text-xs space-y-1">
+                <li>Building Typology: Single-zone detached passive shelter (~60 m² carpet area, 3m ceiling height) per A-001.</li>
+                <li>Occupancy: Continuous 24 h/day residential occupancy per A-002.</li>
+                <li>Simulation Baseline: EnergyPlus {PIPELINE_CONSTANTS.ENERGYPLUS_VERSION} calibrated physics engine, fixed seed {PIPELINE_CONSTANTS.SEED}.</li>
+                <li>Rates status: Rates unpopulated in official CPWD DSR schedule; engineering bill of quantities provided.</li>
+              </ul>
+            </div>
+
+            <div className="space-y-2">
+              <h2 className="text-lg font-bold">2. Recommended Design: {activePackage.name} (ID: {activePackage.pareto_id})</h2>
+              <table className="w-full text-xs border border-collapse">
+                <tbody>
+                  <tr className="border"><td className="p-2 font-bold">Roof EPS Insulation</td><td className="p-2">{(activePackage.design_variables.roof_insulation_thickness * 1000).toFixed(0)} mm (~60 m² area)</td></tr>
+                  <tr className="border"><td className="p-2 font-bold">Roof Solar Absorptance</td><td className="p-2">{activePackage.design_variables.roof_solar_absorptance.toFixed(2)} (High-SRI coating)</td></tr>
+                  <tr className="border"><td className="p-2 font-bold">Wall Mineral Wool Insulation</td><td className="p-2">{(activePackage.design_variables.wall_insulation_thickness * 1000).toFixed(0)} mm (~72 m² area)</td></tr>
+                  <tr className="border"><td className="p-2 font-bold">Wall Construction</td><td className="p-2">200 mm {activePackage.design_variables.wall_mass_class} mass masonry</td></tr>
+                  <tr className="border"><td className="p-2 font-bold">Window-to-Wall Ratio (WWR)</td><td className="p-2">{(activePackage.design_variables.wwr > 1 ? activePackage.design_variables.wwr : activePackage.design_variables.wwr * 100).toFixed(0)}% with {activePackage.design_variables.shading_depth.toFixed(2)} m exterior overhang</td></tr>
+                  <tr className="border"><td className="p-2 font-bold">Natural Ventilation</td><td className="p-2">{activePackage.design_variables.ventilation_ach.toFixed(1)} ACH operable cross-ventilation openings</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="space-y-2">
+              <h2 className="text-lg font-bold">3. Simulated Performance vs Baseline</h2>
+              <table className="w-full text-xs border border-collapse">
+                <tbody>
+                  <tr className="border"><td className="p-2 font-bold">Annual Discomfort Hours</td><td className="p-2">{activePackage.discomfort_pct}% ({activePackage.annual_discomfort_hours ?? Math.round(hoursOccupied * 365 * activePackage.discomfort_pct / 100)} h/yr)</td></tr>
+                  <tr className="border"><td className="p-2 font-bold">HVAC Cooling Demand</td><td className="p-2">{cooling === "none" ? "0 kWh/m²/yr (free-running: no HVAC)" : `${activePackage.annual_energy_kwh_per_m2} kWh/m²/yr (${activePackage.cooling_mode})`}</td></tr>
+                  <tr className="border"><td className="p-2 font-bold">Delta vs Uninsulated R2 Baseline</td><td className="p-2">Discomfort: {formatPercentagePoints(activePackage.discomfort_pct - cityBaselines.r2.discomfort_ml_pct)} | Energy: {formatEnergyDelta((cooling === "none" ? 0 : activePackage.annual_energy_kwh_per_m2) - cityBaselines.r2.energy_kwh_per_m2_yr)}</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="text-[10px] text-gray-600 border-t pt-2">
+              Simulation-based estimate, not a measured result or construction quote. Verify with local engineer.
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <div className="flex justify-between pt-4 border-t border-white/10 print:hidden">
             <button
               type="button"
               onClick={() => setCurrentStep(4)}
@@ -1544,15 +1732,15 @@ function RecommenderContent() {
             {/* Comparison Table */}
             <div className="overflow-x-auto">
               <table className="w-full text-xs text-left">
-                <thead className="bg-white/[0.04] text-slate-300 font-mono text-[11px] border-b border-white/10">
+                <thead className="bg-[var(--surface-2)] text-[var(--ink-2)] text-xs border-b border-[var(--line)]">
                   <tr>
                     <th className="p-3">Specification / Metric</th>
-                    <th className="p-3 text-teal-300">Budget Package</th>
+                    <th className="p-3 text-teal-300">Lowest energy</th>
                     <th className="p-3 text-sky-300">Balanced (Recommended)</th>
-                    <th className="p-3 text-amber-300">Best-Comfort</th>
+                    <th className="p-3 text-amber-300">Lowest discomfort</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5 text-slate-200 font-mono">
+                <tbody className="divide-y divide-[var(--line)] text-xs tabular-nums text-[var(--ink)]">
                   <tr>
                     <td className="p-3 font-medium text-slate-400">Comfort Fit Score</td>
                     <td className="p-3 font-bold text-teal-300">{evaluation.packages.budget.comfort_fit_score} / 100</td>
@@ -1560,16 +1748,40 @@ function RecommenderContent() {
                     <td className="p-3 font-bold text-amber-300">{evaluation.packages.best_comfort.comfort_fit_score} / 100</td>
                   </tr>
                   <tr>
-                    <td className="p-3 font-medium text-slate-400">Annual Discomfort Hours</td>
-                    <td className="p-3">{evaluation.packages.budget.discomfort_pct}%</td>
-                    <td className="p-3">{evaluation.packages.balanced.discomfort_pct}%</td>
-                    <td className="p-3">{evaluation.packages.best_comfort.discomfort_pct}%</td>
+                    <td className="p-3 font-medium text-slate-400">Annual Discomfort Hours (O1 ML)</td>
+                    <td className="p-3">
+                      <div>{evaluation.packages.budget.discomfort_pct}% ({evaluation.packages.budget.annual_discomfort_hours ?? Math.round(hoursOccupied * 365 * evaluation.packages.budget.discomfort_pct / 100)} h/yr)</div>
+                      <div className="text-xs text-[var(--good)] tabular-nums">
+                        vs R1: {formatPercentagePoints(evaluation.packages.budget.discomfort_pct - cityBaselines.r1.discomfort_ml_pct)}
+                      </div>
+                      <div className="text-xs text-[var(--good)] tabular-nums">
+                        vs R2: {formatPercentagePoints(evaluation.packages.budget.discomfort_pct - cityBaselines.r2.discomfort_ml_pct)}
+                      </div>
+                    </td>
+                    <td className="p-3">
+                      <div>{evaluation.packages.balanced.discomfort_pct}% ({evaluation.packages.balanced.annual_discomfort_hours ?? Math.round(hoursOccupied * 365 * evaluation.packages.balanced.discomfort_pct / 100)} h/yr)</div>
+                      <div className="text-xs text-[var(--good)] tabular-nums">
+                        vs R1: {formatPercentagePoints(evaluation.packages.balanced.discomfort_pct - cityBaselines.r1.discomfort_ml_pct)}
+                      </div>
+                      <div className="text-xs text-[var(--good)] tabular-nums">
+                        vs R2: {formatPercentagePoints(evaluation.packages.balanced.discomfort_pct - cityBaselines.r2.discomfort_ml_pct)}
+                      </div>
+                    </td>
+                    <td className="p-3">
+                      <div>{evaluation.packages.best_comfort.discomfort_pct}% ({evaluation.packages.best_comfort.annual_discomfort_hours ?? Math.round(hoursOccupied * 365 * evaluation.packages.best_comfort.discomfort_pct / 100)} h/yr)</div>
+                      <div className="text-xs text-[var(--good)] tabular-nums">
+                        vs R1: {formatPercentagePoints(evaluation.packages.best_comfort.discomfort_pct - cityBaselines.r1.discomfort_ml_pct)}
+                      </div>
+                      <div className="text-xs text-[var(--good)] tabular-nums">
+                        vs R2: {formatPercentagePoints(evaluation.packages.best_comfort.discomfort_pct - cityBaselines.r2.discomfort_ml_pct)}
+                      </div>
+                    </td>
                   </tr>
                   <tr>
                     <td className="p-3 font-medium text-slate-400">HVAC Energy (Ideal Loads)</td>
-                    <td className="p-3">{evaluation.packages.budget.annual_energy_kwh_per_m2} kWh/m²/yr</td>
-                    <td className="p-3">{evaluation.packages.balanced.annual_energy_kwh_per_m2} kWh/m²/yr</td>
-                    <td className="p-3">{evaluation.packages.best_comfort.annual_energy_kwh_per_m2} kWh/m²/yr</td>
+                    <td className="p-3">{cooling === "none" ? "0 kWh/m²/yr (free-running: no HVAC)" : `${evaluation.packages.budget.annual_energy_kwh_per_m2} kWh/m²/yr (${evaluation.packages.budget.cooling_mode})`}</td>
+                    <td className="p-3">{cooling === "none" ? "0 kWh/m²/yr (free-running: no HVAC)" : `${evaluation.packages.balanced.annual_energy_kwh_per_m2} kWh/m²/yr (${evaluation.packages.balanced.cooling_mode})`}</td>
+                    <td className="p-3">{cooling === "none" ? "0 kWh/m²/yr (free-running: no HVAC)" : `${evaluation.packages.best_comfort.annual_energy_kwh_per_m2} kWh/m²/yr (${evaluation.packages.best_comfort.cooling_mode})`}</td>
                   </tr>
                   <tr>
                     <td className="p-3 font-medium text-slate-400">Roof Insulation</td>
@@ -1596,10 +1808,16 @@ function RecommenderContent() {
                     <td className="p-3">{evaluation.packages.best_comfort.design_variables.shading_depth.toFixed(2)} m</td>
                   </tr>
                   <tr>
-                    <td className="p-3 font-medium text-slate-400">CPWD DSR Cost Status</td>
-                    <td className="p-3 text-amber-300">Rates Unpopulated</td>
-                    <td className="p-3 text-amber-300">Rates Unpopulated</td>
-                    <td className="p-3 text-amber-300">Rates Unpopulated</td>
+                    <td className="p-3 font-medium text-slate-400">Window-to-Wall Ratio (WWR)</td>
+                    <td className="p-3">{(evaluation.packages.budget.design_variables.wwr > 1 ? evaluation.packages.budget.design_variables.wwr : evaluation.packages.budget.design_variables.wwr * 100).toFixed(0)}%</td>
+                    <td className="p-3">{(evaluation.packages.balanced.design_variables.wwr > 1 ? evaluation.packages.balanced.design_variables.wwr : evaluation.packages.balanced.design_variables.wwr * 100).toFixed(0)}%</td>
+                    <td className="p-3">{(evaluation.packages.best_comfort.design_variables.wwr > 1 ? evaluation.packages.best_comfort.design_variables.wwr : evaluation.packages.best_comfort.design_variables.wwr * 100).toFixed(0)}%</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 font-medium text-slate-400">Natural Ventilation</td>
+                    <td className="p-3">{evaluation.packages.budget.design_variables.ventilation_ach.toFixed(1)} ACH</td>
+                    <td className="p-3">{evaluation.packages.balanced.design_variables.ventilation_ach.toFixed(1)} ACH</td>
+                    <td className="p-3">{evaluation.packages.best_comfort.design_variables.ventilation_ach.toFixed(1)} ACH</td>
                   </tr>
                 </tbody>
               </table>
@@ -1623,7 +1841,7 @@ function RecommenderContent() {
 
 export default function RecommenderPage() {
   return (
-    <Suspense fallback={<div className="p-12 text-center text-slate-400 font-mono text-sm">Loading Decision-Support Recommender...</div>}>
+    <Suspense fallback={<div className="p-12 text-center text-[var(--ink-2)] text-sm">Loading Plan...</div>}>
       <RecommenderContent />
     </Suspense>
   );

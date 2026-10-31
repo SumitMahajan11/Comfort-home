@@ -1,0 +1,651 @@
+{
+  "timestamp": "2026-10-26 13:10:32",
+  "source_script": "tools/export_web_data.py",
+  "total_files": 161,
+  "files": {
+    "applicability.json": {
+      "size_bytes": 3566,
+      "sha256": "e56e0e8cad5fd1e1bf2630582a0d19f292219bb1cb4e1a97682487a4e9f2ec6d"
+    },
+    "city_comfort_norms.json": {
+      "size_bytes": 35203,
+      "sha256": "c3ef3dedcb9f4a675926f2905e8070f30e119106636028f13fa07f91a7350be2"
+    },
+    "geometry.json": {
+      "size_bytes": 2469,
+      "sha256": "ef1c24e3bf6524e323ef483f2467a0beb6cddd9e7a7e5f6a4bd56896b3bf021d"
+    },
+    "monthly_indoor_Bengaluru_apartment_P_Bengaluru_apartment_024.json": {
+      "size_bytes": 10555,
+      "sha256": "9d378e0ad0bb552636fb5e7f2cada4e4efada3b532542194afe42292278ed11b"
+    },
+    "monthly_indoor_Bengaluru_apartment_P_Bengaluru_apartment_052.json": {
+      "size_bytes": 10554,
+      "sha256": "33ab82a5eb1357e226e62df02c529845983f9fc05af2d72d3542943ed3abd5c1"
+    },
+    "monthly_indoor_Bengaluru_apartment_P_Bengaluru_apartment_059.json": {
+      "size_bytes": 10560,
+      "sha256": "3776487ecdf5fe099724b3c3012fbc4f99c7433c6215636725bac7c69ca2ee7c"
+    },
+    "monthly_indoor_Bengaluru_apartment_P_Bengaluru_apartment_075.json": {
+      "size_bytes": 10554,
+      "sha256": "e64f68f58f9053d8a36a2ceefb60545f7b66aff49346e71ba1dee9be7c43b6f7"
+    },
+    "monthly_indoor_Bengaluru_apartment_P_Bengaluru_apartment_076.json": {
+      "size_bytes": 10559,
+      "sha256": "da6c44d470ed74ace25d70a4026fee229202d5c15337e71d545e9e64210a87f5"
+    },
+    "monthly_indoor_Bengaluru_commercial_P_Bengaluru_commercial_028.json": {
+      "size_bytes": 10569,
+      "sha256": "fd56769297e048fe18b075c0dd90392ae683ba22250e07d852afbc167d35c4eb"
+    },
+    "monthly_indoor_Bengaluru_commercial_P_Bengaluru_commercial_033.json": {
+      "size_bytes": 10568,
+      "sha256": "d767483eaac92b59a8d7b41c6b9ac6ad900f5a2fd74638c18f18798b919ea886"
+    },
+    "monthly_indoor_Bengaluru_commercial_P_Bengaluru_commercial_042.json": {
+      "size_bytes": 10564,
+      "sha256": "fa6f56d7d77f7c22db6b589a90ab345823ed8a32d432e38582ac150135e648a8"
+    },
+    "monthly_indoor_Bengaluru_commercial_P_Bengaluru_commercial_062.json": {
+      "size_bytes": 10567,
+      "sha256": "4b564216de45f26332dfd6080f4ce83cf043d4f249fdfccd1adf794d0a6567f5"
+    },
+    "monthly_indoor_Bengaluru_commercial_P_Bengaluru_commercial_091.json": {
+      "size_bytes": 10564,
+      "sha256": "981b320b1eb466d3aec49e1167eb3b743e915f769eda2a7e6afcb4bb49d9530a"
+    },
+    "monthly_indoor_Bengaluru_house_P_Bengaluru_house_028.json": {
+      "size_bytes": 10555,
+      "sha256": "9deaaf3bfa081f6bfada273f799746afd77c7360e30e0ff2c0654de43611a131"
+    },
+    "monthly_indoor_Bengaluru_house_P_Bengaluru_house_031.json": {
+      "size_bytes": 10550,
+      "sha256": "244681ad484bfa2fd074026c13734dcf38c0a1cdb0b8e32a4a1af49004978bda"
+    },
+    "monthly_indoor_Bengaluru_house_P_Bengaluru_house_040.json": {
+      "size_bytes": 10549,
+      "sha256": "e456900aadb56d9f2b723c014e7da4b34943f06108f8352cbc478420bf435a76"
+    },
+    "monthly_indoor_Bengaluru_house_P_Bengaluru_house_043.json": {
+      "size_bytes": 10546,
+      "sha256": "0e2e6e0aca4503962ed105078fc577c0f37e1c434c6d0a91ba350a5f0884028b"
+    },
+    "monthly_indoor_Bengaluru_house_P_Bengaluru_house_047.json": {
+      "size_bytes": 10547,
+      "sha256": "09530bd7b35e43e7c5093b95f2782a735f8d60d2ea692310615519c9bbf37b35"
+    },
+    "monthly_indoor_Bengaluru_house_P_Bengaluru_house_058.json": {
+      "size_bytes": 10552,
+      "sha256": "d0747ae225985a76650447204409ed46240332fe092037828d7917d925a8d857"
+    },
+    "monthly_indoor_Bengaluru_house_P_Bengaluru_house_068.json": {
+      "size_bytes": 10546,
+      "sha256": "b2e88e23c969c0dc6742861a893d756958b8633dc8c9e0c03d443abc5b54bff6"
+    },
+    "monthly_indoor_Bengaluru_house_P_Bengaluru_house_070.json": {
+      "size_bytes": 10545,
+      "sha256": "359713e5fe4c6b99dda9b62cafef7052fcca5d618f82882d4b6e66388b14e721"
+    },
+    "monthly_indoor_Bengaluru_house_P_Bengaluru_house_079.json": {
+      "size_bytes": 10547,
+      "sha256": "b7a4b2daf4020d4d6879d63a191d48125339dfbf00ecf038f7e9b54ec39438bf"
+    },
+    "monthly_indoor_Bengaluru_house_P_Bengaluru_house_098.json": {
+      "size_bytes": 10549,
+      "sha256": "b1c39f55a7dcb200eb7e2fd05cf77c5447021be531cfed4fef22863b5fb7032f"
+    },
+    "monthly_indoor_Jodhpur_apartment_P_Jodhpur_apartment_006.json": {
+      "size_bytes": 10539,
+      "sha256": "6b0703c50b6c67b6efdd620724ee08d897719b0e387fc54b70fa72766a00a49d"
+    },
+    "monthly_indoor_Jodhpur_apartment_P_Jodhpur_apartment_022.json": {
+      "size_bytes": 10543,
+      "sha256": "8527a5c61d13afc37b7be69e90a5b319a13b91fd2b629377d2e2f77566255dc2"
+    },
+    "monthly_indoor_Jodhpur_apartment_P_Jodhpur_apartment_023.json": {
+      "size_bytes": 10546,
+      "sha256": "78557da583b9b4f51272107564c4ed097c9ad8f92ac80e6fffcc5d83aed4aec6"
+    },
+    "monthly_indoor_Jodhpur_apartment_P_Jodhpur_apartment_069.json": {
+      "size_bytes": 10539,
+      "sha256": "2f38d96e37b6ee731dbc6d644c5316f77582900501f821ff24d7c3d5067f3d54"
+    },
+    "monthly_indoor_Jodhpur_apartment_P_Jodhpur_apartment_075.json": {
+      "size_bytes": 10547,
+      "sha256": "29899fbaa95a1363003cf00131e40ef09b89c189192f7e1c74f8700a6323ee88"
+    },
+    "monthly_indoor_Jodhpur_commercial_P_Jodhpur_commercial_006.json": {
+      "size_bytes": 10546,
+      "sha256": "58638a7d49e3a8ec859422665b0a6509c699920483bf503a03b7df9895450c5f"
+    },
+    "monthly_indoor_Jodhpur_commercial_P_Jodhpur_commercial_042.json": {
+      "size_bytes": 10544,
+      "sha256": "f65a9cb099ca0eca8217ec2c57e58e8c97ed2677c1157eafe2b68137dabbd4ea"
+    },
+    "monthly_indoor_Jodhpur_commercial_P_Jodhpur_commercial_062.json": {
+      "size_bytes": 10544,
+      "sha256": "c30a86e9d1b16ba0a7b7392292a0afc11d1aa15ed2e179a371e92c6d657e8df6"
+    },
+    "monthly_indoor_Jodhpur_commercial_P_Jodhpur_commercial_082.json": {
+      "size_bytes": 10541,
+      "sha256": "1f9c03c8ced8a6c4bcb357cddad81befa516c88eba48e3de301a49d86a3dad22"
+    },
+    "monthly_indoor_Jodhpur_commercial_P_Jodhpur_commercial_088.json": {
+      "size_bytes": 10537,
+      "sha256": "ea1cebcd0a6937718cae431f3dbfc3bf8f9019455d516242cc5dd7ce94bdb51e"
+    },
+    "monthly_indoor_Jodhpur_house_P_Jodhpur_house_016.json": {
+      "size_bytes": 10534,
+      "sha256": "891a31b036a7c15bc6a73f84a320081c843efcc021712b9315b0365f0f3f1015"
+    },
+    "monthly_indoor_Jodhpur_house_P_Jodhpur_house_020.json": {
+      "size_bytes": 10534,
+      "sha256": "ed75c9ef911b3bfa66a20e706f9021e960fb332d22578dab847bbcfb2244bb88"
+    },
+    "monthly_indoor_Jodhpur_house_P_Jodhpur_house_056.json": {
+      "size_bytes": 10531,
+      "sha256": "88b7738d767ae5557d4e2e0a67547ae898a48451afa7e150c49a2d4a4d9df76f"
+    },
+    "monthly_indoor_Jodhpur_house_P_Jodhpur_house_063.json": {
+      "size_bytes": 10534,
+      "sha256": "82ad784ce5df632aef2afa19e25b1e07b78a97585089cfd93dc6f724b48d2eb4"
+    },
+    "monthly_indoor_Jodhpur_house_P_Jodhpur_house_064.json": {
+      "size_bytes": 10531,
+      "sha256": "b8e9698caa50c4bf26bffe8010e1e709828ad12dfc4da0c2908a6051b4460391"
+    },
+    "monthly_indoor_Jodhpur_house_P_Jodhpur_house_069.json": {
+      "size_bytes": 10536,
+      "sha256": "a79c9572b6bae79150d57d3b178188f2c6abaf41112210b90bf6f44e5115a367"
+    },
+    "monthly_indoor_Jodhpur_house_P_Jodhpur_house_072.json": {
+      "size_bytes": 10533,
+      "sha256": "ea2198e730bb6348cbc5232c6be6c0d600eab5c8a4946876cf81dacaba34a3ad"
+    },
+    "monthly_indoor_Jodhpur_house_P_Jodhpur_house_081.json": {
+      "size_bytes": 10531,
+      "sha256": "9ec1f06a96baa0d62a1fca3e044195dbf28deefab8aae4f8ac35de26d2f6b68c"
+    },
+    "monthly_indoor_Jodhpur_house_P_Jodhpur_house_094.json": {
+      "size_bytes": 10537,
+      "sha256": "0464d4cbbd767e73b64614cfe0c2603b99653a35bfd6d504e8d0d4dd45f69a7f"
+    },
+    "monthly_indoor_Jodhpur_house_P_Jodhpur_house_098.json": {
+      "size_bytes": 10535,
+      "sha256": "598dd5ef6c59247510840a36bbeca9b67b49f913e037db8a9bf9f1a1b8065a0f"
+    },
+    "monthly_indoor_Mumbai_apartment_P_Mumbai_apartment_015.json": {
+      "size_bytes": 10554,
+      "sha256": "07fcd2d76fcedc91132dccb5d88258f76c2e4333003e95055487d57aef3ac934"
+    },
+    "monthly_indoor_Mumbai_apartment_P_Mumbai_apartment_023.json": {
+      "size_bytes": 10549,
+      "sha256": "64a0356157013ece0ad6e6b4cf0514a903b37b3810037dbcb38f51a9dacc836a"
+    },
+    "monthly_indoor_Mumbai_apartment_P_Mumbai_apartment_027.json": {
+      "size_bytes": 10552,
+      "sha256": "8b43c2b5660657179f1f4872ec901ef40f78415c4ea50c6139f079b2448ed8aa"
+    },
+    "monthly_indoor_Mumbai_apartment_P_Mumbai_apartment_063.json": {
+      "size_bytes": 10552,
+      "sha256": "1499e3121286c7133dc982dede296fb506ee4c3641dfe2d1619a645ef20201a6"
+    },
+    "monthly_indoor_Mumbai_apartment_P_Mumbai_apartment_067.json": {
+      "size_bytes": 10551,
+      "sha256": "d49d1ec239d3c0c329762c0e37a2e82270948706eb99c300853caa450fb66670"
+    },
+    "monthly_indoor_Mumbai_commercial_P_Mumbai_commercial_006.json": {
+      "size_bytes": 10557,
+      "sha256": "0142aeeeea6d688f73c634bb2a2c0f07579e9062382214045038dcc88ef6ce9b"
+    },
+    "monthly_indoor_Mumbai_commercial_P_Mumbai_commercial_029.json": {
+      "size_bytes": 10555,
+      "sha256": "cab5a47f05ab9d047e738f7f6a49def6de43965e5cd0842936b0978a1e4076c5"
+    },
+    "monthly_indoor_Mumbai_commercial_P_Mumbai_commercial_032.json": {
+      "size_bytes": 10560,
+      "sha256": "5539a82e7a69d2367689e1efdb909711f3a845d0003091ae422c2489159dc724"
+    },
+    "monthly_indoor_Mumbai_commercial_P_Mumbai_commercial_046.json": {
+      "size_bytes": 10556,
+      "sha256": "c3c3c3ffade1bc04dc66ef94092b7a8da22eb1cfbf54448ee7433d865f09f896"
+    },
+    "monthly_indoor_Mumbai_commercial_P_Mumbai_commercial_058.json": {
+      "size_bytes": 10548,
+      "sha256": "2f1172cf1a29630dc2c3b5726666e291bb7462da9e8268951ac3c628b64d762e"
+    },
+    "monthly_indoor_Mumbai_house_P_Mumbai_house_028.json": {
+      "size_bytes": 10547,
+      "sha256": "64585887e25e59469743db24e4821189f4a4e5918c037c6f8b9a606aac087c97"
+    },
+    "monthly_indoor_Mumbai_house_P_Mumbai_house_037.json": {
+      "size_bytes": 10543,
+      "sha256": "4c4975f9171b5e1e4eab80c984d2ee127a01bad804c45e13773cb18465665710"
+    },
+    "monthly_indoor_Mumbai_house_P_Mumbai_house_040.json": {
+      "size_bytes": 10541,
+      "sha256": "f418f76523b70c6a718e93151c8f6b2239da4f400ae491f6fd290f2945a1e8eb"
+    },
+    "monthly_indoor_Mumbai_house_P_Mumbai_house_042.json": {
+      "size_bytes": 10545,
+      "sha256": "620c5dc2e1157ab9bfa138861c3d04d00f71cbd0738bfd3592f4b171d5305594"
+    },
+    "monthly_indoor_Mumbai_house_P_Mumbai_house_050.json": {
+      "size_bytes": 10543,
+      "sha256": "f17bc6ad99d032c4b74ecca015ef32f77523808c3d2c04f261698f2bc1b8725a"
+    },
+    "monthly_indoor_Mumbai_house_P_Mumbai_house_062.json": {
+      "size_bytes": 10544,
+      "sha256": "0208ecbfe31225c52493c00d1a5903f1c6d994436b735df11e3bebffed7603c8"
+    },
+    "monthly_indoor_Mumbai_house_P_Mumbai_house_066.json": {
+      "size_bytes": 10541,
+      "sha256": "5db376e9b6356e9e520fa6d43f29662f282ce1f8753c6017544643c096c5aa1c"
+    },
+    "monthly_indoor_Mumbai_house_P_Mumbai_house_084.json": {
+      "size_bytes": 10546,
+      "sha256": "ac9462ab6f9e3805def4737e46f8efc78af2e48b6203009f3e82cd8a4e4f0aae"
+    },
+    "monthly_indoor_Mumbai_house_P_Mumbai_house_085.json": {
+      "size_bytes": 10544,
+      "sha256": "8222d7082ac66b5b86ccc5b624638e73120332b51990794c2a53df342b5060bb"
+    },
+    "monthly_indoor_Mumbai_house_P_Mumbai_house_087.json": {
+      "size_bytes": 10542,
+      "sha256": "2de632f8f85b48475b45c2d3cf8de5e6167ed99467b324378207a2a35ed83b32"
+    },
+    "monthly_indoor_New_Delhi_apartment_P_New_Delhi_apartment_003.json": {
+      "size_bytes": 10557,
+      "sha256": "f889ae25fe7748d6f8e22ea46626ed8f20496a57de9508ad09a25dae29781966"
+    },
+    "monthly_indoor_New_Delhi_apartment_P_New_Delhi_apartment_004.json": {
+      "size_bytes": 10560,
+      "sha256": "92a28eb478e2e2fdef02bdb92477fb3c66194b23c8cfad6aa58c3467bb2d8624"
+    },
+    "monthly_indoor_New_Delhi_apartment_P_New_Delhi_apartment_065.json": {
+      "size_bytes": 10561,
+      "sha256": "82a3d881f05352661002403b456572cace2acb84e412fc8d19875a7e0e4cc8ed"
+    },
+    "monthly_indoor_New_Delhi_apartment_P_New_Delhi_apartment_066.json": {
+      "size_bytes": 10559,
+      "sha256": "a22583f44c2fd97e2bb200cbb11b7d547a0a3f4c9b1087b083fba9328fd815b8"
+    },
+    "monthly_indoor_New_Delhi_apartment_P_New_Delhi_apartment_094.json": {
+      "size_bytes": 10559,
+      "sha256": "edcacc129aa22e281c48e25e9170ea976f33b41915ac3f6f8c69d0eb89a220d0"
+    },
+    "monthly_indoor_New_Delhi_commercial_P_New_Delhi_commercial_025.json": {
+      "size_bytes": 10567,
+      "sha256": "01519400c4c2c30878c419e966ef99d803b2b2ae3a2aa263904645bbd8cadb26"
+    },
+    "monthly_indoor_New_Delhi_commercial_P_New_Delhi_commercial_026.json": {
+      "size_bytes": 10565,
+      "sha256": "3ed33f5ee4c965b622f65649e94eeea373df192108cfd3c5efed8571ec955c8f"
+    },
+    "monthly_indoor_New_Delhi_commercial_P_New_Delhi_commercial_058.json": {
+      "size_bytes": 10568,
+      "sha256": "b168bd36a6fdddc85ae668bc08aec8ded3a047fdcd392532fdcb12f69587cce0"
+    },
+    "monthly_indoor_New_Delhi_commercial_P_New_Delhi_commercial_095.json": {
+      "size_bytes": 10562,
+      "sha256": "7e3f8dea09437f8d7682818eefb1a22e40d53c7bb1333cf39d4d312d40ee977e"
+    },
+    "monthly_indoor_New_Delhi_commercial_P_New_Delhi_commercial_098.json": {
+      "size_bytes": 10565,
+      "sha256": "29feca853d17b7aa0853ac3ce9deecb3bbab982789d70765b59ab91c0dd0dbd6"
+    },
+    "monthly_indoor_New_Delhi_house_P_New_Delhi_house_017.json": {
+      "size_bytes": 10557,
+      "sha256": "a2782677232c050f9d8552d9aa47f48e66cde588f17b7d1d3c634ecd9dd914ba"
+    },
+    "monthly_indoor_New_Delhi_house_P_New_Delhi_house_031.json": {
+      "size_bytes": 10556,
+      "sha256": "383994abede3a5d71b0eac91783d81a2f7b9b5808844a42a150a4449d7b2152f"
+    },
+    "monthly_indoor_New_Delhi_house_P_New_Delhi_house_047.json": {
+      "size_bytes": 10559,
+      "sha256": "d8fb340e5ac91cf1bac404eb59106f9b08558a0a8664597c1ade539143a71fce"
+    },
+    "monthly_indoor_New_Delhi_house_P_New_Delhi_house_052.json": {
+      "size_bytes": 10555,
+      "sha256": "bbb52c78ac4a8042b7cc2812288f0b017f2b5b8e0f7ce38bdf3c4f003ebbd698"
+    },
+    "monthly_indoor_New_Delhi_house_P_New_Delhi_house_059.json": {
+      "size_bytes": 10558,
+      "sha256": "64eb7d99e81427ef73ac018149d43533751877c6ced3e0c81e3bf5c4a99b09cd"
+    },
+    "monthly_indoor_New_Delhi_house_P_New_Delhi_house_061.json": {
+      "size_bytes": 10559,
+      "sha256": "d3defbd300ef962a74e82182266736c90bb3e324c9ac85f1af54a1c9b559acb1"
+    },
+    "monthly_indoor_New_Delhi_house_P_New_Delhi_house_069.json": {
+      "size_bytes": 10553,
+      "sha256": "76a1e36593574b7e0f304cfeb7d78f13d9cb4f4f4d7a140af32df30e910902a7"
+    },
+    "monthly_indoor_New_Delhi_house_P_New_Delhi_house_087.json": {
+      "size_bytes": 10559,
+      "sha256": "c3d4c8724350b7f4c0eae25825087f1219f5f11ee3f474175d31379b7e80777d"
+    },
+    "monthly_indoor_New_Delhi_house_P_New_Delhi_house_093.json": {
+      "size_bytes": 10559,
+      "sha256": "1113c50e88a008fee4cc0357cc3a85fb15c08db6ae3df1be34e95c6dddb75019"
+    },
+    "monthly_indoor_New_Delhi_house_P_New_Delhi_house_095.json": {
+      "size_bytes": 10559,
+      "sha256": "dd0e036302153b92bcd82c6c4ecb94f353d808f135775a7f4b383434b0db7583"
+    },
+    "monthly_indoor_Shimla_apartment_P_Shimla_apartment_005.json": {
+      "size_bytes": 10543,
+      "sha256": "2f93ebdc3c4ebe30cd026bed491d58f9031622d5c51647a21becb570660d8483"
+    },
+    "monthly_indoor_Shimla_apartment_P_Shimla_apartment_029.json": {
+      "size_bytes": 10540,
+      "sha256": "b8a2d2b2f326b9b47927eb7a66ff35c295e4ab60d5efeb89f69ce669a1e30f59"
+    },
+    "monthly_indoor_Shimla_apartment_P_Shimla_apartment_047.json": {
+      "size_bytes": 10543,
+      "sha256": "d295e4c7155169548db818984e7718840ef21e21214912b033d0f4cf59f4c742"
+    },
+    "monthly_indoor_Shimla_apartment_P_Shimla_apartment_050.json": {
+      "size_bytes": 10547,
+      "sha256": "c675142c81deeb6b346f6cc4ea7844fc4bb7734dc6a9c915a9cbaac745c5ee82"
+    },
+    "monthly_indoor_Shimla_apartment_P_Shimla_apartment_080.json": {
+      "size_bytes": 10544,
+      "sha256": "5f4fe968ea70f29b255566e401bfcb5ccfb1b6d7795980feb89ba062dfcc5676"
+    },
+    "monthly_indoor_Shimla_commercial_P_Shimla_commercial_007.json": {
+      "size_bytes": 10531,
+      "sha256": "ea7c4ceab609c33200a9ceb815637e72e530a86fb60b1da09f0c96257d52c637"
+    },
+    "monthly_indoor_Shimla_commercial_P_Shimla_commercial_028.json": {
+      "size_bytes": 10543,
+      "sha256": "7e0e02225f22835e7370552ee9dc2a2605252a062bd7ea93b84ba5dccb286dc7"
+    },
+    "monthly_indoor_Shimla_commercial_P_Shimla_commercial_035.json": {
+      "size_bytes": 10537,
+      "sha256": "0bf3f50aaae5ef418916a291215235112fe9449d09104e7990413ae9ba060040"
+    },
+    "monthly_indoor_Shimla_commercial_P_Shimla_commercial_045.json": {
+      "size_bytes": 10533,
+      "sha256": "982d8070a1fd9404ca31d0d5823db1843243eeff8e241babeb6f8453de51e958"
+    },
+    "monthly_indoor_Shimla_commercial_P_Shimla_commercial_047.json": {
+      "size_bytes": 10535,
+      "sha256": "550921d37122424394667addda3643d82ffd7531b9ce0acec21fcc7a677a5508"
+    },
+    "monthly_indoor_Shimla_house_P_Shimla_house_022.json": {
+      "size_bytes": 10530,
+      "sha256": "4bbf7b6f398a2907687dae9a17c10743d571d2c247549f38b387f3482e056a1d"
+    },
+    "monthly_indoor_Shimla_house_P_Shimla_house_026.json": {
+      "size_bytes": 10523,
+      "sha256": "3aedc5ec18270f9b75d37e2a7c6fa195cf0f571b4fe6c8c90cb7c7148d12fce0"
+    },
+    "monthly_indoor_Shimla_house_P_Shimla_house_029.json": {
+      "size_bytes": 10534,
+      "sha256": "f9a9d5032c0ed8a67e4270824c67df02cb3b890a4715b2d5125ab3a7c967b47c"
+    },
+    "monthly_indoor_Shimla_house_P_Shimla_house_040.json": {
+      "size_bytes": 10531,
+      "sha256": "bf24eed2044319adf06d4e19bc59b828682c376d9e193a960b9d722354b0ce28"
+    },
+    "monthly_indoor_Shimla_house_P_Shimla_house_052.json": {
+      "size_bytes": 10532,
+      "sha256": "94e021dbf27d832e9a63a4828184a86cce22b5e60082cbde07f3e0cab1135e39"
+    },
+    "monthly_indoor_Shimla_house_P_Shimla_house_054.json": {
+      "size_bytes": 10531,
+      "sha256": "a9a7134d789763898a5000486e810413e491f2f96a5489119b5f08c0f8f7b19e"
+    },
+    "monthly_indoor_Shimla_house_P_Shimla_house_070.json": {
+      "size_bytes": 10530,
+      "sha256": "54aee782715251e7b14ac8fd51aea565dca59e70db48349460a60342cb44b980"
+    },
+    "monthly_indoor_Shimla_house_P_Shimla_house_073.json": {
+      "size_bytes": 10531,
+      "sha256": "0fc098c3eb087b1ac889e47dac3b91bc48883d959b67b3d0941b19eebfc091a6"
+    },
+    "monthly_indoor_Shimla_house_P_Shimla_house_074.json": {
+      "size_bytes": 10529,
+      "sha256": "215af30746ab2b1b7c9b0d0534a907d4c64a478bea76112f3b02a5249b813ea5"
+    },
+    "monthly_indoor_Shimla_house_P_Shimla_house_079.json": {
+      "size_bytes": 10529,
+      "sha256": "1b89053d0fa6ea9ed777a86cbb7326588a91d6c18d599c061a09ba271a13a3a7"
+    },
+    "pareto_Bengaluru_apartment.json": {
+      "size_bytes": 63520,
+      "sha256": "b7a0bb676da759c1bb5d673de4a2894eae5a322354894f927bd114c4456e4692"
+    },
+    "pareto_Bengaluru_commercial.json": {
+      "size_bytes": 63862,
+      "sha256": "187cf24366edd52359091c1bf3f4c2b4455e43ae1d092de3e93bc0552460c7f0"
+    },
+    "pareto_Bengaluru_house.json": {
+      "size_bytes": 63189,
+      "sha256": "0d13cdf5bc722e61e5877bca93c116929440a4cc75ed45d3c08a14e12d2ec0fd"
+    },
+    "pareto_Bengaluru_shelter_v1.json": {
+      "size_bytes": 12353,
+      "sha256": "44c0c5a777f07f50b69a4f1ed0814609d6406504bf57bcca937975a3858b1f70"
+    },
+    "pareto_Jodhpur_apartment.json": {
+      "size_bytes": 63463,
+      "sha256": "0813fb33cfd8dfc7a1b8837de7014cf32e67c6df7a81d4659f12b7439088efbc"
+    },
+    "pareto_Jodhpur_commercial.json": {
+      "size_bytes": 63501,
+      "sha256": "af637f923e6e5fca95f3a9aa51036c0862a18ea572c9a81552373180a5a825ef"
+    },
+    "pareto_Jodhpur_house.json": {
+      "size_bytes": 62986,
+      "sha256": "49b2bda50b48da4edf18e7a5897443e173338a88b4bcb80e6173cfbef1421216"
+    },
+    "pareto_Jodhpur_shelter_v1.json": {
+      "size_bytes": 12289,
+      "sha256": "1772945914ca58de7b053dbc44178012e5f84240c3da2fb5838b02bfbcec83a1"
+    },
+    "pareto_Mumbai_apartment.json": {
+      "size_bytes": 63212,
+      "sha256": "98d431b0ebf8b8ded785dcedb1727ef6c78edd4ab81c13406d368a9c23dcfa26"
+    },
+    "pareto_Mumbai_commercial.json": {
+      "size_bytes": 63235,
+      "sha256": "12e74c5fe178077b9c41529df6c81f3276bd47e91927dd133bc198f9ef175f96"
+    },
+    "pareto_Mumbai_house.json": {
+      "size_bytes": 62791,
+      "sha256": "c85800884a50c4e6c99b4464e8467349c56748938deefb5a49d919d91f684f89"
+    },
+    "pareto_Mumbai_shelter_v1.json": {
+      "size_bytes": 12277,
+      "sha256": "c9444b4f1156a9f5ee4fee2bde2b281efcc4dc5c320070a331c0cd967684805d"
+    },
+    "pareto_New_Delhi_apartment.json": {
+      "size_bytes": 63951,
+      "sha256": "f878719e20b57692b16907ec4deb003bb263f998903b1e54752dfd634d3b900e"
+    },
+    "pareto_New_Delhi_commercial.json": {
+      "size_bytes": 63925,
+      "sha256": "5eb8306bb57a5b842684600deb8c09857c3fbe8a5f717689a1374577f9b3508b"
+    },
+    "pareto_New_Delhi_house.json": {
+      "size_bytes": 63435,
+      "sha256": "917b58690b1621da7bb8bfe4e3a5cef62a6e74f23090d247777931c075dddcd5"
+    },
+    "pareto_New_Delhi_shelter_v1.json": {
+      "size_bytes": 12337,
+      "sha256": "377838a55092ef52b336e9af4cceeb7cd1df3fdb855b6aa6b950623978b0f2b4"
+    },
+    "pareto_Shimla_apartment.json": {
+      "size_bytes": 62974,
+      "sha256": "dde8da678c135fce48fc2ba3e639e5db69f2d7d4c310cb83000da85d7bc4f823"
+    },
+    "pareto_Shimla_commercial.json": {
+      "size_bytes": 63327,
+      "sha256": "1aaf2640024cc53645d960369ca1f91bfc85ed847ffe3be077c33bf7261ae682"
+    },
+    "pareto_Shimla_house.json": {
+      "size_bytes": 62779,
+      "sha256": "4904c86ad5966eeae49f5a53f689d02fea73da316184eb8e4657460767a4b331"
+    },
+    "pareto_Shimla_shelter_v1.json": {
+      "size_bytes": 12268,
+      "sha256": "6333a1ea34674e12c52798fb7565d94ed7c438d41ee1332337371c6d9e4e15e1"
+    },
+    "reference_Bengaluru_apartment.json": {
+      "size_bytes": 1423,
+      "sha256": "da68e8e2971772478ada496d640833a5acaf13cb6d3c87ad0fdf266ef45b0a94"
+    },
+    "reference_Bengaluru_commercial.json": {
+      "size_bytes": 1455,
+      "sha256": "8ead61e0f6e9787b76ffcafeca4581173755b387e6e641ede8b65775bbc6f39e"
+    },
+    "reference_Bengaluru_house.json": {
+      "size_bytes": 1456,
+      "sha256": "cec85040627ef1d1df67767cccce3c84a437915847347588fc6a8f300e4607e7"
+    },
+    "reference_Bengaluru_shelter_v1.json": {
+      "size_bytes": 1504,
+      "sha256": "0ef077d5bdf96539fa5afc3caae9a85e49349291fd67d449e709ca38d3b285f6"
+    },
+    "reference_Jodhpur_apartment.json": {
+      "size_bytes": 1447,
+      "sha256": "7a41d6379e68c8912500bede020b127be0b45b192710850f52d870934bae7602"
+    },
+    "reference_Jodhpur_commercial.json": {
+      "size_bytes": 1480,
+      "sha256": "e9c1d51f46d890eae7912dab4c235fd3a0fefa82555d9bdaae6203c1de275b95"
+    },
+    "reference_Jodhpur_house.json": {
+      "size_bytes": 1464,
+      "sha256": "ae495d61b167884e5e5cde19da95f7c9c45e7287a0ead6be77c0572431d6a284"
+    },
+    "reference_Jodhpur_shelter_v1.json": {
+      "size_bytes": 1523,
+      "sha256": "1254196b5c79fecfda6ff3662f8a944390fd07e7d9827b11e52e181fd1c50411"
+    },
+    "reference_Mumbai_apartment.json": {
+      "size_bytes": 1393,
+      "sha256": "66469a18b79fd740a271a222a1593c1f16f4a1a80e081cf2b52e907a5306ce9e"
+    },
+    "reference_Mumbai_commercial.json": {
+      "size_bytes": 1451,
+      "sha256": "04d0687e8b4d77e9826cfc7022712f1eb835b9e6520800d436fd9fb591aab211"
+    },
+    "reference_Mumbai_house.json": {
+      "size_bytes": 1453,
+      "sha256": "2acd496366cb00f069c3255c41ba3096aeb457ea93f5358d4978cedd651ed030"
+    },
+    "reference_Mumbai_shelter_v1.json": {
+      "size_bytes": 1497,
+      "sha256": "ce08e7e28fd804b7f02a934bd05ceaa5838db7720b19678f088cd41481f1441b"
+    },
+    "reference_New_Delhi_apartment.json": {
+      "size_bytes": 1450,
+      "sha256": "68560c793de2ec3d34f0f23d28fc00ca9fb2515393b97a473b710d345fc15cb1"
+    },
+    "reference_New_Delhi_commercial.json": {
+      "size_bytes": 1478,
+      "sha256": "d5457121bb0362327f68931aefeef91f6271356ea4d5e6d770af07dd6a8e1ef9"
+    },
+    "reference_New_Delhi_house.json": {
+      "size_bytes": 1476,
+      "sha256": "47e80cc58a783a819c20b6d623a7eded660375139a2b02127dfb90f2907a37f4"
+    },
+    "reference_New_Delhi_shelter_v1.json": {
+      "size_bytes": 1533,
+      "sha256": "5d7d4b99e00a514c9f6f4ceaee0f3dc6c3efd46865bf9f482ad44442ac786f58"
+    },
+    "reference_Shimla_apartment.json": {
+      "size_bytes": 1481,
+      "sha256": "eda5ca2988f1a9a741487981688579cdabda89cd5f1310d5ac0a0b6458d181d8"
+    },
+    "reference_Shimla_commercial.json": {
+      "size_bytes": 1470,
+      "sha256": "136f80569a81bfd0a8d7708095260e511e2774503f3e98bbe22caec72d957b0b"
+    },
+    "reference_Shimla_house.json": {
+      "size_bytes": 1479,
+      "sha256": "176fa3de43840178a788daf26fd2f0cb921f8f9c94fa463006a5a96fcd1d31f1"
+    },
+    "reference_Shimla_shelter_v1.json": {
+      "size_bytes": 1520,
+      "sha256": "04f5a1bfbca014bc2dc7da9c6d1067d420d6854e9bcbac867b40a13ef540630c"
+    },
+    "shap_Bengaluru_apartment.json": {
+      "size_bytes": 1715,
+      "sha256": "ebd42d0673f48c8350d6dd49c36fc8703edebf175cdcb54db924127ed8fb2221"
+    },
+    "shap_Bengaluru_commercial.json": {
+      "size_bytes": 1749,
+      "sha256": "6fdf8ed31cce3d4a1cc2f644e9d97901d7c4f25545d7bb7d4acb2e65fce1362d"
+    },
+    "shap_Bengaluru_house.json": {
+      "size_bytes": 1741,
+      "sha256": "9ee7cbe47dabb27d9b45b59d5a2672b57c07464e40cc6d94b9544714603d8bbe"
+    },
+    "shap_Jodhpur_apartment.json": {
+      "size_bytes": 1742,
+      "sha256": "07a8c2cb9ec74ff3c785087c07d0732de89080b2f49ed50eb09e1789db18339a"
+    },
+    "shap_Jodhpur_commercial.json": {
+      "size_bytes": 1747,
+      "sha256": "ef937752e5b9122d22ba993cc2712af2277b05d83031c1415f1fabdeeabbd603"
+    },
+    "shap_Jodhpur_house.json": {
+      "size_bytes": 1747,
+      "sha256": "ab5a25ba1e4eb18adad13b775ecc09e009880596a8fc4253795985525953da00"
+    },
+    "shap_Mumbai_apartment.json": {
+      "size_bytes": 1721,
+      "sha256": "9547407e5de2f420d59b1c764630dce44b6384e12028521bf170598d9436d7f2"
+    },
+    "shap_Mumbai_commercial.json": {
+      "size_bytes": 1743,
+      "sha256": "7d789d184f17e81bcfd3c1542f5bfa09fa74e3b361467ab1ef694961f4908b7a"
+    },
+    "shap_Mumbai_house.json": {
+      "size_bytes": 1743,
+      "sha256": "4d9584001e3c50d63fac0c13ab41d5b79e9417aeab240568a8efd893f9ec1fe1"
+    },
+    "shap_New_Delhi_apartment.json": {
+      "size_bytes": 1739,
+      "sha256": "78c1e48ba950b36a36f5e600b1a38f4302aa285c3cbcf319cbb9d96cded13691"
+    },
+    "shap_New_Delhi_commercial.json": {
+      "size_bytes": 1750,
+      "sha256": "8bb3d9fef3c430d3969f1bef8cb89068a09287d6d2da4e3e48d991239ece25ea"
+    },
+    "shap_New_Delhi_house.json": {
+      "size_bytes": 1746,
+      "sha256": "f1d8f864e9f35c12e892a11e8cfaa509d295937c7c318846a25655bff4e19b63"
+    },
+    "shap_Shimla_apartment.json": {
+      "size_bytes": 1748,
+      "sha256": "aa761c844e76a21f9dc38362b9c1eedae8086e6c99d151bc8f67f49738296345"
+    },
+    "shap_Shimla_commercial.json": {
+      "size_bytes": 1744,
+      "sha256": "96c7dcb39d7c20c1226a51b020717cabc181c6cc7bb02a4c80487c87860c06a7"
+    },
+    "shap_Shimla_house.json": {
+      "size_bytes": 1747,
+      "sha256": "76eed05b7d4f7777bf93028353e41505b5116a20b7086f216041c6fd8e6b57c3"
+    },
+    "surrogate_metrics_apartment.json": {
+      "size_bytes": 5186,
+      "sha256": "60cd23bf807a458db0df941248463987895229768b59b20a4b1c60b47e15c973"
+    },
+    "surrogate_metrics_commercial.json": {
+      "size_bytes": 5215,
+      "sha256": "dbba583846805bc19e1cbf20f8fd1d29bc13ded2ddfd057de021b94e03bc1ab0"
+    },
+    "surrogate_metrics_house.json": {
+      "size_bytes": 5210,
+      "sha256": "d876a432ba9c67a9e4a09a9956204fb444abd0d8208c5813a5b5254f022e4175"
+    }
+  }
+}

@@ -1,60 +1,117 @@
-{
-  "source": "ASHRAE DB II complete cases (N=58,512)",
-  "bounds": {
-    "ta": [
-      13.9,
-      33.0
-    ],
-    "tr": [
-      13.9,
-      33.6
-    ],
-    "rh": [
-      14.9,
-      82.6
-    ],
-    "vel": [
-      0.0,
-      1.41
-    ],
-    "clo": [
-      0.21,
-      1.65
-    ],
-    "met": [
-      0.8,
-      2.0
-    ],
-    "t_mot_isd": [
-      -19.2,
-      31.9
+[
+  {
+    "city": "Jodhpur",
+    "n_hourly_samples": 8681160,
+    "ta_in_envelope_pct": 99.59598717222124,
+    "tr_in_envelope_pct": 99.8561252182888,
+    "rh_in_envelope_pct": 68.6955084343567,
+    "vel_in_envelope_pct": 100.0,
+    "clo_in_envelope_pct": 100.0,
+    "met_in_envelope_pct": 100.0,
+    "t_mot_isd_in_envelope_pct": 75.89041095890411,
+    "all_features_in_envelope_pct": 53.90738104124334,
+    "adaptive_90_valid_pct": 86.84931506849315,
+    "ml_flagged_under_80pct": true,
+    "adaptive_flagged_under_80pct": false,
+    "display_name": "Jodhpur",
+    "zone": "Hot-Dry (BWh)",
+    "confidence": "Low",
+    "spearman": 0.099,
+    "coordinates": [
+      26.2389,
+      73.0243
     ]
   },
-  "flags_by_city": {
-    "Jodhpur": {
-      "ml_confidence": "LOW_CONFIDENCE",
-      "adaptive_confidence": "STANDARD",
-      "notes": "Dry desert climate; high summer outdoor temperatures"
-    },
-    "Mumbai": {
-      "ml_confidence": "LOW_CONFIDENCE",
-      "adaptive_confidence": "STANDARD",
-      "notes": "Tropical humid; monsoon RH exceeds DB II training bound (82.6%)"
-    },
-    "New_Delhi": {
-      "ml_confidence": "LOW_CONFIDENCE",
-      "adaptive_confidence": "STANDARD",
-      "notes": "Composite climate; summer heat & monsoon humidity"
-    },
-    "Bengaluru": {
-      "ml_confidence": "STANDARD",
-      "adaptive_confidence": "STANDARD",
-      "notes": "Temperate climate; mostly within DB II bounds"
-    },
-    "Shimla": {
-      "ml_confidence": "LOW_CONFIDENCE",
-      "adaptive_confidence": "FLAGGED",
-      "notes": "Cold climate; winter T_rm < 10 C violates Adaptive-90 validity bound"
-    }
+  {
+    "city": "Mumbai",
+    "n_hourly_samples": 8760000,
+    "ta_in_envelope_pct": 99.98520547945203,
+    "tr_in_envelope_pct": 99.98884703196347,
+    "rh_in_envelope_pct": 27.92093607305936,
+    "vel_in_envelope_pct": 100.0,
+    "clo_in_envelope_pct": 100.0,
+    "met_in_envelope_pct": 100.0,
+    "t_mot_isd_in_envelope_pct": 100.0,
+    "all_features_in_envelope_pct": 27.90567351598173,
+    "adaptive_90_valid_pct": 100.0,
+    "ml_flagged_under_80pct": true,
+    "adaptive_flagged_under_80pct": false,
+    "display_name": "Mumbai",
+    "zone": "Warm-Humid (Aw)",
+    "confidence": "Medium",
+    "spearman": 0.946,
+    "coordinates": [
+      19.076,
+      72.8777
+    ]
+  },
+  {
+    "city": "New_Delhi",
+    "n_hourly_samples": 8751240,
+    "ta_in_envelope_pct": 99.6846389768764,
+    "tr_in_envelope_pct": 99.88171961916254,
+    "rh_in_envelope_pct": 59.48551291017045,
+    "vel_in_envelope_pct": 100.0,
+    "clo_in_envelope_pct": 100.0,
+    "met_in_envelope_pct": 100.0,
+    "t_mot_isd_in_envelope_pct": 80.54794520547945,
+    "all_features_in_envelope_pct": 53.1210662717512,
+    "adaptive_90_valid_pct": 89.86301369863014,
+    "ml_flagged_under_80pct": true,
+    "adaptive_flagged_under_80pct": false,
+    "display_name": "New Delhi",
+    "zone": "Composite (Cwa)",
+    "confidence": "Low",
+    "spearman": 0.19,
+    "coordinates": [
+      28.6139,
+      77.209
+    ]
+  },
+  {
+    "city": "Bengaluru",
+    "n_hourly_samples": 8760000,
+    "ta_in_envelope_pct": 99.99761415525114,
+    "tr_in_envelope_pct": 99.99917808219178,
+    "rh_in_envelope_pct": 43.38818493150685,
+    "vel_in_envelope_pct": 100.0,
+    "clo_in_envelope_pct": 100.0,
+    "met_in_envelope_pct": 100.0,
+    "t_mot_isd_in_envelope_pct": 100.0,
+    "all_features_in_envelope_pct": 43.38574200913242,
+    "adaptive_90_valid_pct": 100.0,
+    "ml_flagged_under_80pct": true,
+    "adaptive_flagged_under_80pct": false,
+    "display_name": "Bengaluru",
+    "zone": "Temperate (Aw/Cwb)",
+    "confidence": "Medium",
+    "spearman": 0.942,
+    "coordinates": [
+      12.9716,
+      77.5946
+    ]
+  },
+  {
+    "city": "Shimla",
+    "n_hourly_samples": 8760000,
+    "ta_in_envelope_pct": 98.23787671232876,
+    "tr_in_envelope_pct": 97.84131278538813,
+    "rh_in_envelope_pct": 79.46295662100457,
+    "vel_in_envelope_pct": 100.0,
+    "clo_in_envelope_pct": 100.0,
+    "met_in_envelope_pct": 100.0,
+    "t_mot_isd_in_envelope_pct": 100.0,
+    "all_features_in_envelope_pct": 77.25761415525115,
+    "adaptive_90_valid_pct": 73.97260273972603,
+    "ml_flagged_under_80pct": true,
+    "adaptive_flagged_under_80pct": true,
+    "display_name": "Shimla",
+    "zone": "Cold (Cwb)",
+    "confidence": "Low",
+    "spearman": 0.867,
+    "coordinates": [
+      31.1048,
+      77.1734
+    ]
   }
-}
+]

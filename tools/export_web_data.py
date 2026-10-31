@@ -20,11 +20,11 @@ os.makedirs(WEB_DATA_DIR, exist_ok=True)
 CITIES = ["Jodhpur", "Mumbai", "New_Delhi", "Bengaluru", "Shimla"]
 
 CITY_DISPLAY = {
-    "Jodhpur": {"name": "Jodhpur", "zone": "Hot-Dry (BWh)", "epw": "IND_RJ_Jodhpur.423390_TMYx.epw", "confidence": "Low", "spearman": 0.109, "coordinates": [26.2389, 73.0243]},
-    "Mumbai": {"name": "Mumbai", "zone": "Warm-Humid (Aw)", "epw": "IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.epw", "confidence": "Medium", "spearman": 0.945, "coordinates": [19.0760, 72.8777]},
-    "New_Delhi": {"name": "New Delhi", "zone": "Composite (Cwa)", "epw": "IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.epw", "confidence": "Low", "spearman": 0.195, "coordinates": [28.6139, 77.2090]},
-    "Bengaluru": {"name": "Bengaluru", "zone": "Temperate (Aw/Cwb)", "epw": "IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.epw", "confidence": "Medium", "spearman": 0.943, "coordinates": [12.9716, 77.5946]},
-    "Shimla": {"name": "Shimla", "zone": "Cold (Cwb)", "epw": "IND_HP_Shimla.420830_TMYx.epw", "confidence": "Low", "spearman": 0.868, "coordinates": [31.1048, 77.1734]}
+    "Jodhpur": {"name": "Jodhpur", "zone": "Hot-Dry (BWh)", "epw": "IND_RJ_Jodhpur.423390_TMYx.epw", "confidence": "Low", "spearman": 0.099, "coordinates": [26.2389, 73.0243]},
+    "Mumbai": {"name": "Mumbai", "zone": "Warm-Humid (Aw)", "epw": "IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.epw", "confidence": "Medium", "spearman": 0.946, "coordinates": [19.0760, 72.8777]},
+    "New_Delhi": {"name": "New Delhi", "zone": "Composite (Cwa)", "epw": "IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.epw", "confidence": "Low", "spearman": 0.190, "coordinates": [28.6139, 77.2090]},
+    "Bengaluru": {"name": "Bengaluru", "zone": "Temperate (Aw/Cwb)", "epw": "IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.epw", "confidence": "Medium", "spearman": 0.942, "coordinates": [12.9716, 77.5946]},
+    "Shimla": {"name": "Shimla", "zone": "Cold (Cwb)", "epw": "IND_HP_Shimla.420830_TMYx.epw", "confidence": "Low", "spearman": 0.867, "coordinates": [31.1048, 77.1734]}
 }
 
 def export_all():
@@ -48,6 +48,8 @@ def export_all():
                 r["spearman"] = CITY_DISPLAY[c]["spearman"]
                 r["coordinates"] = CITY_DISPLAY[c]["coordinates"]
         with open(os.path.join(WEB_DATA_DIR, "applicability.json"), "w", encoding="utf-8") as f:
+            json.dump(records, f, indent=2)
+        with open(os.path.join(REPO_ROOT, "data", "export", "applicability.json"), "w", encoding="utf-8") as f:
             json.dump(records, f, indent=2)
         print(" [OK] applicability.json")
 
@@ -82,39 +84,110 @@ def export_all():
     ver_csv = os.path.join(DATA_DIR, "pareto_verification_results.csv")
     df_ver = pd.read_csv(ver_csv) if os.path.exists(ver_csv) else pd.DataFrame()
 
-    # 6. Per-City Pareto Sets
+    WEB_SRC_DATA_DIR = os.path.join(REPO_ROOT, "web", "src", "data")
+    os.makedirs(WEB_SRC_DATA_DIR, exist_ok=True)
+
+    # 6. Per-City Pareto Sets (100 designs per city, 10 verified matching pareto_verification_results.csv)
     for city in CITIES:
-        parquet_file = os.path.join(DATA_DIR, f"pareto_{city}.parquet")
-        if os.path.exists(parquet_file):
-            df_p = pd.read_parquet(parquet_file)
-            # Clip negative surrogate energy predictions physically to 0 (per Decision D-017 / Release v1.1)
-            df_p["O2"] = df_p["O2"].clip(lower=0.0)
-            
-            # Merge verification info
-            if not df_ver.empty:
-                ver_city = df_ver[df_ver["city"] == city]
-                ver_dict = {r["pareto_id"]: r.to_dict() for _, r in ver_city.iterrows()}
-            else:
-                ver_dict = {}
+        ver_city = df_ver[df_ver["city"] == city] if not df_ver.empty else pd.DataFrame()
+        ver_map = {}
+        for _, r in ver_city.iterrows():
+            pred_o2 = float(r["pred_O2"])
+            actual_o2 = float(r["actual_O2"])
+            ver_map[r["pareto_id"]] = {
+                "pareto_id": r["pareto_id"],
+                "city": city,
+                "building_type": "shelter_v1",
+                "roof_insulation_thickness": float(r["roof_insulation_thickness"]),
+                "wall_insulation_thickness": float(r["wall_insulation_thickness"]),
+                "wall_mass_class": str(r["wall_mass_class"]),
+                "roof_solar_absorptance": float(r["roof_solar_absorptance"]),
+                "wwr": float(r["wwr"]),
+                "orientation": float(r["orientation"]),
+                "shading_depth": float(r["shading_depth"]),
+                "ventilation_ach": float(r["ventilation_ach"]),
+                "O1_ml": float(r["actual_O1_ml"]),
+                "O1_adapt": float(r["actual_O1_adapt"]),
+                "O2": actual_o2,
+                "pred_O1_ml": float(r["pred_O1_ml"]),
+                "pred_O1_adapt": float(r["pred_O1_adapt"]),
+                "pred_O2": pred_o2,
+                "o2_raw_pred": pred_o2,
+                "o2_was_clipped": bool(pred_o2 < 0.0),
+                "value_source": "energyplus",
+                "is_verified": True,
+                "verified": True,
+                "verification_mode": "fully verified",
+                "badge": "EnergyPlus verified",
+                "selection_role": str(r.get("selection_role", "")),
+                "verified_O1_ml": float(r["actual_O1_ml"]),
+                "verified_O1_adapt": float(r["actual_O1_adapt"]),
+                "verified_O2": actual_o2,
+                "abs_err_O1_ml": float(r["abs_err_O1_ml"]),
+                "abs_err_O2": float(r["abs_err_O2"]),
+                "rel_error_O1_ml": float(r["rel_err_O1_ml_pct"]),
+                "rel_error_O2": float(r["rel_err_O2_pct"])
+            }
 
-            records = []
-            for _, row in df_p.iterrows():
-                r = row.to_dict()
-                pid = r.get("pareto_id", "")
-                r["is_verified"] = pid in ver_dict
-                if r["is_verified"]:
-                    v = ver_dict[pid]
-                    r["verified_O1_ml"] = v.get("actual_O1_ml")
-                    r["verified_O1_adapt"] = v.get("actual_O1_adapt")
-                    r["verified_O2"] = v.get("actual_O2")
-                    r["rel_error_O1_ml"] = v.get("rel_error_O1_ml")
-                    r["rel_error_O1_adapt"] = v.get("rel_error_O1_adapt")
-                    r["rel_error_O2"] = v.get("rel_error_O2")
-                records.append(r)
+        # Export dedicated shelter_v1 pareto file (10 verified designs)
+        shelter_v1_records = list(ver_map.values())
+        shelter_export_path = os.path.join(REPO_ROOT, "data", "export", f"pareto_{city}_shelter_v1.json")
+        with open(shelter_export_path, "w", encoding="utf-8") as f:
+            json.dump(shelter_v1_records, f, indent=2)
+        with open(os.path.join(WEB_DATA_DIR, f"pareto_{city}_shelter_v1.json"), "w", encoding="utf-8") as f:
+            json.dump(shelter_v1_records, f, indent=2)
+        with open(os.path.join(WEB_SRC_DATA_DIR, f"pareto_{city}_shelter_v1.json"), "w", encoding="utf-8") as f:
+            json.dump(shelter_v1_records, f, indent=2)
 
-            with open(os.path.join(WEB_DATA_DIR, f"pareto_{city}.json"), "w", encoding="utf-8") as f:
-                json.dump(records, f, indent=2)
-            print(f" [OK] pareto_{city}.json ({len(records)} designs)")
+        export_house_json = os.path.join(REPO_ROOT, "data", "export", f"pareto_{city}_house.json")
+        records = list(ver_map.values())
+        used_ids = set(ver_map.keys())
+
+        if os.path.exists(export_house_json):
+            raw_house = json.load(open(export_house_json, "r", encoding="utf-8"))
+            unverified_pool = [x for x in raw_house if not x.get("verified") and not x.get("is_verified")]
+            id_counter = 0
+            for uv in unverified_pool:
+                if len(records) >= 100:
+                    break
+                while f"P_{city}_{id_counter:03d}" in used_ids:
+                    id_counter += 1
+                pid = f"P_{city}_{id_counter:03d}"
+                used_ids.add(pid)
+                id_counter += 1
+                raw_o2 = float(uv.get("pred_O2", uv.get("O2", 0.0)))
+                clipped = bool(raw_o2 < 0.0)
+                disp_o2 = max(0.0, raw_o2)
+                records.append({
+                    "pareto_id": pid,
+                    "city": city,
+                    "building_type": "house",
+                    "roof_insulation_thickness": float(uv["roof_insulation_thickness"]),
+                    "wall_insulation_thickness": float(uv["wall_insulation_thickness"]),
+                    "wall_mass_class": uv.get("wall_mass_class", "medium"),
+                    "roof_solar_absorptance": float(uv["roof_solar_absorptance"]),
+                    "wwr": float(uv["wwr"]),
+                    "orientation": float(uv["orientation"]),
+                    "shading_depth": float(uv["shading_depth"]),
+                    "ventilation_ach": float(uv["ventilation_ach"]),
+                    "O1_ml": float(uv["O1_ml"]),
+                    "O1_adapt": float(uv.get("O1_adapt", 0.0)),
+                    "O2": disp_o2,
+                    "o2_raw_pred": raw_o2,
+                    "o2_was_clipped": clipped,
+                    "value_source": "surrogate",
+                    "is_verified": False,
+                    "verified": False,
+                    "badge": "Estimated (Surrogate)"
+                })
+
+        records.sort(key=lambda x: x["O1_ml"])
+
+        with open(os.path.join(WEB_DATA_DIR, f"pareto_{city}.json"), "w", encoding="utf-8") as f:
+            json.dump(records, f, indent=2)
+        with open(os.path.join(WEB_SRC_DATA_DIR, f"pareto_{city}.json"), "w", encoding="utf-8") as f:
+            json.dump(records, f, indent=2)
+        print(f" [OK] pareto_{city}.json ({len(records)} designs, {sum(1 for x in records if x.get('is_verified'))} verified)")
 
     # 7. SHAP Summary
     shap_summary = {}
@@ -213,7 +286,7 @@ def export_all():
         "decisions": [
             {"id": "D-001", "title": "Single-zone shelter baseline", "description": "Single-zone, low-rise shelter simulated in EnergyPlus across 5 Indian climate zones."},
             {"id": "D-002", "title": "Representative Climate Stations", "description": "Jodhpur (hot-dry), Mumbai (warm-humid), New Delhi (composite), Bengaluru (temperate), Shimla (cold)."},
-            {"id": "D-004a", "title": "NaN-tolerant training, complete-case evaluation", "description": "Model learns from 18,061 Indian rows while preserving 100% identical-row complete-case evaluation."},
+            {"id": "D-004a", "title": "Missing-data-tolerant training, complete-case evaluation", "description": "Model learns from 18,061 Indian rows while preserving 100% identical-row complete-case evaluation."},
             {"id": "D-005", "title": "Never impute tr = ta", "description": "Radiant temperature is the primary physics altered by envelope design; imputing removes optimization leverage."},
             {"id": "D-011", "title": "Shimla applicability warning", "description": "Shimla has no labelled votes in DB II; cold winter hours carry explicit extrapolation flag."},
             {"id": "D-013", "title": "Dual comfort judges", "description": "Retain both ML Champion and Physical Adaptive 90% as dual judges to prevent single-model bias."},
@@ -235,7 +308,50 @@ def export_all():
         json.dump(meta, f, indent=2)
     print(" [OK] project_meta.json")
 
-    print("\n[SUCCESS] All data exported successfully to web/public/data/")
+    SRC_DATA_DIR = os.path.join(REPO_ROOT, "web", "src", "data")
+    if os.path.exists(SRC_DATA_DIR):
+        import shutil
+        for fname in os.listdir(WEB_DATA_DIR):
+            if fname.endswith(".json") and fname != "india_map_soi.json":
+                shutil.copy2(os.path.join(WEB_DATA_DIR, fname), os.path.join(SRC_DATA_DIR, fname))
+        print(" [OK] Synced exported JSON to web/src/data/")
+
+    # 10. Regenerate manifest.json for data/export
+    import hashlib, time
+    def compute_sha256(fpath):
+        h = hashlib.sha256()
+        with open(fpath, "rb") as f:
+            while chunk := f.read(65536):
+                h.update(chunk)
+        return h.hexdigest()
+
+    export_dir = os.path.join(REPO_ROOT, "data", "export")
+    if os.path.exists(export_dir):
+        efiles = [f for f in os.listdir(export_dir) if f != "manifest.json" and os.path.isfile(os.path.join(export_dir, f))]
+        manifest = {
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "source_script": "tools/export_web_data.py",
+            "total_files": len(efiles),
+            "files": {}
+        }
+        for ef in sorted(efiles):
+            fp = os.path.join(export_dir, ef)
+            manifest["files"][ef] = {
+                "size_bytes": os.path.getsize(fp),
+                "sha256": compute_sha256(fp)
+            }
+        manifest_path = os.path.join(export_dir, "manifest.json")
+        with open(manifest_path, "w", encoding="utf-8") as f:
+            json.dump(manifest, f, indent=2)
+        # Also copy to web public/src
+        if os.path.exists(WEB_DATA_DIR):
+            shutil.copy2(manifest_path, os.path.join(WEB_DATA_DIR, "manifest.json"))
+        if os.path.exists(SRC_DATA_DIR):
+            shutil.copy2(manifest_path, os.path.join(SRC_DATA_DIR, "manifest.json"))
+        print(f" [OK] Regenerated manifest.json ({len(efiles)} files hashed)")
+
+    print("\n[SUCCESS] All data exported successfully to web/public/data/, web/src/data/ and data/export/")
 
 if __name__ == "__main__":
     export_all()
+

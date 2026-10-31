@@ -7,6 +7,7 @@ set -e
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"
+export PATH="$HOME/.local/bin:$PATH"
 
 ALLOW_UNFILLED=false
 API_PORT=8000

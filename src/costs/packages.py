@@ -19,7 +19,7 @@ from src.costs.carbon import compute_embodied_carbon
 
 CITY_CONFIDENCE_TIERS = {
     "Jodhpur": "Low",
-    "Mumbai": "Low",
+    "Mumbai": "Medium",
     "New_Delhi": "Low",
     "Bengaluru": "Medium",
     "Shimla": "Low"

@@ -98,6 +98,10 @@ export interface ParetoDesign {
   rel_error_O1_ml?: number;
   rel_error_O1_adapt?: number;
   rel_error_O2?: number;
+  value_source?: "energyplus" | "surrogate";
+  o2_raw_pred?: number;
+  o2_was_clipped?: boolean;
+  badge?: string;
   composite_score?: number;
   preset_tag?: "Lowest Energy" | "Lowest Discomfort" | "Balanced (Knee Point)";
 }
@@ -187,9 +191,9 @@ export interface ProjectMetadata {
 // ClimateAdapt-Comfort v2 Types
 // ==========================================
 
-export type BuildingType = "house" | "apartment" | "commercial";
+export type BuildingType = "shelter_v1" | "house" | "apartment" | "commercial";
 export type UserFeel = "too hot" | "about right" | "too cold";
-export type CoolingType = "none" | "fan" | "AC";
+export type CoolingType = "none" | "fan" | "AC" | "ac";
 export type ClothingType = "light" | "normal" | "heavy";
 export type UserPriority = "comfort" | "balanced" | "low energy";
 export type LanguageCode = "en" | "hi";
@@ -225,17 +229,32 @@ export interface MonthlyPerformanceData {
   indoor_ta_recommended: number[];
 }
 
+export interface PassivePackageQuantities {
+  roof_insulation_mm: number;
+  wall_insulation_mm: number;
+  roof_area_m2: number;
+  wall_area_m2: number;
+  wwr_pct: number;
+  overhang_m: number;
+  ventilation_ach: number;
+  wall_mass: string;
+}
+
 export interface PassivePackage {
   id: "pkg_budget" | "pkg_balanced" | "pkg_best_comfort";
   name: string;
   description: string;
   pareto_id: string;
+  selection_role?: string;
   comfort_fit_score: number;
   comfort_gain_vs_baseline_pts: number;
   energy_reduction_pct: number;
   discomfort_pct: number;
   ml_discomfort_pct: number;
   annual_energy_kwh_per_m2: number;
+  annual_discomfort_hours?: number;
+  hours_scored?: number;
+  cooling_mode?: string;
   design_variables: {
     roof_insulation_thickness: number;
     wall_insulation_thickness: number;
@@ -246,9 +265,15 @@ export interface PassivePackage {
     ventilation_ach: number;
     wall_mass_class: "light" | "medium" | "heavy";
   };
+  quantities?: PassivePackageQuantities;
   materials_list: string[];
   cost_range: CostRangeEstimate;
   monthly_performance: MonthlyPerformanceData;
+  value_source?: "energyplus" | "surrogate";
+  is_verified?: boolean;
+  badge?: string;
+  o2_raw_pred?: number;
+  o2_was_clipped?: boolean;
 }
 
 export interface CityAreaAverages {

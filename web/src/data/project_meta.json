@@ -101,7 +101,7 @@
     },
     {
       "id": "D-004a",
-      "title": "NaN-tolerant training, complete-case evaluation",
+      "title": "Missing-data-tolerant training, complete-case evaluation",
       "description": "Model learns from 18,061 Indian rows while preserving 100% identical-row complete-case evaluation."
     },
     {

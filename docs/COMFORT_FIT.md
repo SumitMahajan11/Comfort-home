@@ -29,8 +29,8 @@ All city comfort norms are derived strictly from real, verifiable data sources a
    - Evaluated from the conventional reference building (`R2_Conventional`, medium-mass clay brick, uninsulated, free-running mode).
    - Tracks monthly $O_{1,\text{adapt}}$, $O_{1,\text{ml}}$, warm %, cool %, and annual $O_2$ heating/cooling energy intensity ($\text{kWh/m}^2/\text{yr}$).
 3. **Applicability Domain & Confidence Tiers (Decision D-017):**
-   - **Bengaluru:** **Medium Confidence** (Temperate plateau, within DB II 1st–99th percentile envelope, dual judges agree $r_s = 0.942$).
-   - **Mumbai, New Delhi, Jodhpur, Shimla:** **Low Confidence** (Extrapolation beyond DB II envelope during monsoon humidity or summer desert heat; winter heating boundary violation in Shimla).
+   - **Bengaluru, Mumbai:** **Medium Confidence** (Spearman $r_s \ge 0.8$ and Adaptive 90% validity $\ge 80\%$; Bengaluru $r_s = 0.942$, Adapt $100.0\%$; Mumbai $r_s = 0.946$, Adapt $100.0\%$).
+   - **New Delhi, Jodhpur, Shimla:** **Low Confidence** (New Delhi $r_s = 0.190 < 0.8$; Jodhpur $r_s = 0.099 < 0.8$; Shimla $r_s = 0.867$, but Adapt validity $73.97\% < 80\%$ due to winter heating boundary violation per D-011).
 
 ---
 

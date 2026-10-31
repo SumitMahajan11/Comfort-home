@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, ShieldAlert, AlertTriangle, FileText, CheckCircle2, ExternalLink } from "lucide-react";
+import { X, ShieldAlert, AlertTriangle, FileText, CheckCircle2 } from "lucide-react";
 
 export interface LimitationsDrawerProps {
   buttonText?: string;
@@ -9,7 +9,7 @@ export interface LimitationsDrawerProps {
 }
 
 export const LimitationsDrawer: React.FC<LimitationsDrawerProps> = ({
-  buttonText = "View Scientific Limitations & Evidence",
+  buttonText = "View scientific limitations & evidence",
   className = ""
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,32 +19,32 @@ export const LimitationsDrawer: React.FC<LimitationsDrawerProps> = ({
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-amber-500/30 bg-amber-950/20 hover:bg-amber-950/40 text-amber-300 text-xs font-semibold transition ${className}`}
+        className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-[8px] border border-[var(--line)] bg-[var(--surface-2)] hover:bg-[var(--surface)] text-[var(--ink)] text-xs font-medium transition ${className}`}
       >
-        <ShieldAlert className="w-3.5 h-3.5 text-amber-400" />
+        <ShieldAlert className="w-3.5 h-3.5 text-[var(--warn)]" />
         <span>{buttonText}</span>
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-black/70 backdrop-blur-sm animate-fadeIn">
+        <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-sm animate-fadeIn">
           {/* Backdrop Click */}
           <div className="absolute inset-0" onClick={() => setIsOpen(false)} />
 
           {/* Drawer Content */}
-          <aside className="relative z-10 w-full max-w-xl h-full bg-slate-950 border-l border-white/10 shadow-2xl p-6 overflow-y-auto space-y-6">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+          <aside className="relative z-10 w-full max-w-xl h-full bg-[var(--surface)] border-l border-[var(--line)] shadow-lg p-6 overflow-y-auto space-y-6">
+            <div className="flex items-center justify-between border-b border-[var(--line)] pb-4">
               <div className="flex items-center space-x-2.5">
-                <div className="p-2 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                  <ShieldAlert className="w-5 h-5 text-amber-400" />
+                <div className="p-2 rounded-[8px] bg-[var(--surface-2)] text-[var(--warn)] border border-[var(--line)]">
+                  <ShieldAlert className="w-5 h-5 text-[var(--warn)]" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white">Project Scope & Scientific Limitations</h3>
-                  <p className="text-xs text-slate-400">Non-negotiable disclosures and evidence records</p>
+                  <h3 className="text-base font-semibold text-[var(--ink)]">Project scope & scientific limitations</h3>
+                  <p className="text-xs text-[var(--ink-2)]">Non-negotiable disclosures and evidence records</p>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition"
+                className="p-1.5 rounded-[8px] text-[var(--ink-2)] hover:text-[var(--ink)] hover:bg-[var(--surface-2)] transition"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -53,59 +53,59 @@ export const LimitationsDrawer: React.FC<LimitationsDrawerProps> = ({
             {/* Core Honest Disclosures */}
             <div className="space-y-4 text-xs">
               {/* Disclosure 1 */}
-              <div className="rounded-xl border border-amber-500/30 bg-amber-950/20 p-4 space-y-2">
-                <div className="flex items-center space-x-2 text-amber-300 font-bold">
-                  <AlertTriangle className="w-4 h-4 text-amber-400" />
-                  <span>5 Representative Cities Only (Decision D-001)</span>
+              <div className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-2)] p-4 space-y-2">
+                <div className="flex items-center space-x-2 text-[var(--ink)] font-semibold">
+                  <AlertTriangle className="w-4 h-4 text-[var(--warn)]" />
+                  <span>5 Representative cities only (Decision D-001)</span>
                 </div>
-                <p className="text-slate-300 leading-relaxed">
+                <p className="text-[var(--ink-2)] leading-relaxed">
                   EnergyPlus thermodynamic simulations were precomputed exclusively for Jodhpur, Mumbai, New Delhi, Bengaluru, and Shimla. When selecting any other Indian location, the application identifies the geographically nearest station via Haversine distance and flags this clearly as a proxy match.
                 </p>
               </div>
 
               {/* Disclosure 2 */}
-              <div className="rounded-xl border border-rose-500/30 bg-rose-950/20 p-4 space-y-2">
-                <div className="flex items-center space-x-2 text-rose-300 font-bold">
-                  <AlertTriangle className="w-4 h-4 text-rose-400" />
-                  <span>Dual Comfort Judge Divergence (Phase S1 Audit: FAIL)</span>
+              <div className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-2)] p-4 space-y-2">
+                <div className="flex items-center space-x-2 text-[var(--ink)] font-semibold">
+                  <AlertTriangle className="w-4 h-4 text-[var(--bad)]" />
+                  <span>Dual comfort judge divergence (Phase S1 audit: FAIL)</span>
                 </div>
-                <p className="text-slate-300 leading-relaxed">
+                <p className="text-[var(--ink-2)] leading-relaxed">
                   ASHRAE 55 Adaptive 90% achieved macro-F1 of 0.4939 against physical sensation votes, while the ML thermal classifier achieved 0.4785. The two judges diverge significantly in cold climates (Spearman rank correlation r_s = -0.09 in Shimla). Both judges are shown side-by-side to prevent misleading consensus.
                 </p>
-                <div className="font-mono text-[10px] text-slate-400">
-                  Evidence: reports/evidence/phase1_dual_judge_eval.txt
+                <div className="text-xs text-[var(--ink-2)]">
+                  Evidence: <code>reports/evidence/phase1_dual_judge_eval.txt</code>
                 </div>
               </div>
 
               {/* Disclosure 3 */}
-              <div className="rounded-xl border border-amber-500/30 bg-amber-950/20 p-4 space-y-2">
-                <div className="flex items-center space-x-2 text-amber-300 font-bold">
-                  <AlertTriangle className="w-4 h-4 text-amber-400" />
-                  <span>Shimla Sensation Vote Gap (Decision D-011)</span>
+              <div className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-2)] p-4 space-y-2">
+                <div className="flex items-center space-x-2 text-[var(--ink)] font-semibold">
+                  <AlertTriangle className="w-4 h-4 text-[var(--warn)]" />
+                  <span>Shimla sensation vote gap (Decision D-011)</span>
                 </div>
-                <p className="text-slate-300 leading-relaxed">
+                <p className="text-[var(--ink-2)] leading-relaxed">
                   All 460 DB II records in Shimla lack occupant thermal sensation votes. Model predictions in Shimla represent cold-climate extrapolation, and ASHRAE 55 Adaptive is invalid during sub-10°C hours (26.0% of annual hours).
                 </p>
               </div>
 
               {/* Disclosure 4 */}
-              <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4 space-y-2">
-                <div className="flex items-center space-x-2 text-teal-300 font-bold">
-                  <FileText className="w-4 h-4 text-teal-400" />
-                  <span>CPWD DSR Cost Ranges (Decision D-025)</span>
+              <div className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-2)] p-4 space-y-2">
+                <div className="flex items-center space-x-2 text-[var(--ink)] font-semibold">
+                  <FileText className="w-4 h-4 text-[var(--link)]" />
+                  <span>CPWD DSR cost ranges (Decision D-025)</span>
                 </div>
-                <p className="text-slate-300 leading-relaxed">
+                <p className="text-[var(--ink-2)] leading-relaxed">
                   All cost estimates are early-stage exploratory approximations based on CPWD Delhi Schedule of Rates (DSR). Unpopulated items in official schedules are explicitly noted as null rather than fabricated. These estimates are NOT construction contractor bids or quotes.
                 </p>
               </div>
 
               {/* Disclosure 5 */}
-              <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4 space-y-2">
-                <div className="flex items-center space-x-2 text-teal-300 font-bold">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                  <span>Simulation Assumptions A-001 through A-007</span>
+              <div className="rounded-[8px] border border-[var(--line)] bg-[var(--surface-2)] p-4 space-y-2">
+                <div className="flex items-center space-x-2 text-[var(--ink)] font-semibold">
+                  <CheckCircle2 className="w-4 h-4 text-[var(--good)]" />
+                  <span>Simulation assumptions A-001 through A-007</span>
                 </div>
-                <ul className="list-disc pl-4 space-y-1 text-slate-300">
+                <ul className="list-disc pl-4 space-y-1 text-[var(--ink-2)]">
                   <li>24-hour continuous residential occupancy assumption</li>
                   <li>Metabolic rate fixed at 1.1 met (light seated domestic activity)</li>
                   <li>Indoor air velocity 0.15 m/s still air baseline</li>
@@ -115,13 +115,13 @@ export const LimitationsDrawer: React.FC<LimitationsDrawerProps> = ({
               </div>
             </div>
 
-            <div className="pt-4 border-t border-white/10 flex justify-between items-center text-xs">
-              <span className="text-slate-400 font-mono">Seed: 42 fixed | Zero live cloud API calls</span>
+            <div className="pt-4 border-t border-[var(--line)] flex justify-between items-center text-xs">
+              <span className="text-[var(--ink-2)]">Seed: 42 fixed | Zero live cloud API calls</span>
               <button
                 onClick={() => setIsOpen(false)}
-                className="px-4 py-2 rounded-xl bg-teal-500 text-slate-950 font-bold hover:bg-teal-400 transition"
+                className="px-4 py-2 rounded-[8px] bg-[var(--primary)] text-white font-medium hover:opacity-90 transition"
               >
-                Close Disclosures
+                Close disclosures
               </button>
             </div>
           </aside>
@@ -130,3 +130,5 @@ export const LimitationsDrawer: React.FC<LimitationsDrawerProps> = ({
     </>
   );
 };
+
+export default LimitationsDrawer;

@@ -1,0 +1,53 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.15, pytest-9.1.1, pluggy-1.7.0 -- /Users/vaishakhi/Downloads/Comfort-home-main/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/vaishakhi/Downloads/Comfort-home-main
+plugins: anyio-4.15.1, platformdirs-4.13.5
+collecting ... collected 16 items
+
+tests/test_thermohome_ai.py::test_detect_season PASSED                   [  6%]
+tests/test_thermohome_ai.py::test_calculate_degree_days PASSED           [ 12%]
+tests/test_thermohome_ai.py::test_classify_ashrae_zone PASSED            [ 18%]
+tests/test_thermohome_ai.py::test_evaluate_comfort_need PASSED           [ 25%]
+tests/test_thermohome_ai.py::test_recommended_materials PASSED           [ 31%]
+tests/test_thermohome_ai.py::test_wall_orientation_strategy_hemisphere PASSED [ 37%]
+tests/test_thermohome_ai.py::test_api_failure_fallback PASSED            [ 43%]
+tests/test_thermohome_ai.py::test_streamlit_app_execution PASSED         [ 50%]
+tests/test_thermohome_ai.py::test_offline_demo_mode_execution PASSED     [ 56%]
+tests/test_thermohome_ai.py::test_summary_generators PASSED              [ 62%]
+tests/test_thermohome_ai.py::test_top_view_house_diagram_and_gauge PASSED [ 68%]
+tests/test_rules.py::test_city_1_shimla_cold PASSED                      [ 75%]
+tests/test_rules.py::test_city_2_jodhpur_hot_dry PASSED                  [ 81%]
+tests/test_rules.py::test_city_3_mumbai_hot_humid PASSED                 [ 87%]
+tests/test_rules.py::test_city_4_pune_warm_mixed PASSED                  [ 93%]
+tests/test_rules.py::test_southern_hemisphere_cold_flip PASSED           [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:64
+  /Users/vaishakhi/Downloads/Comfort-home-main/.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:64: PyparsingDeprecationWarning: 'oneOf' deprecated - use 'one_of'
+    prop = Group((name + Suppress("=") + comma_separated(value)) | oneOf(_CONSTANTS))
+
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:85
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:85
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:85
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:85
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:85
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:85
+  /Users/vaishakhi/Downloads/Comfort-home-main/.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:85: PyparsingDeprecationWarning: 'parseString' deprecated - use 'parse_string'
+    parse = parser.parseString(pattern)
+
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:89
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:89
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:89
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:89
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:89
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:89
+  /Users/vaishakhi/Downloads/Comfort-home-main/.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:89: PyparsingDeprecationWarning: 'resetCache' deprecated - use 'reset_cache'
+    parser.resetCache()
+
+.venv/lib/python3.12/site-packages/matplotlib/_mathtext.py:45
+  /Users/vaishakhi/Downloads/Comfort-home-main/.venv/lib/python3.12/site-packages/matplotlib/_mathtext.py:45: PyparsingDeprecationWarning: 'enablePackrat' deprecated - use 'enable_packrat'
+    ParserElement.enablePackrat()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 16 passed, 14 warnings in 4.42s ========================

@@ -2,147 +2,226 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { getProjectMetadata } from "@/lib/data";
+import { getOverviewFacts } from "@/lib/metrics";
+import { GLOSSARY } from "@/lib/glossary";
+import { CityKey } from "@/types";
 import { IndiaClimateMap } from "@/components/maps/IndiaClimateMap";
 import { CriteriaScorecard } from "@/components/common/CriteriaScorecard";
-import { getProjectMetadata } from "@/lib/data";
-import { formatNumber } from "@/lib/utils";
-import { CityKey } from "@/types";
+import { InfoTip } from "@/components/ui/Tooltip";
+import { CITIES_DATA } from "@/lib/constants";
 import {
-  Activity,
+  Compass,
+  ArrowRight,
+  Sparkles,
   Layers,
   Sliders,
-  Sparkles,
-  ArrowRight,
-  Database,
-  Cpu,
   ShieldCheck,
-  Compass,
-  CheckCircle2,
-  AlertTriangle
+  ShieldAlert,
+  BarChart3
 } from "lucide-react";
 
 export default function OverviewPage() {
   const meta = getProjectMetadata();
+  const facts = getOverviewFacts();
   const [selectedCity, setSelectedCity] = useState<CityKey>("Jodhpur");
 
+  const lowConfidenceCities = Object.values(CITIES_DATA)
+    .filter((c) => c.confidence === "Low")
+    .map((c) => c.name);
+  const lowConfidenceCount = lowConfidenceCities.length;
+  const totalCitiesCount = Object.keys(CITIES_DATA).length;
+  const lowConfidenceText =
+    lowConfidenceCities.length <= 2
+      ? lowConfidenceCities.join(" and ")
+      : `${lowConfidenceCities.slice(0, -1).join(", ")}, and ${lowConfidenceCities[lowConfidenceCities.length - 1]}`;
+
   return (
-    <div className="space-y-12 pb-16">
+    <div className="space-y-8 pb-8">
       {/* Hero Section */}
-      <section className="relative pt-6 pb-2">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-          <div className="max-w-2xl space-y-4">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-teal-950/70 border border-teal-500/40 text-teal-300 text-xs font-mono">
-              <span className="w-2 h-2 rounded-full bg-teal-400 animate-ping" />
-              <span>Multi-Objective Passive Shelter Optimization</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              Evidence-Gated Comfort Design Across{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-sky-300 to-indigo-300">
-                Indian Climates
-              </span>
-            </h1>
-
-            <p className="text-base text-slate-300 leading-relaxed">
-              Does an empirical thermal sensation classifier coupled with EnergyPlus building simulation recommend shelter envelopes that minimize discomfort hours and HVAC energy demand? Explore 500 Pareto-optimal designs across 5 distinct Indian climate zones.
-            </p>
-
-            {/* Quick CTA Actions */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <Link
-                href="/recommender"
-                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-teal-500/90 to-cyan-500/90 hover:from-teal-400 hover:to-cyan-400 text-slate-950 font-bold text-sm transition shadow-[0_0_25px_rgba(42,127,142,0.4)] flex items-center space-x-2"
-              >
-                <Sparkles className="w-4 h-4 text-slate-950" />
-                <span>Start v2 Decision Support</span>
-                <ArrowRight className="w-4 h-4 ml-1" />
-              </Link>
-              <Link
-                href="/pareto"
-                className="px-5 py-2.5 rounded-xl glass-button text-slate-100 font-semibold text-sm transition flex items-center space-x-2"
-              >
-                <Layers className="w-4 h-4 text-teal-400" />
-                <span>Explore Pareto Frontiers</span>
-              </Link>
-              <Link
-                href="/evaluate"
-                className="px-5 py-2.5 rounded-xl glass-button text-slate-100 font-semibold text-sm transition flex items-center space-x-2"
-              >
-                <Sliders className="w-4 h-4 text-teal-400" />
-                <span>Surrogate Evaluator</span>
-              </Link>
-            </div>
+      <section className="relative pt-4 pb-2 space-y-6">
+        <div className="text-center max-w-3xl mx-auto space-y-4">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-[var(--radius)] bg-[var(--surface-2)] border border-[var(--line)] text-[var(--primary)] text-xs font-semibold">
+            <span className="w-2 h-2 rounded-full bg-[var(--primary)]" />
+            <span>Passive shelter envelope decision-support</span>
           </div>
 
-          {/* Key Metric Highlights Card */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-3 lg:w-[380px]">
-            <div className="rounded-xl glass-card p-4">
-              <span className="text-xs font-mono text-slate-400 block">DB II Records</span>
-              <span className="text-2xl font-black text-white font-mono mt-1 block">
-                {formatNumber(meta.kpis.survey_records, 0)}
-              </span>
-              <span className="text-[10px] text-teal-400 mt-0.5 block">58,512 complete-case</span>
-            </div>
+          <h1 className="text-3xl sm:text-4xl font-semibold text-[var(--ink)] tracking-tight leading-tight">
+            Find a low-energy, comfortable shelter design for your Indian city.
+          </h1>
 
-            <div className="rounded-xl glass-card p-4">
-              <span className="text-xs font-mono text-slate-400 block">Simulations</span>
-              <span className="text-2xl font-black text-white font-mono mt-1 block">
-                {formatNumber(meta.kpis.total_simulations, 0)}
-              </span>
-              <span className="text-[10px] text-teal-400 mt-0.5 block">99.88% EnergyPlus pass</span>
-            </div>
+          <p className="text-base text-[var(--ink-2)] leading-relaxed max-w-prose mx-auto">
+            ClimateAdapt-Comfort helps architects, engineers, and planners select envelope materials and window configurations that minimize{" "}
+            <span className="inline-flex items-center text-[var(--ink)] font-medium">
+              hours uncomfortable
+              <InfoTip
+                label="hours uncomfortable"
+                content={`${GLOSSARY.o1.technicalName}: ${GLOSSARY.o1.definition}`}
+              />
+            </span>{" "}
+            and{" "}
+            <span className="inline-flex items-center text-[var(--ink)] font-medium">
+              heating & cooling energy
+              <InfoTip
+                label="heating & cooling energy"
+                content={`${GLOSSARY.o2.technicalName}: ${GLOSSARY.o2.definition}`}
+              />
+            </span>{" "}
+            using{" "}
+            <span className="inline-flex items-center text-[var(--ink)] font-medium">
+              fast estimators trained on simulations
+              <InfoTip
+                label="fast estimator"
+                content={`${GLOSSARY.surrogate.technicalName}: ${GLOSSARY.surrogate.definition}`}
+              />
+            </span>{" "}
+            and{" "}
+            <span className="inline-flex items-center text-[var(--ink)] font-medium">
+              best trade-off designs
+              <InfoTip
+                label="best trade-off designs"
+                content={`${GLOSSARY.pareto.technicalName}: ${GLOSSARY.pareto.definition}`}
+              />
+            </span>.
+          </p>
 
-            <div className="rounded-xl glass-card p-4">
-              <span className="text-xs font-mono text-slate-400 block">Surrogate Models</span>
-              <span className="text-2xl font-black text-white font-mono mt-1 block">
-                {meta.kpis.surrogate_models}
-              </span>
-              <span className="text-[10px] text-amber-400 mt-0.5 block">23/25 R² ≥ 0.95</span>
-            </div>
+          {/* Quick CTA Actions */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <Link
+              href="/recommender"
+              className="px-5 py-2.5 rounded-[var(--radius)] bg-[var(--primary)] hover:opacity-90 text-[var(--primary-contrast)] font-semibold text-sm transition shadow-sm flex items-center space-x-2"
+            >
+              <Sparkles className="w-4 h-4 text-[var(--primary-contrast)]" />
+              <span>Plan my shelter</span>
+              <ArrowRight className="w-4 h-4 ml-1" />
+            </Link>
+            <Link
+              href="/models"
+              className="px-5 py-2.5 rounded-[var(--radius)] bg-[var(--surface-2)] hover:bg-[var(--surface)] border border-[var(--line)] text-[var(--ink)] font-semibold text-sm transition flex items-center space-x-2"
+            >
+              <span>See how it was tested</span>
+              <ArrowRight className="w-4 h-4 ml-1" />
+            </Link>
+          </div>
+        </div>
 
-            <div className="rounded-xl glass-card p-4">
-              <span className="text-xs font-mono text-slate-400 block">Pareto Designs</span>
-              <span className="text-2xl font-black text-white font-mono mt-1 block">
-                {meta.kpis.pareto_designs}
-              </span>
-              <span className="text-[10px] text-emerald-400 mt-0.5 block">100 designs / city</span>
-            </div>
-
-            <div className="rounded-xl glass-card p-4 col-span-2 sm:col-span-1 lg:col-span-2 bg-gradient-to-br from-teal-950/40 to-slate-900/60 border-teal-500/30">
-              <span className="text-xs font-mono text-slate-400 block">Physical Verification</span>
-              <div className="flex items-baseline justify-between mt-1">
-                <span className="text-2xl font-black text-emerald-400 font-mono">
-                  {meta.kpis.verified_in_energyplus} Runs
-                </span>
-                <span className="text-xs font-bold text-emerald-300">
-                  36/50 Beat Both Refs
-                </span>
+        {/* 3 Plain-Language Facts */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+          {facts.map((fact) => (
+            <div
+              key={fact.id}
+              className="p-4 sm:p-6 rounded-[var(--radius)] border border-[var(--line)] bg-[var(--surface)] flex flex-col justify-between text-left"
+            >
+              <div>
+                <div className="text-[13px] font-medium text-[var(--ink-2)] text-left">
+                  {fact.label}
+                </div>
+                <div className="mt-2 text-2xl font-bold text-[var(--ink)] tabular-nums text-left">
+                  {fact.value}
+                </div>
               </div>
-              <span className="text-[10px] text-slate-400 mt-0.5 block">
-                EnergyPlus direct simulation confirms Pareto superiority
-              </span>
+              <p className="mt-2 text-[13px] text-[var(--ink-2)] leading-snug text-left">
+                {fact.explanation}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Before You Rely on This Panel */}
+      <section className="rounded-[var(--radius)] border border-[var(--warn)]/40 bg-[var(--warn)]/5 p-4 sm:p-6 space-y-4">
+        <div className="flex items-center space-x-2 text-[var(--warn)]">
+          <ShieldAlert className="w-5 h-5 shrink-0" />
+          <h2 className="text-base font-semibold text-[var(--ink)]">
+            Before you rely on this tool
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-[var(--ink-2)] leading-relaxed">
+          <div className="space-y-2">
+            <div>
+              <strong className="text-[var(--ink)] block mb-0.5">Which comfort check drives recommendations?</strong>
+              <p>
+                Comfort is evaluated using two complementary checks: the standard physical Adaptive 90% comfort rule and an empirical machine learning model. Check whether{" "}
+                <span className="inline-flex items-center text-[var(--ink)] font-medium">
+                  our two comfort checks agree
+                  <InfoTip
+                    label="dual comfort checks"
+                    content={`${GLOSSARY.dualJudge.technicalName}: ${GLOSSARY.dualJudge.definition}`}
+                  />
+                </span>{" "}
+                before adopting any recommendation.
+              </p>
+            </div>
+            <div>
+              <strong className="text-[var(--ink)] block mb-0.5">ML model did NOT beat the adaptive baseline (S1 FAIL):</strong>
+              <p>
+                Under cross-validation across climate zones, the ML comfort model achieved 0.4785 macro-F1 vs 0.4939 for the standard adaptive baseline (reported as S1 FAIL). Because the ML model did not outperform standard rules, both standards are preserved side by side.
+              </p>
             </div>
           </div>
+
+          <div className="space-y-2">
+            <div>
+              <strong className="text-[var(--ink)] block mb-0.5">Results are simulated, not measured:</strong>
+              <p>
+                All indoor temperatures, comfort hours, and energy savings are derived from EnergyPlus thermodynamic simulations and fast surrogates. There is zero physical on-site sensor validation.
+              </p>
+            </div>
+            <div>
+              <strong className="text-[var(--ink)] block mb-0.5">
+                {lowConfidenceCount} of {totalCitiesCount} cities are low-confidence:
+              </strong>
+              <p>
+                <span data-testid="low-confidence-cities">{lowConfidenceText}</span> are low-confidence stations due to cold-climate extrapolation or lower judge agreement. In these cities,{" "}
+                <span className="inline-flex items-center text-[var(--ink)] font-medium">
+                  treat recommendations as a rough guide
+                  <InfoTip
+                    label="treat as a rough guide"
+                    content={`${GLOSSARY.lowConfidence.technicalName}: ${GLOSSARY.lowConfidence.definition}`}
+                  />
+                </span>{" "}
+                rather than exact performance promises.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-2 border-t border-[var(--warn)]/20 flex flex-wrap items-center gap-4 text-xs font-semibold">
+          <Link
+            href="/models"
+            className="text-[var(--primary)] hover:underline inline-flex items-center space-x-1"
+          >
+            <span>Inspect comfort model evaluation</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+          <Link
+            href="/about"
+            className="text-[var(--primary)] hover:underline inline-flex items-center space-x-1"
+          >
+            <span>Read full methodology and known limitations</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
       </section>
 
       {/* Interactive Map Section */}
       <section className="space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-slate-800 pb-3">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-[var(--line)] pb-3">
           <div>
-            <h2 className="text-2xl font-bold text-white tracking-tight flex items-center space-x-2">
-              <Compass className="w-5 h-5 text-teal-400" />
-              <span>5 Indian Climate Zones & Applicability</span>
+            <h2 className="text-2xl font-semibold text-[var(--ink)] tracking-tight flex items-center space-x-2">
+              <Compass className="w-5 h-5 text-[var(--primary)]" />
+              <span>5 Indian climate zones & applicability</span>
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
-              Select any station to inspect climate boundaries, weather station EPWs, and dual-judge agreement metrics.
+            <p className="text-xs text-[var(--ink-2)] mt-0.5">
+              Select any station to inspect climate boundaries, weather data, and check whether our two comfort checks agree.
             </p>
           </div>
           <Link
             href={`/cities?city=${selectedCity}`}
-            className="text-xs font-medium text-teal-400 hover:text-teal-300 flex items-center space-x-1"
+            className="text-xs font-semibold text-[var(--primary)] hover:underline flex items-center space-x-1"
           >
-            <span>View Full City Explorer</span>
+            <span>View full city explorer</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -153,16 +232,16 @@ export default function OverviewPage() {
         />
       </section>
 
-      {/* Success Criteria Scorecard (S1 - S4) */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+      {/* Research Results Scorecard (S1 - S4) */}
+      <section id="research-results" className="space-y-4 scroll-mt-20">
+        <div className="flex items-center justify-between border-b border-[var(--line)] pb-3">
           <div>
-            <h2 className="text-2xl font-bold text-white tracking-tight flex items-center space-x-2">
-              <ShieldCheck className="w-5 h-5 text-teal-400" />
-              <span>Project Success Criteria (S1 – S4)</span>
+            <h2 className="text-2xl font-semibold text-[var(--ink)] tracking-tight flex items-center space-x-2">
+              <ShieldCheck className="w-5 h-5 text-[var(--primary)]" />
+              <span>Research results</span>
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
-              Honest evaluation against locked thresholds defined in <code className="text-slate-300">docs/PROJECT_SPEC.md</code>.
+            <p className="text-xs text-[var(--ink-2)] mt-0.5">
+              Empirical evaluation against locked thresholds defined in project specifications. Evidence IDs are accessible within each expanded details panel.
             </p>
           </div>
         </div>
@@ -170,67 +249,67 @@ export default function OverviewPage() {
         <CriteriaScorecard criteria={meta.success_criteria} />
       </section>
 
-      {/* Quick Portal Cards */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+      {/* 3 Equal Feature Cards */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
         <Link
           href="/evaluate"
-          className="rounded-2xl glass-card p-6 group flex flex-col justify-between"
+          className="rounded-[var(--radius)] border border-[var(--line)] bg-[var(--surface)] p-4 sm:p-6 group flex flex-col justify-between hover:bg-[var(--surface-2)]/40 transition"
         >
           <div className="space-y-2">
-            <div className="p-3 rounded-xl bg-teal-500/15 text-teal-300 w-fit group-hover:scale-110 transition shadow-[0_0_15px_rgba(42,127,142,0.3)]">
+            <div className="p-3 rounded-[var(--radius)] bg-[var(--surface-2)] border border-[var(--line)] text-[var(--primary)] w-fit transition">
               <Sliders className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white group-hover:text-teal-300 transition">
-              Evaluate a Shelter
+            <h3 className="text-lg font-semibold text-[var(--ink)] transition">
+              Evaluate a shelter
             </h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              Adjust 8 design variables in real time with live surrogate predictions, R1/R2 comparison arrows, and an interactive 3D model.
+            <p className="text-[13px] text-[var(--ink-2)] leading-relaxed">
+              Adjust 8 envelope variables in real time with live fast estimator predictions, reference comparisons, and an interactive 3D model.
             </p>
           </div>
-          <div className="pt-4 flex items-center text-xs font-semibold text-teal-400">
-            <span>Open Interactive Evaluator</span>
+          <div className="pt-4 flex items-center text-[13px] font-semibold text-[var(--primary)]">
+            <span>Open interactive evaluator</span>
             <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition" />
           </div>
         </Link>
 
         <Link
           href="/pareto"
-          className="rounded-2xl glass-card p-6 group flex flex-col justify-between"
+          className="rounded-[var(--radius)] border border-[var(--line)] bg-[var(--surface)] p-4 sm:p-6 group flex flex-col justify-between hover:bg-[var(--surface-2)]/40 transition"
         >
           <div className="space-y-2">
-            <div className="p-3 rounded-xl bg-sky-500/15 text-sky-300 w-fit group-hover:scale-110 transition shadow-[0_0_15px_rgba(56,189,248,0.3)]">
+            <div className="p-3 rounded-[var(--radius)] bg-[var(--surface-2)] border border-[var(--line)] text-[var(--primary)] w-fit transition">
               <Layers className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white group-hover:text-sky-300 transition">
-              Pareto Explorer
+            <h3 className="text-lg font-semibold text-[var(--ink)] transition">
+              Best trade-off designs
             </h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              3D and 2D scatter plots of 100 non-dominated designs per climate zone, verified points, knee points, and custom export.
+            <p className="text-[13px] text-[var(--ink-2)] leading-relaxed">
+              Explore 500 optimal envelope designs across 5 climate zones with interactive trade-off charts, simulation-verified designs, and custom data export.
             </p>
           </div>
-          <div className="pt-4 flex items-center text-xs font-semibold text-sky-400">
-            <span>Explore Non-Dominated Fronts</span>
+          <div className="pt-4 flex items-center text-[13px] font-semibold text-[var(--primary)]">
+            <span>Explore trade-off designs</span>
             <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition" />
           </div>
         </Link>
 
         <Link
           href="/explain"
-          className="rounded-2xl glass-card p-6 group flex flex-col justify-between"
+          className="rounded-[var(--radius)] border border-[var(--line)] bg-[var(--surface)] p-4 sm:p-6 group flex flex-col justify-between hover:bg-[var(--surface-2)]/40 transition"
         >
           <div className="space-y-2">
-            <div className="p-3 rounded-xl bg-indigo-500/15 text-indigo-300 w-fit group-hover:scale-110 transition shadow-[0_0_15px_rgba(99,102,241,0.3)]">
-              <Sparkles className="w-6 h-6" />
+            <div className="p-3 rounded-[var(--radius)] bg-[var(--surface-2)] border border-[var(--line)] text-[var(--primary)] w-fit transition">
+              <BarChart3 className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white group-hover:text-indigo-300 transition">
-              SHAP Explainability
+            <h3 className="text-lg font-semibold text-[var(--ink)] transition">
+              Performance drivers
             </h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              Understand which physical features govern discomfort and energy savings with global beeswarm plots and local waterfall drivers.
+            <p className="text-[13px] text-[var(--ink-2)] leading-relaxed">
+              Understand which physical features govern discomfort hours and energy savings using SHAP feature attribution plots and local drivers.
             </p>
           </div>
-          <div className="pt-4 flex items-center text-xs font-semibold text-indigo-400">
-            <span>View Model Explanations</span>
+          <div className="pt-4 flex items-center text-[13px] font-semibold text-[var(--primary)]">
+            <span>View performance explanations</span>
             <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition" />
           </div>
         </Link>

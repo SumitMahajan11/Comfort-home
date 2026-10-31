@@ -77,6 +77,45 @@ data/raw/India_Weather_Extracted/
 
 ## Execution Guide
 
+### Launching the Production Web Application (`web/`)
+The primary interactive user interface is the Next.js web application. Run the following separate steps:
+
+```bash
+# Step 1: Export precomputed simulation and surrogate artifacts to web data
+python tools/export_web_data.py
+
+# Step 2: Navigate to web application directory
+cd web
+
+# Step 3: Install Node dependencies
+npm install
+
+# Step 4: Run unit tests (47 tests)
+npm test
+
+# Step 5: Launch local development server
+npm run dev
+
+# Or build and launch production server
+npm run build
+npm run start
+```
+
+### Running Unit & Integration Tests
+```bash
+# Python unit tests (45 tests passed)
+python -m pytest tests/ -v
+
+# Web unit tests (47 tests passed)
+cd web
+npm test
+```
+
+### Launching Legacy Research Prototype (Streamlit)
+```bash
+streamlit run src/app/app.py
+```
+
 ### Running a Single Weather Station
 To run the complete 5-stage pipeline for a single weather station (2,000 EnergyPlus runs, dual comfort judge evaluation, surrogate model fitting, NSGA-II optimization, and physical direct verification):
 ```bash

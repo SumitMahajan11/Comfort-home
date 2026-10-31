@@ -20,27 +20,27 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
 
   const config = {
     verified: {
-      label: "EnergyPlus Verified",
-      color: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
-      icon: <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />,
+      label: "EnergyPlus verified",
+      color: "bg-[var(--good)]/10 text-[var(--good)] border-[var(--good)]/30",
+      icon: <CheckCircle2 className="w-3.5 h-3.5 text-[var(--good)]" />,
       desc: "Simulated directly in EnergyPlus 24.2 with full hourly thermodynamic simulation and verified against surrogate prediction."
     },
     "light verification": {
-      label: "Light Verification",
-      color: "bg-amber-500/15 text-amber-300 border-amber-500/30",
-      icon: <AlertCircle className="w-3.5 h-3.5 text-amber-400" />,
+      label: "Light verification",
+      color: "bg-[var(--warn)]/10 text-[var(--warn)] border-[var(--warn)]/30",
+      icon: <AlertCircle className="w-3.5 h-3.5 text-[var(--warn)]" />,
       desc: "Predicted by cross-validated XGBoost surrogate model with high accuracy (R² ≥ 0.95), awaiting physical simulation check."
     },
     estimated: {
-      label: "Estimated Model",
-      color: "bg-slate-500/15 text-slate-300 border-slate-500/30",
-      icon: <HelpCircle className="w-3.5 h-3.5 text-slate-400" />,
+      label: "Estimated model",
+      color: "bg-[var(--surface-2)] text-[var(--ink-2)] border-[var(--line)]",
+      icon: <HelpCircle className="w-3.5 h-3.5 text-[var(--ink-2)]" />,
       desc: "Approximate interpolation or boundary envelope condition. Use for preliminary conceptual design guidance only."
     }
   }[status] || {
     label: status,
-    color: "bg-slate-500/15 text-slate-300 border-slate-500/30",
-    icon: <HelpCircle className="w-3.5 h-3.5 text-slate-400" />,
+    color: "bg-[var(--surface-2)] text-[var(--ink-2)] border-[var(--line)]",
+    icon: <HelpCircle className="w-3.5 h-3.5 text-[var(--ink-2)]" />,
     desc: "Simulation-based result."
   };
 
@@ -51,18 +51,20 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
         onClick={() => setOpen(!open)}
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
-        className={`inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-xs font-semibold font-mono border transition ${config.color}`}
+        className={`inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-[6px] text-xs font-medium border transition ${config.color}`}
       >
         {config.icon}
         <span>{config.label}</span>
       </button>
 
       {open && showTooltip && (
-        <div className="absolute z-50 bottom-full left-0 mb-2 w-64 p-3 rounded-xl bg-slate-950/95 backdrop-blur-md border border-white/15 shadow-2xl text-[11px] text-slate-200 pointer-events-none">
-          <div className="font-bold text-white mb-1">{config.label}</div>
-          <p className="text-slate-300 leading-relaxed">{config.desc}</p>
+        <div className="absolute z-50 bottom-full left-0 mb-2 w-64 p-3 rounded-[8px] bg-[var(--surface)] border border-[var(--line)] shadow-sm text-xs text-[var(--ink)] pointer-events-none">
+          <div className="font-semibold text-[var(--ink)] mb-1">{config.label}</div>
+          <p className="text-[var(--ink-2)] text-[12px] leading-relaxed">{config.desc}</p>
         </div>
       )}
     </div>
   );
 };
+
+export default VerificationBadge;

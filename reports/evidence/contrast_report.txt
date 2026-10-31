@@ -1,0 +1,30 @@
+
+==========================================
+VERIFYING CONTRAST: LIGHT
+==========================================
+Primary Button (#FFFFFF on #A8481F): 5.81:1 -> PASS
+ink      (#1E2420) on bg (#F7F3EC): 14.29:1 | on surface (#FFFFFF): 15.81:1 -> PASS
+ink_2    (#4A524C) on bg (#F7F3EC):  7.30:1 | on surface (#FFFFFF):  8.07:1 -> PASS
+link     (#1F4E79) on bg (#F7F3EC):  7.83:1 | on surface (#FFFFFF):  8.66:1 -> PASS
+good     (#2E7D4F) on bg (#F7F3EC):  4.56:1 | on surface (#FFFFFF):  5.05:1 -> PASS
+warn     (#8A580F) on bg (#F7F3EC):  5.45:1 | on surface (#FFFFFF):  6.03:1 -> PASS
+bad      (#B3261E) on bg (#F7F3EC):  5.91:1 | on surface (#FFFFFF):  6.54:1 -> PASS
+cool     (#2C6E9B) on bg (#F7F3EC):  4.98:1 | on surface (#FFFFFF):  5.51:1 -> PASS
+hot      (#BE4B19) on bg (#F7F3EC):  4.51:1 | on surface (#FFFFFF):  4.99:1 -> PASS
+line     (#D9D1C3) border contrast: on bg 1.37:1 | on surface 1.52:1 -> PASS (subtle boundary)
+
+==========================================
+VERIFYING CONTRAST: DARK
+==========================================
+Primary Button (#17150F on #E0794A): 6.09:1 -> PASS
+ink      (#F1ECE2) on bg (#17150F): 15.50:1 | on surface (#201D17): 14.27:1 -> PASS
+ink_2    (#C4BDAE) on bg (#17150F):  9.77:1 | on surface (#201D17):  8.99:1 -> PASS
+link     (#72AEE6) on bg (#17150F):  7.75:1 | on surface (#201D17):  7.13:1 -> PASS
+good     (#52B77B) on bg (#17150F):  7.32:1 | on surface (#201D17):  6.74:1 -> PASS
+warn     (#F0B342) on bg (#17150F):  9.76:1 | on surface (#201D17):  8.99:1 -> PASS
+bad      (#FA7970) on bg (#17150F):  6.98:1 | on surface (#201D17):  6.43:1 -> PASS
+cool     (#67B5E8) on bg (#17150F):  8.13:1 | on surface (#201D17):  7.48:1 -> PASS
+hot      (#F28252) on bg (#17150F):  7.03:1 | on surface (#201D17):  6.47:1 -> PASS
+line     (#3A352B) border contrast: on bg 1.50:1 | on surface 1.38:1 -> PASS (subtle boundary)
+
+All contrast tests passed! Every text token achieves >= 4.5:1.
