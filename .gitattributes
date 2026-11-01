@@ -1,0 +1,2 @@
+# Enforce CRLF for precomputed export JSON files to preserve exact SHA-256 byte hashes
+data/export/*.json text eol=crlf
