@@ -1,0 +1,443 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.15, pytest-9.1.1, pluggy-1.7.0 -- /Users/vaishakhi/Downloads/Comfort-home-main/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/vaishakhi/Downloads/Comfort-home-main
+plugins: anyio-4.15.1, platformdirs-4.13.5
+collecting ... collected 46 items
+
+tests/test_api.py::test_api_health PASSED                                [  2%]
+tests/test_api.py::test_api_cities PASSED                                [  4%]
+tests/test_api.py::test_api_match_location_direct PASSED                 [  6%]
+tests/test_api.py::test_api_match_location_distance_notice PASSED        [  8%]
+tests/test_api.py::test_api_city_averages PASSED                         [ 10%]
+tests/test_api.py::test_api_cost_schedule PASSED                         [ 13%]
+tests/test_api.py::test_api_evaluate_packages PASSED                     [ 15%]
+tests/test_api.py::test_api_future_climate_toggle PASSED                 [ 17%]
+tests/test_api_v1.py::test_checksum_failure_blocks_startup PASSED        [ 19%]
+tests/test_api_v1.py::test_missing_file_blocks_startup PASSED            [ 21%]
+tests/test_api_v1.py::test_get_cities_and_cross_cutting_metadata PASSED  [ 23%]
+tests/test_api_v1.py::test_nearest_city_match_and_threshold PASSED       [ 26%]
+tests/test_api_v1.py::test_city_climate_scenarios PASSED                 [ 28%]
+tests/test_api_v1.py::test_city_comfort_norms_and_d011_shimla PASSED     [ 30%]
+tests/test_api_v1.py::test_questionnaire_schema PASSED                   [ 32%]
+tests/test_api_v1.py::test_profile_evaluation PASSED                     [ 34%]
+tests/test_api_v1.py::test_packages_and_cost_unavailable_behaviour PASSED [ 36%]
+tests/test_api_v1.py::test_designs_pareto_and_filters PASSED             [ 39%]
+tests/test_api_v1.py::test_designs_explain_shap PASSED                   [ 41%]
+tests/test_api_v1.py::test_model_lab_scorecard PASSED                    [ 43%]
+tests/test_api_v1.py::test_pdf_export_and_hindi_content PASSED           [ 45%]
+tests/test_app.py::test_get_my_shelter_design_default_page PASSED        [ 47%]
+tests/test_app.py::test_get_my_shelter_design_form_submission PASSED     [ 50%]
+tests/test_app.py::test_research_details_overview_subpage PASSED         [ 52%]
+tests/test_app.py::test_research_details_city_selection PASSED           [ 54%]
+tests/test_app.py::test_research_details_evaluate_page PASSED            [ 56%]
+tests/test_app.py::test_research_details_recommend_page PASSED           [ 58%]
+tests/test_app.py::test_research_details_explain_page PASSED             [ 60%]
+tests/test_app.py::test_research_details_about_page PASSED               [ 63%]
+tests/test_app.py::test_live_weather_card_and_attribution PASSED         [ 65%]
+tests/test_comfort.py::test_city_comfort_norms_integrity_and_d011_shimla_gating PASSED [ 67%]
+tests/test_comfort.py::test_questionnaire_schema_and_profile_parser PASSED [ 69%]
+tests/test_comfort.py::test_comfort_fit_score_formula_and_bounds PASSED  [ 71%]
+tests/test_costs.py::test_bom_quantity_math_hand_calculated_example PASSED [ 73%]
+tests/test_costs.py::test_cost_range_ordering_and_strict_null_gating PASSED [ 76%]
+tests/test_costs.py::test_validator_fails_when_rate_is_null PASSED       [ 78%]
+tests/test_costs.py::test_packages_never_include_unverified_design_when_verified_exist PASSED [ 80%]
+tests/test_coupling.py::test_adaptive_band_at_25c PASSED                 [ 82%]
+tests/test_coupling.py::test_running_mean_formula_synthetic_series PASSED [ 84%]
+tests/test_coupling.py::test_clo_schedule_a004 PASSED                    [ 86%]
+tests/test_coupling.py::test_adaptive_comfort_evaluation PASSED          [ 89%]
+tests/test_coupling.py::test_ml_champion_model_known_inputs PASSED       [ 91%]
+tests/test_e2e_product.py::test_e2e_all_city_building_scenario_combinations PASSED [ 93%]
+tests/test_splits.py::test_splits_integrity SKIPPED (Large DB II raw...) [ 95%]
+tests/test_wizard_wiring.py::test_wizard_step4_wiring_answers_affect_outputs PASSED [ 97%]
+tests/test_wizard_wiring.py::test_wizard_step4_occupant_profile_parsing PASSED [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Users/vaishakhi/Downloads/Comfort-home-main/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+api/models.py:42
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:42: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    city: str = Field(..., example="Jodhpur")
+
+api/models.py:43
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:43: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    display_name: str = Field(..., example="Jodhpur")
+
+api/models.py:44
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:44: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    zone: str = Field(..., example="Hot-dry")
+
+api/models.py:45
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:45: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    koppen: str = Field(..., example="BWh")
+
+api/models.py:46
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:46: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    epw: str = Field(..., example="IND_RJ_Jodhpur.423390_TMYx.epw")
+
+api/models.py:47
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:47: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    coordinates: List[float] = Field(..., example=[26.2389, 73.0243])
+
+api/models.py:48
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:48: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    confidence_tier: str = Field(..., example="Low")
+
+api/models.py:49
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:49: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    confidence_reason: str = Field(..., example="Dual-judge disagreement 18.6 pts, high DB II envelope deviation")
+
+api/models.py:50
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:50: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    adaptive_validity: float = Field(..., example=98.4)
+
+api/models.py:51
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:51: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    db2_envelope_pct: float = Field(..., example=68.4)
+
+api/models.py:58
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:58: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    query: str = Field(..., example="Jaipur")
+
+api/models.py:59
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:59: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    matched_city: str = Field(..., example="Jodhpur")
+
+api/models.py:60
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:60: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    distance_km: float = Field(..., example=280.4)
+
+api/models.py:61
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:61: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    is_nearest_match: bool = Field(True, example=True)
+
+api/models.py:62
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:62: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    exceeds_threshold: bool = Field(False, example=False)
+
+api/models.py:63
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:63: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    strong_warning: Optional[str] = Field(None, example=None)
+
+api/models.py:70
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:70: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    month_index: int = Field(..., example=1)
+
+api/models.py:71
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:71: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    month_name: str = Field(..., example="Jan")
+
+api/models.py:72
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:72: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    dry_bulb_mean: float = Field(..., example=16.7)
+
+api/models.py:73
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:73: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    dry_bulb_min: float = Field(..., example=7.3)
+
+api/models.py:74
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:74: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    dry_bulb_max: float = Field(..., example=27.4)
+
+api/models.py:75
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:75: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    relative_humidity_mean: float = Field(..., example=44.9)
+
+api/models.py:76
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:76: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    adaptive_90_valid_pct: float = Field(..., example=100.0)
+
+api/models.py:77
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:77: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    outdoor_comfortable_pct: float = Field(..., example=27.0)
+
+api/models.py:78
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:78: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    outdoor_too_warm_pct: float = Field(..., example=3.4)
+
+api/models.py:79
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:79: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    outdoor_too_cool_pct: float = Field(..., example=69.6)
+
+api/models.py:82
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:82: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    city: str = Field(..., example="Jodhpur")
+
+api/models.py:88
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:88: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    city: str = Field(..., example="Jodhpur")
+
+api/models.py:89
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:89: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    building_type: str = Field(..., example="house")
+
+api/models.py:93
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:93: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    has_labelled_votes: bool = Field(..., example=True)
+
+api/models.py:99
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:99: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    language: str = Field(..., example="en")
+
+api/models.py:100
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:100: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    title: str = Field(..., example="Occupant Thermal Comfort Profile")
+
+api/models.py:101
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:101: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    description: str = Field(..., example="Tailors candidate designs to your sensitivity and daily occupancy.")
+
+api/models.py:105
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:105: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    building_type: str = Field("house", example="house")
+
+api/models.py:106
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:106: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    city: str = Field("Jodhpur", example="Jodhpur")
+
+api/models.py:107
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:107: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    scenario: str = Field("current", example="current")
+
+api/models.py:108
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:108: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    answers: Dict[str, Any] = Field(
+
+api/models.py:123
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:123: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    overall_fit_score: float = Field(..., example=78.6)
+
+api/models.py:124
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:124: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    comfort_subscore: float = Field(..., example=75.3)
+
+api/models.py:125
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:125: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    energy_subscore: float = Field(..., example=91.7)
+
+api/models.py:126
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:126: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    cost_subscore: float = Field(..., example=70.0)
+
+api/models.py:127
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:127: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    comfort_gain_points: float = Field(..., example=32.9)
+
+api/models.py:128
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:128: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    discomfort_reduction_pct: float = Field(..., example=30.9)
+
+api/models.py:129
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:129: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    dual_judge: Dict[str, Any] = Field(..., example={"ml_champion_o1": 10.5, "adaptive_90_o1": 29.1, "disagreement_pts": 18.6})
+
+api/models.py:134
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:134: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    city: str = Field(..., example="Jodhpur")
+
+api/models.py:135
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:135: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    building_type: str = Field(..., example="house")
+
+api/models.py:136
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:136: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    scenario: str = Field(..., example="current")
+
+api/models.py:145
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:145: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    low_inr: Optional[float] = Field(None, example=None)
+
+api/models.py:146
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:146: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    high_inr: Optional[float] = Field(None, example=None)
+
+api/models.py:147
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:147: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    status: str = Field("UNAVAILABLE", example="UNAVAILABLE")
+
+api/models.py:148
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:148: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    reason: Optional[str] = Field("Rates unpopulated in official DSR schedule", example="Rates unpopulated in official DSR schedule")
+
+api/models.py:149
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:149: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    dsr_edition: Optional[str] = Field("CPWD DSR 2021", example="CPWD DSR 2021")
+
+api/models.py:150
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:150: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    disclaimer: str = Field(
+
+api/models.py:156
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:156: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    package_key: str = Field(..., example="balanced")
+
+api/models.py:157
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:157: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    package_name: str = Field(..., example="Balanced Comfort & Cost")
+
+api/models.py:158
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:158: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    design_id: str = Field(..., example="P_Jodhpur_house_063")
+
+api/models.py:159
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:159: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    verification_status: str = Field(..., example="verified")
+
+api/models.py:164
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:164: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    payback_years: Optional[float] = Field(None, example=None)
+
+api/models.py:169
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:169: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    city: str = Field(..., example="Jodhpur")
+
+api/models.py:170
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:170: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    building_type: str = Field(..., example="house")
+
+api/models.py:171
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:171: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    scenario: str = Field(..., example="current")
+
+api/models.py:178
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:178: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    pareto_id: str = Field(..., example="P_Jodhpur_house_001")
+
+api/models.py:179
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:179: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    city: str = Field(..., example="Jodhpur")
+
+api/models.py:180
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:180: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    building_type: str = Field(..., example="house")
+
+api/models.py:181
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:181: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    roof_insulation_thickness: float = Field(..., example=0.10)
+
+api/models.py:182
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:182: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    wall_insulation_thickness: float = Field(..., example=0.05)
+
+api/models.py:183
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:183: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    roof_solar_absorptance: float = Field(..., example=0.35)
+
+api/models.py:184
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:184: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    wwr: float = Field(..., example=0.15)
+
+api/models.py:185
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:185: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    orientation: float = Field(..., example=180.0)
+
+api/models.py:186
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:186: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    shading_depth: float = Field(..., example=0.6)
+
+api/models.py:187
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:187: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    ventilation_ach: float = Field(..., example=10.0)
+
+api/models.py:188
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:188: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    wall_mass_class: str = Field(..., example="medium")
+
+api/models.py:189
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:189: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    floor_position: Optional[str] = Field(None, example=None)
+
+api/models.py:190
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:190: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    O1_ml: float = Field(..., example=18.4)
+
+api/models.py:191
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:191: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    O1_adapt: float = Field(..., example=22.1)
+
+api/models.py:192
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:192: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    O2: float = Field(..., example=42.5)
+
+api/models.py:193
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:193: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    warm_ml: float = Field(..., example=15.2)
+
+api/models.py:194
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:194: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    cool_ml: float = Field(..., example=3.2)
+
+api/models.py:195
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:195: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    verified: bool = Field(..., example=True)
+
+api/models.py:196
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:196: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    verification_mode: str = Field(..., example="fully verified")
+
+api/models.py:199
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:199: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    city: str = Field(..., example="Jodhpur")
+
+api/models.py:200
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:200: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    building_type: str = Field(..., example="house")
+
+api/models.py:201
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:201: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    total_count: int = Field(..., example=100)
+
+api/models.py:202
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:202: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    page: int = Field(..., example=1)
+
+api/models.py:203
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:203: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    page_size: int = Field(..., example=20)
+
+api/models.py:210
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:210: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    design_id: str = Field(..., example="P_Jodhpur_house_063")
+
+api/models.py:211
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:211: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    city: str = Field(..., example="Jodhpur")
+
+api/models.py:212
+  /Users/vaishakhi/Downloads/Comfort-home-main/api/models.py:212: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/
+    building_type: str = Field(..., example="house")
+
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:64
+  /Users/vaishakhi/Downloads/Comfort-home-main/.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:64: PyparsingDeprecationWarning: 'oneOf' deprecated - use 'one_of'
+    prop = Group((name + Suppress("=") + comma_separated(value)) | oneOf(_CONSTANTS))
+
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:85
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:85
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:85
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:85
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:85
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:85
+  /Users/vaishakhi/Downloads/Comfort-home-main/.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:85: PyparsingDeprecationWarning: 'parseString' deprecated - use 'parse_string'
+    parse = parser.parseString(pattern)
+
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:89
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:89
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:89
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:89
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:89
+.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:89
+  /Users/vaishakhi/Downloads/Comfort-home-main/.venv/lib/python3.12/site-packages/matplotlib/_fontconfig_pattern.py:89: PyparsingDeprecationWarning: 'resetCache' deprecated - use 'reset_cache'
+    parser.resetCache()
+
+.venv/lib/python3.12/site-packages/matplotlib/_mathtext.py:45
+  /Users/vaishakhi/Downloads/Comfort-home-main/.venv/lib/python3.12/site-packages/matplotlib/_mathtext.py:45: PyparsingDeprecationWarning: 'enablePackrat' deprecated - use 'enable_packrat'
+    ParserElement.enablePackrat()
+
+tests/test_coupling.py::test_running_mean_formula_synthetic_series
+  /Users/vaishakhi/Downloads/Comfort-home-main/tests/test_coupling.py:44: DeprecationWarning: pythermalcomfort.utilities.running_mean_outdoor_temperature is deprecated; import it from pythermalcomfort.environment instead.
+    expected_trm = running_mean_outdoor_temperature(synthetic_7days, alpha=0.8)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================= 45 passed, 1 skipped, 104 warnings in 13.75s =================

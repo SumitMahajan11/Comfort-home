@@ -1,0 +1,19 @@
+PHASE 6 STREAMLIT APPTEST VERIFICATION EVIDENCE OUTPUT
+================================================================================
+
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-9.1.1, pluggy-1.6.0 -- C:\Program Files\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\Projects\Comfort home
+plugins: anyio-4.12.1, asyncio-1.4.0, cov-6.0.0, timeout-2.4.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 6 items
+
+tests/test_app.py::test_app_overview_page PASSED                         [ 16%]
+tests/test_app.py::test_app_city_selection PASSED                        [ 33%]
+tests/test_app.py::test_app_evaluate_page PASSED                         [ 50%]
+tests/test_app.py::test_app_recommend_page PASSED                        [ 66%]
+tests/test_app.py::test_app_explain_page PASSED                          [ 83%]
+tests/test_app.py::test_app_about_page PASSED                            [100%]
+
+============================== 6 passed in 5.38s ==============================

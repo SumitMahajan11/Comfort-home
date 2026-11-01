@@ -1,0 +1,14 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.15, pytest-9.1.1, pluggy-1.7.0 -- /Users/vaishakhi/Downloads/Comfort-home-main/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/vaishakhi/Downloads/Comfort-home-main
+plugins: anyio-4.15.1, platformdirs-4.13.5
+collecting ... collected 5 items
+
+tests/test_rules.py::test_city_1_shimla_cold PASSED                      [ 20%]
+tests/test_rules.py::test_city_2_jodhpur_hot_dry PASSED                  [ 40%]
+tests/test_rules.py::test_city_3_mumbai_hot_humid PASSED                 [ 60%]
+tests/test_rules.py::test_city_4_pune_warm_mixed PASSED                  [ 80%]
+tests/test_rules.py::test_southern_hemisphere_cold_flip PASSED           [100%]
+
+============================== 5 passed in 0.01s ===============================

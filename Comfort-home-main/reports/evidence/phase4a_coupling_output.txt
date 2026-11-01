@@ -1,0 +1,184 @@
+PHASE 4A COUPLING & OBJECTIVES EVIDENCE OUTPUT
+================================================================================
+
+Total Valid Designs: 4988
+
+SPREAD & SPEARMAN CORRELATION TABLE:
+     City  Adapt90_Min  Adapt90_Med  Adapt90_Max  Adapt90_Spread    ML_Min    ML_Med    ML_Max  ML_Spread    O2_Min     O2_Med     O2_Max  O2_Spread  Spearman_O1_ML_vs_Adapt  Spearman_p_val
+  Jodhpur    14.616193    32.340957    75.998948       61.382755 37.477169 52.174658 77.363014  39.885845 15.380329 136.970217 307.844560 292.464231                 0.099416    1.737064e-03
+   Mumbai     4.109589    21.033105    82.248858       78.139269 40.753425 54.360731 85.684932  44.931507  0.009732  54.470375 208.781592 208.771860                 0.945914    0.000000e+00
+New_Delhi    21.646341    36.128049    77.426321       55.779980 40.456621 49.851598 72.682648  32.226027 22.161047 167.370267 349.350457 327.189411                 0.189821    1.473627e-09
+Bengaluru    14.406393    40.433790    83.025114       68.618721 47.636986 63.710046 88.618721  40.981735  0.190324  20.618644 100.385751 100.195426                 0.941590    0.000000e+00
+   Shimla    34.861111    52.291667    77.314815       42.453704 68.584475 80.376712 91.050228  22.465753 55.228799 293.729930 555.378984 500.150185                 0.866781   7.910660e-304
+
+VARIABLE IMPORTANCE BY CITY (XGBoost Gain):
+{
+  "Jodhpur": {
+    "O1_adapt": {
+      "wwr": 0.2592540681362152,
+      "wall_insulation_thickness": 0.22722770273685455,
+      "roof_insulation_thickness": 0.17929987609386444,
+      "wall_mass_class": 0.17899693548679352,
+      "shading_depth": 0.07053898274898529,
+      "ventilation_ach": 0.046566274017095566,
+      "roof_solar_absorptance": 0.03145075961947441,
+      "orientation": 0.006665321066975594
+    },
+    "O1_ml": {
+      "wall_insulation_thickness": 0.3002457320690155,
+      "wwr": 0.2737646996974945,
+      "roof_insulation_thickness": 0.2394668310880661,
+      "shading_depth": 0.08001542091369629,
+      "wall_mass_class": 0.06368225067853928,
+      "roof_solar_absorptance": 0.032976437360048294,
+      "ventilation_ach": 0.006913944613188505,
+      "orientation": 0.0029346460942178965
+    },
+    "O2": {
+      "ventilation_ach": 0.39735135436058044,
+      "wwr": 0.2496585100889206,
+      "wall_insulation_thickness": 0.18277837336063385,
+      "roof_insulation_thickness": 0.10743626952171326,
+      "wall_mass_class": 0.02423294447362423,
+      "shading_depth": 0.019564615562558174,
+      "roof_solar_absorptance": 0.016509810462594032,
+      "orientation": 0.0024681128561496735
+    }
+  },
+  "Mumbai": {
+    "O1_adapt": {
+      "wwr": 0.3252912163734436,
+      "wall_insulation_thickness": 0.3000541031360626,
+      "wall_mass_class": 0.16432610154151917,
+      "roof_insulation_thickness": 0.13390298187732697,
+      "shading_depth": 0.027944909408688545,
+      "roof_solar_absorptance": 0.027782486751675606,
+      "ventilation_ach": 0.01508402917534113,
+      "orientation": 0.0056142061948776245
+    },
+    "O1_ml": {
+      "wwr": 0.3777652382850647,
+      "wall_insulation_thickness": 0.2921030819416046,
+      "roof_insulation_thickness": 0.1279972940683365,
+      "wall_mass_class": 0.08839360624551773,
+      "shading_depth": 0.04851611331105232,
+      "roof_solar_absorptance": 0.03905874490737915,
+      "ventilation_ach": 0.01738804019987583,
+      "orientation": 0.008777886629104614
+    },
+    "O2": {
+      "wwr": 0.40504249930381775,
+      "wall_insulation_thickness": 0.2662004232406616,
+      "roof_insulation_thickness": 0.14886927604675293,
+      "shading_depth": 0.08772921562194824,
+      "roof_solar_absorptance": 0.04827706515789032,
+      "wall_mass_class": 0.03964460268616676,
+      "orientation": 0.0024757320061326027,
+      "ventilation_ach": 0.001761154388077557
+    }
+  },
+  "New_Delhi": {
+    "O1_adapt": {
+      "wwr": 0.32593482732772827,
+      "wall_insulation_thickness": 0.25234565138816833,
+      "roof_insulation_thickness": 0.1747708022594452,
+      "wall_mass_class": 0.10181138664484024,
+      "ventilation_ach": 0.05232290178537369,
+      "shading_depth": 0.044504277408123016,
+      "roof_solar_absorptance": 0.04265281930565834,
+      "orientation": 0.005657394416630268
+    },
+    "O1_ml": {
+      "roof_insulation_thickness": 0.3549668788909912,
+      "wall_insulation_thickness": 0.2654266655445099,
+      "wwr": 0.202752023935318,
+      "shading_depth": 0.07459421455860138,
+      "wall_mass_class": 0.05445009469985962,
+      "roof_solar_absorptance": 0.025063475593924522,
+      "ventilation_ach": 0.016995608806610107,
+      "orientation": 0.005751006305217743
+    },
+    "O2": {
+      "ventilation_ach": 0.6328592300415039,
+      "wwr": 0.13387887179851532,
+      "wall_insulation_thickness": 0.12085901200771332,
+      "roof_insulation_thickness": 0.08515617996454239,
+      "shading_depth": 0.010293968953192234,
+      "wall_mass_class": 0.009289242327213287,
+      "roof_solar_absorptance": 0.006627237889915705,
+      "orientation": 0.0010362038156017661
+    }
+  },
+  "Bengaluru": {
+    "O1_adapt": {
+      "wwr": 0.3493196964263916,
+      "wall_insulation_thickness": 0.2500033676624298,
+      "wall_mass_class": 0.15279708802700043,
+      "roof_insulation_thickness": 0.09478330612182617,
+      "ventilation_ach": 0.09004868566989899,
+      "roof_solar_absorptance": 0.04529254138469696,
+      "shading_depth": 0.015003555454313755,
+      "orientation": 0.002751822816208005
+    },
+    "O1_ml": {
+      "wwr": 0.425061970949173,
+      "wall_insulation_thickness": 0.25824829936027527,
+      "roof_insulation_thickness": 0.0875917449593544,
+      "ventilation_ach": 0.07541342824697495,
+      "wall_mass_class": 0.06003418564796448,
+      "roof_solar_absorptance": 0.054791685193777084,
+      "shading_depth": 0.03590742126107216,
+      "orientation": 0.0029512441251426935
+    },
+    "O2": {
+      "wwr": 0.28802362084388733,
+      "ventilation_ach": 0.23408398032188416,
+      "roof_insulation_thickness": 0.23135089874267578,
+      "shading_depth": 0.11076337099075317,
+      "wall_insulation_thickness": 0.056829702109098434,
+      "roof_solar_absorptance": 0.05446767807006836,
+      "wall_mass_class": 0.019026074558496475,
+      "orientation": 0.005454652477055788
+    }
+  },
+  "Shimla": {
+    "O1_adapt": {
+      "wwr": 0.3731364905834198,
+      "ventilation_ach": 0.19375398755073547,
+      "roof_solar_absorptance": 0.14126725494861603,
+      "wall_insulation_thickness": 0.10482503473758698,
+      "shading_depth": 0.06931744515895844,
+      "roof_insulation_thickness": 0.06260062754154205,
+      "wall_mass_class": 0.049203213304281235,
+      "orientation": 0.0058958567678928375
+    },
+    "O1_ml": {
+      "wwr": 0.5436692833900452,
+      "shading_depth": 0.15721642971038818,
+      "ventilation_ach": 0.09974949061870575,
+      "roof_solar_absorptance": 0.07024874538183212,
+      "wall_insulation_thickness": 0.06979626417160034,
+      "roof_insulation_thickness": 0.056039437651634216,
+      "orientation": 0.001963619841262698,
+      "wall_mass_class": 0.001316774869337678
+    },
+    "O2": {
+      "ventilation_ach": 0.9801860451698303,
+      "roof_insulation_thickness": 0.009519052691757679,
+      "wall_insulation_thickness": 0.005712414626032114,
+      "wwr": 0.0015212089056149125,
+      "roof_solar_absorptance": 0.0013140934752300382,
+      "shading_depth": 0.0012178875040262938,
+      "wall_mass_class": 0.0002988399937748909,
+      "orientation": 0.00023045491252560169
+    }
+  }
+}
+
+SENSITIVITY (O1_ml running mean vs raw tout):
+     city      mean      std        min       max
+Bengaluru  1.717882 1.177176  -2.214612  4.760274
+  Jodhpur -4.077476 1.204699  -7.271689 -0.376712
+   Mumbai  7.376381 3.217883   0.011416 12.968037
+New_Delhi -5.611719 1.322913  -9.223744 -0.993151
+   Shimla -6.129600 1.074362 -10.273973 -1.860731

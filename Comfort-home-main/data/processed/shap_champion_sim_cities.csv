@@ -1,0 +1,36 @@
+city,feature,feature_name,mean_abs_shap_neutral
+Jodhpur,ta,Indoor Air Temp Ta (°C),0.05340105
+Jodhpur,tr,Mean Radiant Temp Tr (°C),0.037287805
+Jodhpur,rh,Relative Humidity RH (%),0.117406294
+Jodhpur,vel,Air Velocity (m/s),0.017975472
+Jodhpur,clo,Clothing Insulation (clo),0.034547646
+Jodhpur,met,Metabolic Rate (met),0.07827792
+Jodhpur,t_outdoor,Running Mean Outdoor Temp (°C),0.080437005
+Mumbai,ta,Indoor Air Temp Ta (°C),0.022983054
+Mumbai,tr,Mean Radiant Temp Tr (°C),0.03371822
+Mumbai,rh,Relative Humidity RH (%),0.16529077
+Mumbai,vel,Air Velocity (m/s),0.012316534
+Mumbai,clo,Clothing Insulation (clo),0.028787404
+Mumbai,met,Metabolic Rate (met),0.06072552
+Mumbai,t_outdoor,Running Mean Outdoor Temp (°C),0.056905594
+New_Delhi,ta,Indoor Air Temp Ta (°C),0.04822637
+New_Delhi,tr,Mean Radiant Temp Tr (°C),0.03630089
+New_Delhi,rh,Relative Humidity RH (%),0.12813419
+New_Delhi,vel,Air Velocity (m/s),0.023664726
+New_Delhi,clo,Clothing Insulation (clo),0.03315677
+New_Delhi,met,Metabolic Rate (met),0.06346988
+New_Delhi,t_outdoor,Running Mean Outdoor Temp (°C),0.07649375
+Bengaluru,ta,Indoor Air Temp Ta (°C),0.02667515
+Bengaluru,tr,Mean Radiant Temp Tr (°C),0.02938405
+Bengaluru,rh,Relative Humidity RH (%),0.16373594
+Bengaluru,vel,Air Velocity (m/s),0.016710069
+Bengaluru,clo,Clothing Insulation (clo),0.022611914
+Bengaluru,met,Metabolic Rate (met),0.07644092
+Bengaluru,t_outdoor,Running Mean Outdoor Temp (°C),0.065326855
+Shimla,ta,Indoor Air Temp Ta (°C),0.06973117
+Shimla,tr,Mean Radiant Temp Tr (°C),0.041798547
+Shimla,rh,Relative Humidity RH (%),0.09648474
+Shimla,vel,Air Velocity (m/s),0.023480324
+Shimla,clo,Clothing Insulation (clo),0.026808523
+Shimla,met,Metabolic Rate (met),0.077629134
+Shimla,t_outdoor,Running Mean Outdoor Temp (°C),0.09405465

@@ -1,0 +1,523 @@
+{
+  "city": "Bengaluru",
+  "building_type": "commercial",
+  "design_id": "P_Bengaluru_commercial_062",
+  "current": [
+    {
+      "month": 1,
+      "mean_top": 21.77,
+      "min_top": 18.47,
+      "max_top": 24.93,
+      "mean_tout": 21.19
+    },
+    {
+      "month": 2,
+      "mean_top": 22.36,
+      "min_top": 19.04,
+      "max_top": 25.73,
+      "mean_tout": 22.78
+    },
+    {
+      "month": 3,
+      "mean_top": 23.53,
+      "min_top": 20.07,
+      "max_top": 26.91,
+      "mean_tout": 25.87
+    },
+    {
+      "month": 4,
+      "mean_top": 24.05,
+      "min_top": 21.0,
+      "max_top": 27.08,
+      "mean_tout": 27.42
+    },
+    {
+      "month": 5,
+      "mean_top": 23.58,
+      "min_top": 21.03,
+      "max_top": 26.97,
+      "mean_tout": 26.71
+    },
+    {
+      "month": 6,
+      "mean_top": 22.54,
+      "min_top": 20.23,
+      "max_top": 26.01,
+      "mean_tout": 24.43
+    },
+    {
+      "month": 7,
+      "mean_top": 21.83,
+      "min_top": 19.41,
+      "max_top": 25.28,
+      "mean_tout": 23.18
+    },
+    {
+      "month": 8,
+      "mean_top": 22.13,
+      "min_top": 19.94,
+      "max_top": 25.49,
+      "mean_tout": 23.13
+    },
+    {
+      "month": 9,
+      "mean_top": 22.45,
+      "min_top": 20.18,
+      "max_top": 25.5,
+      "mean_tout": 23.52
+    },
+    {
+      "month": 10,
+      "mean_top": 22.42,
+      "min_top": 20.05,
+      "max_top": 25.46,
+      "mean_tout": 23.25
+    },
+    {
+      "month": 11,
+      "mean_top": 21.71,
+      "min_top": 18.65,
+      "max_top": 24.78,
+      "mean_tout": 21.84
+    },
+    {
+      "month": 12,
+      "mean_top": 21.55,
+      "min_top": 18.87,
+      "max_top": 24.75,
+      "mean_tout": 21.18
+    }
+  ],
+  "plus1p5": [
+    {
+      "month": 1,
+      "mean_top": 22.23,
+      "min_top": 18.95,
+      "max_top": 25.31,
+      "mean_tout": 22.69
+    },
+    {
+      "month": 2,
+      "mean_top": 22.87,
+      "min_top": 19.46,
+      "max_top": 26.14,
+      "mean_tout": 24.28
+    },
+    {
+      "month": 3,
+      "mean_top": 24.01,
+      "min_top": 20.39,
+      "max_top": 27.3,
+      "mean_tout": 27.37
+    },
+    {
+      "month": 4,
+      "mean_top": 24.46,
+      "min_top": 21.49,
+      "max_top": 27.44,
+      "mean_tout": 28.92
+    },
+    {
+      "month": 5,
+      "mean_top": 24.02,
+      "min_top": 21.49,
+      "max_top": 27.34,
+      "mean_tout": 28.21
+    },
+    {
+      "month": 6,
+      "mean_top": 23.01,
+      "min_top": 20.73,
+      "max_top": 26.39,
+      "mean_tout": 25.93
+    },
+    {
+      "month": 7,
+      "mean_top": 22.31,
+      "min_top": 19.93,
+      "max_top": 25.68,
+      "mean_tout": 24.68
+    },
+    {
+      "month": 8,
+      "mean_top": 22.57,
+      "min_top": 20.4,
+      "max_top": 25.86,
+      "mean_tout": 24.63
+    },
+    {
+      "month": 9,
+      "mean_top": 22.91,
+      "min_top": 20.64,
+      "max_top": 25.86,
+      "mean_tout": 25.02
+    },
+    {
+      "month": 10,
+      "mean_top": 22.88,
+      "min_top": 20.5,
+      "max_top": 25.83,
+      "mean_tout": 24.75
+    },
+    {
+      "month": 11,
+      "mean_top": 22.24,
+      "min_top": 19.18,
+      "max_top": 25.2,
+      "mean_tout": 23.34
+    },
+    {
+      "month": 12,
+      "mean_top": 22.05,
+      "min_top": 19.36,
+      "max_top": 25.14,
+      "mean_tout": 22.68
+    }
+  ],
+  "plus3p0": [
+    {
+      "month": 1,
+      "mean_top": 22.71,
+      "min_top": 19.43,
+      "max_top": 25.72,
+      "mean_tout": 24.19
+    },
+    {
+      "month": 2,
+      "mean_top": 23.36,
+      "min_top": 19.88,
+      "max_top": 26.55,
+      "mean_tout": 25.78
+    },
+    {
+      "month": 3,
+      "mean_top": 24.45,
+      "min_top": 20.76,
+      "max_top": 27.66,
+      "mean_tout": 28.87
+    },
+    {
+      "month": 4,
+      "mean_top": 24.86,
+      "min_top": 21.94,
+      "max_top": 27.79,
+      "mean_tout": 30.42
+    },
+    {
+      "month": 5,
+      "mean_top": 24.44,
+      "min_top": 21.92,
+      "max_top": 27.71,
+      "mean_tout": 29.71
+    },
+    {
+      "month": 6,
+      "mean_top": 23.45,
+      "min_top": 21.23,
+      "max_top": 26.76,
+      "mean_tout": 27.43
+    },
+    {
+      "month": 7,
+      "mean_top": 22.78,
+      "min_top": 20.44,
+      "max_top": 26.07,
+      "mean_tout": 26.18
+    },
+    {
+      "month": 8,
+      "mean_top": 23.0,
+      "min_top": 20.87,
+      "max_top": 26.21,
+      "mean_tout": 26.13
+    },
+    {
+      "month": 9,
+      "mean_top": 23.33,
+      "min_top": 21.1,
+      "max_top": 26.23,
+      "mean_tout": 26.52
+    },
+    {
+      "month": 10,
+      "mean_top": 23.29,
+      "min_top": 20.94,
+      "max_top": 26.16,
+      "mean_tout": 26.25
+    },
+    {
+      "month": 11,
+      "mean_top": 22.73,
+      "min_top": 19.75,
+      "max_top": 25.6,
+      "mean_tout": 24.84
+    },
+    {
+      "month": 12,
+      "mean_top": 22.53,
+      "min_top": 19.85,
+      "max_top": 25.53,
+      "mean_tout": 24.18
+    }
+  ],
+  "reference_r2": {
+    "current": [
+      {
+        "month": 1,
+        "mean_top": 22.88,
+        "min_top": 16.0,
+        "max_top": 28.92,
+        "mean_tout": 21.19
+      },
+      {
+        "month": 2,
+        "mean_top": 23.77,
+        "min_top": 17.71,
+        "max_top": 29.89,
+        "mean_tout": 22.78
+      },
+      {
+        "month": 3,
+        "mean_top": 25.75,
+        "min_top": 19.32,
+        "max_top": 32.11,
+        "mean_tout": 25.87
+      },
+      {
+        "month": 4,
+        "mean_top": 26.64,
+        "min_top": 20.45,
+        "max_top": 32.58,
+        "mean_tout": 27.42
+      },
+      {
+        "month": 5,
+        "mean_top": 26.0,
+        "min_top": 20.54,
+        "max_top": 32.58,
+        "mean_tout": 26.71
+      },
+      {
+        "month": 6,
+        "mean_top": 24.37,
+        "min_top": 19.94,
+        "max_top": 30.84,
+        "mean_tout": 24.43
+      },
+      {
+        "month": 7,
+        "mean_top": 22.98,
+        "min_top": 19.58,
+        "max_top": 29.47,
+        "mean_tout": 23.18
+      },
+      {
+        "month": 8,
+        "mean_top": 23.57,
+        "min_top": 20.09,
+        "max_top": 29.55,
+        "mean_tout": 23.13
+      },
+      {
+        "month": 9,
+        "mean_top": 23.91,
+        "min_top": 20.51,
+        "max_top": 29.9,
+        "mean_tout": 23.52
+      },
+      {
+        "month": 10,
+        "mean_top": 23.99,
+        "min_top": 19.97,
+        "max_top": 29.89,
+        "mean_tout": 23.25
+      },
+      {
+        "month": 11,
+        "mean_top": 22.65,
+        "min_top": 17.35,
+        "max_top": 29.49,
+        "mean_tout": 21.84
+      },
+      {
+        "month": 12,
+        "mean_top": 22.6,
+        "min_top": 17.62,
+        "max_top": 28.87,
+        "mean_tout": 21.18
+      }
+    ],
+    "plus1p5": [
+      {
+        "month": 1,
+        "mean_top": 23.64,
+        "min_top": 16.79,
+        "max_top": 29.71,
+        "mean_tout": 22.69
+      },
+      {
+        "month": 2,
+        "mean_top": 24.55,
+        "min_top": 18.39,
+        "max_top": 30.52,
+        "mean_tout": 24.28
+      },
+      {
+        "month": 3,
+        "mean_top": 26.53,
+        "min_top": 19.92,
+        "max_top": 32.72,
+        "mean_tout": 27.37
+      },
+      {
+        "month": 4,
+        "mean_top": 27.44,
+        "min_top": 21.25,
+        "max_top": 33.18,
+        "mean_tout": 28.92
+      },
+      {
+        "month": 5,
+        "mean_top": 26.81,
+        "min_top": 21.29,
+        "max_top": 33.24,
+        "mean_tout": 28.21
+      },
+      {
+        "month": 6,
+        "mean_top": 25.25,
+        "min_top": 20.88,
+        "max_top": 31.51,
+        "mean_tout": 25.93
+      },
+      {
+        "month": 7,
+        "mean_top": 23.9,
+        "min_top": 20.5,
+        "max_top": 30.29,
+        "mean_tout": 24.68
+      },
+      {
+        "month": 8,
+        "mean_top": 24.45,
+        "min_top": 20.96,
+        "max_top": 30.32,
+        "mean_tout": 24.63
+      },
+      {
+        "month": 9,
+        "mean_top": 24.79,
+        "min_top": 21.36,
+        "max_top": 30.57,
+        "mean_tout": 25.02
+      },
+      {
+        "month": 10,
+        "mean_top": 24.82,
+        "min_top": 20.79,
+        "max_top": 30.71,
+        "mean_tout": 24.75
+      },
+      {
+        "month": 11,
+        "mean_top": 23.55,
+        "min_top": 18.27,
+        "max_top": 30.16,
+        "mean_tout": 23.34
+      },
+      {
+        "month": 12,
+        "mean_top": 23.42,
+        "min_top": 18.59,
+        "max_top": 29.6,
+        "mean_tout": 22.68
+      }
+    ],
+    "plus3p0": [
+      {
+        "month": 1,
+        "mean_top": 24.43,
+        "min_top": 17.59,
+        "max_top": 30.49,
+        "mean_tout": 24.19
+      },
+      {
+        "month": 2,
+        "mean_top": 25.36,
+        "min_top": 19.09,
+        "max_top": 31.16,
+        "mean_tout": 25.78
+      },
+      {
+        "month": 3,
+        "mean_top": 27.31,
+        "min_top": 20.67,
+        "max_top": 33.33,
+        "mean_tout": 28.87
+      },
+      {
+        "month": 4,
+        "mean_top": 28.16,
+        "min_top": 22.05,
+        "max_top": 33.76,
+        "mean_tout": 30.42
+      },
+      {
+        "month": 5,
+        "mean_top": 27.59,
+        "min_top": 22.03,
+        "max_top": 33.87,
+        "mean_tout": 29.71
+      },
+      {
+        "month": 6,
+        "mean_top": 26.09,
+        "min_top": 21.82,
+        "max_top": 32.18,
+        "mean_tout": 27.43
+      },
+      {
+        "month": 7,
+        "mean_top": 24.78,
+        "min_top": 21.4,
+        "max_top": 30.95,
+        "mean_tout": 26.18
+      },
+      {
+        "month": 8,
+        "mean_top": 25.27,
+        "min_top": 21.76,
+        "max_top": 30.96,
+        "mean_tout": 26.13
+      },
+      {
+        "month": 9,
+        "mean_top": 25.62,
+        "min_top": 22.17,
+        "max_top": 31.19,
+        "mean_tout": 26.52
+      },
+      {
+        "month": 10,
+        "mean_top": 25.6,
+        "min_top": 21.58,
+        "max_top": 31.51,
+        "mean_tout": 26.25
+      },
+      {
+        "month": 11,
+        "mean_top": 24.44,
+        "min_top": 19.22,
+        "max_top": 30.77,
+        "mean_tout": 24.84
+      },
+      {
+        "month": 12,
+        "mean_top": 24.25,
+        "min_top": 19.44,
+        "max_top": 30.36,
+        "mean_tout": 24.18
+      }
+    ]
+  }
+}

@@ -1,0 +1,237 @@
+{
+  "Jodhpur": {
+    "O1_ml": {
+      "city": "Jodhpur",
+      "target": "O1_ml",
+      "cv_r2": 0.8684,
+      "test_r2": 0.6985,
+      "test_mae": 4.7976,
+      "nmae_pct": 9.14,
+      "pass_s2": false
+    },
+    "warm_ml": {
+      "city": "Jodhpur",
+      "target": "warm_ml",
+      "cv_r2": 0.8542,
+      "test_r2": 0.6784,
+      "test_mae": 4.3472,
+      "nmae_pct": 8.99,
+      "pass_s2": false
+    },
+    "cool_ml": {
+      "city": "Jodhpur",
+      "target": "cool_ml",
+      "cv_r2": 0.6041,
+      "test_r2": 0.8632,
+      "test_mae": 0.7387,
+      "nmae_pct": 6.23,
+      "pass_s2": false
+    },
+    "O1_adapt": {
+      "city": "Jodhpur",
+      "target": "O1_adapt",
+      "cv_r2": 0.6397,
+      "test_r2": 0.7328,
+      "test_mae": 6.1429,
+      "nmae_pct": 8.56,
+      "pass_s2": false
+    },
+    "O2": {
+      "city": "Jodhpur",
+      "target": "O2",
+      "cv_r2": 0.8102,
+      "test_r2": 0.8418,
+      "test_mae": 10.9653,
+      "nmae_pct": 6.23,
+      "pass_s2": false
+    }
+  },
+  "Mumbai": {
+    "O1_ml": {
+      "city": "Mumbai",
+      "target": "O1_ml",
+      "cv_r2": 0.6518,
+      "test_r2": 0.4181,
+      "test_mae": 4.6666,
+      "nmae_pct": 11.65,
+      "pass_s2": false
+    },
+    "warm_ml": {
+      "city": "Mumbai",
+      "target": "warm_ml",
+      "cv_r2": 0.6341,
+      "test_r2": 0.3834,
+      "test_mae": 4.1869,
+      "nmae_pct": 10.46,
+      "pass_s2": false
+    },
+    "cool_ml": {
+      "city": "Mumbai",
+      "target": "cool_ml",
+      "cv_r2": 0.3493,
+      "test_r2": 0.4789,
+      "test_mae": 0.0113,
+      "nmae_pct": 7.61,
+      "pass_s2": false
+    },
+    "O1_adapt": {
+      "city": "Mumbai",
+      "target": "O1_adapt",
+      "cv_r2": 0.6767,
+      "test_r2": 0.6471,
+      "test_mae": 9.0273,
+      "nmae_pct": 10.43,
+      "pass_s2": false
+    },
+    "O2": {
+      "city": "Mumbai",
+      "target": "O2",
+      "cv_r2": 0.792,
+      "test_r2": 0.5144,
+      "test_mae": 13.2434,
+      "nmae_pct": 8.94,
+      "pass_s2": false
+    }
+  },
+  "New_Delhi": {
+    "O1_ml": {
+      "city": "New_Delhi",
+      "target": "O1_ml",
+      "cv_r2": 0.8388,
+      "test_r2": 0.7928,
+      "test_mae": 3.7627,
+      "nmae_pct": 8.49,
+      "pass_s2": false
+    },
+    "warm_ml": {
+      "city": "New_Delhi",
+      "target": "warm_ml",
+      "cv_r2": 0.842,
+      "test_r2": 0.8259,
+      "test_mae": 3.398,
+      "nmae_pct": 8.4,
+      "pass_s2": false
+    },
+    "cool_ml": {
+      "city": "New_Delhi",
+      "target": "cool_ml",
+      "cv_r2": 0.8097,
+      "test_r2": 0.844,
+      "test_mae": 0.8575,
+      "nmae_pct": 5.68,
+      "pass_s2": false
+    },
+    "O1_adapt": {
+      "city": "New_Delhi",
+      "target": "O1_adapt",
+      "cv_r2": 0.6713,
+      "test_r2": 0.6173,
+      "test_mae": 7.2931,
+      "nmae_pct": 11.61,
+      "pass_s2": false
+    },
+    "O2": {
+      "city": "New_Delhi",
+      "target": "O2",
+      "cv_r2": 0.8858,
+      "test_r2": 0.886,
+      "test_mae": 14.1041,
+      "nmae_pct": 6.59,
+      "pass_s2": false
+    }
+  },
+  "Bengaluru": {
+    "O1_ml": {
+      "city": "Bengaluru",
+      "target": "O1_ml",
+      "cv_r2": 0.1483,
+      "test_r2": 0.4893,
+      "test_mae": 1.291,
+      "nmae_pct": 5.58,
+      "pass_s2": false
+    },
+    "warm_ml": {
+      "city": "Bengaluru",
+      "target": "warm_ml",
+      "cv_r2": -0.0533,
+      "test_r2": 0.4045,
+      "test_mae": 1.2955,
+      "nmae_pct": 5.88,
+      "pass_s2": false
+    },
+    "cool_ml": {
+      "city": "Bengaluru",
+      "target": "cool_ml",
+      "cv_r2": 0.7089,
+      "test_r2": 0.8413,
+      "test_mae": 0.0678,
+      "nmae_pct": 3.6,
+      "pass_s2": false
+    },
+    "O1_adapt": {
+      "city": "Bengaluru",
+      "target": "O1_adapt",
+      "cv_r2": 0.8098,
+      "test_r2": 0.673,
+      "test_mae": 4.6564,
+      "nmae_pct": 6.37,
+      "pass_s2": false
+    },
+    "O2": {
+      "city": "Bengaluru",
+      "target": "O2",
+      "cv_r2": 0.5969,
+      "test_r2": 0.0054,
+      "test_mae": 5.3374,
+      "nmae_pct": 6.74,
+      "pass_s2": false
+    }
+  },
+  "Shimla": {
+    "O1_ml": {
+      "city": "Shimla",
+      "target": "O1_ml",
+      "cv_r2": 0.8241,
+      "test_r2": 0.8326,
+      "test_mae": 1.7289,
+      "nmae_pct": 8.07,
+      "pass_s2": false
+    },
+    "warm_ml": {
+      "city": "Shimla",
+      "target": "warm_ml",
+      "cv_r2": 0.3704,
+      "test_r2": -0.0796,
+      "test_mae": 0.7249,
+      "nmae_pct": 8.49,
+      "pass_s2": false
+    },
+    "cool_ml": {
+      "city": "Shimla",
+      "target": "cool_ml",
+      "cv_r2": 0.8313,
+      "test_r2": 0.8409,
+      "test_mae": 1.4607,
+      "nmae_pct": 6.82,
+      "pass_s2": false
+    },
+    "O1_adapt": {
+      "city": "Shimla",
+      "target": "O1_adapt",
+      "cv_r2": 0.7606,
+      "test_r2": 0.8177,
+      "test_mae": 3.4012,
+      "nmae_pct": 6.67,
+      "pass_s2": false
+    },
+    "O2": {
+      "city": "Shimla",
+      "target": "O2",
+      "cv_r2": 0.9765,
+      "test_r2": 0.9687,
+      "test_mae": 20.5385,
+      "nmae_pct": 4.26,
+      "pass_s2": true
+    }
+  }
+}

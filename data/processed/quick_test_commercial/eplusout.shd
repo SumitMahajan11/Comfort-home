@@ -1,0 +1,102 @@
+Shadowing Combinations
+..Solar Distribution=FullExterior
+..In the following, only the first 10 reference surfaces will be shown.
+..But all surfaces are used in the calculations.
+==================================
+Surface=OFFICE_SOUTH_OVERHANG is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=1
+..Surface=OFFICE_SOUTH_WALL
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=Mir-OFFICE_SOUTH_OVERHANG is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=1
+..Surface=OFFICE_SOUTH_WALL
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=MEETING_NORTH_OVERHANG is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=1
+..Surface=MEETING_NORTH_WALL
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=Mir-MEETING_NORTH_OVERHANG is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=1
+..Surface=MEETING_NORTH_WALL
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=OFFICE_SOUTH_WALL is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=1
+..Surface=OFFICE_SOUTH_OVERHANG
+Number of back surfaces=0
+Number of receiving sub surfaces=1
+....Surface=OFFICE_SOUTH_WINDOW
+==================================
+Surface=OFFICE_SOUTH_WINDOW is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=OFFICE_EAST_WALL is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=OFFICE_WEST_WALL is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=OFFICE_MEETING_PART_OFF is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=OFFICE_FLOOR is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=OFFICE_ROOF is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=MEETING_NORTH_WALL is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=1
+..Surface=MEETING_NORTH_OVERHANG
+Number of back surfaces=0
+Number of receiving sub surfaces=1
+....Surface=MEETING_NORTH_WINDOW
+==================================
+Surface=MEETING_NORTH_WINDOW is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=MEETING_EAST_WALL is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=MEETING_WEST_WALL is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=OFFICE_MEETING_PART_MEET is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=MEETING_FLOOR is not used as Receiving Surface in calculations.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0
+==================================
+Surface=MEETING_ROOF is used as Receiving Surface in calculations and is convex.
+Number of general casting surfaces=0
+Number of back surfaces=0
+Number of receiving sub surfaces=0

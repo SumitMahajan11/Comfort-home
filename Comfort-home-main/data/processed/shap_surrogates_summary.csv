@@ -1,0 +1,251 @@
+city,target,feature,feature_name,mean_abs_shap
+Jodhpur,O1_ml,roof_insulation_thickness,Roof Insulation (m),2.833678
+Jodhpur,O1_ml,wall_insulation_thickness,Wall Insulation (m),3.5698073
+Jodhpur,O1_ml,roof_solar_absorptance,Roof Solar Absorptance,0.73096424
+Jodhpur,O1_ml,wwr,Window-to-Wall Ratio (WWR),4.026426
+Jodhpur,O1_ml,orientation,Orientation (deg),0.080213875
+Jodhpur,O1_ml,shading_depth,Shading Depth (m),0.9124907
+Jodhpur,O1_ml,ventilation_ach,Ventilation (ACH),0.30703166
+Jodhpur,O1_ml,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.07932203
+Jodhpur,O1_ml,wall_mass_light,Wall Mass: Light (Sheet),0.25310045
+Jodhpur,O1_ml,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.043810233
+Jodhpur,O1_adapt,roof_insulation_thickness,Roof Insulation (m),2.0024698
+Jodhpur,O1_adapt,wall_insulation_thickness,Wall Insulation (m),3.0502536
+Jodhpur,O1_adapt,roof_solar_absorptance,Roof Solar Absorptance,0.7348706
+Jodhpur,O1_adapt,wwr,Window-to-Wall Ratio (WWR),3.6683986
+Jodhpur,O1_adapt,orientation,Orientation (deg),0.15278915
+Jodhpur,O1_adapt,shading_depth,Shading Depth (m),0.9462171
+Jodhpur,O1_adapt,ventilation_ach,Ventilation (ACH),0.98376507
+Jodhpur,O1_adapt,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.03587019
+Jodhpur,O1_adapt,wall_mass_light,Wall Mass: Light (Sheet),1.6421511
+Jodhpur,O1_adapt,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.14170198
+Jodhpur,O2,roof_insulation_thickness,Roof Insulation (m),13.856701
+Jodhpur,O2,wall_insulation_thickness,Wall Insulation (m),19.076216
+Jodhpur,O2,roof_solar_absorptance,Roof Solar Absorptance,4.499674
+Jodhpur,O2,wwr,Window-to-Wall Ratio (WWR),22.309074
+Jodhpur,O2,orientation,Orientation (deg),0.1853508
+Jodhpur,O2,shading_depth,Shading Depth (m),3.8862054
+Jodhpur,O2,ventilation_ach,Ventilation (ACH),26.068012
+Jodhpur,O2,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.8817504
+Jodhpur,O2,wall_mass_light,Wall Mass: Light (Sheet),1.8805203
+Jodhpur,O2,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.08271605
+Jodhpur,warm_ml,roof_insulation_thickness,Roof Insulation (m),3.6152444
+Jodhpur,warm_ml,wall_insulation_thickness,Wall Insulation (m),5.899462
+Jodhpur,warm_ml,roof_solar_absorptance,Roof Solar Absorptance,1.8021941
+Jodhpur,warm_ml,wwr,Window-to-Wall Ratio (WWR),8.079439
+Jodhpur,warm_ml,orientation,Orientation (deg),0.098220624
+Jodhpur,warm_ml,shading_depth,Shading Depth (m),2.1535215
+Jodhpur,warm_ml,ventilation_ach,Ventilation (ACH),0.23767811
+Jodhpur,warm_ml,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.23822565
+Jodhpur,warm_ml,wall_mass_light,Wall Mass: Light (Sheet),0.758613
+Jodhpur,warm_ml,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.011862017
+Jodhpur,cool_ml,roof_insulation_thickness,Roof Insulation (m),0.8264169
+Jodhpur,cool_ml,wall_insulation_thickness,Wall Insulation (m),2.4771771
+Jodhpur,cool_ml,roof_solar_absorptance,Roof Solar Absorptance,1.0956253
+Jodhpur,cool_ml,wwr,Window-to-Wall Ratio (WWR),4.5265927
+Jodhpur,cool_ml,orientation,Orientation (deg),0.0382573
+Jodhpur,cool_ml,shading_depth,Shading Depth (m),1.2724781
+Jodhpur,cool_ml,ventilation_ach,Ventilation (ACH),0.53700656
+Jodhpur,cool_ml,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.07010799
+Jodhpur,cool_ml,wall_mass_light,Wall Mass: Light (Sheet),0.6494108
+Jodhpur,cool_ml,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.0069419225
+Mumbai,O1_ml,roof_insulation_thickness,Roof Insulation (m),1.0951372
+Mumbai,O1_ml,wall_insulation_thickness,Wall Insulation (m),2.3810463
+Mumbai,O1_ml,roof_solar_absorptance,Roof Solar Absorptance,0.56329143
+Mumbai,O1_ml,wwr,Window-to-Wall Ratio (WWR),3.3409927
+Mumbai,O1_ml,orientation,Orientation (deg),0.16865677
+Mumbai,O1_ml,shading_depth,Shading Depth (m),0.5561304
+Mumbai,O1_ml,ventilation_ach,Ventilation (ACH),0.2865289
+Mumbai,O1_ml,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.033239473
+Mumbai,O1_ml,wall_mass_light,Wall Mass: Light (Sheet),0.99926573
+Mumbai,O1_ml,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.031703264
+Mumbai,O1_adapt,roof_insulation_thickness,Roof Insulation (m),2.166991
+Mumbai,O1_adapt,wall_insulation_thickness,Wall Insulation (m),4.7449207
+Mumbai,O1_adapt,roof_solar_absorptance,Roof Solar Absorptance,0.924786
+Mumbai,O1_adapt,wwr,Window-to-Wall Ratio (WWR),5.389926
+Mumbai,O1_adapt,orientation,Orientation (deg),0.20006986
+Mumbai,O1_adapt,shading_depth,Shading Depth (m),0.84246737
+Mumbai,O1_adapt,ventilation_ach,Ventilation (ACH),0.51830536
+Mumbai,O1_adapt,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.039110407
+Mumbai,O1_adapt,wall_mass_light,Wall Mass: Light (Sheet),2.4314554
+Mumbai,O1_adapt,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.07819522
+Mumbai,O2,roof_insulation_thickness,Roof Insulation (m),11.186863
+Mumbai,O2,wall_insulation_thickness,Wall Insulation (m),15.294457
+Mumbai,O2,roof_solar_absorptance,Roof Solar Absorptance,5.184066
+Mumbai,O2,wwr,Window-to-Wall Ratio (WWR),22.044044
+Mumbai,O2,orientation,Orientation (deg),0.24455424
+Mumbai,O2,shading_depth,Shading Depth (m),6.659936
+Mumbai,O2,ventilation_ach,Ventilation (ACH),0.4584124
+Mumbai,O2,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.8062493
+Mumbai,O2,wall_mass_light,Wall Mass: Light (Sheet),1.2862569
+Mumbai,O2,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.032027747
+Mumbai,warm_ml,roof_insulation_thickness,Roof Insulation (m),2.4217448
+Mumbai,warm_ml,wall_insulation_thickness,Wall Insulation (m),2.6871269
+Mumbai,warm_ml,roof_solar_absorptance,Roof Solar Absorptance,1.2814986
+Mumbai,warm_ml,wwr,Window-to-Wall Ratio (WWR),4.3939657
+Mumbai,warm_ml,orientation,Orientation (deg),0.068929456
+Mumbai,warm_ml,shading_depth,Shading Depth (m),2.1576774
+Mumbai,warm_ml,ventilation_ach,Ventilation (ACH),0.10358116
+Mumbai,warm_ml,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.19415212
+Mumbai,warm_ml,wall_mass_light,Wall Mass: Light (Sheet),0.14409608
+Mumbai,warm_ml,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.011335781
+Mumbai,cool_ml,roof_insulation_thickness,Roof Insulation (m),2.3750548
+Mumbai,cool_ml,wall_insulation_thickness,Wall Insulation (m),4.8743463
+Mumbai,cool_ml,roof_solar_absorptance,Roof Solar Absorptance,1.660219
+Mumbai,cool_ml,wwr,Window-to-Wall Ratio (WWR),6.8947425
+Mumbai,cool_ml,orientation,Orientation (deg),0.06764589
+Mumbai,cool_ml,shading_depth,Shading Depth (m),2.0177083
+Mumbai,cool_ml,ventilation_ach,Ventilation (ACH),0.29125714
+Mumbai,cool_ml,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.19607942
+Mumbai,cool_ml,wall_mass_light,Wall Mass: Light (Sheet),1.1030002
+Mumbai,cool_ml,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.010043816
+New_Delhi,O1_ml,roof_insulation_thickness,Roof Insulation (m),2.285559
+New_Delhi,O1_ml,wall_insulation_thickness,Wall Insulation (m),2.2657483
+New_Delhi,O1_ml,roof_solar_absorptance,Roof Solar Absorptance,0.393572
+New_Delhi,O1_ml,wwr,Window-to-Wall Ratio (WWR),2.583325
+New_Delhi,O1_ml,orientation,Orientation (deg),0.059137613
+New_Delhi,O1_ml,shading_depth,Shading Depth (m),0.64825577
+New_Delhi,O1_ml,ventilation_ach,Ventilation (ACH),0.335659
+New_Delhi,O1_ml,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.069177605
+New_Delhi,O1_ml,wall_mass_light,Wall Mass: Light (Sheet),0.13884965
+New_Delhi,O1_ml,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.016246626
+New_Delhi,O1_adapt,roof_insulation_thickness,Roof Insulation (m),1.5766076
+New_Delhi,O1_adapt,wall_insulation_thickness,Wall Insulation (m),2.5555003
+New_Delhi,O1_adapt,roof_solar_absorptance,Roof Solar Absorptance,0.8030965
+New_Delhi,O1_adapt,wwr,Window-to-Wall Ratio (WWR),4.0043983
+New_Delhi,O1_adapt,orientation,Orientation (deg),0.107258305
+New_Delhi,O1_adapt,shading_depth,Shading Depth (m),0.6549223
+New_Delhi,O1_adapt,ventilation_ach,Ventilation (ACH),0.9656811
+New_Delhi,O1_adapt,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.024034552
+New_Delhi,O1_adapt,wall_mass_light,Wall Mass: Light (Sheet),1.1695282
+New_Delhi,O1_adapt,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.07053547
+New_Delhi,O2,roof_insulation_thickness,Roof Insulation (m),12.964901
+New_Delhi,O2,wall_insulation_thickness,Wall Insulation (m),16.408697
+New_Delhi,O2,roof_solar_absorptance,Roof Solar Absorptance,3.1055593
+New_Delhi,O2,wwr,Window-to-Wall Ratio (WWR),19.831047
+New_Delhi,O2,orientation,Orientation (deg),0.24380915
+New_Delhi,O2,shading_depth,Shading Depth (m),3.1570206
+New_Delhi,O2,ventilation_ach,Ventilation (ACH),41.7723
+New_Delhi,O2,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.47059545
+New_Delhi,O2,wall_mass_light,Wall Mass: Light (Sheet),1.036439
+New_Delhi,O2,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.02460982
+New_Delhi,warm_ml,roof_insulation_thickness,Roof Insulation (m),2.7974827
+New_Delhi,warm_ml,wall_insulation_thickness,Wall Insulation (m),3.9260478
+New_Delhi,warm_ml,roof_solar_absorptance,Roof Solar Absorptance,1.2871059
+New_Delhi,warm_ml,wwr,Window-to-Wall Ratio (WWR),5.9183693
+New_Delhi,warm_ml,orientation,Orientation (deg),0.06949524
+New_Delhi,warm_ml,shading_depth,Shading Depth (m),1.6877352
+New_Delhi,warm_ml,ventilation_ach,Ventilation (ACH),0.15798947
+New_Delhi,warm_ml,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.17397209
+New_Delhi,warm_ml,wall_mass_light,Wall Mass: Light (Sheet),0.31671768
+New_Delhi,warm_ml,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.00625105
+New_Delhi,cool_ml,roof_insulation_thickness,Roof Insulation (m),0.566581
+New_Delhi,cool_ml,wall_insulation_thickness,Wall Insulation (m),1.8513585
+New_Delhi,cool_ml,roof_solar_absorptance,Roof Solar Absorptance,0.9083428
+New_Delhi,cool_ml,wwr,Window-to-Wall Ratio (WWR),4.0086303
+New_Delhi,cool_ml,orientation,Orientation (deg),0.039580632
+New_Delhi,cool_ml,shading_depth,Shading Depth (m),1.273497
+New_Delhi,cool_ml,ventilation_ach,Ventilation (ACH),0.52093387
+New_Delhi,cool_ml,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.05487548
+New_Delhi,cool_ml,wall_mass_light,Wall Mass: Light (Sheet),0.36881432
+New_Delhi,cool_ml,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.0050842427
+Bengaluru,O1_ml,roof_insulation_thickness,Roof Insulation (m),1.0374495
+Bengaluru,O1_ml,wall_insulation_thickness,Wall Insulation (m),2.331519
+Bengaluru,O1_ml,roof_solar_absorptance,Roof Solar Absorptance,0.911352
+Bengaluru,O1_ml,wwr,Window-to-Wall Ratio (WWR),3.7384024
+Bengaluru,O1_ml,orientation,Orientation (deg),0.059368115
+Bengaluru,O1_ml,shading_depth,Shading Depth (m),0.8250064
+Bengaluru,O1_ml,ventilation_ach,Ventilation (ACH),1.0508784
+Bengaluru,O1_ml,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.030898819
+Bengaluru,O1_ml,wall_mass_light,Wall Mass: Light (Sheet),0.50583845
+Bengaluru,O1_ml,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.017875375
+Bengaluru,O1_adapt,roof_insulation_thickness,Roof Insulation (m),1.5696707
+Bengaluru,O1_adapt,wall_insulation_thickness,Wall Insulation (m),3.6777186
+Bengaluru,O1_adapt,roof_solar_absorptance,Roof Solar Absorptance,1.2957865
+Bengaluru,O1_adapt,wwr,Window-to-Wall Ratio (WWR),4.506119
+Bengaluru,O1_adapt,orientation,Orientation (deg),0.12157361
+Bengaluru,O1_adapt,shading_depth,Shading Depth (m),0.59553623
+Bengaluru,O1_adapt,ventilation_ach,Ventilation (ACH),1.7472647
+Bengaluru,O1_adapt,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.02736316
+Bengaluru,O1_adapt,wall_mass_light,Wall Mass: Light (Sheet),1.3857363
+Bengaluru,O1_adapt,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.0585955
+Bengaluru,O2,roof_insulation_thickness,Roof Insulation (m),4.6535153
+Bengaluru,O2,wall_insulation_thickness,Wall Insulation (m),2.37569
+Bengaluru,O2,roof_solar_absorptance,Roof Solar Absorptance,1.8292607
+Bengaluru,O2,wwr,Window-to-Wall Ratio (WWR),7.198196
+Bengaluru,O2,orientation,Orientation (deg),0.1000484
+Bengaluru,O2,shading_depth,Shading Depth (m),2.3845558
+Bengaluru,O2,ventilation_ach,Ventilation (ACH),5.5858197
+Bengaluru,O2,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.015262621
+Bengaluru,O2,wall_mass_light,Wall Mass: Light (Sheet),0.8362606
+Bengaluru,O2,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.20922823
+Bengaluru,warm_ml,roof_insulation_thickness,Roof Insulation (m),1.4072198
+Bengaluru,warm_ml,wall_insulation_thickness,Wall Insulation (m),0.95971835
+Bengaluru,warm_ml,roof_solar_absorptance,Roof Solar Absorptance,0.7484673
+Bengaluru,warm_ml,wwr,Window-to-Wall Ratio (WWR),2.023901
+Bengaluru,warm_ml,orientation,Orientation (deg),0.03928629
+Bengaluru,warm_ml,shading_depth,Shading Depth (m),0.9074081
+Bengaluru,warm_ml,ventilation_ach,Ventilation (ACH),0.100517765
+Bengaluru,warm_ml,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.012324367
+Bengaluru,warm_ml,wall_mass_light,Wall Mass: Light (Sheet),0.02989307
+Bengaluru,warm_ml,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.08633827
+Bengaluru,cool_ml,roof_insulation_thickness,Roof Insulation (m),2.306825
+Bengaluru,cool_ml,wall_insulation_thickness,Wall Insulation (m),3.3114305
+Bengaluru,cool_ml,roof_solar_absorptance,Roof Solar Absorptance,1.6568576
+Bengaluru,cool_ml,wwr,Window-to-Wall Ratio (WWR),5.5375495
+Bengaluru,cool_ml,orientation,Orientation (deg),0.05313846
+Bengaluru,cool_ml,shading_depth,Shading Depth (m),1.6959916
+Bengaluru,cool_ml,ventilation_ach,Ventilation (ACH),1.1256844
+Bengaluru,cool_ml,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.068964936
+Bengaluru,cool_ml,wall_mass_light,Wall Mass: Light (Sheet),0.38531494
+Bengaluru,cool_ml,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.0046479497
+Shimla,O1_ml,roof_insulation_thickness,Roof Insulation (m),0.49488947
+Shimla,O1_ml,wall_insulation_thickness,Wall Insulation (m),0.69760084
+Shimla,O1_ml,roof_solar_absorptance,Roof Solar Absorptance,0.8946391
+Shimla,O1_ml,wwr,Window-to-Wall Ratio (WWR),3.0252864
+Shimla,O1_ml,orientation,Orientation (deg),0.046570778
+Shimla,O1_ml,shading_depth,Shading Depth (m),1.2376972
+Shimla,O1_ml,ventilation_ach,Ventilation (ACH),0.9430306
+Shimla,O1_ml,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.007716008
+Shimla,O1_ml,wall_mass_light,Wall Mass: Light (Sheet),0.012023262
+Shimla,O1_ml,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.028754417
+Shimla,O1_adapt,roof_insulation_thickness,Roof Insulation (m),0.60687107
+Shimla,O1_adapt,wall_insulation_thickness,Wall Insulation (m),1.4176784
+Shimla,O1_adapt,roof_solar_absorptance,Roof Solar Absorptance,1.9025254
+Shimla,O1_adapt,wwr,Window-to-Wall Ratio (WWR),3.4242065
+Shimla,O1_adapt,orientation,Orientation (deg),0.08203885
+Shimla,O1_adapt,shading_depth,Shading Depth (m),1.432326
+Shimla,O1_adapt,ventilation_ach,Ventilation (ACH),2.1269147
+Shimla,O1_adapt,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.03070725
+Shimla,O1_adapt,wall_mass_light,Wall Mass: Light (Sheet),0.7438653
+Shimla,O1_adapt,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.018149165
+Shimla,O2,roof_insulation_thickness,Roof Insulation (m),8.516577
+Shimla,O2,wall_insulation_thickness,Wall Insulation (m),5.9699
+Shimla,O2,roof_solar_absorptance,Roof Solar Absorptance,2.0047014
+Shimla,O2,wwr,Window-to-Wall Ratio (WWR),2.9004889
+Shimla,O2,orientation,Orientation (deg),0.1920629
+Shimla,O2,shading_depth,Shading Depth (m),2.3207123
+Shimla,O2,ventilation_ach,Ventilation (ACH),111.90897
+Shimla,O2,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.043072384
+Shimla,O2,wall_mass_light,Wall Mass: Light (Sheet),0.312941
+Shimla,O2,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.33370125
+Shimla,warm_ml,roof_insulation_thickness,Roof Insulation (m),0.47392902
+Shimla,warm_ml,wall_insulation_thickness,Wall Insulation (m),0.11578734
+Shimla,warm_ml,roof_solar_absorptance,Roof Solar Absorptance,0.27132994
+Shimla,warm_ml,wwr,Window-to-Wall Ratio (WWR),0.41810325
+Shimla,warm_ml,orientation,Orientation (deg),0.018063813
+Shimla,warm_ml,shading_depth,Shading Depth (m),0.22780244
+Shimla,warm_ml,ventilation_ach,Ventilation (ACH),0.14981665
+Shimla,warm_ml,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.001548503
+Shimla,warm_ml,wall_mass_light,Wall Mass: Light (Sheet),0.04648339
+Shimla,warm_ml,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.002663483
+Shimla,cool_ml,roof_insulation_thickness,Roof Insulation (m),0.88642967
+Shimla,cool_ml,wall_insulation_thickness,Wall Insulation (m),0.83057606
+Shimla,cool_ml,roof_solar_absorptance,Roof Solar Absorptance,1.1493915
+Shimla,cool_ml,wwr,Window-to-Wall Ratio (WWR),3.4650576
+Shimla,cool_ml,orientation,Orientation (deg),0.029584708
+Shimla,cool_ml,shading_depth,Shading Depth (m),1.4626175
+Shimla,cool_ml,ventilation_ach,Ventilation (ACH),1.097854
+Shimla,cool_ml,wall_mass_heavy,Wall Mass: Heavy (Concrete),0.004718866
+Shimla,cool_ml,wall_mass_light,Wall Mass: Light (Sheet),0.050510734
+Shimla,cool_ml,wall_mass_medium,Wall Mass: Medium (Clay Brick),0.041730024

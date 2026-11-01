@@ -1,0 +1,220 @@
+{
+  "version": "1.0.0",
+  "description": "Physical, thermal, and embodied carbon properties for building materials used in ClimateAdapt-Comfort simulation templates.",
+  "embodied_carbon_source": "data/processed/ice_materials_extracted.csv (null where unavailable; never guessed per project rules)",
+  "materials": [
+    {
+      "id": "mat_clay_brick",
+      "display_name_en": "Common Burnt Clay Brick Wall (200 mm)",
+      "display_name_hi": "सामान्य पकी मिट्टी की ईंट की दीवार (200 मिमी)",
+      "category": "wall_masonry",
+      "design_variable_mapping": {
+        "variable": "wall_mass_class",
+        "value": "medium"
+      },
+      "unit": "m2",
+      "thickness_m": 0.20,
+      "density_kg_m3": 1920.0,
+      "thermal_conductivity_w_mk": 0.72,
+      "specific_heat_j_kgk": 840.0,
+      "thermal_absorptance": 0.90,
+      "solar_absorptance": 0.70,
+      "visible_absorptance": 0.70,
+      "embodied_carbon_factor_kgco2e_per_kg": null,
+      "embodied_carbon_status": "not available"
+    },
+    {
+      "id": "mat_concrete_heavy",
+      "display_name_en": "Reinforced Cement Concrete (RCC) Wall (200 mm)",
+      "display_name_hi": "प्रबलित सीमेंट कंक्रीट दीवार (200 मिमी)",
+      "category": "wall_masonry",
+      "design_variable_mapping": {
+        "variable": "wall_mass_class",
+        "value": "heavy"
+      },
+      "unit": "m2",
+      "thickness_m": 0.20,
+      "density_kg_m3": 2300.0,
+      "thermal_conductivity_w_mk": 1.74,
+      "specific_heat_j_kgk": 840.0,
+      "thermal_absorptance": 0.90,
+      "solar_absorptance": 0.65,
+      "visible_absorptance": 0.65,
+      "embodied_carbon_factor_kgco2e_per_kg": null,
+      "embodied_carbon_status": "not available"
+    },
+    {
+      "id": "mat_lightweight_drywall",
+      "display_name_en": "Lightweight Fiber Cement Board Partition (100 mm)",
+      "display_name_hi": "हल्का फाइबर सीमेंट बोर्ड पार्टीशन (100 मिमी)",
+      "category": "wall_masonry",
+      "design_variable_mapping": {
+        "variable": "wall_mass_class",
+        "value": "light"
+      },
+      "unit": "m2",
+      "thickness_m": 0.10,
+      "density_kg_m3": 1200.0,
+      "thermal_conductivity_w_mk": 0.25,
+      "specific_heat_j_kgk": 1000.0,
+      "thermal_absorptance": 0.90,
+      "solar_absorptance": 0.50,
+      "visible_absorptance": 0.50,
+      "embodied_carbon_factor_kgco2e_per_kg": null,
+      "embodied_carbon_status": "not available"
+    },
+    {
+      "id": "mat_eps_wall_insulation",
+      "display_name_en": "Expanded Polystyrene (EPS) Wall Insulation",
+      "display_name_hi": "ईपीएस बाहरी दीवार इन्सुलेशन",
+      "category": "insulation",
+      "design_variable_mapping": {
+        "variable": "wall_insulation_thickness"
+      },
+      "unit": "m3",
+      "density_kg_m3": 25.0,
+      "thermal_conductivity_w_mk": 0.038,
+      "specific_heat_j_kgk": 1400.0,
+      "thermal_absorptance": 0.90,
+      "solar_absorptance": 0.30,
+      "visible_absorptance": 0.30,
+      "embodied_carbon_factor_kgco2e_per_kg": null,
+      "embodied_carbon_status": "not available"
+    },
+    {
+      "id": "mat_eps_roof_insulation",
+      "display_name_en": "Expanded Polystyrene (EPS) Roof Insulation",
+      "display_name_hi": "ईपीएस छत इन्सुलेशन",
+      "category": "insulation",
+      "design_variable_mapping": {
+        "variable": "roof_insulation_thickness"
+      },
+      "unit": "m3",
+      "density_kg_m3": 25.0,
+      "thermal_conductivity_w_mk": 0.038,
+      "specific_heat_j_kgk": 1400.0,
+      "thermal_absorptance": 0.90,
+      "solar_absorptance": 0.30,
+      "visible_absorptance": 0.30,
+      "embodied_carbon_factor_kgco2e_per_kg": null,
+      "embodied_carbon_status": "not available"
+    },
+    {
+      "id": "mat_mineral_wool",
+      "display_name_en": "Mineral Wool Board Insulation",
+      "display_name_hi": "खनिज ऊन बोर्ड इन्सुलेशन",
+      "category": "insulation",
+      "design_variable_mapping": {
+        "variable": "optional_insulation_type"
+      },
+      "unit": "m3",
+      "density_kg_m3": 48.0,
+      "thermal_conductivity_w_mk": 0.040,
+      "specific_heat_j_kgk": 840.0,
+      "thermal_absorptance": 0.90,
+      "solar_absorptance": 0.40,
+      "visible_absorptance": 0.40,
+      "embodied_carbon_factor_kgco2e_per_kg": null,
+      "embodied_carbon_status": "not available"
+    },
+    {
+      "id": "mat_xps_insulation",
+      "display_name_en": "Extruded Polystyrene (XPS) Insulation",
+      "display_name_hi": "एक्सपीएस बोर्ड इन्सुलेशन",
+      "category": "insulation",
+      "design_variable_mapping": {
+        "variable": "optional_insulation_type"
+      },
+      "unit": "m3",
+      "density_kg_m3": 35.0,
+      "thermal_conductivity_w_mk": 0.034,
+      "specific_heat_j_kgk": 1500.0,
+      "thermal_absorptance": 0.90,
+      "solar_absorptance": 0.30,
+      "visible_absorptance": 0.30,
+      "embodied_carbon_factor_kgco2e_per_kg": null,
+      "embodied_carbon_status": "not available"
+    },
+    {
+      "id": "mat_rcc_roof_slab",
+      "display_name_en": "Reinforced Cement Concrete (RCC) Roof Slab (150 mm)",
+      "display_name_hi": "प्रबलित सीमेंट कंक्रीट छत स्लैब (150 मिमी)",
+      "category": "roof_structure",
+      "design_variable_mapping": {
+        "variable": "base_roof_slab"
+      },
+      "unit": "m2",
+      "thickness_m": 0.15,
+      "density_kg_m3": 2300.0,
+      "thermal_conductivity_w_mk": 1.74,
+      "specific_heat_j_kgk": 840.0,
+      "thermal_absorptance": 0.90,
+      "solar_absorptance": 0.65,
+      "visible_absorptance": 0.65,
+      "embodied_carbon_factor_kgco2e_per_kg": null,
+      "embodied_carbon_status": "not available"
+    },
+    {
+      "id": "mat_cool_roof_coating",
+      "display_name_en": "High-Albedo Reflective Cool Roof Coating (SRI >= 104)",
+      "display_name_hi": "उच्च परावर्तक कूल रूफ कोटिंग",
+      "category": "roof_finish",
+      "design_variable_mapping": {
+        "variable": "roof_solar_absorptance",
+        "threshold": "<= 0.45"
+      },
+      "unit": "m2",
+      "thermal_absorptance": 0.90,
+      "solar_absorptance": 0.30,
+      "visible_absorptance": 0.25,
+      "embodied_carbon_factor_kgco2e_per_kg": null,
+      "embodied_carbon_status": "not available"
+    },
+    {
+      "id": "mat_standard_roof_finish",
+      "display_name_en": "Standard Cementitious Waterproofing Roof Finish",
+      "display_name_hi": "मानक छत वाटरप्रूफिंग फिनिश",
+      "category": "roof_finish",
+      "design_variable_mapping": {
+        "variable": "roof_solar_absorptance",
+        "threshold": "> 0.45"
+      },
+      "unit": "m2",
+      "thermal_absorptance": 0.90,
+      "solar_absorptance": 0.70,
+      "visible_absorptance": 0.70,
+      "embodied_carbon_factor_kgco2e_per_kg": null,
+      "embodied_carbon_status": "not available"
+    },
+    {
+      "id": "mat_clear_glazing_6mm",
+      "display_name_en": "Clear Float Glass (6 mm) with Aluminium Frame",
+      "display_name_hi": "साधारण 6 मिमी कांच एवं एल्युमिनियम फ्रेम",
+      "category": "glazing",
+      "design_variable_mapping": {
+        "variable": "wwr"
+      },
+      "unit": "m2",
+      "u_factor_w_m2k": 5.8,
+      "shgc": 0.82,
+      "visible_transmittance": 0.88,
+      "embodied_carbon_factor_kgco2e_per_kg": null,
+      "embodied_carbon_status": "not available"
+    },
+    {
+      "id": "mat_shading_cantilever",
+      "display_name_en": "Exterior Cantilever Sunshade Overhang",
+      "display_name_hi": "बाहरी खिड़की सनशेड छज्जा",
+      "category": "shading",
+      "design_variable_mapping": {
+        "variable": "shading_depth"
+      },
+      "unit": "m2",
+      "density_kg_m3": 2300.0,
+      "thermal_conductivity_w_mk": 1.74,
+      "specific_heat_j_kgk": 840.0,
+      "embodied_carbon_factor_kgco2e_per_kg": null,
+      "embodied_carbon_status": "not available"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+raw_climate,koppen_code,koppen_group,group_name,rationale,distinct_buildings,raw_total_rows
+tropical wet savanna,Aw,A,Tropical,"Distinct dry winter, wet summer; tropical thermal regime",162,8383
+tropical savanna,Aw,A,Tropical,Tropical savanna biome with seasonal precipitation,55,6980
+tropical monsoon,Am,A,Tropical,High annual rainfall concentrated in monsoon season,3,2101
+tropical rainforest,Af,A,Tropical,Year-round high temperature and persistent heavy precipitation,15,1350
+tropical,A,A,Tropical,Generic tropical classification in equatorial SE Asia,8,1594
+wet equatorial,Af,A,Tropical,Equatorial belt climate with minimal seasonal temperature variation,9,1414
+tropical dry savanna,As,A,Tropical,Tropical dry-summer savanna regime,1,152
+hot semi-arid,BSh,B,Arid,Low precipitation with high mean annual temperature (>18°C),101,8642
+hot desert,BWh,B,Arid,True hyper-arid desert with high solar radiation and extreme heat,16,2083
+desert (hot arid),BWh,B,Arid,Hot arid desert classification in Pakistan / Middle East,5,2011
+hot arid,BWh/BSh,B,Arid,Arid interior climate in Australia with high daytime temperatures,38,1229
+semi arid high altitude,BSk,B,Arid,Cold/high-elevation steppe with limited precipitation,2,1072
+semi arid midlatitude,BSk,B,Arid,Mid-latitude steppe with cold winters and dry conditions,2,1066
+cold semi-arid,BSk,B,Arid,Cold steppe climate with annual mean temperature <18°C,6,242
+subtropical hot and dry,BSh,B,Arid,Ambiguous label (Cyprus): low annual rainfall (<400mm) and semi-arid regime,1,41
+hot-summer mediterranean,Csa,C,Temperate,"Mild wet winters and hot, dry summers",41,21722
+humid subtropical,Cfa,C,Temperate,"Hot, humid summers and mild winters without dry season",61,15257
+warm-summer mediterranean,Csb,C,Temperate,"Mild wet winters and warm (not hot), dry summers",8,5773
+mediterranean,Cs,C,Temperate,Generic Mediterranean dry-summer temperate regime,31,4584
+temperate oceanic,Cfb,C,Temperate,Marine west coast climate with moderate year-round temperatures,37,4422
+monsoon-influenced humid subtropical,Cwa,C,Temperate,Humid subtropical with monsoon-dominated wet summers and dry winters,39,1786
+temperate,C,C,Temperate,Generic temperate climate in central Italy and Japan,30,1760
+west coast marine,Cfb,C,Temperate,Maritime climate influenced by oceanic air masses,20,1490
+cool-summer mediterranean,Csc,C,Temperate,High-elevation or coastal cool-summer Mediterranean variant,2,1406
+subtropical highland,Cwb,C,Temperate,"Highland temperate climate with mild temperatures (Shimla, India)",4,1406
+humid midlatitude,Cfa,C,Temperate,Ambiguous label (USA/Canada): mid-latitude humid temperate zone,5,1944
+temperature marine,Cfb,C,Temperate,Typo in raw DB II for 'temperate marine' (SE Australia Cfb),7,1065
+monsoon-influenced temperate oceanic,Cwb,C,Temperate,"Cool montane monsoon climate (Shimla residential buildings, India)",60,460
+monsoon-influenced hot-summer humid continental,Dwa,D,Continental,"Severe winters (<-3°C) and hot monsoon summers (China, Korea)",15,3739
+warm-summer humid continental,Dfb,D,Continental,Humid continental with warm summers and cold snowy winters (contains non-breaking space),2,2990
+continental subarctic,Dfc,D,Continental,"Subarctic climate with long, very cold winters and brief summers (Canada)",23,869

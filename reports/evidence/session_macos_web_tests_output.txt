@@ -1,0 +1,22 @@
+
+> web@0.1.0 test
+> tsx --test tests/*.test.ts
+
+✔ computeDelta should accurately calculate percentage improvements and absolute margins (0.293625ms)
+✔ Default design variables meet all locked decision physical bounds (0.074583ms)
+✔ All 5 Indian climate stations are properly configured with D-017 confidence tiers (0.054084ms)
+✔ Enforces physical zero-clipping rule (Decision D-017) on surrogate energy outputs (0.0485ms)
+✔ haversineDistanceKm calculates accurate geographic distances between Indian cities (0.54425ms)
+✔ CPWD DSR Cost Engine produces accurate itemized cost ranges with +/- 15% variance (0.205833ms)
+✔ computeComfortFitScore calculates deterministic score bounded between 10 and 98 (0.091834ms)
+✔ matchLocation accurately falls back and attaches nearest station notice for external cities (19.568542ms)
+✔ evaluateQuestionnaire generates 3 complete packages with 12-month performance and future-climate shift (2.4985ms)
+✔ Bilingual dictionary covers all required v2 keys in both English and Hindi (0.122791ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 103.845375

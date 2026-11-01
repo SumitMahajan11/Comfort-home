@@ -1,0 +1,286 @@
+================================================================================
+BUILDING K�PPEN GROUP MAPPING SUMMARY
+================================================================================
+Total buildings: 809
+Agreed buildings: 802 (99.13%)
+Disagreed buildings: 7 (0.87%)
+
+Disagreed building details:
+ building_id  country          city                   raw_climate label_based_group geo_override_group                                                                                                 override_reason
+         168   canada        ottawa             humid midlatitude                 C                  D                       Canada location (ottawa, lat=45.42) is Continental (Dfb/Group D), not Temperate (Group C)
+         169   canada        ottawa             humid midlatitude                 C                  D                       Canada location (ottawa, lat=45.42) is Continental (Dfb/Group D), not Temperate (Group C)
+         170   canada        ottawa             humid midlatitude                 C                  D                       Canada location (ottawa, lat=45.42) is Continental (Dfb/Group D), not Temperate (Group C)
+         171   canada        ottawa             humid midlatitude                 C                  D                       Canada location (ottawa, lat=45.42) is Continental (Dfb/Group D), not Temperate (Group C)
+         607 malaysia beverly hills      hot-summer mediterranean                 C                  A Malaysia location (beverly hills, lat=4.21) is Equatorial/Tropical (Af/Am/Group A), not Mediterranean (Group C)
+         780       uk     hampshire warm-summer�humid continental                 D                  C                 UK location (hampshire, lat=55.38) is Marine Temperate (Cfb/Group C), not Continental (Group D)
+         781       uk     hampshire warm-summer�humid continental                 D                  C                 UK location (hampshire, lat=55.38) is Marine Temperate (Cfb/Group C), not Continental (Group D)
+
+Saved data/processed/building_group_map.csv
+================================================================================
+BUILDING DATASET SPLITS (BUILDING-TO-FOLD ASSIGNMENTS)
+================================================================================
+Total raw merged rows: 109,033
+Total valid TSV rows: 106,171 across 806 buildings
+Complete-case rows (with tr and core features): 58,512 (55.11%)
+Saved data/processed/comfort_tsv_all.parquet (106,171 rows) and data/processed/comfort_clean.parquet (58,512 rows)
+GroupKFold Fold 0: Train=644 bldgs (84,936 TSV rows) | Test=162 bldgs (13,304 complete-case rows)
+GroupKFold Fold 1: Train=645 bldgs (84,937 TSV rows) | Test=161 bldgs (12,319 complete-case rows)
+GroupKFold Fold 2: Train=645 bldgs (84,937 TSV rows) | Test=161 bldgs (11,840 complete-case rows)
+GroupKFold Fold 3: Train=645 bldgs (84,937 TSV rows) | Test=161 bldgs (10,248 complete-case rows)
+GroupKFold Fold 4: Train=645 bldgs (84,937 TSV rows) | Test=161 bldgs (10,801 complete-case rows)
+Leave-Group-Out (A: Tropical): Train=553 bldgs (84,317 TSV rows) | Test=253 bldgs (8,968 complete-case rows)
+Leave-Group-Out (B: Arid): Train=635 bldgs (89,861 TSV rows) | Test=171 bldgs (7,890 complete-case rows)
+Leave-Group-Out (C: Temperate): Train=464 bldgs (45,720 TSV rows) | Test=342 bldgs (36,136 complete-case rows)
+Leave-Group-Out (D: Continental): Train=766 bldgs (98,615 TSV rows) | Test=40 bldgs (5,518 complete-case rows)
+
+Saved compact splits to data/processed/splits.json (103,919 bytes)
+================================================================================
+EVALUATING PHYSICAL BASELINE MODELS (PMV & ADAPTIVE) ON IDENTICAL ROWS
+================================================================================
+Loaded 58,512 clean complete-case evaluation rows across 610 buildings.
+================================================================================
+PHYSICAL BASELINE BENCHMARKS ON COMPLETE-CASE TEST SPLITS
+================================================================================
+
+--- 1. 5-Fold GroupKFold Evaluation ---
+
+[FOLD_0] (Test Rows: 13,304, Buildings: 162)
+  PMV:          Macro-F1 = 0.4194 (95% CI: [0.3727, 0.4815]) | Recall = [0.476, 0.471, 0.325]
+  Adaptive 80%: Macro-F1 = 0.4079 (95% CI: [0.3079, 0.5118]) | Recall = [0.200, 0.712, 0.326]
+  Adaptive 90%: Macro-F1 = 0.4462 (95% CI: [0.3512, 0.5367]) | Recall = [0.258, 0.564, 0.497]
+  IMAC NV 90%:  Macro-F1 = 0.4183 (95% CI: [0.3192, 0.5071]) | Recall = [0.238, 0.333, 0.729]
+  IMAC MM 90%:  Macro-F1 = 0.4148 (95% CI: [0.3174, 0.5186]) | Recall = [0.184, 0.679, 0.393]
+
+[FOLD_1] (Test Rows: 12,319, Buildings: 161)
+  PMV:          Macro-F1 = 0.4508 (95% CI: [0.4102, 0.4843]) | Recall = [0.371, 0.516, 0.459]
+  Adaptive 80%: Macro-F1 = 0.3958 (95% CI: [0.3096, 0.4731]) | Recall = [0.163, 0.822, 0.258]
+  Adaptive 90%: Macro-F1 = 0.4522 (95% CI: [0.3849, 0.5047]) | Recall = [0.286, 0.689, 0.367]
+  IMAC NV 90%:  Macro-F1 = 0.4443 (95% CI: [0.3847, 0.4924]) | Recall = [0.337, 0.607, 0.374]
+  IMAC MM 90%:  Macro-F1 = 0.4008 (95% CI: [0.3202, 0.4765]) | Recall = [0.118, 0.803, 0.337]
+
+[FOLD_2] (Test Rows: 11,840, Buildings: 161)
+  PMV:          Macro-F1 = 0.4425 (95% CI: [0.4084, 0.4810]) | Recall = [0.374, 0.557, 0.388]
+  Adaptive 80%: Macro-F1 = 0.3677 (95% CI: [0.3191, 0.4331]) | Recall = [0.239, 0.735, 0.179]
+  Adaptive 90%: Macro-F1 = 0.4085 (95% CI: [0.3594, 0.4725]) | Recall = [0.420, 0.553, 0.265]
+  IMAC NV 90%:  Macro-F1 = 0.3856 (95% CI: [0.3353, 0.4510]) | Recall = [0.511, 0.431, 0.255]
+  IMAC MM 90%:  Macro-F1 = 0.3668 (95% CI: [0.3106, 0.4370]) | Recall = [0.152, 0.775, 0.234]
+
+[FOLD_3] (Test Rows: 10,248, Buildings: 161)
+  PMV:          Macro-F1 = 0.4309 (95% CI: [0.3963, 0.4660]) | Recall = [0.377, 0.457, 0.454]
+  Adaptive 80%: Macro-F1 = 0.3962 (95% CI: [0.3194, 0.4716]) | Recall = [0.186, 0.812, 0.236]
+  Adaptive 90%: Macro-F1 = 0.4349 (95% CI: [0.3740, 0.4905]) | Recall = [0.247, 0.670, 0.371]
+  IMAC NV 90%:  Macro-F1 = 0.4372 (95% CI: [0.3826, 0.4898]) | Recall = [0.219, 0.613, 0.463]
+  IMAC MM 90%:  Macro-F1 = 0.4039 (95% CI: [0.3288, 0.4752]) | Recall = [0.163, 0.769, 0.307]
+
+[FOLD_4] (Test Rows: 10,801, Buildings: 161)
+  PMV:          Macro-F1 = 0.4297 (95% CI: [0.3834, 0.4627]) | Recall = [0.286, 0.514, 0.481]
+  Adaptive 80%: Macro-F1 = 0.3823 (95% CI: [0.3190, 0.4385]) | Recall = [0.140, 0.834, 0.252]
+  Adaptive 90%: Macro-F1 = 0.4531 (95% CI: [0.3927, 0.4925]) | Recall = [0.307, 0.691, 0.356]
+  IMAC NV 90%:  Macro-F1 = 0.4563 (95% CI: [0.4004, 0.5056]) | Recall = [0.445, 0.600, 0.325]
+  IMAC MM 90%:  Macro-F1 = 0.3829 (95% CI: [0.3191, 0.4419]) | Recall = [0.093, 0.821, 0.324]
+
+5-Fold GroupKFold Mean Macro-F1 across folds:
+  PMV Mean Macro-F1:          0.4347 +/- 0.0109
+  Adaptive 80% Mean Macro-F1: 0.3900 +/- 0.0138
+  Adaptive 90% Mean Macro-F1: 0.4390 +/- 0.0166
+  IMAC NV 90% Mean Macro-F1:  0.4283 +/- 0.0247
+  IMAC MM 90% Mean Macro-F1:  0.3938 +/- 0.0169
+
+--- 2. Leave-One-K�ppen-Major-Group-Out Holdouts ---
+
+[Holdout A: Tropical] (Test Rows: 8,968, Buildings: 253)
+  PMV:          Macro-F1 = 0.4598 (95% CI: [0.4123, 0.4800]) | Recall = [0.347, 0.448, 0.593]
+  Adaptive 80%: Macro-F1 = 0.4174 (95% CI: [0.3445, 0.4516]) | Recall = [0.203, 0.771, 0.315]
+  Adaptive 90%: Macro-F1 = 0.4565 (95% CI: [0.3845, 0.4850]) | Recall = [0.362, 0.567, 0.421]
+  IMAC NV 90%:  Macro-F1 = 0.4367 (95% CI: [0.3520, 0.4854]) | Recall = [0.601, 0.477, 0.253]
+  IMAC MM 90%:  Macro-F1 = 0.3948 (95% CI: [0.3227, 0.4280]) | Recall = [0.113, 0.739, 0.412]
+
+[Holdout B: Arid] (Test Rows: 7,890, Buildings: 171)
+  PMV:          Macro-F1 = 0.4765 (95% CI: [0.4066, 0.5349]) | Recall = [0.634, 0.284, 0.692]
+  Adaptive 80%: Macro-F1 = 0.5625 (95% CI: [0.4594, 0.6211]) | Recall = [0.584, 0.587, 0.519]
+  Adaptive 90%: Macro-F1 = 0.5313 (95% CI: [0.4311, 0.6032]) | Recall = [0.652, 0.422, 0.612]
+  IMAC NV 90%:  Macro-F1 = 0.5183 (95% CI: [0.4211, 0.5893]) | Recall = [0.602, 0.479, 0.524]
+  IMAC MM 90%:  Macro-F1 = 0.5693 (95% CI: [0.4608, 0.6286]) | Recall = [0.549, 0.562, 0.596]
+
+[Holdout C: Temperate] (Test Rows: 36,136, Buildings: 342)
+  PMV:          Macro-F1 = 0.4212 (95% CI: [0.4021, 0.4423]) | Recall = [0.316, 0.571, 0.375]
+  Adaptive 80%: Macro-F1 = 0.3450 (95% CI: [0.3123, 0.3832]) | Recall = [0.093, 0.892, 0.195]
+  Adaptive 90%: Macro-F1 = 0.4060 (95% CI: [0.3735, 0.4405]) | Recall = [0.157, 0.776, 0.328]
+  IMAC NV 90%:  Macro-F1 = 0.3956 (95% CI: [0.3679, 0.4262]) | Recall = [0.114, 0.657, 0.454]
+  IMAC MM 90%:  Macro-F1 = 0.3604 (95% CI: [0.3290, 0.3976]) | Recall = [0.076, 0.868, 0.263]
+
+[Holdout D: Continental] (Test Rows: 5,518, Buildings: 40)
+  PMV:          Macro-F1 = 0.3866 (95% CI: [0.3246, 0.5068]) | Recall = [0.545, 0.549, 0.163]
+  Adaptive 80%: Macro-F1 = 0.3342 (95% CI: [0.2490, 0.4514]) | Recall = [0.077, 0.837, 0.252]
+  Adaptive 90%: Macro-F1 = 0.4066 (95% CI: [0.3222, 0.4967]) | Recall = [0.122, 0.693, 0.476]
+  IMAC NV 90%:  Macro-F1 = 0.4090 (95% CI: [0.2927, 0.4944]) | Recall = [0.109, 0.404, 0.833]
+  IMAC MM 90%:  Macro-F1 = 0.3494 (95% CI: [0.2708, 0.4464]) | Recall = [0.061, 0.810, 0.330]
+
+================================================================================
+D-012 CRITERION: MEAN MACRO-F1 ON HOLDOUTS A & B (TROPICAL & ARID)
+================================================================================
+  PMV Baseline Mean Holdout A/B Macro-F1:          0.4681
+  Adaptive 80% Baseline Mean Holdout A/B Macro-F1: 0.4899
+  Adaptive 90% Baseline Mean Holdout A/B Macro-F1: 0.4939
+  IMAC NV 90% Baseline Mean Holdout A/B Macro-F1:  0.4775
+  IMAC MM 90% Baseline Mean Holdout A/B Macro-F1:  0.4820
+
+Saved literal baseline output to reports/evidence/phase2_baselines_output.txt
+================================================================================
+PHASE 3 SIMULATION ENGINE FRESH SMOKE TEST & SANITY VERIFICATION
+================================================================================
+Cleaning previous smoke test directory: data/processed/sim_smoke_test ...
+Cleaned smoke test output directory. All runs will execute 100% fresh.
+
+Generated 10 Latin Hypercube designs (seed 42):
+
+design_id  roof_insulation_thickness  wall_insulation_thickness  roof_solar_absorptance      wwr  orientation  shading_depth  ventilation_ach wall_mass_class
+  D_00000                   0.063391                   0.143417                0.668484 0.270592   319.719033       0.502438         1.334404           heavy
+  D_00001                   0.013078                   0.068244                0.517752 0.332563    48.685242       0.217724        10.179220           heavy
+  D_00002                   0.141681                   0.104043                0.730342 0.202892   224.084650       0.764547        12.241023           light
+  D_00003                   0.078324                   0.012080                0.631997 0.258467   281.661007       0.631695         5.557333          medium
+  D_00004                   0.130113                   0.054443                0.871827 0.393369   138.935818       0.452430         7.682327          medium
+  D_00005                   0.098443                   0.017510                0.317984 0.319067   329.121873       0.919524        14.457530          medium
+  D_00006                   0.034763                   0.117904                0.828006 0.189742   151.249415       0.133515         2.812768           light
+  D_00007                   0.113116                   0.036469                0.411612 0.115991    11.904334       0.852890         4.408669           light
+  D_00008                   0.050479                   0.126696                0.446448 0.144362   106.593640       0.356328         9.099581           light
+  D_00009                   0.017199                   0.086491                0.596502 0.075152   204.859984       0.033808        11.420155           heavy
+
+--- 1. Executing 50 Free-Running Annual Simulations (10 designs x 5 cities) ---
+Launching batch of 50 simulations across 6 worker processes...
+Batch completed: 50/50 successful runs.
+
+Simulation Batch Execution Summary:
+  Total Runs Requested: 50
+  Freshly Executed:     50/50 (100.0%)
+  Skipped (Cached):     0/50
+  Failed Runs:          0/50
+  Total Severe Errors:  0
+  Total Fatal Errors:   0
+  Total Wall Time:      23.23 s (0.46 s/run average wall time across 6 workers)
+  [PASS] All 50 runs freshly executed with 0 fatal and 0 severe errors.
+
+--- 2. Spot Check for 5 Representative Runs (1 per city) ---
+  City: Jodhpur    | Design: D_00000 | Hourly CSV Rows: 8,760 (Expected: 8,760) | Status: ************* EnergyPlus Completed Successfully-- 2 Warning; 0 Severe Errors; Elapsed Time=00hr 00min  1.94sec
+  City: Mumbai     | Design: D_00001 | Hourly CSV Rows: 8,760 (Expected: 8,760) | Status: ************* EnergyPlus Completed Successfully-- 2 Warning; 0 Severe Errors; Elapsed Time=00hr 00min  2.32sec
+  City: New_Delhi  | Design: D_00002 | Hourly CSV Rows: 8,760 (Expected: 8,760) | Status: ************* EnergyPlus Completed Successfully-- 2 Warning; 0 Severe Errors; Elapsed Time=00hr 00min  2.14sec
+  City: Bengaluru  | Design: D_00003 | Hourly CSV Rows: 8,760 (Expected: 8,760) | Status: ************* EnergyPlus Completed Successfully-- 2 Warning; 0 Severe Errors; Elapsed Time=00hr 00min  2.40sec
+  City: Shimla     | Design: D_00004 | Hourly CSV Rows: 8,760 (Expected: 8,760) | Status: ************* EnergyPlus Completed Successfully-- 2 Warning; 0 Severe Errors; Elapsed Time=00hr 00min  2.33sec
+  [PASS] All 5 sample runs verified with exactly 8,760 hourly rows and literal 'EnergyPlus Completed Successfully'.
+
+--- 3. Testing Ideal-Loads HVAC Conditioning Mode (O2 Energy Calculation) ---
+  New Delhi Design D_00000 Ideal-Loads Results:
+    Annual Cooling Energy: 1201.97 kWh
+    Annual Heating Energy: 336.32 kWh
+    Objective O2 Energy:   76.91 kWh/m2/yr
+  [PASS] Ideal-loads mode verified and objective O2 successfully computed.
+
+--- 4. Physical Directional Sanity Verifications ---
+
+[Directional Check 1] Roof Solar Absorptance in Jodhpur Summer (May 1 - Jun 30):
+  Physics: Lower roof solar absorptance (0.30 vs 0.90) must lower mean indoor Ta and Tr.
+    High Absorptance (0.90): Mean Ta = 28.73 C | Mean Tr = 27.82 C
+    Low Absorptance  (0.30): Mean Ta = 28.22 C | Mean Tr = 27.16 C
+    Thermal Benefit: Delta Mean Ta = -0.51 C | Delta Mean Tr = -0.66 C
+  [PASS] Directional Check 1 passed.
+
+[Directional Check 2] Wall & Roof Insulation in Shimla Winter (Dec 1 - Feb 28):
+  Physics: Higher insulation (0.15m vs 0.01m) must raise mean free-running indoor Ta in cold winter.
+    High Insulation (0.15m): Mean Winter Ta = 17.99 C
+    Low Insulation  (0.01m): Mean Winter Ta = 15.75 C
+    Insulation Heating Benefit: Delta Mean Ta = +2.25 C
+  [PASS] Directional Check 2 passed.
+
+[Directional Check 3] Natural Ventilation in Jodhpur Summer (May 1 - Jun 30):
+  Physics: Higher ventilation (15 ACH vs 1 ACH) with night flushing reduces indoor overheating peak.
+    High Ventilation (15 ACH): Mean Ta = 28.52 C | Max Ta = 31.70 C
+    Low Ventilation  ( 1 ACH): Mean Ta = 28.55 C | Max Ta = 31.70 C
+    Ventilation Cooling Benefit: Delta Mean Ta = -0.02 C
+  [PASS] Directional Check 3 passed.
+
+================================================================================
+--- 5. SENSITIVITY ANALYSIS ACROSS 10 DESIGNS PER CITY ---
+Evaluating % of hours outside ASHRAE 55 Adaptive 90% Comfort Band (T_comf +/- 2.5 C)
+================================================================================
+     City Best Design               Best Discomfort % Worst Design               Worst Discomfort % Spread (%-pts)
+  Jodhpur     D_00000 22.35% (Cold: 20.5%, Hot: 1.8%)      D_00001 40.76% (Cold: 20.8%, Hot: 20.0%)         18.41%
+   Mumbai     D_00003   7.21% (Cold: 5.1%, Hot: 2.1%)      D_00008  38.39% (Cold: 38.4%, Hot: 0.0%)         31.18%
+New_Delhi     D_00000 27.50% (Cold: 26.6%, Hot: 0.9%)      D_00008  45.50% (Cold: 45.5%, Hot: 0.0%)         18.00%
+Bengaluru     D_00003 27.81% (Cold: 27.8%, Hot: 0.0%)      D_00008  51.32% (Cold: 51.3%, Hot: 0.0%)         23.52%
+   Shimla     D_00006 43.55% (Cold: 43.6%, Hot: 0.0%)      D_00009  62.88% (Cold: 62.9%, Hot: 0.0%)         19.33%
+
+Spread Verification (> 3.0 %-pts variation in discomfort across 10 random designs):
+  Jodhpur   : Spread = 18.41 %-points [PASS]
+  Mumbai    : Spread = 31.18 %-points [PASS]
+  New_Delhi : Spread = 18.00 %-points [PASS]
+  Bengaluru : Spread = 23.52 %-points [PASS]
+  Shimla    : Spread = 19.33 %-points [PASS]
+  [PASS] All 5 cities demonstrate strong sensitivity to passive design variables (> 3.0 %-pts spread).
+
+================================================================================
+ALL PHASE 3 SMOKE TEST & SANITY ACCEPTANCE CHECKS PASSED (0 FAILURES)
+================================================================================
+
+Saved literal smoke test evidence to reports/evidence/phase3_smoke_test_output.txt
+
+================================================================================
+STEP 1A: SHAP ANALYSIS FOR ML CHAMPION COMFORT MODEL
+================================================================================
+  -> Saved DB II SHAP metrics to data/processed/shap_champion_db2.csv
+  feature                   feature_name  mean_abs_shap_cool  mean_abs_shap_neutral  mean_abs_shap_warm  mean_abs_shap_overall
+       ta        Indoor Air Temp Ta (�C)            0.405748               0.098164            0.397702               0.300538
+t_outdoor Running Mean Outdoor Temp (�C)            0.285144               0.099165            0.258820               0.214377
+       tr      Mean Radiant Temp Tr (�C)            0.333899               0.044273            0.223858               0.200677
+      met           Metabolic Rate (met)            0.090278               0.094984            0.110027               0.098430
+      vel             Air Velocity (m/s)            0.104708               0.047870            0.122546               0.091708
+       rh       Relative Humidity RH (%)            0.067525               0.075943            0.096988               0.080152
+      clo      Clothing Insulation (clo)            0.061282               0.054245            0.066259               0.060595
+  -> Saved figure reports/figures/shap_champion_db2.png
+  -> Saved simulated hours SHAP to data/processed/shap_champion_sim_cities.csv
+  -> Saved figure reports/figures/shap_champion_sim_cities.png
+
+================================================================================
+STEP 1B: SHAP ANALYSIS FOR SURROGATE MODELS (5 Cities x 5 Targets)
+================================================================================
+  -> Saved all surrogate SHAP metrics to data/processed/shap_surrogates_summary.csv (250 rows)
+  -> Saved global figure reports/figures/shap_surrogates_global.png
+
+================================================================================
+SAMPLE LOCAL SHAP EXPLANATION (Jodhpur, O1_ml):
+================================================================================
+1. Window-to-Wall Ratio (WWR) = 15.0%: Decreases (Improves) O1_ml by 5.23 % Discomfort (SHAP: -5.228)
+2. Roof Insulation (m) = 100.0 mm: Decreases (Improves) O1_ml by 2.49 % Discomfort (SHAP: -2.486)
+3. Wall Insulation (m) = 50.0 mm: Decreases (Improves) O1_ml by 1.81 % Discomfort (SHAP: -1.809)
+
+Saved Phase 6 SHAP evidence to reports/evidence/phase6_shap_output.txt
+================================================================================
+CLIMATEADAPT-COMFORT MASTER ORCHESTRATOR
+Mode: SMOKE TEST
+EnergyPlus Executable: C:\EnergyPlusV26-2-0\energyplus.exe
+================================================================================
+
+[SMOKE] Running rapid validation across all pipeline stages...
+
+================================================================================
+STAGE 1: CLEAN DATA & BUILDING GROUP MAP
+================================================================================
+
+================================================================================
+STAGE 2: VALIDATION SPLITS GENERATION
+================================================================================
+
+================================================================================
+STAGE 3: PHYSICAL BASELINES EVALUATION
+================================================================================
+
+================================================================================
+STAGE 5: ENERGYPLUS SIMULATION ENGINE
+================================================================================
+
+================================================================================
+STAGE 10: SHAP EXPLAINABILITY PIPELINE
+================================================================================
+
+================================================================================
+PIPELINE COMPLETED SUCCESSFULLY IN 140.26 SECONDS
+================================================================================

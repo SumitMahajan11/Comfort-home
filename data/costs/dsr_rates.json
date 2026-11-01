@@ -1,0 +1,200 @@
+[
+  {
+    "item_id": "wall_medium_brick",
+    "description": "Common burnt clay brick masonry 1:6 in cement mortar for exterior walls",
+    "unit": "m2",
+    "dsr_item_code": "TO BE FILLED",
+    "rate_inr_low": null,
+    "rate_inr_high": null,
+    "dsr_edition": "TO BE FILLED",
+    "city_cost_index": {
+      "Jodhpur": null,
+      "Mumbai": null,
+      "New_Delhi": null,
+      "Bengaluru": null,
+      "Shimla": null
+    },
+    "source_note": "",
+    "status": "Awaiting manual entry from CPWD DSR book"
+  },
+  {
+    "item_id": "wall_heavy_rcc",
+    "description": "Reinforced cement concrete M25 work in walls",
+    "unit": "m2",
+    "dsr_item_code": "TO BE FILLED",
+    "rate_inr_low": null,
+    "rate_inr_high": null,
+    "dsr_edition": "TO BE FILLED",
+    "city_cost_index": {
+      "Jodhpur": null,
+      "Mumbai": null,
+      "New_Delhi": null,
+      "Bengaluru": null,
+      "Shimla": null
+    },
+    "source_note": "",
+    "status": "Awaiting manual entry from CPWD DSR book"
+  },
+  {
+    "item_id": "wall_light_drywall",
+    "description": "Lightweight fiber cement panel dry wall system with light gauge metal frame",
+    "unit": "m2",
+    "dsr_item_code": "TO BE FILLED",
+    "rate_inr_low": null,
+    "rate_inr_high": null,
+    "dsr_edition": "TO BE FILLED",
+    "city_cost_index": {
+      "Jodhpur": null,
+      "Mumbai": null,
+      "New_Delhi": null,
+      "Bengaluru": null,
+      "Shimla": null
+    },
+    "source_note": "",
+    "status": "Awaiting manual entry from CPWD DSR book"
+  },
+  {
+    "item_id": "wall_insulation_eps",
+    "description": "Expanded polystyrene (EPS) / mineral wool board insulation on external walls",
+    "unit": "m3",
+    "dsr_item_code": "TO BE FILLED",
+    "rate_inr_low": null,
+    "rate_inr_high": null,
+    "dsr_edition": "TO BE FILLED",
+    "city_cost_index": {
+      "Jodhpur": null,
+      "Mumbai": null,
+      "New_Delhi": null,
+      "Bengaluru": null,
+      "Shimla": null
+    },
+    "source_note": "",
+    "status": "Awaiting manual entry from CPWD DSR book"
+  },
+  {
+    "item_id": "roof_slab_rcc",
+    "description": "Reinforced cement concrete 150mm roof slab including shuttering and reinforcement",
+    "unit": "m2",
+    "dsr_item_code": "TO BE FILLED",
+    "rate_inr_low": null,
+    "rate_inr_high": null,
+    "dsr_edition": "TO BE FILLED",
+    "city_cost_index": {
+      "Jodhpur": null,
+      "Mumbai": null,
+      "New_Delhi": null,
+      "Bengaluru": null,
+      "Shimla": null
+    },
+    "source_note": "",
+    "status": "Awaiting manual entry from CPWD DSR book"
+  },
+  {
+    "item_id": "roof_insulation_eps",
+    "description": "Expanded polystyrene (EPS) board roof thermal insulation laid in bitumen",
+    "unit": "m3",
+    "dsr_item_code": "TO BE FILLED",
+    "rate_inr_low": null,
+    "rate_inr_high": null,
+    "dsr_edition": "TO BE FILLED",
+    "city_cost_index": {
+      "Jodhpur": null,
+      "Mumbai": null,
+      "New_Delhi": null,
+      "Bengaluru": null,
+      "Shimla": null
+    },
+    "source_note": "",
+    "status": "Awaiting manual entry from CPWD DSR book"
+  },
+  {
+    "item_id": "roof_cool_coating",
+    "description": "High solar reflectance index (SRI >= 104) reflective elastomeric cool roof coating",
+    "unit": "m2",
+    "dsr_item_code": "TO BE FILLED",
+    "rate_inr_low": null,
+    "rate_inr_high": null,
+    "dsr_edition": "TO BE FILLED",
+    "city_cost_index": {
+      "Jodhpur": null,
+      "Mumbai": null,
+      "New_Delhi": null,
+      "Bengaluru": null,
+      "Shimla": null
+    },
+    "source_note": "",
+    "status": "Awaiting manual entry from CPWD DSR book"
+  },
+  {
+    "item_id": "roof_standard_finish",
+    "description": "Standard cementitious water-proofing and wearing coat terrace finish",
+    "unit": "m2",
+    "dsr_item_code": "TO BE FILLED",
+    "rate_inr_low": null,
+    "rate_inr_high": null,
+    "dsr_edition": "TO BE FILLED",
+    "city_cost_index": {
+      "Jodhpur": null,
+      "Mumbai": null,
+      "New_Delhi": null,
+      "Bengaluru": null,
+      "Shimla": null
+    },
+    "source_note": "",
+    "status": "Awaiting manual entry from CPWD DSR book"
+  },
+  {
+    "item_id": "window_glazing_standard",
+    "description": "Powder coated aluminium window frame with 6mm clear float glass glazing",
+    "unit": "m2",
+    "dsr_item_code": "TO BE FILLED",
+    "rate_inr_low": null,
+    "rate_inr_high": null,
+    "dsr_edition": "TO BE FILLED",
+    "city_cost_index": {
+      "Jodhpur": null,
+      "Mumbai": null,
+      "New_Delhi": null,
+      "Bengaluru": null,
+      "Shimla": null
+    },
+    "source_note": "",
+    "status": "Awaiting manual entry from CPWD DSR book"
+  },
+  {
+    "item_id": "shading_overhang_cantilever",
+    "description": "Cantilever horizontal exterior RCC / metallic window sunshade overhang",
+    "unit": "m2",
+    "dsr_item_code": "TO BE FILLED",
+    "rate_inr_low": null,
+    "rate_inr_high": null,
+    "dsr_edition": "TO BE FILLED",
+    "city_cost_index": {
+      "Jodhpur": null,
+      "Mumbai": null,
+      "New_Delhi": null,
+      "Bengaluru": null,
+      "Shimla": null
+    },
+    "source_note": "",
+    "status": "Awaiting manual entry from CPWD DSR book"
+  },
+  {
+    "item_id": "ventilation_louvers",
+    "description": "Operable glazed ventilation louvers / wire-mesh ventilation shutters",
+    "unit": "m2",
+    "dsr_item_code": "TO BE FILLED",
+    "rate_inr_low": null,
+    "rate_inr_high": null,
+    "dsr_edition": "TO BE FILLED",
+    "city_cost_index": {
+      "Jodhpur": null,
+      "Mumbai": null,
+      "New_Delhi": null,
+      "Bengaluru": null,
+      "Shimla": null
+    },
+    "source_note": "",
+    "status": "Awaiting manual entry from CPWD DSR book"
+  }
+]

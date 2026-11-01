@@ -1,0 +1,142 @@
+Phase 3 Full Simulation Batch Report
+Total Runs: 10000
+Successful Runs: 9988 (99.88%)
+Failed Runs: 12
+Total Wall Time: 3999.38 s
+Average Speed: 2.50 runs/s
+
+Failed Runs Details:
+[
+  {
+    "status": "FAILED",
+    "city": "Jodhpur",
+    "design_id": "D_00053",
+    "mode": "free_running",
+    "severe_errors": 1,
+    "fatal_errors": 0,
+    "error_summary": [
+      "** Severe  ** CheckWarmupConvergence: Loads Initialization, Zone=\"MAIN_ZONE\" did not converge after 25 warmup days."
+    ]
+  },
+  {
+    "status": "FAILED",
+    "city": "Jodhpur",
+    "design_id": "D_00069",
+    "mode": "free_running",
+    "severe_errors": 1,
+    "fatal_errors": 0,
+    "error_summary": [
+      "** Severe  ** CheckWarmupConvergence: Loads Initialization, Zone=\"MAIN_ZONE\" did not converge after 25 warmup days."
+    ]
+  },
+  {
+    "status": "FAILED",
+    "city": "Jodhpur",
+    "design_id": "D_00130",
+    "mode": "free_running",
+    "severe_errors": 1,
+    "fatal_errors": 0,
+    "error_summary": [
+      "** Severe  ** CheckWarmupConvergence: Loads Initialization, Zone=\"MAIN_ZONE\" did not converge after 25 warmup days."
+    ]
+  },
+  {
+    "status": "FAILED",
+    "city": "Jodhpur",
+    "design_id": "D_00184",
+    "mode": "free_running",
+    "severe_errors": 1,
+    "fatal_errors": 0,
+    "error_summary": [
+      "** Severe  ** CheckWarmupConvergence: Loads Initialization, Zone=\"MAIN_ZONE\" did not converge after 25 warmup days."
+    ]
+  },
+  {
+    "status": "FAILED",
+    "city": "Jodhpur",
+    "design_id": "D_00298",
+    "mode": "free_running",
+    "severe_errors": 1,
+    "fatal_errors": 0,
+    "error_summary": [
+      "** Severe  ** CheckWarmupConvergence: Loads Initialization, Zone=\"MAIN_ZONE\" did not converge after 25 warmup days."
+    ]
+  },
+  {
+    "status": "FAILED",
+    "city": "Jodhpur",
+    "design_id": "D_00373",
+    "mode": "free_running",
+    "severe_errors": 1,
+    "fatal_errors": 0,
+    "error_summary": [
+      "** Severe  ** CheckWarmupConvergence: Loads Initialization, Zone=\"MAIN_ZONE\" did not converge after 25 warmup days."
+    ]
+  },
+  {
+    "status": "FAILED",
+    "city": "Jodhpur",
+    "design_id": "D_00688",
+    "mode": "ideal_loads",
+    "severe_errors": 1,
+    "fatal_errors": 0,
+    "error_summary": [
+      "** Severe  ** remove: The process cannot access the file because it is being used by another process.: \"D:\\Projects\\Comfort home\\data\\processed\\sim_runs\\Jodhpur\\D_00688\\ideal_loads\\eplusout.mtr\""
+    ]
+  },
+  {
+    "status": "FAILED",
+    "city": "Jodhpur",
+    "design_id": "D_00817",
+    "mode": "free_running",
+    "severe_errors": 1,
+    "fatal_errors": 0,
+    "error_summary": [
+      "** Severe  ** CheckWarmupConvergence: Loads Initialization, Zone=\"MAIN_ZONE\" did not converge after 25 warmup days."
+    ]
+  },
+  {
+    "status": "FAILED",
+    "city": "Jodhpur",
+    "design_id": "D_00917",
+    "mode": "free_running",
+    "severe_errors": 1,
+    "fatal_errors": 0,
+    "error_summary": [
+      "** Severe  ** CheckWarmupConvergence: Loads Initialization, Zone=\"MAIN_ZONE\" did not converge after 25 warmup days."
+    ]
+  },
+  {
+    "status": "FAILED",
+    "city": "Jodhpur",
+    "design_id": "D_00964",
+    "mode": "free_running",
+    "severe_errors": 1,
+    "fatal_errors": 0,
+    "error_summary": [
+      "** Severe  ** CheckWarmupConvergence: Loads Initialization, Zone=\"MAIN_ZONE\" did not converge after 25 warmup days."
+    ]
+  },
+  {
+    "status": "FAILED",
+    "city": "New_Delhi",
+    "design_id": "D_00197",
+    "mode": "free_running",
+    "severe_errors": 1,
+    "fatal_errors": 0,
+    "error_summary": [
+      "** Severe  ** CheckWarmupConvergence: Loads Initialization, Zone=\"MAIN_ZONE\" did not converge after 25 warmup days."
+    ]
+  },
+  {
+    "status": "FAILED",
+    "city": "Bengaluru",
+    "design_id": "D_00581",
+    "mode": "ideal_loads",
+    "severe_errors": 1,
+    "fatal_errors": 0,
+    "error_summary": [
+      "** Severe  ** remove: The process cannot access the file because it is being used by another process.: \"D:\\Projects\\Comfort home\\data\\processed\\sim_runs\\Bengaluru\\D_00581\\ideal_loads\\eplusout.mtr\""
+    ]
+  }
+]

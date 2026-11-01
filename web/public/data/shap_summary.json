@@ -1,0 +1,2024 @@
+{
+  "champion_db2": [
+    {
+      "feature": "ta",
+      "feature_name": "Indoor Air Temp Ta (\u00b0C)",
+      "mean_abs_shap_cool": 0.4057478,
+      "mean_abs_shap_neutral": 0.09816392,
+      "mean_abs_shap_warm": 0.39770237,
+      "mean_abs_shap_overall": 0.30053803
+    },
+    {
+      "feature": "t_outdoor",
+      "feature_name": "Running Mean Outdoor Temp (\u00b0C)",
+      "mean_abs_shap_cool": 0.28514442,
+      "mean_abs_shap_neutral": 0.09916507,
+      "mean_abs_shap_warm": 0.25882006,
+      "mean_abs_shap_overall": 0.21437651
+    },
+    {
+      "feature": "tr",
+      "feature_name": "Mean Radiant Temp Tr (\u00b0C)",
+      "mean_abs_shap_cool": 0.33389893,
+      "mean_abs_shap_neutral": 0.044272855,
+      "mean_abs_shap_warm": 0.22385803,
+      "mean_abs_shap_overall": 0.2006766
+    },
+    {
+      "feature": "met",
+      "feature_name": "Metabolic Rate (met)",
+      "mean_abs_shap_cool": 0.09027832,
+      "mean_abs_shap_neutral": 0.09498424,
+      "mean_abs_shap_warm": 0.11002719,
+      "mean_abs_shap_overall": 0.09842992
+    },
+    {
+      "feature": "vel",
+      "feature_name": "Air Velocity (m/s)",
+      "mean_abs_shap_cool": 0.104708344,
+      "mean_abs_shap_neutral": 0.04786969,
+      "mean_abs_shap_warm": 0.12254606,
+      "mean_abs_shap_overall": 0.09170803
+    },
+    {
+      "feature": "rh",
+      "feature_name": "Relative Humidity RH (%)",
+      "mean_abs_shap_cool": 0.06752524,
+      "mean_abs_shap_neutral": 0.07594296,
+      "mean_abs_shap_warm": 0.09698833,
+      "mean_abs_shap_overall": 0.08015218
+    },
+    {
+      "feature": "clo",
+      "feature_name": "Clothing Insulation (clo)",
+      "mean_abs_shap_cool": 0.061282016,
+      "mean_abs_shap_neutral": 0.054244593,
+      "mean_abs_shap_warm": 0.06625945,
+      "mean_abs_shap_overall": 0.060595352
+    }
+  ],
+  "champion_sim_cities": [
+    {
+      "city": "Jodhpur",
+      "feature": "ta",
+      "feature_name": "Indoor Air Temp Ta (\u00b0C)",
+      "mean_abs_shap_neutral": 0.05340105
+    },
+    {
+      "city": "Jodhpur",
+      "feature": "tr",
+      "feature_name": "Mean Radiant Temp Tr (\u00b0C)",
+      "mean_abs_shap_neutral": 0.037287805
+    },
+    {
+      "city": "Jodhpur",
+      "feature": "rh",
+      "feature_name": "Relative Humidity RH (%)",
+      "mean_abs_shap_neutral": 0.117406294
+    },
+    {
+      "city": "Jodhpur",
+      "feature": "vel",
+      "feature_name": "Air Velocity (m/s)",
+      "mean_abs_shap_neutral": 0.017975472
+    },
+    {
+      "city": "Jodhpur",
+      "feature": "clo",
+      "feature_name": "Clothing Insulation (clo)",
+      "mean_abs_shap_neutral": 0.034547646
+    },
+    {
+      "city": "Jodhpur",
+      "feature": "met",
+      "feature_name": "Metabolic Rate (met)",
+      "mean_abs_shap_neutral": 0.07827792
+    },
+    {
+      "city": "Jodhpur",
+      "feature": "t_outdoor",
+      "feature_name": "Running Mean Outdoor Temp (\u00b0C)",
+      "mean_abs_shap_neutral": 0.080437005
+    },
+    {
+      "city": "Mumbai",
+      "feature": "ta",
+      "feature_name": "Indoor Air Temp Ta (\u00b0C)",
+      "mean_abs_shap_neutral": 0.022983054
+    },
+    {
+      "city": "Mumbai",
+      "feature": "tr",
+      "feature_name": "Mean Radiant Temp Tr (\u00b0C)",
+      "mean_abs_shap_neutral": 0.03371822
+    },
+    {
+      "city": "Mumbai",
+      "feature": "rh",
+      "feature_name": "Relative Humidity RH (%)",
+      "mean_abs_shap_neutral": 0.16529077
+    },
+    {
+      "city": "Mumbai",
+      "feature": "vel",
+      "feature_name": "Air Velocity (m/s)",
+      "mean_abs_shap_neutral": 0.012316534
+    },
+    {
+      "city": "Mumbai",
+      "feature": "clo",
+      "feature_name": "Clothing Insulation (clo)",
+      "mean_abs_shap_neutral": 0.028787404
+    },
+    {
+      "city": "Mumbai",
+      "feature": "met",
+      "feature_name": "Metabolic Rate (met)",
+      "mean_abs_shap_neutral": 0.06072552
+    },
+    {
+      "city": "Mumbai",
+      "feature": "t_outdoor",
+      "feature_name": "Running Mean Outdoor Temp (\u00b0C)",
+      "mean_abs_shap_neutral": 0.056905594
+    },
+    {
+      "city": "New_Delhi",
+      "feature": "ta",
+      "feature_name": "Indoor Air Temp Ta (\u00b0C)",
+      "mean_abs_shap_neutral": 0.04822637
+    },
+    {
+      "city": "New_Delhi",
+      "feature": "tr",
+      "feature_name": "Mean Radiant Temp Tr (\u00b0C)",
+      "mean_abs_shap_neutral": 0.03630089
+    },
+    {
+      "city": "New_Delhi",
+      "feature": "rh",
+      "feature_name": "Relative Humidity RH (%)",
+      "mean_abs_shap_neutral": 0.12813419
+    },
+    {
+      "city": "New_Delhi",
+      "feature": "vel",
+      "feature_name": "Air Velocity (m/s)",
+      "mean_abs_shap_neutral": 0.023664726
+    },
+    {
+      "city": "New_Delhi",
+      "feature": "clo",
+      "feature_name": "Clothing Insulation (clo)",
+      "mean_abs_shap_neutral": 0.03315677
+    },
+    {
+      "city": "New_Delhi",
+      "feature": "met",
+      "feature_name": "Metabolic Rate (met)",
+      "mean_abs_shap_neutral": 0.06346988
+    },
+    {
+      "city": "New_Delhi",
+      "feature": "t_outdoor",
+      "feature_name": "Running Mean Outdoor Temp (\u00b0C)",
+      "mean_abs_shap_neutral": 0.07649375
+    },
+    {
+      "city": "Bengaluru",
+      "feature": "ta",
+      "feature_name": "Indoor Air Temp Ta (\u00b0C)",
+      "mean_abs_shap_neutral": 0.02667515
+    },
+    {
+      "city": "Bengaluru",
+      "feature": "tr",
+      "feature_name": "Mean Radiant Temp Tr (\u00b0C)",
+      "mean_abs_shap_neutral": 0.02938405
+    },
+    {
+      "city": "Bengaluru",
+      "feature": "rh",
+      "feature_name": "Relative Humidity RH (%)",
+      "mean_abs_shap_neutral": 0.16373594
+    },
+    {
+      "city": "Bengaluru",
+      "feature": "vel",
+      "feature_name": "Air Velocity (m/s)",
+      "mean_abs_shap_neutral": 0.016710069
+    },
+    {
+      "city": "Bengaluru",
+      "feature": "clo",
+      "feature_name": "Clothing Insulation (clo)",
+      "mean_abs_shap_neutral": 0.022611914
+    },
+    {
+      "city": "Bengaluru",
+      "feature": "met",
+      "feature_name": "Metabolic Rate (met)",
+      "mean_abs_shap_neutral": 0.07644092
+    },
+    {
+      "city": "Bengaluru",
+      "feature": "t_outdoor",
+      "feature_name": "Running Mean Outdoor Temp (\u00b0C)",
+      "mean_abs_shap_neutral": 0.065326855
+    },
+    {
+      "city": "Shimla",
+      "feature": "ta",
+      "feature_name": "Indoor Air Temp Ta (\u00b0C)",
+      "mean_abs_shap_neutral": 0.06973117
+    },
+    {
+      "city": "Shimla",
+      "feature": "tr",
+      "feature_name": "Mean Radiant Temp Tr (\u00b0C)",
+      "mean_abs_shap_neutral": 0.041798547
+    },
+    {
+      "city": "Shimla",
+      "feature": "rh",
+      "feature_name": "Relative Humidity RH (%)",
+      "mean_abs_shap_neutral": 0.09648474
+    },
+    {
+      "city": "Shimla",
+      "feature": "vel",
+      "feature_name": "Air Velocity (m/s)",
+      "mean_abs_shap_neutral": 0.023480324
+    },
+    {
+      "city": "Shimla",
+      "feature": "clo",
+      "feature_name": "Clothing Insulation (clo)",
+      "mean_abs_shap_neutral": 0.026808523
+    },
+    {
+      "city": "Shimla",
+      "feature": "met",
+      "feature_name": "Metabolic Rate (met)",
+      "mean_abs_shap_neutral": 0.077629134
+    },
+    {
+      "city": "Shimla",
+      "feature": "t_outdoor",
+      "feature_name": "Running Mean Outdoor Temp (\u00b0C)",
+      "mean_abs_shap_neutral": 0.09405465
+    }
+  ],
+  "surrogates": [
+    {
+      "city": "Jodhpur",
+      "target": "O1_ml",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 2.833678
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_ml",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 3.5698073
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_ml",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 0.73096424
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_ml",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 4.026426
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_ml",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.080213875
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_ml",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 0.9124907
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_ml",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 0.30703166
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_ml",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.07932203
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_ml",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.25310045
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_ml",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.043810233
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_adapt",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 2.0024698
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_adapt",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 3.0502536
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_adapt",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 0.7348706
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_adapt",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 3.6683986
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_adapt",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.15278915
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_adapt",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 0.9462171
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_adapt",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 0.98376507
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_adapt",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.03587019
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_adapt",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 1.6421511
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O1_adapt",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.14170198
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O2",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 13.856701
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O2",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 19.076216
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O2",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 4.499674
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O2",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 22.309074
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O2",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.1853508
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O2",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 3.8862054
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O2",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 26.068012
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O2",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.8817504
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O2",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 1.8805203
+    },
+    {
+      "city": "Jodhpur",
+      "target": "O2",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.08271605
+    },
+    {
+      "city": "Jodhpur",
+      "target": "warm_ml",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 3.6152444
+    },
+    {
+      "city": "Jodhpur",
+      "target": "warm_ml",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 5.899462
+    },
+    {
+      "city": "Jodhpur",
+      "target": "warm_ml",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 1.8021941
+    },
+    {
+      "city": "Jodhpur",
+      "target": "warm_ml",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 8.079439
+    },
+    {
+      "city": "Jodhpur",
+      "target": "warm_ml",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.098220624
+    },
+    {
+      "city": "Jodhpur",
+      "target": "warm_ml",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 2.1535215
+    },
+    {
+      "city": "Jodhpur",
+      "target": "warm_ml",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 0.23767811
+    },
+    {
+      "city": "Jodhpur",
+      "target": "warm_ml",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.23822565
+    },
+    {
+      "city": "Jodhpur",
+      "target": "warm_ml",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.758613
+    },
+    {
+      "city": "Jodhpur",
+      "target": "warm_ml",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.011862017
+    },
+    {
+      "city": "Jodhpur",
+      "target": "cool_ml",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 0.8264169
+    },
+    {
+      "city": "Jodhpur",
+      "target": "cool_ml",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 2.4771771
+    },
+    {
+      "city": "Jodhpur",
+      "target": "cool_ml",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 1.0956253
+    },
+    {
+      "city": "Jodhpur",
+      "target": "cool_ml",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 4.5265927
+    },
+    {
+      "city": "Jodhpur",
+      "target": "cool_ml",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.0382573
+    },
+    {
+      "city": "Jodhpur",
+      "target": "cool_ml",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 1.2724781
+    },
+    {
+      "city": "Jodhpur",
+      "target": "cool_ml",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 0.53700656
+    },
+    {
+      "city": "Jodhpur",
+      "target": "cool_ml",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.07010799
+    },
+    {
+      "city": "Jodhpur",
+      "target": "cool_ml",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.6494108
+    },
+    {
+      "city": "Jodhpur",
+      "target": "cool_ml",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.0069419225
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_ml",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 1.0951372
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_ml",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 2.3810463
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_ml",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 0.56329143
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_ml",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 3.3409927
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_ml",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.16865677
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_ml",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 0.5561304
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_ml",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 0.2865289
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_ml",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.033239473
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_ml",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.99926573
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_ml",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.031703264
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_adapt",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 2.166991
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_adapt",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 4.7449207
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_adapt",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 0.924786
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_adapt",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 5.389926
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_adapt",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.20006986
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_adapt",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 0.84246737
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_adapt",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 0.51830536
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_adapt",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.039110407
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_adapt",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 2.4314554
+    },
+    {
+      "city": "Mumbai",
+      "target": "O1_adapt",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.07819522
+    },
+    {
+      "city": "Mumbai",
+      "target": "O2",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 11.186863
+    },
+    {
+      "city": "Mumbai",
+      "target": "O2",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 15.294457
+    },
+    {
+      "city": "Mumbai",
+      "target": "O2",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 5.184066
+    },
+    {
+      "city": "Mumbai",
+      "target": "O2",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 22.044044
+    },
+    {
+      "city": "Mumbai",
+      "target": "O2",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.24455424
+    },
+    {
+      "city": "Mumbai",
+      "target": "O2",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 6.659936
+    },
+    {
+      "city": "Mumbai",
+      "target": "O2",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 0.4584124
+    },
+    {
+      "city": "Mumbai",
+      "target": "O2",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.8062493
+    },
+    {
+      "city": "Mumbai",
+      "target": "O2",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 1.2862569
+    },
+    {
+      "city": "Mumbai",
+      "target": "O2",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.032027747
+    },
+    {
+      "city": "Mumbai",
+      "target": "warm_ml",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 2.4217448
+    },
+    {
+      "city": "Mumbai",
+      "target": "warm_ml",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 2.6871269
+    },
+    {
+      "city": "Mumbai",
+      "target": "warm_ml",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 1.2814986
+    },
+    {
+      "city": "Mumbai",
+      "target": "warm_ml",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 4.3939657
+    },
+    {
+      "city": "Mumbai",
+      "target": "warm_ml",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.068929456
+    },
+    {
+      "city": "Mumbai",
+      "target": "warm_ml",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 2.1576774
+    },
+    {
+      "city": "Mumbai",
+      "target": "warm_ml",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 0.10358116
+    },
+    {
+      "city": "Mumbai",
+      "target": "warm_ml",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.19415212
+    },
+    {
+      "city": "Mumbai",
+      "target": "warm_ml",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.14409608
+    },
+    {
+      "city": "Mumbai",
+      "target": "warm_ml",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.011335781
+    },
+    {
+      "city": "Mumbai",
+      "target": "cool_ml",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 2.3750548
+    },
+    {
+      "city": "Mumbai",
+      "target": "cool_ml",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 4.8743463
+    },
+    {
+      "city": "Mumbai",
+      "target": "cool_ml",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 1.660219
+    },
+    {
+      "city": "Mumbai",
+      "target": "cool_ml",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 6.8947425
+    },
+    {
+      "city": "Mumbai",
+      "target": "cool_ml",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.06764589
+    },
+    {
+      "city": "Mumbai",
+      "target": "cool_ml",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 2.0177083
+    },
+    {
+      "city": "Mumbai",
+      "target": "cool_ml",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 0.29125714
+    },
+    {
+      "city": "Mumbai",
+      "target": "cool_ml",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.19607942
+    },
+    {
+      "city": "Mumbai",
+      "target": "cool_ml",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 1.1030002
+    },
+    {
+      "city": "Mumbai",
+      "target": "cool_ml",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.010043816
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_ml",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 2.285559
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_ml",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 2.2657483
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_ml",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 0.393572
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_ml",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 2.583325
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_ml",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.059137613
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_ml",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 0.64825577
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_ml",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 0.335659
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_ml",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.069177605
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_ml",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.13884965
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_ml",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.016246626
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_adapt",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 1.5766076
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_adapt",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 2.5555003
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_adapt",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 0.8030965
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_adapt",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 4.0043983
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_adapt",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.107258305
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_adapt",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 0.6549223
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_adapt",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 0.9656811
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_adapt",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.024034552
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_adapt",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 1.1695282
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O1_adapt",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.07053547
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O2",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 12.964901
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O2",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 16.408697
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O2",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 3.1055593
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O2",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 19.831047
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O2",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.24380915
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O2",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 3.1570206
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O2",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 41.7723
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O2",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.47059545
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O2",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 1.036439
+    },
+    {
+      "city": "New_Delhi",
+      "target": "O2",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.02460982
+    },
+    {
+      "city": "New_Delhi",
+      "target": "warm_ml",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 2.7974827
+    },
+    {
+      "city": "New_Delhi",
+      "target": "warm_ml",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 3.9260478
+    },
+    {
+      "city": "New_Delhi",
+      "target": "warm_ml",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 1.2871059
+    },
+    {
+      "city": "New_Delhi",
+      "target": "warm_ml",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 5.9183693
+    },
+    {
+      "city": "New_Delhi",
+      "target": "warm_ml",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.06949524
+    },
+    {
+      "city": "New_Delhi",
+      "target": "warm_ml",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 1.6877352
+    },
+    {
+      "city": "New_Delhi",
+      "target": "warm_ml",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 0.15798947
+    },
+    {
+      "city": "New_Delhi",
+      "target": "warm_ml",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.17397209
+    },
+    {
+      "city": "New_Delhi",
+      "target": "warm_ml",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.31671768
+    },
+    {
+      "city": "New_Delhi",
+      "target": "warm_ml",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.00625105
+    },
+    {
+      "city": "New_Delhi",
+      "target": "cool_ml",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 0.566581
+    },
+    {
+      "city": "New_Delhi",
+      "target": "cool_ml",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 1.8513585
+    },
+    {
+      "city": "New_Delhi",
+      "target": "cool_ml",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 0.9083428
+    },
+    {
+      "city": "New_Delhi",
+      "target": "cool_ml",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 4.0086303
+    },
+    {
+      "city": "New_Delhi",
+      "target": "cool_ml",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.039580632
+    },
+    {
+      "city": "New_Delhi",
+      "target": "cool_ml",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 1.273497
+    },
+    {
+      "city": "New_Delhi",
+      "target": "cool_ml",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 0.52093387
+    },
+    {
+      "city": "New_Delhi",
+      "target": "cool_ml",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.05487548
+    },
+    {
+      "city": "New_Delhi",
+      "target": "cool_ml",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.36881432
+    },
+    {
+      "city": "New_Delhi",
+      "target": "cool_ml",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.0050842427
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_ml",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 1.0374495
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_ml",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 2.331519
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_ml",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 0.911352
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_ml",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 3.7384024
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_ml",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.059368115
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_ml",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 0.8250064
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_ml",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 1.0508784
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_ml",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.030898819
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_ml",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.50583845
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_ml",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.017875375
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_adapt",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 1.5696707
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_adapt",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 3.6777186
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_adapt",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 1.2957865
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_adapt",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 4.506119
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_adapt",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.12157361
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_adapt",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 0.59553623
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_adapt",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 1.7472647
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_adapt",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.02736316
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_adapt",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 1.3857363
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O1_adapt",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.0585955
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O2",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 4.6535153
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O2",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 2.37569
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O2",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 1.8292607
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O2",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 7.198196
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O2",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.1000484
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O2",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 2.3845558
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O2",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 5.5858197
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O2",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.015262621
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O2",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.8362606
+    },
+    {
+      "city": "Bengaluru",
+      "target": "O2",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.20922823
+    },
+    {
+      "city": "Bengaluru",
+      "target": "warm_ml",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 1.4072198
+    },
+    {
+      "city": "Bengaluru",
+      "target": "warm_ml",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 0.95971835
+    },
+    {
+      "city": "Bengaluru",
+      "target": "warm_ml",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 0.7484673
+    },
+    {
+      "city": "Bengaluru",
+      "target": "warm_ml",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 2.023901
+    },
+    {
+      "city": "Bengaluru",
+      "target": "warm_ml",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.03928629
+    },
+    {
+      "city": "Bengaluru",
+      "target": "warm_ml",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 0.9074081
+    },
+    {
+      "city": "Bengaluru",
+      "target": "warm_ml",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 0.100517765
+    },
+    {
+      "city": "Bengaluru",
+      "target": "warm_ml",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.012324367
+    },
+    {
+      "city": "Bengaluru",
+      "target": "warm_ml",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.02989307
+    },
+    {
+      "city": "Bengaluru",
+      "target": "warm_ml",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.08633827
+    },
+    {
+      "city": "Bengaluru",
+      "target": "cool_ml",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 2.306825
+    },
+    {
+      "city": "Bengaluru",
+      "target": "cool_ml",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 3.3114305
+    },
+    {
+      "city": "Bengaluru",
+      "target": "cool_ml",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 1.6568576
+    },
+    {
+      "city": "Bengaluru",
+      "target": "cool_ml",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 5.5375495
+    },
+    {
+      "city": "Bengaluru",
+      "target": "cool_ml",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.05313846
+    },
+    {
+      "city": "Bengaluru",
+      "target": "cool_ml",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 1.6959916
+    },
+    {
+      "city": "Bengaluru",
+      "target": "cool_ml",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 1.1256844
+    },
+    {
+      "city": "Bengaluru",
+      "target": "cool_ml",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.068964936
+    },
+    {
+      "city": "Bengaluru",
+      "target": "cool_ml",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.38531494
+    },
+    {
+      "city": "Bengaluru",
+      "target": "cool_ml",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.0046479497
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_ml",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 0.49488947
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_ml",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 0.69760084
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_ml",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 0.8946391
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_ml",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 3.0252864
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_ml",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.046570778
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_ml",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 1.2376972
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_ml",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 0.9430306
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_ml",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.007716008
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_ml",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.012023262
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_ml",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.028754417
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_adapt",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 0.60687107
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_adapt",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 1.4176784
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_adapt",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 1.9025254
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_adapt",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 3.4242065
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_adapt",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.08203885
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_adapt",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 1.432326
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_adapt",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 2.1269147
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_adapt",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.03070725
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_adapt",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.7438653
+    },
+    {
+      "city": "Shimla",
+      "target": "O1_adapt",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.018149165
+    },
+    {
+      "city": "Shimla",
+      "target": "O2",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 8.516577
+    },
+    {
+      "city": "Shimla",
+      "target": "O2",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 5.9699
+    },
+    {
+      "city": "Shimla",
+      "target": "O2",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 2.0047014
+    },
+    {
+      "city": "Shimla",
+      "target": "O2",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 2.9004889
+    },
+    {
+      "city": "Shimla",
+      "target": "O2",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.1920629
+    },
+    {
+      "city": "Shimla",
+      "target": "O2",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 2.3207123
+    },
+    {
+      "city": "Shimla",
+      "target": "O2",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 111.90897
+    },
+    {
+      "city": "Shimla",
+      "target": "O2",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.043072384
+    },
+    {
+      "city": "Shimla",
+      "target": "O2",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.312941
+    },
+    {
+      "city": "Shimla",
+      "target": "O2",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.33370125
+    },
+    {
+      "city": "Shimla",
+      "target": "warm_ml",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 0.47392902
+    },
+    {
+      "city": "Shimla",
+      "target": "warm_ml",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 0.11578734
+    },
+    {
+      "city": "Shimla",
+      "target": "warm_ml",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 0.27132994
+    },
+    {
+      "city": "Shimla",
+      "target": "warm_ml",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 0.41810325
+    },
+    {
+      "city": "Shimla",
+      "target": "warm_ml",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.018063813
+    },
+    {
+      "city": "Shimla",
+      "target": "warm_ml",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 0.22780244
+    },
+    {
+      "city": "Shimla",
+      "target": "warm_ml",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 0.14981665
+    },
+    {
+      "city": "Shimla",
+      "target": "warm_ml",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.001548503
+    },
+    {
+      "city": "Shimla",
+      "target": "warm_ml",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.04648339
+    },
+    {
+      "city": "Shimla",
+      "target": "warm_ml",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.002663483
+    },
+    {
+      "city": "Shimla",
+      "target": "cool_ml",
+      "feature": "roof_insulation_thickness",
+      "feature_name": "Roof Insulation (m)",
+      "mean_abs_shap": 0.88642967
+    },
+    {
+      "city": "Shimla",
+      "target": "cool_ml",
+      "feature": "wall_insulation_thickness",
+      "feature_name": "Wall Insulation (m)",
+      "mean_abs_shap": 0.83057606
+    },
+    {
+      "city": "Shimla",
+      "target": "cool_ml",
+      "feature": "roof_solar_absorptance",
+      "feature_name": "Roof Solar Absorptance",
+      "mean_abs_shap": 1.1493915
+    },
+    {
+      "city": "Shimla",
+      "target": "cool_ml",
+      "feature": "wwr",
+      "feature_name": "Window-to-Wall Ratio (WWR)",
+      "mean_abs_shap": 3.4650576
+    },
+    {
+      "city": "Shimla",
+      "target": "cool_ml",
+      "feature": "orientation",
+      "feature_name": "Orientation (deg)",
+      "mean_abs_shap": 0.029584708
+    },
+    {
+      "city": "Shimla",
+      "target": "cool_ml",
+      "feature": "shading_depth",
+      "feature_name": "Shading Depth (m)",
+      "mean_abs_shap": 1.4626175
+    },
+    {
+      "city": "Shimla",
+      "target": "cool_ml",
+      "feature": "ventilation_ach",
+      "feature_name": "Ventilation (ACH)",
+      "mean_abs_shap": 1.097854
+    },
+    {
+      "city": "Shimla",
+      "target": "cool_ml",
+      "feature": "wall_mass_heavy",
+      "feature_name": "Wall Mass: Heavy (Concrete)",
+      "mean_abs_shap": 0.004718866
+    },
+    {
+      "city": "Shimla",
+      "target": "cool_ml",
+      "feature": "wall_mass_light",
+      "feature_name": "Wall Mass: Light (Sheet)",
+      "mean_abs_shap": 0.050510734
+    },
+    {
+      "city": "Shimla",
+      "target": "cool_ml",
+      "feature": "wall_mass_medium",
+      "feature_name": "Wall Mass: Medium (Clay Brick)",
+      "mean_abs_shap": 0.041730024
+    }
+  ]
+}

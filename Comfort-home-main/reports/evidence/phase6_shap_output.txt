@@ -1,0 +1,50 @@
+PHASE 6 SHAP EXPLAINABILITY EVIDENCE OUTPUT
+================================================================================
+
+ML CHAMPION DB II SHAP IMPORTANCE:
+  feature                   feature_name  mean_abs_shap_cool  mean_abs_shap_neutral  mean_abs_shap_warm  mean_abs_shap_overall
+       ta        Indoor Air Temp Ta (°C)            0.405748               0.098164            0.397702               0.300538
+t_outdoor Running Mean Outdoor Temp (°C)            0.285144               0.099165            0.258820               0.214377
+       tr      Mean Radiant Temp Tr (°C)            0.333899               0.044273            0.223858               0.200677
+      met           Metabolic Rate (met)            0.090278               0.094984            0.110027               0.098430
+      vel             Air Velocity (m/s)            0.104708               0.047870            0.122546               0.091708
+       rh       Relative Humidity RH (%)            0.067525               0.075943            0.096988               0.080152
+      clo      Clothing Insulation (clo)            0.061282               0.054245            0.066259               0.060595
+
+SURROGATE SHAP TOP DRIVERS SUMMARY (Head):
+   city   target                   feature                   feature_name  mean_abs_shap
+Jodhpur    O1_ml roof_insulation_thickness            Roof Insulation (m)       2.833678
+Jodhpur    O1_ml wall_insulation_thickness            Wall Insulation (m)       3.569807
+Jodhpur    O1_ml    roof_solar_absorptance         Roof Solar Absorptance       0.730964
+Jodhpur    O1_ml                       wwr     Window-to-Wall Ratio (WWR)       4.026426
+Jodhpur    O1_ml               orientation              Orientation (deg)       0.080214
+Jodhpur    O1_ml             shading_depth              Shading Depth (m)       0.912491
+Jodhpur    O1_ml           ventilation_ach              Ventilation (ACH)       0.307032
+Jodhpur    O1_ml           wall_mass_heavy    Wall Mass: Heavy (Concrete)       0.079322
+Jodhpur    O1_ml           wall_mass_light       Wall Mass: Light (Sheet)       0.253100
+Jodhpur    O1_ml          wall_mass_medium Wall Mass: Medium (Clay Brick)       0.043810
+Jodhpur O1_adapt roof_insulation_thickness            Roof Insulation (m)       2.002470
+Jodhpur O1_adapt wall_insulation_thickness            Wall Insulation (m)       3.050254
+Jodhpur O1_adapt    roof_solar_absorptance         Roof Solar Absorptance       0.734871
+Jodhpur O1_adapt                       wwr     Window-to-Wall Ratio (WWR)       3.668399
+Jodhpur O1_adapt               orientation              Orientation (deg)       0.152789
+Jodhpur O1_adapt             shading_depth              Shading Depth (m)       0.946217
+Jodhpur O1_adapt           ventilation_ach              Ventilation (ACH)       0.983765
+Jodhpur O1_adapt           wall_mass_heavy    Wall Mass: Heavy (Concrete)       0.035870
+Jodhpur O1_adapt           wall_mass_light       Wall Mass: Light (Sheet)       1.642151
+Jodhpur O1_adapt          wall_mass_medium Wall Mass: Medium (Clay Brick)       0.141702
+Jodhpur       O2 roof_insulation_thickness            Roof Insulation (m)      13.856701
+Jodhpur       O2 wall_insulation_thickness            Wall Insulation (m)      19.076216
+Jodhpur       O2    roof_solar_absorptance         Roof Solar Absorptance       4.499674
+Jodhpur       O2                       wwr     Window-to-Wall Ratio (WWR)      22.309074
+Jodhpur       O2               orientation              Orientation (deg)       0.185351
+Jodhpur       O2             shading_depth              Shading Depth (m)       3.886205
+Jodhpur       O2           ventilation_ach              Ventilation (ACH)      26.068012
+Jodhpur       O2           wall_mass_heavy    Wall Mass: Heavy (Concrete)       0.881750
+Jodhpur       O2           wall_mass_light       Wall Mass: Light (Sheet)       1.880520
+Jodhpur       O2          wall_mass_medium Wall Mass: Medium (Clay Brick)       0.082716
+
+SAMPLE LOCAL DRIVER OUTPUT (Jodhpur):
+  1. Window-to-Wall Ratio (WWR) = 15.0%: Decreases (Improves) O1_ml by 5.23 % Discomfort (SHAP: -5.228)
+  2. Roof Insulation (m) = 100.0 mm: Decreases (Improves) O1_ml by 2.49 % Discomfort (SHAP: -2.486)
+  3. Wall Insulation (m) = 50.0 mm: Decreases (Improves) O1_ml by 1.81 % Discomfort (SHAP: -1.809)

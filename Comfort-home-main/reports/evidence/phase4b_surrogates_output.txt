@@ -1,0 +1,62 @@
+================================================================================
+PHASE 4B SURROGATE MODELS & APPLICABILITY EVIDENCE OUTPUT
+================================================================================
+
+--- 1. APPLICABILITY DOMAIN EVALUATION (DB II 1st to 99th Percentile Envelope) ---
+Total simulated cities: 5
+  City: Jodhpur    | Ta in env:  99.60% | RH in env:  68.70% | All features in env:  53.91% | Adaptive 90% valid:  86.85% | ML Under-80% Flag: True
+  City: Mumbai     | Ta in env:  99.99% | RH in env:  27.92% | All features in env:  27.91% | Adaptive 90% valid: 100.00% | ML Under-80% Flag: True
+  City: New_Delhi  | Ta in env:  99.68% | RH in env:  59.49% | All features in env:  53.12% | Adaptive 90% valid:  89.86% | ML Under-80% Flag: True
+  City: Bengaluru  | Ta in env: 100.00% | RH in env:  43.39% | All features in env:  43.39% | Adaptive 90% valid: 100.00% | ML Under-80% Flag: True
+  City: Shimla     | Ta in env:  98.24% | RH in env:  79.46% | All features in env:  77.26% | Adaptive 90% valid:  73.97% | ML Under-80% Flag: True
+
+Applicability summary numbers:
+  Mumbai in-envelope: 27.91% (27.9%), RH in-envelope: 27.92%, Ta: 99.99%, Adaptive 90% valid: 100.00%, Spearman rs: 0.945
+  Bengaluru in-envelope: 43.39%, Ta: 100.00%, Adaptive 90% valid: 100.00%, Spearman rs: 0.943
+  Shimla in-envelope: 77.26%, Ta: 98.24%, RH: 79.46%, Adaptive 90% valid: 73.97%, Spearman rs: 0.868
+  New Delhi in-envelope: 53.12%, Ta: 99.68%, RH: 59.49%, Adaptive 90% valid: 89.86%, Spearman rs: 0.195
+  Jodhpur in-envelope: 53.91%, Ta: 99.60%, RH: 68.70%, Adaptive 90% valid: 86.85%, Spearman rs: 0.109
+
+--- 2. SURROGATE MODEL ACCURACY (25 Targets across 5 Cities on 7,483 valid designs) ---
+Total models evaluated: 25 | Total training designs: 7,483
+Models meeting R2 >= 0.95 threshold: 23/25 (S2 Status: PARTIAL)
+
+Surrogate performance table:
+  Jodhpur    | O1_ml      | Test R2: 0.9753 | MAE: 0.99% | NMAE: 2.48% | Top10 Overlap: 76.7% | S2: PASS
+  Jodhpur    | warm_ml    | Test R2: 0.9862 | MAE: 1.20% | NMAE: 2.12% | Top10 Overlap: 96.7% | S2: PASS
+  Jodhpur    | cool_ml    | Test R2: 0.9891 | MAE: 0.55% | NMAE: 1.33% | Top10 Overlap: 90.0% | S2: PASS
+  Jodhpur    | O1_adapt   | Test R2: 0.9514 | MAE: 1.46% | NMAE: 2.38% | Top10 Overlap: 86.7% | S2: PASS
+  Jodhpur    | O2         | Test R2: 0.9879 | MAE: 4.11% | NMAE: 1.29% | Top10 Overlap: 90.0% | S2: PASS
+  Mumbai     | O1_ml      | Test R2: 0.9406 | MAE: 1.27% | NMAE: 2.84% | Top10 Overlap: 83.3% | S2: FAIL
+  Mumbai     | warm_ml    | Test R2: 0.9765 | MAE: 0.96% | NMAE: 2.30% | Top10 Overlap: 33.3% | S2: PASS
+  Mumbai     | cool_ml    | Test R2: 0.9853 | MAE: 1.01% | NMAE: 1.55% | Top10 Overlap: 93.3% | S2: PASS
+  Mumbai     | O1_adapt   | Test R2: 0.9606 | MAE: 1.77% | NMAE: 2.25% | Top10 Overlap: 83.3% | S2: PASS
+  Mumbai     | O2         | Test R2: 0.9872 | MAE: 3.16% | NMAE: 1.51% | Top10 Overlap: 90.0% | S2: PASS
+  New_Delhi  | O1_ml      | Test R2: 0.9726 | MAE: 0.77% | NMAE: 2.38% | Top10 Overlap: 83.3% | S2: PASS
+  New_Delhi  | warm_ml    | Test R2: 0.9868 | MAE: 0.84% | NMAE: 1.95% | Top10 Overlap: 93.3% | S2: PASS
+  New_Delhi  | cool_ml    | Test R2: 0.9897 | MAE: 0.48% | NMAE: 1.39% | Top10 Overlap: 83.3% | S2: PASS
+  New_Delhi  | O1_adapt   | Test R2: 0.9598 | MAE: 1.24% | NMAE: 2.22% | Top10 Overlap: 80.0% | S2: PASS
+  New_Delhi  | O2         | Test R2: 0.9913 | MAE: 4.09% | NMAE: 1.18% | Top10 Overlap: 93.3% | S2: PASS
+  Bengaluru  | O1_ml      | Test R2: 0.9768 | MAE: 0.76% | NMAE: 1.85% | Top10 Overlap: 83.3% | S2: PASS
+  Bengaluru  | warm_ml    | Test R2: 0.9749 | MAE: 0.46% | NMAE: 1.79% | Top10 Overlap: 80.0% | S2: PASS
+  Bengaluru  | cool_ml    | Test R2: 0.9859 | MAE: 0.83% | NMAE: 1.52% | Top10 Overlap: 93.3% | S2: PASS
+  Bengaluru  | O1_adapt   | Test R2: 0.9716 | MAE: 1.12% | NMAE: 1.64% | Top10 Overlap: 96.7% | S2: PASS
+  Bengaluru  | O2         | Test R2: 0.9713 | MAE: 1.70% | NMAE: 1.50% | Top10 Overlap: 93.3% | S2: PASS
+  Shimla     | O1_ml      | Test R2: 0.9812 | MAE: 0.51% | NMAE: 2.23% | Top10 Overlap: 86.7% | S2: PASS
+  Shimla     | warm_ml    | Test R2: 0.9225 | MAE: 0.21% | NMAE: 1.43% | Top10 Overlap: 76.7% | S2: FAIL
+  Shimla     | cool_ml    | Test R2: 0.9818 | MAE: 0.55% | NMAE: 1.70% | Top10 Overlap: 90.0% | S2: PASS
+  Shimla     | O1_adapt   | Test R2: 0.9598 | MAE: 0.94% | NMAE: 2.22% | Top10 Overlap: 86.7% | S2: PASS
+  Shimla     | O2         | Test R2: 0.9990 | MAE: 3.10% | NMAE: 0.62% | Top10 Overlap: 93.3% | S2: PASS
+
+Specific S2 Failures under R2 >= 0.95:
+  1. Mumbai O1_ml: test R2 = 0.9406 (MAE = 1.27%)
+  2. Shimla warm_ml: test R2 = 0.9225 (MAE = 0.21%)
+
+Energy Surrogate (O2) Mean R2 across all 5 cities: 0.987 (Jodhpur 0.988, Mumbai 0.987, New Delhi 0.991, Bengaluru 0.971, Shimla 0.999)
+
+--- 3. DECISION D-017 CONFIDENCE TIERS SUMMARY ---
+  Mumbai: Medium (Spearman rs = 0.945, Adapt valid = 100.00%)
+  Bengaluru: Medium (Spearman rs = 0.943, Adapt valid = 100.00%)
+  Shimla: Low (Spearman rs = 0.868, Adapt valid = 73.97% < 80%)
+  New Delhi: Low (Spearman rs = 0.195, Adapt valid = 89.86%, Dual-judge disagreement)
+  Jodhpur: Low (Spearman rs = 0.109, Adapt valid = 86.85%, Dual-judge disagreement)

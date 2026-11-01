@@ -1,0 +1,8 @@
+feature,feature_name,mean_abs_shap_cool,mean_abs_shap_neutral,mean_abs_shap_warm,mean_abs_shap_overall
+ta,Indoor Air Temp Ta (°C),0.4057478,0.09816392,0.39770237,0.30053803
+t_outdoor,Running Mean Outdoor Temp (°C),0.28514442,0.09916507,0.25882006,0.21437651
+tr,Mean Radiant Temp Tr (°C),0.33389893,0.044272855,0.22385803,0.2006766
+met,Metabolic Rate (met),0.09027832,0.09498424,0.11002719,0.09842992
+vel,Air Velocity (m/s),0.104708344,0.04786969,0.12254606,0.09170803
+rh,Relative Humidity RH (%),0.06752524,0.07594296,0.09698833,0.08015218
+clo,Clothing Insulation (clo),0.061282016,0.054244593,0.06625945,0.060595352
