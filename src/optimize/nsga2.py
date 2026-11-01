@@ -55,7 +55,7 @@ class ShelterOptimizationProblem(ElementwiseProblem):
         2: roof_solar_absorptance [0.30, 0.90]
         3: wwr [0.05, 0.40]
         4: orientation [0.0, 359.0]
-        5: shading_depth [0.0, 1.0]
+        5: shading_depth [0.3, 1.0] (overhang >= 0.3 m)
         6: ventilation_ach [1.0, 15.0]
         7: wall_mass_class (discrete 0=heavy, 1=light, 2=medium) [0.0, 2.999]
         
@@ -67,7 +67,7 @@ class ShelterOptimizationProblem(ElementwiseProblem):
         self.city_name = city_name
         self.surrogates = surrogate_models
         
-        xl = np.array([0.0,  0.0,  0.30, 0.05,   0.0, 0.0,  1.0, 0.0])
+        xl = np.array([0.0,  0.0,  0.30, 0.05,   0.0, 0.3,  1.0, 0.0])
         xu = np.array([0.15, 0.15, 0.90, 0.40, 359.0, 1.0, 15.0, 2.999])
         
         super().__init__(n_var=8, n_obj=3, n_ieq_constr=0, xl=xl, xu=xu)
@@ -76,15 +76,20 @@ class ShelterOptimizationProblem(ElementwiseProblem):
         mass_idx = int(np.floor(x[7]))
         mass_idx = min(2, max(0, mass_idx))
         
+        # Discretize insulation to 25 mm (0.025 m) increments, clamp overhang to >= 0.3 m
+        roof_ins = round(float(x[0]) / 0.025) * 0.025
+        wall_ins = round(float(x[1]) / 0.025) * 0.025
+        shading = max(0.3, float(x[5]))
+
         # Build feature dataframe matching surrogate feature_names
         # ['roof_insulation_thickness', 'wall_insulation_thickness', 'roof_solar_absorptance', 'wwr', 'orientation', 'shading_depth', 'ventilation_ach', 'wall_mass_heavy', 'wall_mass_light', 'wall_mass_medium']
         feat_dict = {
-            'roof_insulation_thickness': [float(x[0])],
-            'wall_insulation_thickness': [float(x[1])],
+            'roof_insulation_thickness': [roof_ins],
+            'wall_insulation_thickness': [wall_ins],
             'roof_solar_absorptance': [float(x[2])],
             'wwr': [float(x[3])],
             'orientation': [float(x[4])],
-            'shading_depth': [float(x[5])],
+            'shading_depth': [shading],
             'ventilation_ach': [float(x[6])],
             'wall_mass_heavy': [1.0 if mass_idx == 0 else 0.0],
             'wall_mass_light': [1.0 if mass_idx == 1 else 0.0],
@@ -146,13 +151,13 @@ def run_nsga2_for_city(city_name, pop_size=100, n_gen=200, seed=42):
         records.append({
             'city': city_name,
             'pareto_id': f"P_{city_name}_{i:03d}",
-            'roof_insulation_thickness': float(x[0]),
-            'wall_insulation_thickness': float(x[1]),
+            'roof_insulation_thickness': round(float(x[0]) / 0.025) * 0.025,
+            'wall_insulation_thickness': round(float(x[1]) / 0.025) * 0.025,
             'wall_mass_class': mass_str,
             'roof_solar_absorptance': float(x[2]),
             'wwr': float(x[3]),
             'orientation': float(x[4]),
-            'shading_depth': float(x[5]),
+            'shading_depth': max(0.3, float(x[5])),
             'ventilation_ach': float(x[6]),
             'pred_O1_ml': float(f[0]),
             'pred_O1_adapt': float(f[1]),

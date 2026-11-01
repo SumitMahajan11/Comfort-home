@@ -38,7 +38,7 @@ test("Sampling bounds match src/sim/sampler.py exactly", () => {
   assert.equal(SAMPLER_BOUNDS.orientation.min, 0);
   assert.equal(SAMPLER_BOUNDS.orientation.max, 360);
 
-  assert.equal(SAMPLER_BOUNDS.shading_depth.min, 0.0);
+  assert.equal(SAMPLER_BOUNDS.shading_depth.min, 0.3);
   assert.equal(SAMPLER_BOUNDS.shading_depth.max, 1.0);
 
   assert.equal(SAMPLER_BOUNDS.ventilation_ach.min, 1.0);
@@ -65,7 +65,7 @@ test("Out-of-range query parameters are strictly clamped to lower bounds", () =>
   assert.equal(clamped.roof_solar_absorptance, 0.30, "Sub-0.30 absorptance must clamp to 0.30");
   assert.equal(clamped.wwr, 5, "Sub-5% WWR must clamp to 5%");
   assert.equal(clamped.orientation, 0, "Negative orientation must clamp to 0°");
-  assert.equal(clamped.shading_depth, 0.0, "Negative shading depth must clamp to 0.0 m");
+  assert.equal(clamped.shading_depth, 0.3, "Negative shading depth must clamp to 0.3 m");
   assert.equal(clamped.ventilation_ach, 1.0, "Sub-1.0 ACH ventilation must clamp to 1.0 ACH");
 });
 
@@ -108,7 +108,7 @@ test("Valid query parameters and fractional WWR are parsed accurately", () => {
   const clamped = clampDesignVariables(validParams);
 
   assert.equal(clamped.roof_insulation_thickness, 100);
-  assert.equal(clamped.wall_insulation_thickness, 80);
+  assert.equal(clamped.wall_insulation_thickness, 75); // 80mm snaps to nearest 25mm step
   assert.equal(clamped.wall_mass_class, "heavy");
   assert.equal(clamped.roof_solar_absorptance, 0.55);
   assert.equal(clamped.wwr, 25);

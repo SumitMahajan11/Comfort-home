@@ -219,6 +219,36 @@ def test_r3_code_compliant_references():
     for c in ["Jodhpur", "Mumbai", "New_Delhi"]:
         assert get_reference_r3(c)['roof_solar_absorptance'] <= 0.30
 
+def test_discretized_design_variables_and_overhang_bounds():
+    """Verify that Latin Hypercube sampler and NSGA-II enforce 25 mm insulation steps and overhang >= 0.3 m."""
+    from src.sim.sampler import sample_designs, DESIGN_VARIABLE_RANGES
+
+    # 1. Sampler checks
+    df_samples = sample_designs(n_samples=200, seed=42)
+    assert len(df_samples) == 200
+
+    # Overhang >= 0.3 m
+    assert DESIGN_VARIABLE_RANGES['shading_depth'][0] >= 0.3
+    assert (df_samples['shading_depth'] >= 0.30).all(), "All sampled overhang depths must be >= 0.3 m"
+    assert (df_samples['shading_depth'] <= 1.00).all()
+
+    # Insulation discretized in 25 mm (0.025 m) increments
+    valid_steps = {0.0, 0.025, 0.050, 0.075, 0.100, 0.125, 0.150}
+    for roof_val in df_samples['roof_insulation_thickness']:
+        assert any(np.isclose(roof_val, step, atol=1e-5) for step in valid_steps), f"Roof insulation {roof_val} not in 25 mm steps"
+    for wall_val in df_samples['wall_insulation_thickness']:
+        assert any(np.isclose(wall_val, step, atol=1e-5) for step in valid_steps), f"Wall insulation {wall_val} not in 25 mm steps"
+
+    # 2. NSGA-II Problem bounds checks
+    from src.optimize.nsga2 import ShelterOptimizationProblem
+    problem = ShelterOptimizationProblem("Jodhpur", surrogate_models={})
+    # Variable 5 is shading_depth
+    assert problem.xl[5] == 0.3, f"NSGA-II overhang lower bound must be 0.3 m, got {problem.xl[5]}"
+    assert problem.xu[5] == 1.0
+    # Variables 0 and 1 are roof and wall insulation
+    assert problem.xl[0] == 0.0 and problem.xu[0] == 0.15
+    assert problem.xl[1] == 0.0 and problem.xu[1] == 0.15
+
 if __name__ == "__main__":
     pytest.main(["-v", "tests/test_coupling.py"])
 

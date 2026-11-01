@@ -9,13 +9,13 @@ import pandas as pd
 from scipy.stats import qmc
 
 DESIGN_VARIABLE_RANGES = {
-    'roof_insulation_thickness': (0.0, 0.150),  # meters (0 to 150 mm)
-    'wall_insulation_thickness': (0.0, 0.150),  # meters (0 to 150 mm)
+    'roof_insulation_thickness': (0.0, 0.150),  # meters (0 to 150 mm in 25 mm steps)
+    'wall_insulation_thickness': (0.0, 0.150),  # meters (0 to 150 mm in 25 mm steps)
     'wall_mass_class': ['light', 'medium', 'heavy'],
     'roof_solar_absorptance': (0.30, 0.90),
     'wwr': (0.05, 0.40),                       # Window-to-wall ratio (5% to 40%)
     'orientation': (0.0, 359.0),                # degrees
-    'shading_depth': (0.0, 1.0),               # meters (0 to 1.0 m)
+    'shading_depth': (0.3, 1.0),               # meters (0.3 to 1.0 m, overhang >= 0.3 m)
     'ventilation_ach': (1.0, 15.0)             # Air changes per hour
 }
 
@@ -23,6 +23,8 @@ def sample_designs(n_samples=1000, seed=42):
     """
     Generates n_samples using Latin Hypercube Sampling.
     Returns a pandas DataFrame of design variables with design_id.
+    Insulation variables are discretized into 25 mm (0.025 m) increments.
+    Overhang shading depth is constrained to >= 0.3 m.
     """
     continuous_vars = [
         'roof_insulation_thickness',
@@ -45,7 +47,11 @@ def sample_designs(n_samples=1000, seed=42):
     # Scale continuous variables
     for i, var_name in enumerate(continuous_vars):
         low, high = DESIGN_VARIABLE_RANGES[var_name]
-        df_samples[var_name] = unit_samples[:, i] * (high - low) + low
+        vals = unit_samples[:, i] * (high - low) + low
+        if var_name in ['roof_insulation_thickness', 'wall_insulation_thickness']:
+            vals = np.round(vals / 0.025) * 0.025
+            vals = np.clip(vals, low, high)
+        df_samples[var_name] = vals
         
     # Scale discrete variable (wall_mass_class: 0->light, 1->medium, 2->heavy)
     mass_classes = DESIGN_VARIABLE_RANGES['wall_mass_class']

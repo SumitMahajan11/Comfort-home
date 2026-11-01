@@ -17,17 +17,17 @@ import { getParetoDesigns } from "./data";
  * - roof_solar_absorptance: (0.30, 0.90)
  * - wwr: (0.05, 0.40) -> (5%, 40%)
  * - orientation: (0.0, 359.0) -> (0°, 360°)
- * - shading_depth: (0.0, 1.0) m
+ * - shading_depth: (0.3, 1.0) m (overhang >= 0.3 m)
  * - ventilation_ach: (1.0, 15.0) ACH
  */
 export const SAMPLER_BOUNDS = {
-  roof_insulation_thickness: { min: 0, max: 150, step: 5, unit: "mm" },
-  wall_insulation_thickness: { min: 0, max: 150, step: 5, unit: "mm" },
+  roof_insulation_thickness: { min: 0, max: 150, step: 25, unit: "mm" },
+  wall_insulation_thickness: { min: 0, max: 150, step: 25, unit: "mm" },
   wall_mass_class: ["light", "medium", "heavy"] as const,
   roof_solar_absorptance: { min: 0.30, max: 0.90, step: 0.05, unit: "" },
   wwr: { min: 5, max: 40, step: 1, unit: "%" },
   orientation: { min: 0, max: 360, step: 5, unit: "°" },
-  shading_depth: { min: 0.0, max: 1.0, step: 0.05, unit: "m" },
+  shading_depth: { min: 0.3, max: 1.0, step: 0.05, unit: "m" },
   ventilation_ach: { min: 1.0, max: 15.0, step: 0.5, unit: "ACH" }
 } as const;
 
@@ -43,13 +43,15 @@ function clamp(value: number, min: number, max: number): number {
  * strictly within sampling bounds. Out-of-bound values are clamped to edges.
  */
 export function clampDesignVariables(raw: Partial<Record<string, unknown>>): DesignVariables {
-  // Roof insulation
+  // Roof insulation (discretized to 25 mm steps)
   const rawRoof = raw.roof_insulation_thickness ?? raw.roof_ins;
   const roof = rawRoof != null ? clamp(Number(rawRoof), SAMPLER_BOUNDS.roof_insulation_thickness.min, SAMPLER_BOUNDS.roof_insulation_thickness.max) : DEFAULT_DESIGN.roof_insulation_thickness;
+  const snappedRoof = Math.round(roof / 25) * 25;
 
-  // Wall insulation
+  // Wall insulation (discretized to 25 mm steps)
   const rawWall = raw.wall_insulation_thickness ?? raw.wall_ins;
   const wall = rawWall != null ? clamp(Number(rawWall), SAMPLER_BOUNDS.wall_insulation_thickness.min, SAMPLER_BOUNDS.wall_insulation_thickness.max) : DEFAULT_DESIGN.wall_insulation_thickness;
+  const snappedWall = Math.round(wall / 25) * 25;
 
   // Wall mass class
   const rawMass = (raw.wall_mass_class ?? raw.mass ?? "").toString().toLowerCase();
@@ -80,8 +82,8 @@ export function clampDesignVariables(raw: Partial<Record<string, unknown>>): Des
   const vent = rawVent != null ? clamp(Number(rawVent), SAMPLER_BOUNDS.ventilation_ach.min, SAMPLER_BOUNDS.ventilation_ach.max) : DEFAULT_DESIGN.ventilation_ach;
 
   return {
-    roof_insulation_thickness: Math.round(roof),
-    wall_insulation_thickness: Math.round(wall),
+    roof_insulation_thickness: snappedRoof,
+    wall_insulation_thickness: snappedWall,
     wall_mass_class: mass,
     roof_solar_absorptance: Number(absorp.toFixed(2)),
     wwr: Math.round(wwr),

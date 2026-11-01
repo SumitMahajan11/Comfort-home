@@ -15,7 +15,7 @@ Updated by the agent at the end of every task (see `AGENTS.md`). Last updated: 2
 | 6 | Costs (needs user) | NOT STARTED | - |
 | 7 | Docs and process | NOT STARTED | - |
 
-**Next action:** Phase 1 execution: Discretize design variables (insulation in 25 mm steps, overhang >= 0.3 m) (Step 4).
+**Next action:** Phase 1 execution: Re-run batch simulation, coupling, surrogates, NSGA-II, and verification for shelter_v1 across all 5 cities (Step 5, BLOCKED pending baseline weather data download).
 
 ## Phase 1 task checklist: Result correctness (shelter, 5 cities)
 
@@ -23,7 +23,7 @@ Updated by the agent at the end of every task (see `AGENTS.md`). Last updated: 2
 - [x] Step 1: Verify test baseline and start local dev services (pytest 61 passed 1 skipped in `reports/evidence/phase1_start_pytest_output.txt`, npm test 51/51 passed; FastAPI on port 8000, Next.js on port 3000)
 - [x] Step 2: Implement temperature-controlled natural ventilation ($T_{\text{in}} > 24^\circ\text{C}$ and $T_{\text{in}} - T_{\text{out}} \ge 1.0^\circ\text{C}$) in `src/sim/render.py` and `src/sim/template.idf` (verified in `tests/test_coupling.py`)
 - [x] Step 3: Add R3 ECBC/ENS code-compliant envelope baseline per climate zone in `src/optimize/references.py`
-- [ ] Step 4: Discretize design variables (insulation in 25 mm steps, overhang $\ge 0.3\text{ m}$)
+- [x] Step 4: Discretize design variables (insulation in 25 mm steps, overhang $\ge 0.3\text{ m}$)
 - [ ] Step 5: Re-run batch simulation, coupling, surrogates (seeds 42, 43, 44), NSGA-II, and direct EnergyPlus verification for shelter_v1 across all 5 cities
 - [ ] Step 6: Enforce strictly verified metrics for all packages (never clipped negative surrogate values)
 
