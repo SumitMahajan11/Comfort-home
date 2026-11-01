@@ -16,7 +16,8 @@ web/node_modules/
 web/.next/
 
 # raw data: re-downloadable or licence-restricted
-data/raw/
+data/raw/*
+!data/raw/weather_baseline_manifest.json
 data/docs/
 
 # bulky generated output

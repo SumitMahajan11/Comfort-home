@@ -1,0 +1,42 @@
+{
+  "description": "Baseline EPW weather manifest for 5 primary reference cities under Decision D-034",
+  "decision": "D-034",
+  "rationale": "Legacy unsuffixed TMYx.epw files are the exact baseline source from which morphed future climate scenarios (*_plus1p5.epw and *_plus3p0.epw) were generated with uniform +1.500 °C / +3.000 °C dry-bulb shift. Note: reports/station_registry.csv chosen_file points to the TMYx.2011-2025.epw variant, which differs in mean Ta by up to 0.8 °C (Mumbai, Bengaluru) and must be resolved before expanding to the 433-station batch.",
+  "files": {
+    "Jodhpur": {
+      "path": "data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx/IND_RJ_Jodhpur.423390_TMYx.epw",
+      "size_bytes": 1607059,
+      "sha256": "d08d5dae521def5f410ae877421d3391d212ddc4ceab6b202a709e2f7147f16f",
+      "variant": "legacy_unsuffixed_TMYx",
+      "registry_chosen_file_variant": "TMYx.2011-2025"
+    },
+    "Mumbai": {
+      "path": "data/raw/India_Weather_Extracted/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.epw",
+      "size_bytes": 1620330,
+      "sha256": "f250242fe6aea986ea16d9735ad949fcbf6d0a7726cfc9830db615f8a1dd05ef",
+      "variant": "legacy_unsuffixed_TMYx",
+      "registry_chosen_file_variant": "TMYx.2011-2025"
+    },
+    "New_Delhi": {
+      "path": "data/raw/India_Weather_Extracted/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.epw",
+      "size_bytes": 1611684,
+      "sha256": "d4463c3c45a2a91f14e2180decc9dc0645a0d7f0f7f4362516bbe0c912d11c1c",
+      "variant": "legacy_unsuffixed_TMYx",
+      "registry_chosen_file_variant": "TMYx.2011-2025"
+    },
+    "Bengaluru": {
+      "path": "data/raw/India_Weather_Extracted/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.epw",
+      "size_bytes": 1605031,
+      "sha256": "91dd0e0b791ef1f5d34f15821b1e025009a0156dafe28d549c19b8571318fe5c",
+      "variant": "legacy_unsuffixed_TMYx",
+      "registry_chosen_file_variant": "TMYx.2011-2025"
+    },
+    "Shimla": {
+      "path": "data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx/IND_HP_Shimla.420830_TMYx.epw",
+      "size_bytes": 1593748,
+      "sha256": "829bd435a67caa607ba07579115a964897f256833c89b82b020a96fbd8bc768b",
+      "variant": "legacy_unsuffixed_TMYx",
+      "registry_chosen_file_variant": "TMYx.2011-2025"
+    }
+  }
+}

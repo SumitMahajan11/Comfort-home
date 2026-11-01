@@ -61,12 +61,18 @@ REFERENCE_R2 = {
 }
 
 # R3 Code-Compliant Baseline per Indian Climate Zone
-# Primary Reference: Eco-Niwas Samhita (Residential Buildings Code)
+# Primary Reference: Eco-Niwas Samhita 2024 (Residential Buildings Code)
 # Secondary Reference: Energy Conservation Building Code (ECBC 2017, Commercial Buildings)
+#
+# Conservatism Note:
+# The R3 baseline envelope is sized to satisfy the stricter commercial ECBC 2017 U-limits
+# (e.g., U_roof <= 0.33 W/m2·K vs residential ENS U_roof <= 1.20 W/m2·K, and U_wall <= 0.40 W/m2·K),
+# thereby comfortably exceeding the residential ENS minimum requirements as a conservative,
+# climate-responsive reference benchmark.
 #
 # Sources & Literal Citations:
 # 1. Primary: Bureau of Energy Efficiency (BEE), Ministry of Power, Govt. of India:
-#    "Eco-Niwas Samhita (ENS) 2024 / 2018 (Part I: Building Envelope)" (PDF: data/docs/ENS_2024.pdf):
+#    "Eco-Niwas Samhita (ENS) 2024 (Part I: Building Envelope)" (PDF: data/docs/ENS_2024.pdf):
 #    - Section 5.2.1.3 (Page 34): "Thermal transmittance of the roof shall comply with the maximum Uroof value of 1.2 W/m2·K as prescribed in section 9.4"
 #    - Section 5.2.1.4 (Page 34): "The RETV for the building envelope (except the roof) for four climate zones... shall comply with the maximum RETV value of 15 W/m2"
 #    - Section 5.2.1.5 (Page 34): "thermal transmittance of the building envelope (except the roof) for the cold climate shall comply with the maximum value of 1.8 W/m2·K"
@@ -86,8 +92,8 @@ REFERENCE_R3_PER_CITY = {
     'Jodhpur': {
         'name': 'R3_Code_Compliant',
         'climate_zone': 'Hot and Dry',
-        'primary_standard': 'Eco-Niwas Samhita 2024 / 2018 (Residential)',
-        'primary_clause': 'ENS Section 5.2.1.3 (U_roof <= 1.2 W/m2-K), Section 5.2.1.4 (RETV <= 15 W/m2)',
+        'primary_standard': 'Eco-Niwas Samhita 2024 (Residential)',
+        'primary_clause': 'ENS Section 5.2.1.3 (U_roof <= 1.2 W/m2-K), Section 5.2.1.4 (RETV <= 15 W/m2; RETV not evaluated, walls sized to ECBC commercial U-limits)',
         'secondary_standard': 'ECBC 2017 (Commercial)',
         'secondary_clause': 'ECBC Table 4-4 (Roof U<=0.33), Table 4-7 (Wall U<=0.40), Sec 4.3.1.1 (Reflectance>=0.70, Absorptance<=0.30)',
         'citation_pdf_primary': 'data/docs/ENS_2024.pdf (p. 34)',
@@ -97,7 +103,7 @@ REFERENCE_R3_PER_CITY = {
         'target_u_roof_ecbc': 0.33,
         'target_u_wall_ecbc': 0.40,
         'computed_u_roof': 0.276,            # 125 mm XPS: R_total=3.621 -> U=0.276 W/m2-K (Meets ENS 1.20 & ECBC 0.33)
-        'computed_u_wall': 0.326,            # 100 mm XPS: R_total=3.068 -> U=0.326 W/m2-K (Meets ECBC 0.40 & ENS RETV)
+        'computed_u_wall': 0.326,            # 100 mm XPS: R_total=3.068 -> U=0.326 W/m2-K (Meets ECBC 0.40 commercial limit; ENS RETV not evaluated)
         'roof_insulation_thickness': 0.125,  # 125 mm XPS (25 mm step)
         'wall_insulation_thickness': 0.100,  # 100 mm XPS (25 mm step)
         'wall_mass_class': 'medium',
@@ -110,8 +116,8 @@ REFERENCE_R3_PER_CITY = {
     'Mumbai': {
         'name': 'R3_Code_Compliant',
         'climate_zone': 'Warm and Humid',
-        'primary_standard': 'Eco-Niwas Samhita 2024 / 2018 (Residential)',
-        'primary_clause': 'ENS Section 5.2.1.3 (U_roof <= 1.2 W/m2-K), Section 5.2.1.4 (RETV <= 15 W/m2)',
+        'primary_standard': 'Eco-Niwas Samhita 2024 (Residential)',
+        'primary_clause': 'ENS Section 5.2.1.3 (U_roof <= 1.2 W/m2-K), Section 5.2.1.4 (RETV <= 15 W/m2; RETV not evaluated, walls sized to ECBC commercial U-limits)',
         'secondary_standard': 'ECBC 2017 (Commercial)',
         'secondary_clause': 'ECBC Table 4-4 (Roof U<=0.33), Table 4-7 (Wall U<=0.40), Sec 4.3.1.1 (Reflectance>=0.70, Absorptance<=0.30)',
         'citation_pdf_primary': 'data/docs/ENS_2024.pdf (p. 34)',
@@ -121,7 +127,7 @@ REFERENCE_R3_PER_CITY = {
         'target_u_roof_ecbc': 0.33,
         'target_u_wall_ecbc': 0.40,
         'computed_u_roof': 0.276,            # 125 mm XPS: R_total=3.621 -> U=0.276 W/m2-K (Meets ENS 1.20 & ECBC 0.33)
-        'computed_u_wall': 0.326,            # 100 mm XPS: R_total=3.068 -> U=0.326 W/m2-K (Meets ECBC 0.40 & ENS RETV)
+        'computed_u_wall': 0.326,            # 100 mm XPS: R_total=3.068 -> U=0.326 W/m2-K (Meets ECBC 0.40 commercial limit; ENS RETV not evaluated)
         'roof_insulation_thickness': 0.125,  # 125 mm XPS (25 mm step)
         'wall_insulation_thickness': 0.100,  # 100 mm XPS (25 mm step)
         'wall_mass_class': 'medium',
@@ -134,8 +140,8 @@ REFERENCE_R3_PER_CITY = {
     'New_Delhi': {
         'name': 'R3_Code_Compliant',
         'climate_zone': 'Composite',
-        'primary_standard': 'Eco-Niwas Samhita 2024 / 2018 (Residential)',
-        'primary_clause': 'ENS Section 5.2.1.3 (U_roof <= 1.2 W/m2-K), Section 5.2.1.4 (RETV <= 15 W/m2)',
+        'primary_standard': 'Eco-Niwas Samhita 2024 (Residential)',
+        'primary_clause': 'ENS Section 5.2.1.3 (U_roof <= 1.2 W/m2-K), Section 5.2.1.4 (RETV <= 15 W/m2; RETV not evaluated, walls sized to ECBC commercial U-limits)',
         'secondary_standard': 'ECBC 2017 (Commercial)',
         'secondary_clause': 'ECBC Table 4-4 (Roof U<=0.33), Table 4-7 (Wall U<=0.40), Sec 4.3.1.1 (Reflectance>=0.70, Absorptance<=0.30)',
         'citation_pdf_primary': 'data/docs/ENS_2024.pdf (p. 34)',
@@ -145,7 +151,7 @@ REFERENCE_R3_PER_CITY = {
         'target_u_roof_ecbc': 0.33,
         'target_u_wall_ecbc': 0.40,
         'computed_u_roof': 0.276,            # 125 mm XPS: R_total=3.621 -> U=0.276 W/m2-K (Meets ENS 1.20 & ECBC 0.33)
-        'computed_u_wall': 0.326,            # 100 mm XPS: R_total=3.068 -> U=0.326 W/m2-K (Meets ECBC 0.40 & ENS RETV)
+        'computed_u_wall': 0.326,            # 100 mm XPS: R_total=3.068 -> U=0.326 W/m2-K (Meets ECBC 0.40 commercial limit; ENS RETV not evaluated)
         'roof_insulation_thickness': 0.125,  # 125 mm XPS (25 mm step)
         'wall_insulation_thickness': 0.100,  # 100 mm XPS (25 mm step)
         'wall_mass_class': 'medium',
@@ -158,8 +164,8 @@ REFERENCE_R3_PER_CITY = {
     'Bengaluru': {
         'name': 'R3_Code_Compliant',
         'climate_zone': 'Temperate',
-        'primary_standard': 'Eco-Niwas Samhita 2024 / 2018 (Residential)',
-        'primary_clause': 'ENS Section 5.2.1.3 (U_roof <= 1.2 W/m2-K), Section 5.2.1.4 (RETV <= 15 W/m2)',
+        'primary_standard': 'Eco-Niwas Samhita 2024 (Residential)',
+        'primary_clause': 'ENS Section 5.2.1.3 (U_roof <= 1.2 W/m2-K), Section 5.2.1.4 (RETV <= 15 W/m2; RETV not evaluated, walls sized to ECBC commercial U-limits)',
         'secondary_standard': 'ECBC 2017 (Commercial)',
         'secondary_clause': 'ECBC Table 4-4 (Roof U<=0.33), Table 4-7 (Temperate Wall U<=0.55)',
         'citation_pdf_primary': 'data/docs/ENS_2024.pdf (p. 34)',
@@ -169,7 +175,7 @@ REFERENCE_R3_PER_CITY = {
         'target_u_roof_ecbc': 0.33,
         'target_u_wall_ecbc': 0.55,
         'computed_u_roof': 0.276,            # 125 mm XPS: R_total=3.621 -> U=0.276 W/m2-K (Meets ENS 1.20 & ECBC 0.33)
-        'computed_u_wall': 0.415,            # 75 mm XPS: R_total=2.410 -> U=0.415 W/m2-K (Meets ECBC 0.55 & ENS RETV)
+        'computed_u_wall': 0.415,            # 75 mm XPS: R_total=2.410 -> U=0.415 W/m2-K (Meets ECBC 0.55 commercial limit; ENS RETV not evaluated)
         'roof_insulation_thickness': 0.125,  # 125 mm XPS (25 mm step)
         'wall_insulation_thickness': 0.075,  # 75 mm XPS (25 mm step)
         'wall_mass_class': 'medium',
@@ -182,7 +188,7 @@ REFERENCE_R3_PER_CITY = {
     'Shimla': {
         'name': 'R3_Code_Compliant',
         'climate_zone': 'Cold',
-        'primary_standard': 'Eco-Niwas Samhita 2024 / 2018 (Residential)',
+        'primary_standard': 'Eco-Niwas Samhita 2024 (Residential)',
         'primary_clause': 'ENS Section 5.2.1.3 (U_roof <= 1.2 W/m2-K), Section 5.2.1.5 (U_envelope,cold <= 1.80 W/m2-K)',
         'secondary_standard': 'ECBC 2017 (Commercial)',
         'secondary_clause': 'ECBC Table 4-4 (Cold Roof U<=0.28), Table 4-7 (Cold Wall U<=0.34)',
@@ -201,7 +207,7 @@ REFERENCE_R3_PER_CITY = {
         'roof_solar_absorptance': 0.60,      # ASSUMPTION: Standard conventional absorptance (passive-solar 0.70 tuning removed)
         'wwr': 0.15,                         # ASSUMPTION: Baseline fenestration ratio (ECBC Table 4-10 max <= 0.40)
         'orientation': 0.0,
-        'shading_depth': 0.30,               # ASSUMPTION: Step 4 overhang lower bound (>= 0.30 m; 0.00 m unshaded tuning removed)
+        'shading_depth': 0.30,               # ASSUMPTION: Step 4 overhang lower bound (>= 0.30 m)
         'ventilation_ach': 5.0               # ASSUMPTION: Standard baseline infiltration default (2.0 ACH tuning removed)
     }
 }
