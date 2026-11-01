@@ -185,5 +185,40 @@ def test_temperature_controlled_natural_ventilation_parameters(tmp_path):
     assert "Natural_Ventilation" in rendered
     assert "24.0, , , , 1.0;" in rendered, "Rendered shelter_v1 must specify 24.0 C min indoor temp and 1.0 C delta temp"
 
+def test_r3_code_compliant_references():
+    """Verify R3 ECBC/ENS code-compliant baseline definitions and citations."""
+    from src.optimize.references import REFERENCE_R3_PER_CITY, get_reference_r3, get_city_references
+
+    cities = ["Jodhpur", "Mumbai", "New_Delhi", "Bengaluru", "Shimla"]
+    required_keys = [
+        'name', 'climate_zone', 'code_standard', 'citation_source', 'citation_url',
+        'target_u_roof', 'target_u_wall', 'roof_insulation_thickness', 'wall_insulation_thickness',
+        'wall_mass_class', 'roof_solar_absorptance', 'wwr', 'orientation', 'shading_depth', 'ventilation_ach'
+    ]
+
+    for city in cities:
+        r3 = get_reference_r3(city)
+        assert r3['name'] == 'R3_Code_Compliant'
+        for k in required_keys:
+            assert k in r3, f"Missing key {k} in R3 for {city}"
+        assert "ECBC" in r3['code_standard'] or "ENS" in r3['code_standard']
+        assert r3['citation_url'].startswith("https://")
+        assert r3['roof_insulation_thickness'] > 0.0, f"Roof insulation must be > 0 for {city}"
+        assert r3['wall_insulation_thickness'] > 0.0, f"Wall insulation must be > 0 for {city}"
+
+        refs = get_city_references(city)
+        assert len(refs) == 3
+        assert [r['name'] for r in refs] == ['R1_Lightweight', 'R2_Conventional', 'R3_Code_Compliant']
+
+    # Physical climate differentiation checks:
+    # Shimla (Cold) requires higher roof insulation (0.125 m) and wall insulation (0.100 m) than Bengaluru (Temperate, 0.050 m wall)
+    assert get_reference_r3("Shimla")['roof_insulation_thickness'] == 0.125
+    assert get_reference_r3("Shimla")['wall_insulation_thickness'] == 0.100
+    assert get_reference_r3("Bengaluru")['wall_insulation_thickness'] == 0.050
+    # Hot-Dry, Warm-Humid, Composite cool roof solar absorptance <= 0.30 (SRI >= 78)
+    for c in ["Jodhpur", "Mumbai", "New_Delhi"]:
+        assert get_reference_r3(c)['roof_solar_absorptance'] <= 0.30
+
 if __name__ == "__main__":
     pytest.main(["-v", "tests/test_coupling.py"])
+

@@ -60,6 +60,132 @@ REFERENCE_R2 = {
     'ventilation_ach': 5.0
 }
 
+# R3 Code-Compliant Baseline per Indian Climate Zone (ECBC 2017 & Eco-Niwas Samhita 2018)
+# Sources:
+# 1. Bureau of Energy Efficiency (BEE), Ministry of Power, Govt. of India:
+#    "Energy Conservation Building Code 2017" (ECBC 2017), Section 4.3 Prescriptive Requirements:
+#    - Table 4-4: Roof Assembly Maximum U-factor (W/m2-K):
+#        Composite: 0.33, Hot-Dry: 0.33, Warm-Humid: 0.33, Temperate: 0.33, Cold: 0.28
+#    - Table 4-7: Opaque Assembly Maximum U-factor (Walls, W/m2-K):
+#        Composite: 0.40, Hot-Dry: 0.40, Warm-Humid: 0.40, Temperate: 0.55, Cold: 0.34
+#    - Section 4.3.1.1: Cool Roof Solar Reflectance >= 0.70 (Solar Absorptance <= 0.30) for non-cold climates
+#    URL: https://beeindia.gov.in/en/programmes/energy-conservation-building-code-ecbc
+#
+# 2. Bureau of Energy Efficiency (BEE), Ministry of Power, Govt. of India:
+#    "Eco-Niwas Samhita 2018 (Part I: Building Envelope)" (ENS 2018):
+#    - Section 3.1 & Table 1: Thermal Transmittance of Roof (U_roof) <= 1.20 W/m2-K (all climate zones)
+#    - Section 3.2: Maximum RETV <= 15.0 W/m2 (Cooling zones) / U_envelope <= 1.80 W/m2-K (Cold zone Table 2)
+#    - Section 3.3 & Table 3: Minimum external shading overhang >= 0.30 m, openable window ratio WFR_op >= 10%
+#    URL: https://beeindia.gov.in/en/energy-conservation-building-code-residential-eco-niwas-samhita
+#
+# Physical Derivation:
+# XPS/EPS Insulation conductivity k = 0.038 W/m-K (render.py Material:Wall_Insulation & Material:Roof_Insulation).
+# Base uninsulated roof (100mm RCC + 15mm plaster + 10mm finish + air films): R_base = 0.332 m2-K/W.
+#   - U <= 0.33 W/m2-K requires R_total >= 3.030 m2-K/W -> t_ins >= (3.030 - 0.332) * 0.038 = 0.1025 m -> 0.100 m (100 mm).
+#   - Cold U <= 0.28 W/m2-K requires R_total >= 3.571 m2-K/W -> t_ins >= (3.571 - 0.332) * 0.038 = 0.1231 m -> 0.125 m (125 mm).
+# Base uninsulated wall (200mm brick + 30mm plaster + air films): R_base = 0.489 m2-K/W.
+#   - U <= 0.40 W/m2-K requires R_total >= 2.500 m2-K/W -> t_ins >= (2.500 - 0.489) * 0.038 = 0.0764 m -> 0.075 m (75 mm).
+#   - Temperate U <= 0.55 W/m2-K requires R_total >= 1.818 m2-K/W -> t_ins >= (1.818 - 0.489) * 0.038 = 0.0505 m -> 0.050 m (50 mm).
+#   - Cold U <= 0.34 W/m2-K requires R_total >= 2.941 m2-K/W -> t_ins >= (2.941 - 0.489) * 0.038 = 0.0932 m -> 0.100 m (100 mm).
+
+REFERENCE_R3_PER_CITY = {
+    'Jodhpur': {
+        'name': 'R3_Code_Compliant',
+        'climate_zone': 'Hot and Dry',
+        'code_standard': 'ECBC 2017 & ENS 2018',
+        'citation_source': 'ECBC 2017 Table 4-4 (Roof U<=0.33), Table 4-7 (Wall U<=0.40), Sec 4.3.1.1 (SRI>=78); ENS 2018 Sec 3.1 & 3.3',
+        'citation_url': 'https://beeindia.gov.in/en/programmes/energy-conservation-building-code-ecbc',
+        'target_u_roof': 0.33,
+        'target_u_wall': 0.40,
+        'roof_insulation_thickness': 0.100,  # 100 mm XPS
+        'wall_insulation_thickness': 0.075,  # 75 mm XPS
+        'wall_mass_class': 'medium',
+        'roof_solar_absorptance': 0.30,      # Cool Roof SRI >= 78 compliant
+        'wwr': 0.15,
+        'orientation': 0.0,
+        'shading_depth': 0.30,               # ENS 2018 Table 3 minimum permanent overhang
+        'ventilation_ach': 5.0
+    },
+    'Mumbai': {
+        'name': 'R3_Code_Compliant',
+        'climate_zone': 'Warm and Humid',
+        'code_standard': 'ECBC 2017 & ENS 2018',
+        'citation_source': 'ECBC 2017 Table 4-4 (Roof U<=0.33), Table 4-7 (Wall U<=0.40), Sec 4.3.1.1 (SRI>=78); ENS 2018 Sec 3.1 & 3.3',
+        'citation_url': 'https://beeindia.gov.in/en/programmes/energy-conservation-building-code-ecbc',
+        'target_u_roof': 0.33,
+        'target_u_wall': 0.40,
+        'roof_insulation_thickness': 0.100,  # 100 mm XPS
+        'wall_insulation_thickness': 0.075,  # 75 mm XPS
+        'wall_mass_class': 'medium',
+        'roof_solar_absorptance': 0.30,      # Cool Roof SRI >= 78 compliant
+        'wwr': 0.15,
+        'orientation': 0.0,
+        'shading_depth': 0.30,
+        'ventilation_ach': 5.0
+    },
+    'New_Delhi': {
+        'name': 'R3_Code_Compliant',
+        'climate_zone': 'Composite',
+        'code_standard': 'ECBC 2017 & ENS 2018',
+        'citation_source': 'ECBC 2017 Table 4-4 (Roof U<=0.33), Table 4-7 (Wall U<=0.40), Sec 4.3.1.1 (SRI>=78); ENS 2018 Sec 3.1 & 3.3',
+        'citation_url': 'https://beeindia.gov.in/en/programmes/energy-conservation-building-code-ecbc',
+        'target_u_roof': 0.33,
+        'target_u_wall': 0.40,
+        'roof_insulation_thickness': 0.100,  # 100 mm XPS
+        'wall_insulation_thickness': 0.075,  # 75 mm XPS
+        'wall_mass_class': 'medium',
+        'roof_solar_absorptance': 0.30,      # Cool Roof SRI >= 78 compliant
+        'wwr': 0.15,
+        'orientation': 0.0,
+        'shading_depth': 0.30,
+        'ventilation_ach': 5.0
+    },
+    'Bengaluru': {
+        'name': 'R3_Code_Compliant',
+        'climate_zone': 'Temperate',
+        'code_standard': 'ECBC 2017 & ENS 2018',
+        'citation_source': 'ECBC 2017 Table 4-4 (Roof U<=0.33), Table 4-7 (Wall U<=0.55 for Temperate); ENS 2018 Sec 3.1 & 3.3',
+        'citation_url': 'https://beeindia.gov.in/en/programmes/energy-conservation-building-code-ecbc',
+        'target_u_roof': 0.33,
+        'target_u_wall': 0.55,
+        'roof_insulation_thickness': 0.100,  # 100 mm XPS
+        'wall_insulation_thickness': 0.050,  # 50 mm XPS
+        'wall_mass_class': 'medium',
+        'roof_solar_absorptance': 0.60,      # Standard temperate absorptance
+        'wwr': 0.15,
+        'orientation': 0.0,
+        'shading_depth': 0.30,
+        'ventilation_ach': 5.0
+    },
+    'Shimla': {
+        'name': 'R3_Code_Compliant',
+        'climate_zone': 'Cold',
+        'code_standard': 'ECBC 2017 & ENS 2018',
+        'citation_source': 'ECBC 2017 Table 4-4 (Cold Roof U<=0.28), Table 4-7 (Cold Wall U<=0.34); ENS 2018 Table 2 (U_env<=1.80)',
+        'citation_url': 'https://beeindia.gov.in/en/programmes/energy-conservation-building-code-ecbc',
+        'target_u_roof': 0.28,
+        'target_u_wall': 0.34,
+        'roof_insulation_thickness': 0.125,  # 125 mm XPS
+        'wall_insulation_thickness': 0.100,  # 100 mm XPS
+        'wall_mass_class': 'medium',
+        'roof_solar_absorptance': 0.70,      # Solar absorptive roof for winter passive solar heat gain
+        'wwr': 0.15,
+        'orientation': 0.0,
+        'shading_depth': 0.00,               # Unshaded in cold climate to maximize passive solar winter gain
+        'ventilation_ach': 2.0               # Restricted ventilation to prevent severe cold-air infiltration
+    }
+}
+
+def get_reference_r3(city_name: str) -> dict:
+    """Returns the climate-specific R3 ECBC/ENS code-compliant reference design."""
+    if city_name not in REFERENCE_R3_PER_CITY:
+        raise ValueError(f"Unknown city {city_name}. Must be one of {list(REFERENCE_R3_PER_CITY.keys())}")
+    return REFERENCE_R3_PER_CITY[city_name]
+
+def get_city_references(city_name: str) -> list:
+    """Returns R1 Lightweight, R2 Conventional, and R3 Code-Compliant for a city."""
+    return [REFERENCE_R1, REFERENCE_R2, get_reference_r3(city_name)]
+
 REFERENCES = [REFERENCE_R1, REFERENCE_R2]
 
 def run_reference_simulations(output_csv="data/processed/reference_results.csv"):
