@@ -15,13 +15,13 @@ Updated by the agent at the end of every task (see `AGENTS.md`). Last updated: 2
 | 6 | Costs (needs user) | NOT STARTED | - |
 | 7 | Docs and process | NOT STARTED | - |
 
-**Next action:** Phase 1 execution: Implement temperature-controlled natural ventilation in `src/sim/`, add R3 ECBC/ENS baseline, discretize design variables, re-run simulations, coupling, surrogates, and Pareto verification for single-zone shelter across 5 cities.
+**Next action:** Phase 1 execution: Add R3 ECBC/ENS code-compliant envelope baseline per climate zone in `src/optimize/references.py` (Step 3).
 
 ## Phase 1 task checklist: Result correctness (shelter, 5 cities)
 
 - [x] Step 1: Geometry alignment & test harmonization ($20.00\text{ m}^2$ $5\text{m}\times 4\text{m}$ single-zone shelter in `tests/test_costs.py` and `src/geometry.py`)
 - [x] Step 1: Verify test baseline and start local dev services (pytest 61 passed 1 skipped in `reports/evidence/phase1_start_pytest_output.txt`, npm test 51/51 passed; FastAPI on port 8000, Next.js on port 3000)
-- [ ] Step 2: Implement temperature-controlled natural ventilation ($T_{\text{in}} > 24^\circ\text{C}$ and $T_{\text{in}} - T_{\text{out}} \ge 1.0^\circ\text{C}$) in `src/sim/render.py` and `src/sim/template.idf`
+- [x] Step 2: Implement temperature-controlled natural ventilation ($T_{\text{in}} > 24^\circ\text{C}$ and $T_{\text{in}} - T_{\text{out}} \ge 1.0^\circ\text{C}$) in `src/sim/render.py` and `src/sim/template.idf` (verified in `tests/test_coupling.py`)
 - [ ] Step 3: Add R3 ECBC/ENS code-compliant envelope baseline per climate zone in `src/optimize/references.py`
 - [ ] Step 4: Discretize design variables (insulation in 25 mm steps, overhang $\ge 0.3\text{ m}$)
 - [ ] Step 5: Re-run batch simulation, coupling, surrogates (seeds 42, 43, 44), NSGA-II, and direct EnergyPlus verification for shelter_v1 across all 5 cities
@@ -189,6 +189,10 @@ Locked decisions D-001 to D-011 live in `PROJECT_SPEC.md` section 4. Add new dec
 | D-027 | 2026-10-25 | Read-Only FastAPI Service Architecture (`api/`): `uvicorn api.main:app` entrypoint with startup sha256 checksum verification over all 160 manifest files (refusing startup on mismatch); versioned routes under `/api/v1` and root aliases; Pydantic v2 schemas; strict null-gating for unpopulated cost rates; ReportLab builder PDF generation with DejaVu font, 12-month temperature profile chart, and evidence manifest checksum footer | Provides high-throughput, deterministic, zero-runtime-simulation web API serving precomputed research artifacts |
 | D-028 | 2026-10-25 | ClimateAdapt-Comfort v2 Web Frontend Architecture (`web/`): Next.js 16 (App Router) + TypeScript + Tailwind CSS with a 5-step guided wizard (Where, What, Your Climate, Your Comfort, Your Plan), honest-labelling components (`<ConfidenceBadge/>`, `<VerificationBadge/>`, `<ApplicabilityGauge/>`, `<LimitationsDrawer/>`), persistent dismissible session notice, accessible data table toggles for charts, bilingual English/Hindi support, and builder-ready PDF export via FastAPI backend | Delivers an accessible, research-grade decision-support UI while maintaining strict evidence gating, zero fabrication of construction quotes, and prominent disclosure of model uncertainty |
 | D-029 | 2026-10-25 | UI redesign P1-P10 executed 2026-10-25; spec finalized retroactively; no locked scientific decision changed. | Planning-lock resolution following empirical verification of UI redesign |
+| D-030 | 2026-11-01 | Single-Zone Shelter Canonical Geometry: standardize footprint to 20.00 m2 (5.0m x 4.0m, H=3.0m, V=60.00 m3) across all specs, BOM engines, and UI displays (Proposal 1 approved) | Prevents mismatch with 20.25 m2 square and stops incorrect submission of building_type 'house' from wizard |
+| D-031 | 2026-11-01 | Temperature-Controlled Natural Ventilation: replace constant ventilation with temperature-controlled natural ventilation (T_in > 24.0 C and T_in - T_out >= 1.0 C, ACH range 1.0 to 15.0) in template.idf and render.py (Proposal 2 approved) | Models realistic occupant window opening and night flushing, preventing daytime overheating from unmitigated hot air ingress |
+| D-032 | 2026-11-01 | Unicode Devanagari Font Embedding: embed free Noto Sans Devanagari Regular font in api/pdf.py (Proposal 3 approved) | Eliminates null glyph rendering for Hindi builder PDF exports |
+| D-033 | 2026-11-01 | Strict Verified-Badge Integrity: enforce that only direct EnergyPlus verified simulation values are displayed in package cards and API responses; eliminate 0-clipping of negative surrogate predictions from ever being labeled as verified (Proposal 4 approved) | Guarantees scientific honesty and metric integrity for practitioner-facing decision packages |
 
 ## Open risks
 
@@ -200,7 +204,7 @@ Locked decisions D-001 to D-011 live in `PROJECT_SPEC.md` section 4. Add new dec
 | R-004 | Phase 1 baselines used different subsets | Re-scored on identical rows in Phase 2 (D-007) | Resolved (E-011) |
 | R-005 | Jodhpur EPW is ISHRAE2014, others TMYx | Verified valid Jodhpur TMYx exists in `data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx/IND_RJ_Jodhpur.423390_TMYx.epw` | Resolved |
 | R-006 | Simulation tooling untested beyond running `energyplus.exe` | Phase 3 completed: 10,000 runs executed with 99.88% success rate, 3 directional checks and sensitivity verified | Resolved (E-016, E-017) |
-| R-007 | Agent deleted stray Uluberia EPW files in the root | Human confirms copy exists in `India_Weather_Extracted` | Open |
+| R-007 | Agent deleted stray Uluberia EPW files in the root | Confirmed missing in local unzipped copy; copy exists in complete India_Weather_Extracted archive | Open |
 | R-008 | DB II is mostly non-shelter buildings | Stated limitation | Accepted |
 | R-009 | Tropical row loss: Group A has 21,974 raw rows (20.15% of DB II), but only 8,968 clean complete-case rows are kept (40.81% retention, 59.19% loss due to missing `tr`) | Quantified in clean log; NaN-tolerant XGBoost (D-004a) trains on all tropical TSV rows; Group A retains 253 buildings in TSV set and 197 in clean set | Mitigated in modeling |
 | R-010 | India count discrepancy (2,170 complete-case rows vs 18,714 raw rows because 16,347 raw India rows lack `tr`; Set B without `tr` retains 18,061 India rows) | Documented filter trail; D-004a NaN-tolerant model trains on full India TSV set; A1 ablation tests model performance without `tr` | Mitigated in modeling |
@@ -211,10 +215,10 @@ Locked decisions D-001 to D-011 live in `PROJECT_SPEC.md` section 4. Add new dec
 
 ## Proposals (agents add here; human decides)
 
-- **Proposal 1 (Geometry Alignment):** Align `docs/COSTS.md` and `src/costs/bom.py` ($20.25\text{ m}^2 \to 20.00\text{ m}^2$) and fix `web/src/app/recommender/page.tsx` and `web/src/lib/api.ts` to strictly reflect the simulated single-zone shelter footprint ($5.0\text{m} \times 4.0\text{m} = 20.00\text{ m}^2$, $H=3.0\text{m}$, $V=60.00\text{ m}^3$, carpet area $20\text{ m}^2$). Stop sending `building_type: "house"` from wizard.
-- **Proposal 2 (Temperature-Controlled Natural Ventilation - D-029):** In Phase 1, replace constant uncontrolled ventilation with temperature-controlled natural ventilation in `src/sim/render.py` (open windows only when $T_{\text{indoor}} > T_{\text{outdoor}}$ and $T_{\text{indoor}} > 24^\circ\text{C}$, ACH range 1.0 to 15.0).
-- **Proposal 3 (ReportLab Unicode Font Embedding):** Embed a true Devanagari TTF (`NotoSansDevanagari-Regular.ttf` or `IBMPlexSansDevanagari-Regular.ttf`) in `api/pdf.py` to fix null glyph rendering for Hindi PDF exports.
-- **Proposal 4 (Strict Verified-Badge Integrity):** Enforce that only direct EnergyPlus verified simulation values are displayed in package cards and API endpoints; eliminate 0-clipping of negative surrogate predictions ($O_2$) from ever being labeled as verified.
+- **Proposal 1 (Geometry Alignment):** Approved (D-030).
+- **Proposal 2 (Temperature-Controlled Natural Ventilation):** Approved (D-031).
+- **Proposal 3 (ReportLab Unicode Font Embedding):** Approved (D-032).
+- **Proposal 4 (Strict Verified-Badge Integrity):** Approved (D-033).
 
 ## Changelog
 
@@ -260,6 +264,7 @@ Locked decisions D-001 to D-011 live in `PROJECT_SPEC.md` section 4. Add new dec
 - 2026-10-26: ThermoHome AI Layout Polish, Offline Demo Mode & Report Export: Audited app.py for layout bugs and visual overlaps. Fixed sun-path arc clipping outside plot bounds by implementing hemisphere-aware dynamic y-axis scaling ([-2.2, 13.5] for Northern, [-0.5, 15.2] for Southern). Resolved thermometer gauge pointer callout overlapping the Balanced Comfort band by shifting the pointer badge left (x=3.55) and right-aligning band text (x=10.3), wrapping the dashed neutral baseline label in a solid rounded pill box (#DCFCE7) to eliminate strikethrough artifacts. Restructured UI into a clean 3-tab layout: 'Climate' (metrics, ASHRAE classification, comfort need, thermometer gauge, offset table, 365-day degree day series), 'Materials' (cardinal wall assemblies and roof/interior thermal specifications), and 'Wall Layout' (high-contrast top-view house diagram, cardinal orientation strategies, and export options). Added 'Offline Demo Mode' sidebar checkbox to immediately evaluate recommendations with saved sample weather without network dependencies. Implemented downloadable summary reports in Markdown and vector PDF (via ReportLab) with direct download buttons in both the Wall Layout tab and sidebar. Verified 16/16 unit tests pass in pytest. Logged E-056.
 - 2026-10-26: Phase 0 Single-Zone Shelter Read-Only Audit (v2 Pipeline Fix): Executed comprehensive empirical audit across all 9 questions without modifying code; produced `reports/audit_fix_plan.md`; ran EnergyPlus 26.2.0 Mumbai one-factor ventilation sensitivity test showing $\Delta T_a = 0.24^\circ\text{C}$ and $0.00^\circ\text{C}$ peak delta under uncontrolled ventilation; discovered 59 negative surrogate $O_2$ predictions clipped to 0 (including Mumbai Lowest energy package clipped from -9.36 to 0.00 kWh/m2 vs 0.69 actual); audited Pareto variable bound pinning (100% of verified designs pinned to 1.0 ACH across all 5 cities); tracked fake 68% muggy string to `src/api/recommender.py:60`; recomputed D-017 confidence tiers and found UI boolean evaluation bug demoting Medium to Low; confirmed ReportLab PDF Devanagari Hindi font renders 0 glyphs (null bytes); verified baseline test suites pass (pytest 61 passed 1 skipped, npm test 51/51 passed). Logged E-057..E-061. Stopped for human approval before Phase 1.
 - 2026-10-31: Phase 1 Result Correctness Start & Service Launch: Received human approval to start Phase 1. Launched FastAPI backend (port 8000) and Next.js frontend (port 3000) with verified HTTP 200 health responses. Aligned tests/test_costs.py to canonical 20.00 m2 (5m x 4m) single-zone shelter geometry. Fixed consistency test cooling mode assertion. Full test suites passing (pytest 61 passed 1 skipped in 47.97s, npm test 51/51 passed in 0.82s). Marked Phase 1 IN PROGRESS. Logged E-062.
+- 2026-11-01: Phase 1 Step 2 Complete & Decisions D-030..D-033 Adopted: Initialized git repository baseline snapshot v1.6.0; configured core.autocrlf false and .gitattributes to protect export manifest byte hashes; logged approved Proposals 1-4 as Decisions D-030 to D-033; implemented temperature-controlled natural ventilation ($T_{\text{in}} > 24.0^\circ\text{C}$ and $T_{\text{in}} - T_{\text{out}} \ge 1.0^\circ\text{C}$) in `src/sim/template.idf` and `src/sim/render.py`; added automated unit verification test in `tests/test_coupling.py` (6/6 passed). Marked Phase 1 Step 2 complete.
 
 
 

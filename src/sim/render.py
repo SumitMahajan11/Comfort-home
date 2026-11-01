@@ -421,7 +421,7 @@ BuildingSurface:Detailed, West_Wall, Wall, Exterior_Wall_Construction, Main_Zone
 People, Shelter_Occupants, Main_Zone, Always_On, People, 2.0, , , 0.3, , Shelter_Activity_Sched;
 Schedule:Constant, Shelter_Activity_Sched, AnyNumber, 125.0;
 
-ZoneVentilation:DesignFlowRate, Natural_Ventilation, Main_Zone, Always_On, AirChanges/Hour, , , , {vent_ach:.2f}, Natural, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 20.0, , , , 1.0;
+ZoneVentilation:DesignFlowRate, Natural_Ventilation, Main_Zone, Always_On, AirChanges/Hour, , , , {vent_ach:.2f}, Natural, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 24.0, , , , 1.0;
 ZoneInfiltration:DesignFlowRate, Infiltration_0p5ACH, Main_Zone, Always_On, AirChanges/Hour, , , , 0.5;
 
 {hvac_str}

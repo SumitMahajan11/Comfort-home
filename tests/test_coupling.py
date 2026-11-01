@@ -139,5 +139,51 @@ def test_ml_champion_model_known_inputs():
     assert res_cold['cool_ml'] == 100.0
     assert res_cold['O1_ml'] == 100.0
 
+def test_temperature_controlled_natural_ventilation_parameters(tmp_path):
+    """Verify that shelter template and render engine enforce temperature-controlled natural ventilation.
+    Requirements:
+    - Minimum Indoor Temperature > 24.0 C
+    - Indoor - Outdoor Delta Temperature >= 1.0 C
+    """
+    import os
+    import re
+    from src.sim.render import render_shelter_idf
+
+    # 1. Verify template.idf
+    template_path = os.path.join("src", "sim", "template.idf")
+    assert os.path.exists(template_path)
+    with open(template_path, "r", encoding="utf-8") as f:
+        template_text = f.read()
+
+    vent_match = re.search(
+        r"ZoneVentilation:DesignFlowRate,\s*\n\s*Natural_Ventilation.*?;",
+        template_text,
+        re.DOTALL
+    )
+    assert vent_match is not None, "Natural_Ventilation object missing in template.idf"
+    vent_obj = vent_match.group(0)
+    # Check minimum indoor temp 24.0 and delta temp 1.0
+    assert "24.0," in vent_obj, "Minimum Indoor Temperature must be 24.0 C in template.idf"
+    assert "1.0;" in vent_obj, "Delta Temperature must be 1.0 C in template.idf"
+
+    # 2. Verify render_shelter_idf for shelter_v1
+    sample_params = {
+        'roof_insulation_thickness': 0.05,
+        'wall_insulation_thickness': 0.03,
+        'wall_mass_class': 'medium',
+        'roof_solar_absorptance': 0.6,
+        'wwr': 0.15,
+        'orientation': 0.0,
+        'shading_depth': 0.0,
+        'ventilation_ach': 5.0
+    }
+    out_idf = str(tmp_path / "test_shelter.idf")
+    render_shelter_idf(sample_params, output_idf_path=out_idf, mode='free_running')
+    with open(out_idf, "r", encoding="utf-8") as f:
+        rendered = f.read()
+
+    assert "Natural_Ventilation" in rendered
+    assert "24.0, , , , 1.0;" in rendered, "Rendered shelter_v1 must specify 24.0 C min indoor temp and 1.0 C delta temp"
+
 if __name__ == "__main__":
     pytest.main(["-v", "tests/test_coupling.py"])
