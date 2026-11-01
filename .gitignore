@@ -17,6 +17,7 @@ web/.next/
 
 # raw data: re-downloadable or licence-restricted
 data/raw/
+data/docs/
 
 # bulky generated output
 data/processed/scaling/

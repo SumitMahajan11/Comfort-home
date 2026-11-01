@@ -191,8 +191,8 @@ def test_r3_code_compliant_references():
 
     cities = ["Jodhpur", "Mumbai", "New_Delhi", "Bengaluru", "Shimla"]
     required_keys = [
-        'name', 'climate_zone', 'code_standard', 'citation_source', 'citation_url',
-        'target_u_roof', 'target_u_wall', 'roof_insulation_thickness', 'wall_insulation_thickness',
+        'name', 'climate_zone', 'primary_standard', 'secondary_standard', 'citation_url',
+        'roof_insulation_thickness', 'wall_insulation_thickness',
         'wall_mass_class', 'roof_solar_absorptance', 'wwr', 'orientation', 'shading_depth', 'ventilation_ach'
     ]
 
@@ -201,21 +201,28 @@ def test_r3_code_compliant_references():
         assert r3['name'] == 'R3_Code_Compliant'
         for k in required_keys:
             assert k in r3, f"Missing key {k} in R3 for {city}"
-        assert "ECBC" in r3['code_standard'] or "ENS" in r3['code_standard']
+        assert "ENS" in r3['primary_standard'] or "Eco-Niwas" in r3['primary_standard']
+        assert "ECBC" in r3['secondary_standard']
         assert r3['citation_url'].startswith("https://")
         assert r3['roof_insulation_thickness'] > 0.0, f"Roof insulation must be > 0 for {city}"
         assert r3['wall_insulation_thickness'] > 0.0, f"Wall insulation must be > 0 for {city}"
+        # All overhangs must meet Step 4 constraint >= 0.30 m
+        assert r3['shading_depth'] >= 0.30, f"Overhang must be >= 0.30 m for {city}"
+        # Standard baseline ventilation across all cities
+        assert r3['ventilation_ach'] == 5.0, f"Ventilation must be standard 5.0 ACH for {city}"
 
         refs = get_city_references(city)
         assert len(refs) == 3
         assert [r['name'] for r in refs] == ['R1_Lightweight', 'R2_Conventional', 'R3_Code_Compliant']
 
     # Physical climate differentiation checks:
-    # Shimla (Cold) requires higher roof insulation (0.125 m) and wall insulation (0.100 m) than Bengaluru (Temperate, 0.050 m wall)
-    assert get_reference_r3("Shimla")['roof_insulation_thickness'] == 0.125
+    # Shimla (Cold) requires higher roof insulation (0.150 m) and wall insulation (0.100 m) than Bengaluru (Temperate, 0.075 m wall)
+    assert get_reference_r3("Shimla")['roof_insulation_thickness'] == 0.150
     assert get_reference_r3("Shimla")['wall_insulation_thickness'] == 0.100
-    assert get_reference_r3("Bengaluru")['wall_insulation_thickness'] == 0.050
-    # Hot-Dry, Warm-Humid, Composite cool roof solar absorptance <= 0.30 (SRI >= 78)
+    assert get_reference_r3("Bengaluru")['wall_insulation_thickness'] == 0.075
+    # Shimla passive-solar tuning removed: standard conventional absorptance 0.60
+    assert get_reference_r3("Shimla")['roof_solar_absorptance'] == 0.60
+    # Hot-Dry, Warm-Humid, Composite cool roof solar absorptance <= 0.30 (Reflectance >= 0.70)
     for c in ["Jodhpur", "Mumbai", "New_Delhi"]:
         assert get_reference_r3(c)['roof_solar_absorptance'] <= 0.30
 
