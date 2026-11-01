@@ -23,6 +23,8 @@ data/processed/scaling/
 data/processed/scaling_test*/
 data/processed/pilot/
 data/processed/smoke_test/
+data/processed/smoke_sim_new_idf/
+data/processed/smoke_sim_rendered/
 data/processed/sim_*/
 data/processed/ver_*/
 data/processed/temp_*/
