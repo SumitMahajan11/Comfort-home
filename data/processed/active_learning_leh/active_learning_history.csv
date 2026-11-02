@@ -1,0 +1,4 @@
+round,train_size,sim_time_sec,retrain_time_sec,nsga_time_sec,verify_time_sec,wall_time_sec,wall_time_min,peak_ram_gb,free_disk_gb,median_O2,mean_err_O1_ml,max_err_O1_ml,mean_err_O1_adapt,max_err_O1_adapt,mean_err_O2_abs,max_err_O2_abs,mean_err_O2_pct,max_err_O2_pct,criteria_met
+1,1100,249.31,314.28,121.76,0.0,685.41,11.42,9.27,57.29,673.78,1.01,2.28,5.19,12.89,4.11,15.48,0.61,2.3,False
+2,1200,246.91,139.66,46.97,0.0,433.56,7.23,8.31,57.29,646.76,0.45,1.42,3.84,12.58,11.0,42.94,1.7,6.64,False
+3,1200,78.96,0.0,0.0,0.0,78.98,1.32,8.82,57.28,645.7,0.4,1.15,1.94,6.29,4.95,20.77,0.77,3.22,False

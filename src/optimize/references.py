@@ -31,7 +31,8 @@ CITIES_EPW = {
     "Mumbai": "data/raw/India_Weather_Extracted/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.epw",
     "New_Delhi": "data/raw/India_Weather_Extracted/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.epw",
     "Bengaluru": "data/raw/India_Weather_Extracted/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.epw",
-    "Shimla": "data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx/IND_HP_Shimla.420830_TMYx.epw"
+    "Shimla": "data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx/IND_HP_Shimla.420830_TMYx.epw",
+    "Leh": "data/raw/India_Weather_Extracted/IND_JK_Leh.427053_TMYx.2011-2025/IND_JK_Leh.427053_TMYx.2011-2025.epw"
 }
 
 # Assumption A-006: R1 Lightweight reference shelter
@@ -209,6 +210,31 @@ REFERENCE_R3_PER_CITY = {
         'orientation': 0.0,
         'shading_depth': 0.30,               # ASSUMPTION: Step 4 overhang lower bound (>= 0.30 m)
         'ventilation_ach': 5.0               # ASSUMPTION: Standard baseline infiltration default (2.0 ACH tuning removed)
+    },
+    'Leh': {
+        'name': 'R3_Code_Compliant',
+        'climate_zone': 'Cold',
+        'primary_standard': 'Eco-Niwas Samhita 2024 (Residential)',
+        'primary_clause': 'ENS Section 5.2.1.3 (U_roof <= 1.2 W/m2-K), Section 5.2.1.5 (U_envelope,cold <= 1.80 W/m2-K)',
+        'secondary_standard': 'ECBC 2017 (Commercial)',
+        'secondary_clause': 'ECBC Table 4-4 (Cold Roof U<=0.28), Table 4-7 (Cold Wall U<=0.34)',
+        'citation_pdf_primary': 'data/docs/ENS_2024.pdf (p. 34)',
+        'citation_pdf_secondary': 'data/docs/ECBC_2017.pdf (pp. 59-60)',
+        'citation_url': 'https://beeindia.gov.in',
+        'target_u_roof_ens': 1.20,
+        'target_u_roof_ecbc': 0.28,
+        'target_u_wall_ens': 1.80,
+        'target_u_wall_ecbc': 0.34,
+        'computed_u_roof': 0.238,            # 150 mm XPS: R_total=4.209 -> U=0.238 W/m2-K (Meets ENS 1.20 & ECBC 0.28)
+        'computed_u_wall': 0.326,            # 100 mm XPS: R_total=3.068 -> U=0.326 W/m2-K (Meets ECBC 0.34 & ENS 1.80)
+        'roof_insulation_thickness': 0.150,  # 150 mm XPS (25 mm step)
+        'wall_insulation_thickness': 0.100,  # 100 mm XPS (25 mm step)
+        'wall_mass_class': 'medium',
+        'roof_solar_absorptance': 0.60,      # ASSUMPTION: Standard conventional absorptance
+        'wwr': 0.15,                         # ASSUMPTION: Baseline fenestration ratio (ECBC Table 4-10 max <= 0.40)
+        'orientation': 0.0,
+        'shading_depth': 0.30,               # ASSUMPTION: Step 4 overhang lower bound (>= 0.30 m)
+        'ventilation_ach': 5.0               # ASSUMPTION: Standard baseline infiltration default
     }
 }
 

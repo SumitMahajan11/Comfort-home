@@ -1,0 +1,27 @@
+================================================================================
+PILOT EXECUTION FOR LEH UNDER DECISION D-035
+Timestamp: 2026-11-02 11:11:15
+EPW Weather File: data/raw/India_Weather_Extracted/IND_JK_Leh.427053_TMYx.2011-2025/IND_JK_Leh.427053_TMYx.2011-2025.epw
+Max Worker Processes: 6
+Disk Guard Threshold: >= 5.0 GB Free
+================================================================================
+Initial System Resources: Peak RAM = 9.16 GB | Free Disk = 57.30 GB
+Loaded ML Champion Comfort Model.
+
+[STAGE 1 & 2 RESUME] Found existing verified simulation dataset: data/processed/pilot_leh\objectives_Leh.parquet
+Loaded 1000 valid paired design records.
+
+[STAGE 3 & 4 RESUME] Found existing Pareto front: data/processed/pilot_leh\pareto_Leh.parquet
+Loaded 100 Pareto designs.
+
+--------------------------------------------------------------------------------
+[STAGE 5] PHYSICAL ENERGYPLUS VERIFICATION (10 SELECTED DESIGNS x 2 MODES)
+--------------------------------------------------------------------------------
+Selected 10 representative Pareto designs across diverse trade-off roles.
+Executing 20 EnergyPlus verification runs across 6 workers...
+Saved physical verification metrics to data/processed/pilot_leh\verification_Leh.csv
+
+================================================================================
+PILOT EXECUTION COMPLETE FOR LEH
+Total Wall Time: 40.72 s (0.68 min) | Overall Peak RAM: 9.47 GB
+================================================================================

@@ -1,0 +1,70 @@
+==========================================================================================
+ACTIVE-LEARNING & SURROGATE VERIFICATION: LEH
+Timestamp: 2026-11-02 11:12:28
+==========================================================================================
+Initial training dataset size: 1000 LHS designs
+Initial Pareto candidate front: 100 designs
+
+****************************** ACTIVE LEARNING ROUND 1 ******************************
+Current training pool size: 1000 designs
+[Round 1 Step 1] Simulating 100 Pareto candidates (200 physical E+ runs)...
+Simulations finished in 249.31 s (4.16 min). Valid designs: 100
+[Round 1 Step 2] Surrogate Verification Errors (Median O2 = 673.78 kWh/m2):
+  * O1_ml:    Mean Error = 1.01 pp | Max Error = 2.28 pp
+  * O1_adapt: Mean Error = 5.19 pp | Max Error = 12.89 pp
+  * O2:       Mean Error = 4.11 kWh/m2 (0.61% of median O2) | Max Error = 15.48 kWh/m2 (2.30% of median O2)
+[Round 1 Step 3] Stopping Criteria Assessment: CRITERIA NOT MET (CONTINUE)
+[Round 1 Step 4] Adding 100 verified designs to training pool...
+New pool size: 1100 designs
+[Round 1 Step 5] Retraining 5 surrogate models with Optuna 40 trials & 5-fold CV...
+Surrogate retraining finished in 314.28 s (5.24 min)
+  * O1_ml      -> CV R2: 0.9709 | Test R2: 0.9786 | Test MAE: 0.255 | Multi-Seed R2 (42/43/44): 0.9708/0.9587/0.9702
+  * warm_ml    -> CV R2: 0.7817 | Test R2: 0.6114 | Test MAE: 0.002 | Multi-Seed R2 (42/43/44): 0.9890/0.2089/-0.0864
+  * cool_ml    -> CV R2: 0.9703 | Test R2: 0.9794 | Test MAE: 0.254 | Multi-Seed R2 (42/43/44): 0.9713/0.9620/0.9699
+  * O1_adapt   -> CV R2: 0.9448 | Test R2: 0.9497 | Test MAE: 1.527 | Multi-Seed R2 (42/43/44): 0.9173/0.9290/0.9124
+  * O2         -> CV R2: 0.9931 | Test R2: 0.9902 | Test MAE: 5.522 | Multi-Seed R2 (42/43/44): 0.9745/0.9785/0.9897
+[Round 1 Step 6] Re-running NSGA-II optimization (Pop=100, Gen=200, Seed=42, Clamped)...
+NSGA-II completed in 121.76 s (2.03 min)
+Generated 100 candidate designs for Round 2.
+
+****************************** ACTIVE LEARNING ROUND 2 ******************************
+Current training pool size: 1100 designs
+[Round 2 Step 1] Simulating 100 Pareto candidates (200 physical E+ runs)...
+Simulations finished in 246.91 s (4.12 min). Valid designs: 100
+[Round 2 Step 2] Surrogate Verification Errors (Median O2 = 646.76 kWh/m2):
+  * O1_ml:    Mean Error = 0.45 pp | Max Error = 1.42 pp
+  * O1_adapt: Mean Error = 3.84 pp | Max Error = 12.58 pp
+  * O2:       Mean Error = 11.00 kWh/m2 (1.70% of median O2) | Max Error = 42.94 kWh/m2 (6.64% of median O2)
+[Round 2 Step 3] Stopping Criteria Assessment: CRITERIA NOT MET (CONTINUE)
+[Round 2 Step 4] Adding 100 verified designs to training pool...
+New pool size: 1200 designs
+[Round 2 Step 5] Retraining 5 surrogate models with Optuna 40 trials & 5-fold CV...
+Surrogate retraining finished in 139.66 s (2.33 min)
+  * O1_ml      -> CV R2: 0.9809 | Test R2: 0.9769 | Test MAE: 0.312 | Multi-Seed R2 (42/43/44): 0.9708/0.9825/0.9745
+  * warm_ml    -> CV R2: 0.9189 | Test R2: 0.9150 | Test MAE: 0.002 | Multi-Seed R2 (42/43/44): 0.8989/0.8975/0.8425
+  * cool_ml    -> CV R2: 0.9811 | Test R2: 0.9756 | Test MAE: 0.324 | Multi-Seed R2 (42/43/44): 0.9712/0.9826/0.9753
+  * O1_adapt   -> CV R2: 0.9554 | Test R2: 0.9495 | Test MAE: 1.510 | Multi-Seed R2 (42/43/44): 0.9344/0.9614/0.9107
+  * O2         -> CV R2: 0.9942 | Test R2: 0.9941 | Test MAE: 4.427 | Multi-Seed R2 (42/43/44): 0.9838/0.9815/0.9883
+[Round 2 Step 6] Re-running NSGA-II optimization (Pop=100, Gen=200, Seed=42, Clamped)...
+NSGA-II completed in 46.97 s (0.78 min)
+Generated 100 candidate designs for Round 3.
+
+****************************** ACTIVE LEARNING ROUND 3 ******************************
+Current training pool size: 1200 designs
+[Round 3 Step 1] Simulating 100 Pareto candidates (200 physical E+ runs)...
+Simulations finished in 78.96 s (1.32 min). Valid designs: 100
+[Round 3 Step 2] Surrogate Verification Errors (Median O2 = 645.70 kWh/m2):
+  * O1_ml:    Mean Error = 0.40 pp | Max Error = 1.15 pp
+  * O1_adapt: Mean Error = 1.94 pp | Max Error = 6.29 pp
+  * O2:       Mean Error = 4.95 kWh/m2 (0.77% of median O2) | Max Error = 20.77 kWh/m2 (3.22% of median O2)
+[Round 3 Step 3] Stopping Criteria Assessment: CRITERIA NOT MET (CONTINUE)
+
+[Round 3 Final] Evaluated Pareto front under true physical simulation objectives: 30 non-dominated designs found out of 100.
+
+Saved round history to data/processed/active_learning_leh\active_learning_history.csv
+Saved final verified Pareto front to data/processed/active_learning_leh\final_verified_pareto_Leh.parquet and data/processed/active_learning_leh\final_verified_pareto_Leh.csv
+Saved all 100 evaluated designs to data/processed/active_learning_leh\final_verified_all_100_Leh.parquet
+
+==========================================================================================
+ACTIVE-LEARNING COMPLETED FOR LEH
+==========================================================================================

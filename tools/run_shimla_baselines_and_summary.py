@@ -117,12 +117,17 @@ def evaluate_metrics(fr_hourly, il_summary, champ_model):
         vel=0.15
     )
 
+    hours_lt_5 = int(np.sum(top < 5.0))
+    hours_gt_35 = int(np.sum(top > 35.0))
+
     o2_val = float(il_summary['o2_energy_kwh_per_m2']) if il_summary else float('nan')
 
     return {
         'T_op_med': round(top_median, 2),
         'T_op_95th': round(top_95th, 2),
         'T_op_max': round(top_max, 2),
+        'T_op_lt_5': hours_lt_5,
+        'T_op_gt_35': hours_gt_35,
         'O1_ml': round(float(ml_res['O1_ml']), 2),
         'O1_adapt': round(float(adapt_res['O1_adapt']), 2),
         'O2': round(o2_val, 2)
@@ -228,7 +233,7 @@ def main():
         m['design'] = did
         pareto_records.append(m)
 
-    top_meds, top_95ths, top_maxs = [], [], []
+    top_meds, top_95ths, top_maxs, top_lt_5s, top_gt_35s = [], [], [], [], []
     for _, row in df_100.iterrows():
         did = row['pareto_id']
         tag = f"cand100_{did}"
@@ -238,6 +243,8 @@ def main():
             top_meds.append(float(np.median(top)))
             top_95ths.append(float(np.percentile(top, 95)))
             top_maxs.append(float(np.max(top)))
+            top_lt_5s.append(int(np.sum(top < 5.0)))
+            top_gt_35s.append(int(np.sum(top > 35.0)))
 
     cand100_summary = {
         'best': {
@@ -247,7 +254,9 @@ def main():
             'O2': round(float(df_100['O2'].min()), 2),
             'T_op_med': round(float(np.min(top_meds)), 2),
             'T_op_95th': round(float(np.min(top_95ths)), 2),
-            'T_op_max': round(float(np.min(top_maxs)), 2)
+            'T_op_max': round(float(np.min(top_maxs)), 2),
+            'T_op_lt_5': int(np.min(top_lt_5s)),
+            'T_op_gt_35': int(np.min(top_gt_35s))
         },
         'median': {
             'design': '100_Candidates_Median',
@@ -256,7 +265,9 @@ def main():
             'O2': round(float(df_100['O2'].median()), 2),
             'T_op_med': round(float(np.median(top_meds)), 2),
             'T_op_95th': round(float(np.median(top_95ths)), 2),
-            'T_op_max': round(float(np.median(top_maxs)), 2)
+            'T_op_max': round(float(np.median(top_maxs)), 2),
+            'T_op_lt_5': int(np.median(top_lt_5s)),
+            'T_op_gt_35': int(np.median(top_gt_35s))
         },
         'worst': {
             'design': '100_Candidates_Worst (Max)',
@@ -265,7 +276,9 @@ def main():
             'O2': round(float(df_100['O2'].max()), 2),
             'T_op_med': round(float(np.max(top_meds)), 2),
             'T_op_95th': round(float(np.max(top_95ths)), 2),
-            'T_op_max': round(float(np.max(top_maxs)), 2)
+            'T_op_max': round(float(np.max(top_maxs)), 2),
+            'T_op_lt_5': int(np.max(top_lt_5s)),
+            'T_op_gt_35': int(np.max(top_gt_35s))
         }
     }
 
@@ -274,25 +287,25 @@ def main():
     df_base_out.to_csv(SUMMARY_CSV, index=False)
 
     lines = []
-    lines.append("=" * 110)
+    lines.append("=" * 128)
     lines.append(f"SHIMLA SUMMARY REPORT UNDER DECISION D-035 PHYSICS")
     lines.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    lines.append("=" * 110)
+    lines.append("=" * 128)
     lines.append("")
     lines.append("TABLE 1: BASELINES (R1/R2/R3) vs VERIFIED PARETO FRONT vs 100 CANDIDATES (BEST/MEDIAN/WORST)")
-    lines.append("-" * 110)
-    lines.append(f"{'Design / Benchmark':<32} {'O1_ml (%)':<11} {'O1_ad (%)':<11} {'O2 (kWh/m2)':<13} {'Top Med (C)':<13} {'Top 95th (C)':<13} {'Top Max (C)':<13}")
-    lines.append("-" * 110)
+    lines.append("-" * 128)
+    lines.append(f"{'Design / Benchmark':<28} {'O1_ml (%)':<10} {'O1_ad (%)':<10} {'O2 (kWh/m2)':<12} {'Top Med (C)':<12} {'Top 95th (C)':<13} {'Top Max (C)':<12} {'Top<5C (h)':<11} {'Top>35C (h)':<11}")
+    lines.append("-" * 128)
     for b in baseline_records:
-        lines.append(f"{b['design']:<32} {b['O1_ml']:<11.2f} {b['O1_adapt']:<11.2f} {b['O2']:<13.2f} {b['T_op_med']:<13.2f} {b['T_op_95th']:<13.2f} {b['T_op_max']:<13.2f}")
-    lines.append("-" * 110)
+        lines.append(f"{b['design']:<28} {b['O1_ml']:<10.2f} {b['O1_adapt']:<10.2f} {b['O2']:<12.2f} {b['T_op_med']:<12.2f} {b['T_op_95th']:<13.2f} {b['T_op_max']:<12.2f} {b['T_op_lt_5']:<11d} {b['T_op_gt_35']:<11d}")
+    lines.append("-" * 128)
     for p in pareto_records:
-        lines.append(f"{p['design']:<32} {p['O1_ml']:<11.2f} {p['O1_adapt']:<11.2f} {p['O2']:<13.2f} {p['T_op_med']:<13.2f} {p['T_op_95th']:<13.2f} {p['T_op_max']:<13.2f}")
-    lines.append("-" * 110)
+        lines.append(f"{p['design']:<28} {p['O1_ml']:<10.2f} {p['O1_adapt']:<10.2f} {p['O2']:<12.2f} {p['T_op_med']:<12.2f} {p['T_op_95th']:<13.2f} {p['T_op_max']:<12.2f} {p['T_op_lt_5']:<11d} {p['T_op_gt_35']:<11d}")
+    lines.append("-" * 128)
     for k in ['best', 'median', 'worst']:
         c = cand100_summary[k]
-        lines.append(f"{c['design']:<32} {c['O1_ml']:<11.2f} {c['O1_adapt']:<11.2f} {c['O2']:<13.2f} {c['T_op_med']:<13.2f} {c['T_op_95th']:<13.2f} {c['T_op_max']:<13.2f}")
-    lines.append("-" * 110)
+        lines.append(f"{c['design']:<28} {c['O1_ml']:<10.2f} {c['O1_adapt']:<10.2f} {c['O2']:<12.2f} {c['T_op_med']:<12.2f} {c['T_op_95th']:<13.2f} {c['T_op_max']:<12.2f} {c['T_op_lt_5']:<11d} {c['T_op_gt_35']:<11d}")
+    lines.append("-" * 128)
     lines.append("")
 
     lines.append("TABLE 2: ACTIVE LEARNING PER-ROUND MEAN AND MAX SURROGATE ERRORS (SHIMLA)")
