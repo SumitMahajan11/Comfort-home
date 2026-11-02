@@ -20,6 +20,127 @@ Parametrized by the 8 standard design variables:
 """
 
 import os
+import json
+import logging
+
+logger = logging.getLogger(__name__)
+
+DEFAULT_GROUND_TEMP = 18.0
+_GROUND_TEMPS_CACHE = {}
+
+def parse_epw_ground_temperatures(epw_file):
+    """
+    Parses monthly ground temperatures from EPW header GROUND TEMPERATURES line.
+    Returns dict mapping depth_m (float) to list of 12 monthly float temperatures.
+    """
+    if not epw_file or not os.path.exists(epw_file):
+        return None
+    try:
+        with open(epw_file, 'r', encoding='latin-1') as f:
+            for line in f:
+                if line.startswith("GROUND TEMPERATURES"):
+                    parts = [p.strip() for p in line.split(',')]
+                    if len(parts) < 2:
+                        continue
+                    num_depths = int(parts[1])
+                    depths = {}
+                    idx = 2
+                    for _ in range(num_depths):
+                        if idx >= len(parts):
+                            break
+                        d_val = float(parts[idx])
+                        temps = [float(x) for x in parts[idx+4:idx+16]]
+                        depths[d_val] = temps
+                        idx += 16
+                    return depths
+    except Exception as e:
+        logger.warning(f"Error reading GROUND TEMPERATURES from EPW {epw_file}: {e}")
+    return None
+
+def resolve_epw_path(epw_path=None, city=None):
+    """Resolves EPW file path from explicit path, city name, or manifest."""
+    if epw_path and os.path.exists(epw_path):
+        return epw_path
+    if city:
+        manifest_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "raw", "weather_baseline_manifest.json")
+        if os.path.exists(manifest_path):
+            try:
+                with open(manifest_path, 'r', encoding='utf-8') as f:
+                    manifest = json.load(f)
+                if city in manifest.get('files', {}):
+                    cand = manifest['files'][city].get('path')
+                    if cand and os.path.exists(cand):
+                        return cand
+            except Exception:
+                pass
+        known_defaults = {
+            'Jodhpur': "data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx/IND_RJ_Jodhpur.423390_TMYx.epw",
+            'Mumbai': "data/raw/India_Weather_Extracted/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.epw",
+            'New_Delhi': "data/raw/India_Weather_Extracted/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.epw",
+            'Bengaluru': "data/raw/India_Weather_Extracted/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.epw",
+            'Shimla': "data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx/IND_HP_Shimla.420830_TMYx.epw",
+        }
+        cand = known_defaults.get(city)
+        if cand and os.path.exists(cand):
+            return cand
+    return None
+
+def get_ground_temperatures_from_epw(epw_path=None, city=None, target_depth=0.5):
+    """
+    Extracts monthly ground temperatures for building surfaces from EPW header.
+    Selects target_depth (default 0.5 m shallow depth for slab-on-grade floors).
+    If target_depth is not found, chooses the shallowest available depth.
+    If EPW is missing or GROUND TEMPERATURES block is absent, logs fallback to 18.0 C.
+    """
+    resolved_path = resolve_epw_path(epw_path, city)
+    cache_key = (resolved_path, target_depth)
+    if cache_key in _GROUND_TEMPS_CACHE:
+        return _GROUND_TEMPS_CACHE[cache_key]
+
+    if resolved_path:
+        depths = parse_epw_ground_temperatures(resolved_path)
+        if depths:
+            if target_depth in depths:
+                temps = depths[target_depth]
+            else:
+                shallowest = min(depths.keys())
+                temps = depths[shallowest]
+            _GROUND_TEMPS_CACHE[cache_key] = temps
+            return temps
+        else:
+            logger.warning(
+                f"GROUND TEMPERATURES header block missing in EPW '{resolved_path}'. "
+                f"Falling back to constant {DEFAULT_GROUND_TEMP:.1f} °C ground temperatures (Decision D-035)."
+            )
+    else:
+        logger.warning(
+            f"No valid EPW weather file found for city='{city}' or epw_path='{epw_path}'. "
+            f"Falling back to constant {DEFAULT_GROUND_TEMP:.1f} °C ground temperatures (Decision D-035)."
+        )
+
+    fallback = [DEFAULT_GROUND_TEMP] * 12
+    _GROUND_TEMPS_CACHE[cache_key] = fallback
+    return fallback
+
+def _get_ground_temperatures_idf(ground_temps):
+    """Generates Site:GroundTemperature:BuildingSurface IDF object."""
+    return f"""!- ============================================================================
+!- GROUND TEMPERATURES (Decision D-035: Read from EPW header 0.5m depth)
+!- ============================================================================
+Site:GroundTemperature:BuildingSurface,
+  {ground_temps[0]:.2f},  !- January Ground Temperature {{C}}
+  {ground_temps[1]:.2f},  !- February Ground Temperature {{C}}
+  {ground_temps[2]:.2f},  !- March Ground Temperature {{C}}
+  {ground_temps[3]:.2f},  !- April Ground Temperature {{C}}
+  {ground_temps[4]:.2f},  !- May Ground Temperature {{C}}
+  {ground_temps[5]:.2f},  !- June Ground Temperature {{C}}
+  {ground_temps[6]:.2f},  !- July Ground Temperature {{C}}
+  {ground_temps[7]:.2f},  !- August Ground Temperature {{C}}
+  {ground_temps[8]:.2f},  !- September Ground Temperature {{C}}
+  {ground_temps[9]:.2f},  !- October Ground Temperature {{C}}
+  {ground_temps[10]:.2f}, !- November Ground Temperature {{C}}
+  {ground_temps[11]:.2f}; !- December Ground Temperature {{C}}
+"""
 
 def _get_common_materials_idf(wall_mass_class, wall_ins_thick, roof_ins_thick, roof_abs):
     """Generates standard material and construction IDF definitions."""
@@ -278,11 +399,14 @@ def render_building_idf(
     building_type='shelter_v1',
     mode='free_running',
     run_period_days=None,
-    floor_position='middle'
+    floor_position='middle',
+    epw_path=None,
+    city=None
 ):
     """
     Renders a parametrized EnergyPlus 26.2.0 IDF file.
     Supports building_type in ['shelter_v1', 'house', 'apartment', 'commercial'].
+    Includes Site:GroundTemperature:BuildingSurface read from EPW header (Decision D-035).
     """
     roof_ins_thick = max(0.001, float(params.get('roof_insulation_thickness', 0.0)))
     wall_ins_thick = max(0.001, float(params.get('wall_insulation_thickness', 0.0)))
@@ -293,6 +417,12 @@ def render_building_idf(
     shading_depth = float(params.get('shading_depth', 0.0))
     vent_ach = max(0.5, float(params.get('ventilation_ach', 5.0)))
     
+    # Ground temperatures (Decision D-035)
+    effective_epw = epw_path or params.get('epw_path')
+    effective_city = city or params.get('city')
+    ground_temps = get_ground_temperatures_from_epw(epw_path=effective_epw, city=effective_city)
+    ground_temps_str = _get_ground_temperatures_idf(ground_temps)
+
     # Header & SimulationControl
     run_period_str = _get_run_period_idf(run_period_days)
     materials_str = _get_common_materials_idf(wall_mass, wall_ins_thick, roof_ins_thick, roof_abs)
@@ -348,6 +478,7 @@ Schedule:Constant, Heating_Setpoint_Schedule, Temperature, 20.0;
 Schedule:Constant, Cooling_Setpoint_Schedule, Temperature, 26.0;
 Schedule:Constant, Zone_Control_Type_Sched, Control_Type, 4;
 
+{ground_temps_str}
 {materials_str}
 """
 
@@ -750,7 +881,9 @@ def render_shelter_idf(
     params,
     output_idf_path,
     mode='free_running',
-    run_period_days=None
+    run_period_days=None,
+    epw_path=None,
+    city=None
 ):
     """Backwards-compatible wrapper for shelter_v1."""
     return render_building_idf(
@@ -758,5 +891,7 @@ def render_shelter_idf(
         output_idf_path=output_idf_path,
         building_type='shelter_v1',
         mode=mode,
-        run_period_days=run_period_days
+        run_period_days=run_period_days,
+        epw_path=epw_path,
+        city=city
     )

@@ -59,6 +59,23 @@ ScheduleTypeLimits, Control_Type, 0, 4, Discrete;
 
 Schedule:Constant, Always_On, Fraction, 1.0;
 
+!- ============================================================================
+!- GROUND TEMPERATURES (Decision D-035: Shallow 0.5m ground temperatures)
+!- ============================================================================
+Site:GroundTemperature:BuildingSurface,
+  18.91,                   !- January Ground Temperature {C}
+  20.40,                   !- February Ground Temperature {C}
+  23.32,                   !- March Ground Temperature {C}
+  26.07,                   !- April Ground Temperature {C}
+  31.28,                   !- May Ground Temperature {C}
+  34.03,                   !- June Ground Temperature {C}
+  34.79,                   !- July Ground Temperature {C}
+  33.39,                   !- August Ground Temperature {C}
+  30.18,                   !- September Ground Temperature {C}
+  26.17,                   !- October Ground Temperature {C}
+  22.23,                   !- November Ground Temperature {C}
+  19.62;                   !- December Ground Temperature {C}
+
 Material,
   MediumBrick_200mm,
   Rough,
