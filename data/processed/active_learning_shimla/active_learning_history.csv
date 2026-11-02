@@ -1,0 +1,4 @@
+round,train_size,wall_time_sec,wall_time_min,peak_ram_gb,free_disk_gb,mean_err_O1_ml,max_err_O1_ml,mean_err_O1_adapt,max_err_O1_adapt,mean_err_O2,max_err_O2,criteria_met
+1,1000,77.72,1.3,9.47,57.35,0.61,1.43,0.75,2.04,3.37,7.38,False
+2,1100,77.32,1.29,9.2,57.35,0.41,2.15,0.96,2.21,1.53,4.97,False
+3,1200,76.32,1.27,9.3,57.34,0.61,1.61,0.65,1.67,3.01,7.09,False

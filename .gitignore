@@ -34,6 +34,10 @@ data/processed/vent_check_test/
 data/processed/quantify_ground_runs/
 data/processed/pjodhpur004_reproduce/
 data/processed/runs_baselines_sensitivity/
+data/processed/runs_shimla_summary/
+data/processed/pilot_*/sim_*/
+data/processed/pilot_*/verif_*/
+data/processed/active_learning_*/round_*_sims/
 sim_*/
 ver_*/
 hourly_*.parquet

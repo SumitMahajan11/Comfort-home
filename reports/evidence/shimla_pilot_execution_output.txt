@@ -1,0 +1,56 @@
+================================================================================
+PILOT EXECUTION FOR SHIMLA UNDER DECISION D-035
+Timestamp: 2026-11-02 09:31:01
+EPW Weather File: data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx/IND_HP_Shimla.420830_TMYx.epw
+Max Worker Processes: 6
+Disk Guard Threshold: >= 5.0 GB Free
+================================================================================
+Initial System Resources: Peak RAM = 12.98 GB | Free Disk = 57.39 GB
+
+--------------------------------------------------------------------------------
+[STAGE 1] ENERGYPLUS BATCH SIMULATIONS (1,000 LHS DESIGNS x 2 MODES = 2,000 RUNS)
+--------------------------------------------------------------------------------
+Generated 1,000 Latin Hypercube designs with seed 42.
+Dispatching 2000 EnergyPlus simulation tasks across 6 workers...
+Stage 1 Complete in 821.79 s (13.70 min).
+Simulation Runs: 2000 Succeeded, 0 Failed (Success Rate: 100.00%).
+Peak RAM: 10.44 GB | Free Disk: 57.36 GB
+
+--------------------------------------------------------------------------------
+[STAGE 2] DUAL COMFORT JUDGE COUPLING & HOURLY AGGREGATION
+--------------------------------------------------------------------------------
+Loaded ML Champion Comfort Model.
+Aggregated 8,760,000 free-running hourly records.
+Generated 1000 valid paired design records. Saved to data/processed/pilot_shimla\objectives_Shimla.parquet
+Stage 2 Finished in 36.51 s (0.61 min) | Peak RAM: 11.42 GB
+
+--------------------------------------------------------------------------------
+[STAGE 3] SURROGATE MODEL TUNING & TRAINING (5 TARGETS)
+--------------------------------------------------------------------------------
+Tuning 5 primary XGBoost surrogates with Optuna 5-fold CV (40 trials, seed 42)...
+  * Target O2         -> Test R2: 0.9857 | Test MAE: 1.775 | Top-10% Overlap: 85.0% | S2: PASS
+  * Target warm_ml    -> Test R2: 0.9228 | Test MAE: 0.362 | Top-10% Overlap: 55.0% | S2: FAIL
+  * Target O1_adapt   -> Test R2: 0.9559 | Test MAE: 0.638 | Top-10% Overlap: 75.0% | S2: PASS
+  * Target cool_ml    -> Test R2: 0.9624 | Test MAE: 0.374 | Top-10% Overlap: 95.0% | S2: PASS
+  * Target O1_ml      -> Test R2: 0.9386 | Test MAE: 0.404 | Top-10% Overlap: 70.0% | S2: FAIL
+Stage 3 Complete in 50.71 s (0.85 min) | Peak RAM: 11.44 GB
+
+--------------------------------------------------------------------------------
+[STAGE 4] NSGA-II PARETO OPTIMIZATION (POP=100, GEN=50)
+--------------------------------------------------------------------------------
+Running NSGA-II minimization over [O1_ml, O1_adapt, O2]...
+NSGA-II completed. Found 100 non-dominated solution designs.
+Saved 100 Pareto designs to data/processed/pilot_shimla\pareto_Shimla.parquet
+Stage 4 Finished in 12.85 s (0.21 min) | Peak RAM: 11.40 GB
+
+--------------------------------------------------------------------------------
+[STAGE 5] PHYSICAL ENERGYPLUS VERIFICATION (10 SELECTED DESIGNS x 2 MODES)
+--------------------------------------------------------------------------------
+Selected 10 representative Pareto designs across diverse trade-off roles.
+Executing 20 EnergyPlus verification runs across 6 workers...
+Saved physical verification metrics to data/processed/pilot_shimla\verification_Shimla.csv
+
+================================================================================
+PILOT EXECUTION COMPLETE FOR SHIMLA
+Total Wall Time: 935.63 s (15.59 min) | Overall Peak RAM: 11.44 GB
+================================================================================
