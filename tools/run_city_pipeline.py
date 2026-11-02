@@ -129,6 +129,40 @@ ZONE_TO_FLAGSHIP_R3 = {
     "Temperate": "Bengaluru"
 }
 
+# Standard (listed in ECBC Table 11-1 or ENS Appendix) vs Assumed climate zones
+CITY_ZONE_SOURCE = {
+    "Srinagar": "STANDARD",
+    "Bhuntar": "ASSUMED",
+    "Gangtok": "ASSUMED",
+    "Jammu": "ASSUMED",
+    "Dehradun": "STANDARD",
+    "Lucknow": "STANDARD",
+    "Varanasi": "ASSUMED",
+    "Prayagraj": "STANDARD",
+    "Agra": "ASSUMED",
+    "Gorakhpur": "STANDARD",
+    "Patna": "STANDARD",
+    "Nagpur": "STANDARD",
+    "Guwahati": "STANDARD",
+    "Dibrugarh": "STANDARD",
+    "Imphal": "STANDARD",
+    "Bhubaneswar": "STANDARD",
+    "Kolkata": "STANDARD",
+    "Visakhapatnam": "STANDARD",
+    "Chennai": "STANDARD",
+    "Surat": "STANDARD",
+    "Kochi": "STANDARD",
+    "Port Blair": "ASSUMED",
+    "Bhuj": "ASSUMED",
+    "Jaisalmer": "STANDARD",
+    "Leh": "STANDARD",
+    "Shimla": "STANDARD",
+    "New_Delhi": "STANDARD",
+    "Mumbai": "STANDARD",
+    "Jodhpur": "STANDARD",
+    "Bengaluru": "STANDARD"
+}
+
 def print_settings():
     print("=" * 80)
     print("PIPELINE EXECUTION SETTINGS (Exact replica of Leh settings)")
@@ -300,19 +334,31 @@ def compute_non_dominated_front(df):
 # MAIN REUSABLE CITY PIPELINE CLASS
 # -----------------------------------------------------------------------------
 class CityPipeline:
-    def __init__(self, city_name, smoke=False):
+    def __init__(self, city_name, smoke=False, smoke_rounds=None, batch_dir=None):
         self.city_name = city_name
         self.smoke = smoke
-        self.lhs_designs = 20 if smoke else LHS_DESIGNS
-        self.al_rounds = 1 if smoke else AL_ROUNDS
-        self.al_designs_per_round = 10 if smoke else AL_DESIGNS_PER_ROUND
-        self.optuna_trials = 3 if smoke else OPTUNA_TRIALS
-        self.nsga2_gen = 10 if smoke else NSGA2_GEN
-        self.nsga2_pop = 100 if smoke else NSGA2_POP
+        if smoke:
+            self.lhs_designs = 20
+            self.al_rounds = smoke_rounds if smoke_rounds is not None else 1
+            self.al_designs_per_round = 6 if (smoke_rounds is not None and smoke_rounds > 1) else 10
+            self.optuna_trials = 3
+            self.nsga2_gen = 10
+            self.nsga2_pop = 100
+        else:
+            self.lhs_designs = LHS_DESIGNS
+            self.al_rounds = AL_ROUNDS
+            self.al_designs_per_round = AL_DESIGNS_PER_ROUND
+            self.optuna_trials = OPTUNA_TRIALS
+            self.nsga2_gen = NSGA2_GEN
+            self.nsga2_pop = NSGA2_POP
 
-        base_batch = "data/processed/batch_smoke" if smoke else "data/processed/batch"
+        if batch_dir:
+            self.batch_dir = batch_dir
+        else:
+            base_batch = "data/processed/batch_smoke" if smoke else "data/processed/batch"
+            self.batch_dir = os.path.join(base_batch, city_name)
+
         base_models = "models/batch_smoke" if smoke else "models/batch"
-        self.batch_dir = os.path.join(base_batch, city_name)
         self.models_dir = os.path.join(base_models, city_name)
         self.markers_dir = os.path.join(self.batch_dir, "stage_markers")
         self.timing_csv = os.path.join(self.batch_dir, "timing.csv")
@@ -907,10 +953,16 @@ def main():
     parser = argparse.ArgumentParser(description="Generic reproducible ClimateAdapt-Comfort city pipeline.")
     parser.add_argument("--city", type=str, required=True, help="City name from reports/batch_epw_manifest.csv")
     parser.add_argument("--smoke", action="store_true", help="Run fast smoke test with reduced iterations")
+    parser.add_argument("--smoke-rounds", type=int, default=None, help="Number of AL rounds in smoke mode")
+    parser.add_argument("--stage-7-only", action="store_true", help="Run Stage 7 summary evaluation only")
+    parser.add_argument("--batch-dir", type=str, default=None, help="Custom batch directory path")
     args = parser.parse_args()
 
-    pipeline = CityPipeline(args.city, smoke=args.smoke)
-    pipeline.run_pipeline()
+    pipeline = CityPipeline(args.city, smoke=args.smoke, smoke_rounds=args.smoke_rounds, batch_dir=args.batch_dir)
+    if args.stage_7_only:
+        pipeline.run_stage_7_summary()
+    else:
+        pipeline.run_pipeline()
 
 if __name__ == '__main__':
     main()

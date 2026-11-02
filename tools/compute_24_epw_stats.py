@@ -148,18 +148,9 @@ for cinfo in cities_24:
     mean_tdb = np.mean(t_db)
     mean_rh = np.mean(rh_vals)
     
-    # Adaptive running-mean outdoor temperature calculation
-    # daily outdoor dry bulb
-    daily_tout = t_db.reshape(-1, 24).mean(axis=1)
-    alpha = 0.8
-    t_rm_daily = np.zeros_like(daily_tout)
-    t_rm_daily[0] = daily_tout[0]
-    for d in range(1, len(daily_tout)):
-        t_rm_daily[d] = (1 - alpha) * daily_tout[d-1] + alpha * t_rm_daily[d-1]
-    t_rm_hourly = np.repeat(t_rm_daily, 24)
-    
-    # hours inside 10.0 - 33.5 C
-    valid_hours = int(np.sum((t_rm_hourly >= 10.0) & (t_rm_hourly <= 33.5)))
+    # Adaptive running-mean outdoor temperature calculation via canonical function
+    from src.optimize.coupling import compute_valid_adaptive_hours_from_tout
+    valid_hours = compute_valid_adaptive_hours_from_tout(t_db)
     
     # Flag oddity
     flag = ""

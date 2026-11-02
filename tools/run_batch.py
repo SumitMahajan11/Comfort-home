@@ -12,13 +12,15 @@ Specifications:
 - Uses tools/run_city_pipeline.py DONE markers, so a re-run resumes.
 - If a city fails: log the error text, mark FAILED, go to the next city.
 - Disk guard 5 GB: Stop cleanly if free disk is below 5.0 GB.
-- Runs each city in a dedicated subprocess: "Do not run any other job in the same process."
-- After each city, append one row to reports/batch_log.csv:
+- Runs each city in a dedicated subprocess.
+- After each city, append one row to reports/batch_log.csv (or reports/batch_log_smoke.csv for --smoke):
   city, status, start, end, minutes, front_size, unique_candidates per round,
   O2 mean error % per round, best O1_ml, best O1_adapt, best O2, R3 O1_ml, R3 O2,
-  hours Top<5 and Top>35 for the best-O2 design, valid adaptive hours, list of AT BOUND variables.
+  beats_R3_O1, beats_R3_O2, zone_source, hours Top<5 and Top>35 for best-O2 design,
+  valid adaptive hours, list of AT BOUND variables.
   Flags: front_size < 5, O2 mean error rising over rounds, any city with all 3 rounds < 90 unique.
-- Print the same row to the terminal.
+- --smoke writes to reports/batch_log_smoke.csv and reports/batch_errors_smoke.log only.
+- --purge-sims removes only pilot_sims/round_*_sims folders of completed cities.
 """
 
 import os
@@ -36,7 +38,7 @@ REPO_ROOT = os.path.abspath(".")
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
-from src.sim.sampler import DESIGN_VARIABLE_RANGES
+from tools.run_city_pipeline import CITY_ZONE_SOURCE
 
 DEFAULT_CITY_ORDER = [
     "Srinagar", "Jammu", "Bhuntar", "Dehradun", "Gangtok", "Lucknow",
@@ -48,6 +50,18 @@ DEFAULT_CITY_ORDER = [
 DISK_GUARD_GB = 5.0
 BATCH_LOG_CSV = "reports/batch_log.csv"
 BATCH_ERRORS_LOG = "reports/batch_errors.log"
+BATCH_LOG_SMOKE_CSV = "reports/batch_log_smoke.csv"
+BATCH_ERRORS_SMOKE_LOG = "reports/batch_errors_smoke.log"
+
+LOG_COLUMNS = [
+    'city', 'status', 'start', 'end', 'minutes', 'front_size',
+    'unique_candidates_per_round', 'O2_mean_error_pct_per_round',
+    'best_O1_ml', 'best_O1_adapt', 'best_O2', 'R3_O1_ml', 'R3_O2',
+    'beats_R3_O1', 'beats_R3_O2', 'zone_source',
+    'top_lt_5_best_o2', 'top_gt_35_best_o2', 'valid_adaptive_hours',
+    'at_bound_variables', 'flag_front_size_lt_5',
+    'flag_o2_error_rising', 'flag_all_rounds_lt_90_unique'
+]
 
 def check_disk_space(threshold_gb=DISK_GUARD_GB):
     """Returns True if free disk space is at or above threshold, else False."""
@@ -58,6 +72,29 @@ def check_disk_space(threshold_gb=DISK_GUARD_GB):
     except Exception as e:
         print(f"Warning: disk space check failed: {e}")
         return True, 999.0
+
+def purge_sims_for_city(city, batch_dir, dry_run=False):
+    """
+    Removes only pilot_sims/round_*_sims folders of a city whose summary files exist.
+    """
+    pareto_p = os.path.join(batch_dir, f"final_verified_pareto_{city}.parquet")
+    if not os.path.exists(pareto_p):
+        return 0, []
+
+    folders_to_purge = ["pilot_sims"] + [f"round_{r}_sims" for r in range(1, 10)]
+    purged_items = []
+    total_bytes = 0
+
+    for f in folders_to_purge:
+        fpath = os.path.join(batch_dir, f)
+        if os.path.exists(fpath) and os.path.isdir(fpath):
+            folder_size = sum(os.path.getsize(os.path.join(r, fn)) for r, _, fl in os.walk(fpath) for fn in fl)
+            total_bytes += folder_size
+            purged_items.append((f, folder_size))
+            if not dry_run:
+                shutil.rmtree(fpath, ignore_errors=True)
+
+    return total_bytes, purged_items
 
 def extract_city_metrics(city, batch_dir):
     """
@@ -106,6 +143,13 @@ def extract_city_metrics(city, batch_dir):
         if not r3_rows.empty:
             r3_o1_ml = round(float(r3_rows.iloc[0]['O1_ml']), 2)
             r3_o2 = round(float(r3_rows.iloc[0]['O2']), 2)
+
+    # Beats R3 columns
+    beats_r3_o1 = bool(best_o1_ml < r3_o1_ml) if (r3_o1_ml is not None) else False
+    beats_r3_o2 = bool(best_o2 < r3_o2) if (r3_o2 is not None) else False
+
+    # Zone source
+    zone_source = CITY_ZONE_SOURCE.get(city, "ASSUMED")
 
     # Best O2 design safety metrics
     best_o2_row = df_p.loc[df_p['O2'].idxmin()]
@@ -158,28 +202,30 @@ def extract_city_metrics(city, batch_dir):
         'best_O2': best_o2,
         'R3_O1_ml': r3_o1_ml if r3_o1_ml is not None else "",
         'R3_O2': r3_o2 if r3_o2 is not None else "",
+        'beats_R3_O1': beats_r3_o1,
+        'beats_R3_O2': beats_r3_o2,
+        'zone_source': zone_source,
         'top_lt_5_best_o2': top_lt_5,
         'top_gt_35_best_o2': top_gt_35,
         'valid_adaptive_hours': valid_hrs,
-        'at_bound_variables': ", ".join(at_bound_vars) if at_bound_vars else "None",
+        'at_bound_variables': "; ".join(at_bound_vars) if at_bound_vars else "None",
         'flag_front_size_lt_5': flag_front_size_lt_5,
         'flag_o2_error_rising': flag_o2_error_rising,
         'flag_all_rounds_lt_90_unique': flag_all_rounds_lt_90
     }
 
 def append_batch_log(row_dict, log_path=BATCH_LOG_CSV):
-    """Appends a single dictionary row to reports/batch_log.csv and prints to terminal."""
+    """Appends a single dictionary row to the batch log CSV and prints to terminal."""
     os.makedirs(os.path.dirname(os.path.abspath(log_path)), exist_ok=True)
-    df_row = pd.DataFrame([row_dict])
-    
-    header = not os.path.exists(log_path)
+    header = not os.path.exists(log_path) or os.path.getsize(log_path) == 0
+    df_row = pd.DataFrame([row_dict])[LOG_COLUMNS]
     df_row.to_csv(log_path, mode='a', index=False, header=header)
 
     print("\n" + "=" * 140)
     print("BATCH LOG ENTRY RECORDED:")
     print("=" * 140)
-    for k, v in row_dict.items():
-        print(f"  {k:<32}: {v}")
+    for k in LOG_COLUMNS:
+        print(f"  {k:<32}: {row_dict.get(k, '')}")
     print("=" * 140 + "\n")
 
 def run_batch():
@@ -187,8 +233,18 @@ def run_batch():
     parser.add_argument("--cities", type=str, default="", help="Comma-separated city list (overrides default order)")
     parser.add_argument("--max-hours", type=float, default=None, help="Do not start a new city after N hours")
     parser.add_argument("--smoke", action="store_true", help="Run in fast smoke mode")
-    parser.add_argument("--log-path", type=str, default=BATCH_LOG_CSV, help="Destination log file")
+    parser.add_argument("--smoke-rounds", type=int, default=None, help="Number of AL rounds in smoke mode")
+    parser.add_argument("--purge-sims", action="store_true", help="Remove bulky simulation directories for completed cities")
+    parser.add_argument("--log-path", type=str, default=None, help="Destination log file (overrides default)")
     args = parser.parse_args()
+
+    # Configure log files: --smoke writes to reports/batch_log_smoke.csv and reports/batch_errors_smoke.log only
+    if args.smoke:
+        log_csv = args.log_path if args.log_path is not None else BATCH_LOG_SMOKE_CSV
+        errors_log = BATCH_ERRORS_SMOKE_LOG
+    else:
+        log_csv = args.log_path if args.log_path is not None else BATCH_LOG_CSV
+        errors_log = BATCH_ERRORS_LOG
 
     cities = [c.strip() for c in args.cities.split(",")] if args.cities else DEFAULT_CITY_ORDER
     base_batch_dir = "data/processed/batch_smoke" if args.smoke else "data/processed/batch"
@@ -199,10 +255,13 @@ def run_batch():
     print(f"City Count:      {len(cities)}")
     print(f"City Order:      {cities}")
     print(f"Execution Mode:  {'SMOKE TEST' if args.smoke else 'FULL PRODUCTION'}")
+    print(f"Smoke Rounds:    {args.smoke_rounds if args.smoke_rounds is not None else 'Default'}")
     print(f"Max Hours Guard: {args.max_hours if args.max_hours is not None else 'None (unlimited)'}")
     print(f"Disk Threshold:  >= {DISK_GUARD_GB} GB free required")
+    print(f"Purge Sims:      {args.purge_sims}")
     print(f"Output Base Dir: {base_batch_dir}")
-    print(f"Log CSV File:    {args.log_path}")
+    print(f"Log CSV File:    {log_csv}")
+    print(f"Errors Log File: {errors_log}")
     print("=" * 90 + "\n")
 
     t_batch_start = time.time()
@@ -241,6 +300,7 @@ def run_batch():
                 metrics = {
                     'front_size': 0, 'unique_candidates_per_round': '', 'O2_mean_error_pct_per_round': '',
                     'best_O1_ml': '', 'best_O1_adapt': '', 'best_O2': '', 'R3_O1_ml': '', 'R3_O2': '',
+                    'beats_R3_O1': False, 'beats_R3_O2': False, 'zone_source': CITY_ZONE_SOURCE.get(city, 'ASSUMED'),
                     'top_lt_5_best_o2': 0, 'top_gt_35_best_o2': 0, 'valid_adaptive_hours': 0,
                     'at_bound_variables': '', 'flag_front_size_lt_5': False,
                     'flag_o2_error_rising': False, 'flag_all_rounds_lt_90_unique': False
@@ -254,13 +314,20 @@ def run_batch():
                 'minutes': minutes,
                 **metrics
             }
-            append_batch_log(row, log_path=args.log_path)
+            append_batch_log(row, log_path=log_csv)
+
+            if args.purge_sims:
+                purged_bytes, purged_items = purge_sims_for_city(city, city_batch_dir, dry_run=False)
+                print(f"Purged simulation files for {city}: {purged_bytes / (1024**2):.2f} MB freed across {len(purged_items)} directories.")
+
             continue
 
         # 4. Run City Pipeline in dedicated Subprocess
         cmd = [sys.executable, "tools/run_city_pipeline.py", "--city", city]
         if args.smoke:
             cmd.append("--smoke")
+        if args.smoke_rounds is not None:
+            cmd.extend(["--smoke-rounds", str(args.smoke_rounds)])
 
         print(f"Executing subprocess: {' '.join(cmd)}")
         try:
@@ -275,8 +342,8 @@ def run_batch():
                 print(f"Error snippet: {err_text[-500:] if err_text else 'No output'}")
 
                 # Log traceback
-                os.makedirs(os.path.dirname(os.path.abspath(BATCH_ERRORS_LOG)), exist_ok=True)
-                with open(BATCH_ERRORS_LOG, "a", encoding="utf-8") as ef:
+                os.makedirs(os.path.dirname(os.path.abspath(errors_log)), exist_ok=True)
+                with open(errors_log, "a", encoding="utf-8") as ef:
                     ef.write(f"\n{'='*60}\nFAILED: {city} at {end_str}\nCMD: {' '.join(cmd)}\n{err_text}\n")
 
                 failed_row = {
@@ -293,15 +360,18 @@ def run_batch():
                     'best_O2': "",
                     'R3_O1_ml': "",
                     'R3_O2': "",
+                    'beats_R3_O1': False,
+                    'beats_R3_O2': False,
+                    'zone_source': CITY_ZONE_SOURCE.get(city, "ASSUMED"),
                     'top_lt_5_best_o2': 0,
                     'top_gt_35_best_o2': 0,
                     'valid_adaptive_hours': 0,
-                    'at_bound_variables': "",
+                    'at_bound_variables': "None",
                     'flag_front_size_lt_5': False,
                     'flag_o2_error_rising': False,
                     'flag_all_rounds_lt_90_unique': False
                 }
-                append_batch_log(failed_row, log_path=args.log_path)
+                append_batch_log(failed_row, log_path=log_csv)
                 continue
 
             # Subprocess Succeeded: extract metrics
@@ -315,7 +385,11 @@ def run_batch():
                 'minutes': minutes,
                 **metrics
             }
-            append_batch_log(success_row, log_path=args.log_path)
+            append_batch_log(success_row, log_path=log_csv)
+
+            if args.purge_sims:
+                purged_bytes, purged_items = purge_sims_for_city(city, city_batch_dir, dry_run=False)
+                print(f"Purged simulation files for {city}: {purged_bytes / (1024**2):.2f} MB freed across {len(purged_items)} directories.")
 
         except Exception as e:
             t_city_end = time.time()
@@ -323,7 +397,8 @@ def run_batch():
             minutes = round((t_city_end - t_city_start) / 60.0, 2)
             print(f"EXCEPTION encountered while launching city '{city}': {e}")
             tb_str = traceback.format_exc()
-            with open(BATCH_ERRORS_LOG, "a", encoding="utf-8") as ef:
+            os.makedirs(os.path.dirname(os.path.abspath(errors_log)), exist_ok=True)
+            with open(errors_log, "a", encoding="utf-8") as ef:
                 ef.write(f"\n{'='*60}\nEXCEPTION: {city} at {end_str}\n{tb_str}\n")
 
             failed_row = {
@@ -340,15 +415,18 @@ def run_batch():
                 'best_O2': "",
                 'R3_O1_ml': "",
                 'R3_O2': "",
+                'beats_R3_O1': False,
+                'beats_R3_O2': False,
+                'zone_source': CITY_ZONE_SOURCE.get(city, "ASSUMED"),
                 'top_lt_5_best_o2': 0,
                 'top_gt_35_best_o2': 0,
                 'valid_adaptive_hours': 0,
-                'at_bound_variables': "",
+                'at_bound_variables': "None",
                 'flag_front_size_lt_5': False,
                 'flag_o2_error_rising': False,
                 'flag_all_rounds_lt_90_unique': False
             }
-            append_batch_log(failed_row, log_path=args.log_path)
+            append_batch_log(failed_row, log_path=log_csv)
 
     total_batch_min = round((time.time() - t_batch_start) / 60.0, 2)
     print(f"\nBATCH EXECUTION FINISHED in {total_batch_min} minutes.")

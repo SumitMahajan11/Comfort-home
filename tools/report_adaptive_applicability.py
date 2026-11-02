@@ -18,6 +18,7 @@ if REPO_ROOT not in sys.path:
 from src.optimize.coupling import (
     calculate_daily_mean_series,
     compute_running_mean_outdoor_temperature_db2,
+    compute_valid_adaptive_hours,
     ADAPTIVE_TRM_MIN,
     ADAPTIVE_TRM_MAX
 )
@@ -51,8 +52,7 @@ def main():
         t_rm_daily = compute_running_mean_outdoor_temperature_db2(daily, alpha=0.8)
         t_rm_hourly = np.repeat(t_rm_daily, 24)
 
-        valid_mask = (t_rm_hourly >= ADAPTIVE_TRM_MIN) & (t_rm_hourly <= ADAPTIVE_TRM_MAX)
-        n_valid = int(valid_mask.sum())
+        n_valid = compute_valid_adaptive_hours(t_rm_hourly)
         n_total = len(t_rm_hourly)
         valid_frac = n_valid / n_total * 100.0
         invalid_frac = 100.0 - valid_frac

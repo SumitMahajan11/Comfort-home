@@ -79,6 +79,30 @@ def compute_clo_schedule_a004(daily_tout: np.ndarray) -> np.ndarray:
     daily_clo[daily_tout < 15.0] = 1.0
     return np.repeat(daily_clo, 24)
 
+def compute_valid_adaptive_hours(t_rm_hourly: np.ndarray) -> int:
+    """
+    Computes the number of hours within the ASHRAE 55 Adaptive 90% valid range [10.0, 33.5] C.
+    """
+    valid_mask = (t_rm_hourly >= ADAPTIVE_TRM_MIN) & (t_rm_hourly <= ADAPTIVE_TRM_MAX)
+    return int(valid_mask.sum())
+
+def compute_valid_adaptive_hours_from_tout(tout: np.ndarray) -> int:
+    """
+    Computes valid adaptive hours directly from 8,760 hourly outdoor dry-bulb temperatures.
+    """
+    daily_tout = calculate_daily_mean_series(tout)
+    t_rm_daily = compute_running_mean_outdoor_temperature_db2(daily_tout, alpha=0.8)
+    t_rm_hourly = np.repeat(t_rm_daily, 24)
+    return compute_valid_adaptive_hours(t_rm_hourly)
+
+def compute_valid_adaptive_hours_from_epw(epw_path: str) -> int:
+    """
+    Parses EPW dry bulb temperature and computes valid adaptive hours using canonical formula.
+    """
+    df = pd.read_csv(epw_path, skiprows=8, header=None)
+    tout = df[6].values.astype(float)[:8760]
+    return compute_valid_adaptive_hours_from_tout(tout)
+
 def evaluate_adaptive_90_comfort(
     ta: np.ndarray,
     tr: np.ndarray,
@@ -94,7 +118,7 @@ def evaluate_adaptive_90_comfort(
     top = (ta + tr) / 2.0
     valid_mask = (t_rm_hourly >= ADAPTIVE_TRM_MIN) & (t_rm_hourly <= ADAPTIVE_TRM_MAX)
     n_total = len(ta)
-    n_valid = int(valid_mask.sum())
+    n_valid = compute_valid_adaptive_hours(t_rm_hourly)
     
     if n_valid == 0:
         return {
