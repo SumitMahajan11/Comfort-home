@@ -46,6 +46,8 @@ def test_get_ground_temperatures_by_city_and_path():
 
 def test_ground_temperatures_fallback_and_logging(tmp_path, caplog):
     """Verify fallback to 18.0 C and warning logging when EPW is missing or missing header."""
+    from src.sim.render import _GROUND_TEMPS_CACHE
+    _GROUND_TEMPS_CACHE.clear()
     caplog.clear()
     with caplog.at_level(logging.WARNING):
         # 1. Missing EPW file / unknown city
@@ -53,6 +55,7 @@ def test_ground_temperatures_fallback_and_logging(tmp_path, caplog):
         assert fallback_temps == [DEFAULT_GROUND_TEMP] * 12
         assert any("Falling back to constant 18.0" in rec.message for rec in caplog.records)
 
+    _GROUND_TEMPS_CACHE.clear()
     caplog.clear()
     # 2. EPW file without GROUND TEMPERATURES block
     dummy_epw = str(tmp_path / "dummy.epw")

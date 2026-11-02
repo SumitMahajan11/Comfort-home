@@ -93,11 +93,11 @@ def get_ground_temperatures_from_epw(epw_path=None, city=None, target_depth=0.5)
     If EPW is missing or GROUND TEMPERATURES block is absent, logs fallback to 18.0 C.
     """
     resolved_path = resolve_epw_path(epw_path, city)
-    cache_key = (resolved_path, target_depth)
-    if cache_key in _GROUND_TEMPS_CACHE:
-        return _GROUND_TEMPS_CACHE[cache_key]
-
     if resolved_path:
+        cache_key = (resolved_path, target_depth)
+        if cache_key in _GROUND_TEMPS_CACHE:
+            return _GROUND_TEMPS_CACHE[cache_key]
+
         depths = parse_epw_ground_temperatures(resolved_path)
         if depths:
             if target_depth in depths:
@@ -118,9 +118,7 @@ def get_ground_temperatures_from_epw(epw_path=None, city=None, target_depth=0.5)
             f"Falling back to constant {DEFAULT_GROUND_TEMP:.1f} °C ground temperatures (Decision D-035)."
         )
 
-    fallback = [DEFAULT_GROUND_TEMP] * 12
-    _GROUND_TEMPS_CACHE[cache_key] = fallback
-    return fallback
+    return [DEFAULT_GROUND_TEMP] * 12
 
 def _get_ground_temperatures_idf(ground_temps):
     """Generates Site:GroundTemperature:BuildingSurface IDF object."""
