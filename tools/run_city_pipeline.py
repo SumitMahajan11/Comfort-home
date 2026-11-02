@@ -86,6 +86,7 @@ CITY_CLIMATE_ZONES = {
     # Cold -> Leh
     "Srinagar": "Cold",
     "Manali": "Cold",
+    "Bhuntar": "Cold",
     "Gangtok": "Cold",
     "Leh": "Cold",
     "Shimla": "Cold",
@@ -108,7 +109,6 @@ CITY_CLIMATE_ZONES = {
     "Kolkata": "Warm-humid",
     "Visakhapatnam": "Warm-humid",
     "Chennai": "Warm-humid",
-    "Surat": "Warm-humid",
     "Kochi": "Warm-humid",
     "Port Blair": "Warm-humid",
     "Mumbai": "Warm-humid",
@@ -116,6 +116,7 @@ CITY_CLIMATE_ZONES = {
     "Bhuj": "Hot-dry",
     "Jaisalmer": "Hot-dry",
     "Jodhpur": "Hot-dry",
+    "Surat": "Hot-dry",
     # Temperate -> Bengaluru
     "Bengaluru": "Temperate"
 }
@@ -242,16 +243,16 @@ class ClampedShelterOptimizationProblem(ElementwiseProblem):
         pred_o2 = float(max(0.0, self.surrogates['O2'].predict(df_feat)[0]))
         out["F"] = [pred_o1_ml, pred_o1_adapt, pred_o2]
 
-def run_nsga2(surrogates, seed=42, city_name=""):
+def run_nsga2(surrogates, seed=42, city_name="", n_gen=NSGA2_GEN, pop_size=NSGA2_POP):
     problem = ClampedShelterOptimizationProblem(surrogates)
     algorithm = NSGA2(
-        pop_size=NSGA2_POP,
+        pop_size=pop_size,
         sampling=FloatRandomSampling(),
         crossover=SBX(prob=0.9, eta=15),
         mutation=PM(prob=1.0/8.0, eta=20),
         eliminate_duplicates=True
     )
-    res = minimize(problem, algorithm, ('n_gen', NSGA2_GEN), seed=seed, verbose=False)
+    res = minimize(problem, algorithm, ('n_gen', n_gen), seed=seed, verbose=False)
     opt_X = res.X
     opt_F = res.F
 
@@ -299,10 +300,20 @@ def compute_non_dominated_front(df):
 # MAIN REUSABLE CITY PIPELINE CLASS
 # -----------------------------------------------------------------------------
 class CityPipeline:
-    def __init__(self, city_name):
+    def __init__(self, city_name, smoke=False):
         self.city_name = city_name
-        self.batch_dir = os.path.join("data/processed/batch", city_name)
-        self.models_dir = os.path.join("models/batch", city_name)
+        self.smoke = smoke
+        self.lhs_designs = 20 if smoke else LHS_DESIGNS
+        self.al_rounds = 1 if smoke else AL_ROUNDS
+        self.al_designs_per_round = 10 if smoke else AL_DESIGNS_PER_ROUND
+        self.optuna_trials = 3 if smoke else OPTUNA_TRIALS
+        self.nsga2_gen = 10 if smoke else NSGA2_GEN
+        self.nsga2_pop = 100 if smoke else NSGA2_POP
+
+        base_batch = "data/processed/batch_smoke" if smoke else "data/processed/batch"
+        base_models = "models/batch_smoke" if smoke else "models/batch"
+        self.batch_dir = os.path.join(base_batch, city_name)
+        self.models_dir = os.path.join(base_models, city_name)
         self.markers_dir = os.path.join(self.batch_dir, "stage_markers")
         self.timing_csv = os.path.join(self.batch_dir, "timing.csv")
         
@@ -319,6 +330,8 @@ class CityPipeline:
         if len(c_row) == 0:
             raise ValueError(f"City '{city_name}' not found in {manifest_path}!")
         self.epw_path = os.path.abspath(c_row.iloc[0]['path'])
+        if not os.path.exists(self.epw_path):
+            raise FileNotFoundError(f"EPW file not found at {self.epw_path} for city '{city_name}'!")
         
         # Resolve Climate Zone and R3 reference
         if city_name not in CITY_CLIMATE_ZONES:
@@ -478,7 +491,7 @@ class CityPipeline:
         for target in TARGETS:
             y_train = df_tr[target].values
             y_test = df_te[target].values
-            best_model, best_params, cv_r2 = tune_surrogate_xgboost(X_train, y_train, n_trials=OPTUNA_TRIALS, seed=seed)
+            best_model, best_params, cv_r2 = tune_surrogate_xgboost(X_train, y_train, n_trials=self.optuna_trials, seed=seed)
             preds_test = best_model.predict(X_test)
             r2 = float(r2_score(y_test, preds_test))
             mae = float(mean_absolute_error(y_test, preds_test))
@@ -510,11 +523,11 @@ class CityPipeline:
         check_disk_guard(stage)
         t0 = time.time()
 
-        # Sample 1000 LHS designs
+        # Sample LHS designs
         sampler = qmc.LatinHypercube(d=8, seed=42)
-        raw = sampler.random(n=LHS_DESIGNS)
+        raw = sampler.random(n=self.lhs_designs)
         designs = []
-        for i in range(LHS_DESIGNS):
+        for i in range(self.lhs_designs):
             r = raw[i]
             roof_ins = round((r[0] * 0.150) / 0.025) * 0.025
             wall_ins = round((r[1] * 0.150) / 0.025) * 0.025
@@ -545,7 +558,7 @@ class CityPipeline:
         df_obj.to_csv(os.path.join(self.batch_dir, f"objectives_{self.city_name}.csv"), index=False)
 
         t1 = time.time()
-        self.log_timing(stage, t0, t1, pool_before=0, pool_after=len(df_obj), notes="1000 LHS designs x 2 modes")
+        self.log_timing(stage, t0, t1, pool_before=0, pool_after=len(df_obj), notes=f"{self.lhs_designs} LHS designs x 2 modes")
         self.mark_stage_done(stage)
         return df_obj
 
@@ -560,7 +573,7 @@ class CityPipeline:
             t0 = time.time()
             surrogates, metrics = self.train_surrogates(df_pool, seed=42)
             t1 = time.time()
-            self.log_timing(stage_surr, t0, t1, pool_before=len(df_pool), pool_after=len(df_pool), notes="Optuna 40 trials, 5 folds")
+            self.log_timing(stage_surr, t0, t1, pool_before=len(df_pool), pool_after=len(df_pool), notes=f"Optuna {self.optuna_trials} trials, 5 folds")
             self.mark_stage_done(stage_surr)
         else:
             print(f"[{stage_surr}] SKIPPED (already done). Loading models.")
@@ -572,10 +585,10 @@ class CityPipeline:
             print(f"\n{'='*80}\nRUNNING {stage_nsga.upper()}: {self.city_name}\n{'='*80}")
             check_disk_guard(stage_nsga)
             t0 = time.time()
-            df_cand1 = run_nsga2(surrogates, seed=42, city_name=self.city_name)
+            df_cand1 = run_nsga2(surrogates, seed=42, city_name=self.city_name, n_gen=self.nsga2_gen, pop_size=self.nsga2_pop)
             df_cand1.to_parquet(os.path.join(self.batch_dir, "round_1_candidates.parquet"), index=False)
             t1 = time.time()
-            self.log_timing(stage_nsga, t0, t1, pool_before=len(df_pool), pool_after=len(df_pool), notes="Pop 100, Gen 200, Clamped")
+            self.log_timing(stage_nsga, t0, t1, pool_before=len(df_pool), pool_after=len(df_pool), notes=f"Pop {self.nsga2_pop}, Gen {self.nsga2_gen}, Clamped")
             self.mark_stage_done(stage_nsga)
         else:
             print(f"[{stage_nsga}] SKIPPED (already done).")
@@ -594,7 +607,7 @@ class CityPipeline:
             df_hist_existing = pd.read_csv(hist_path)
             history_records = df_hist_existing.to_dict('records')
 
-        for r in range(1, 4):
+        for r in range(1, self.al_rounds + 1):
             stage = f"stage_{3+r}_al_round_{r}"
             if self.is_stage_done(stage):
                 print(f"[{stage}] SKIPPED (already done).")
@@ -610,10 +623,11 @@ class CityPipeline:
             check_disk_guard(stage)
             t_round_0 = time.time()
 
-            # 1. Simulate 100 candidate designs
+            # 1. Simulate candidate designs
             sim_dir = os.path.join(self.batch_dir, f"round_{r}_sims")
             t_sim_0 = time.time()
-            df_sim = self.simulate_designs(current_cand, sim_dir, id_col='pareto_id')
+            df_to_sim = current_cand.iloc[:self.al_designs_per_round]
+            df_sim = self.simulate_designs(df_to_sim, sim_dir, id_col='pareto_id')
             t_sim_sec = time.time() - t_sim_0
 
             # 2. Compare surrogate predictions vs physical simulations
@@ -648,14 +662,14 @@ class CityPipeline:
             pool_after = len(current_pool)
             print(f"Pool size AFTER Round {r}: {pool_after}")
 
-            # 4. Retrain surrogates & NSGA-II if rounds 1 or 2
-            if r < 3:
+            # 4. Retrain surrogates & NSGA-II if rounds < al_rounds
+            if r < self.al_rounds:
                 t_retrain_0 = time.time()
                 current_surrogates, _ = self.train_surrogates(current_pool, seed=42)
                 t_retrain_sec = time.time() - t_retrain_0
 
                 t_nsga_0 = time.time()
-                current_cand = run_nsga2(current_surrogates, seed=42, city_name=self.city_name)
+                current_cand = run_nsga2(current_surrogates, seed=42, city_name=self.city_name, n_gen=self.nsga2_gen, pop_size=self.nsga2_pop)
                 t_nsga_sec = time.time() - t_nsga_0
                 current_cand.to_parquet(os.path.join(self.batch_dir, f"round_{r+1}_candidates.parquet"), index=False)
 
@@ -664,7 +678,7 @@ class CityPipeline:
             else:
                 rec['retrain_time_sec'] = 0.0
                 rec['nsga_time_sec'] = 0.0
-                # Round 3: save final verified all 100 & true pareto front
+                # Final round: save final verified all & true pareto front
                 df_sim.to_parquet(os.path.join(self.batch_dir, f"final_verified_all_100_{self.city_name}.parquet"), index=False)
                 pareto_df = compute_non_dominated_front(df_sim)
                 pareto_df.to_parquet(os.path.join(self.batch_dir, f"final_verified_pareto_{self.city_name}.parquet"), index=False)
@@ -683,6 +697,10 @@ class CityPipeline:
 
     def run_stage_7_summary(self):
         stage = "stage_7_baselines_and_summary"
+        if self.is_stage_done(stage):
+            print(f"[{stage}] SKIPPED (already done).")
+            return
+
         print(f"\n{'='*80}\nRUNNING {stage.upper()}: {self.city_name}\n{'='*80}")
         t0 = time.time()
 
@@ -697,6 +715,7 @@ class CityPipeline:
         ])
         sim_dir_b = os.path.join(self.batch_dir, "baseline_sims")
         df_base_res = self.simulate_designs(df_base, sim_dir_b, id_col='design_id')
+        df_base_res.to_csv(os.path.join(self.batch_dir, "baseline_results.csv"), index=False)
 
         # Load verified 100 and Pareto front
         df_100 = pd.read_parquet(os.path.join(self.batch_dir, f"final_verified_all_100_{self.city_name}.parquet"))
@@ -706,14 +725,15 @@ class CityPipeline:
         # ---------------------------------------------------------------------
         # OUTPUT TABLES GENERATED BY CODE
         # ---------------------------------------------------------------------
-        print("\n" + "=" * 120)
-        print(f"TABLE 1: BASELINES (R1/R2/R3) vs VERIFIED PARETO FRONT ({self.city_name.upper()})")
-        print("=" * 120)
+        print("\n" + "=" * 130)
+        print(f"TABLE 1: BASELINES (R1/R2/R3) vs VERIFIED PARETO FRONT ({self.city_name.upper()}) [LOWER O1 IS BETTER]")
+        print("=" * 130)
         t1_rows = []
         for _, r in df_base_res.iterrows():
             did = r['design_id']
             t1_rows.append({
-                'Design': did,
+                'Design / Category': did,
+                'Design ID': did,
                 'O1_ml (%)': round(r['O1_ml'], 2),
                 'O1_adapt (%)': round(r['O1_adapt'], 2),
                 'O2 (kWh/m2)': round(r['O2'], 2),
@@ -723,29 +743,41 @@ class CityPipeline:
                 'Top > 35 C (h)': int(r['top_gt_35'])
             })
 
-        # Front Best / Median / Worst
+        # Lower O1 is better
+        best_o1_ml_idx = df_pareto['O1_ml'].idxmin()
+        best_o1_ad_idx = df_pareto['O1_adapt'].idxmin()
+        best_o2_idx = df_pareto['O2'].idxmin()
+        worst_o1_ml_idx = df_pareto['O1_ml'].idxmax()
+        worst_o2_idx = df_pareto['O2'].idxmax()
+
+        # Knee: design closest to normalized midpoint of the front (3-obj F3)
+        F3 = df_pareto[['O1_ml', 'O1_adapt', 'O2']].values
+        fn3 = (F3 - F3.min(axis=0)) / (F3.max(axis=0) - F3.min(axis=0) + 1e-12)
+        d3 = np.linalg.norm(fn3 - 0.5, axis=1)
+        knee_idx = np.argmin(d3)
+
+        def _add_front_row(cat_name, idx):
+            r = df_pareto.loc[idx]
+            t1_rows.append({
+                'Design / Category': cat_name,
+                'Design ID': r['design_id'],
+                'O1_ml (%)': round(r['O1_ml'], 2),
+                'O1_adapt (%)': round(r['O1_adapt'], 2),
+                'O2 (kWh/m2)': round(r['O2'], 2),
+                'Top Med (C)': round(r['top_med'], 2),
+                'Top Max (C)': round(r['top_max'], 2),
+                'Top < 5 C (h)': int(r['top_lt_5']),
+                'Top > 35 C (h)': int(r['top_gt_35'])
+            })
+
+        _add_front_row("Best O1_ml", best_o1_ml_idx)
+        _add_front_row("Best O1_adapt", best_o1_ad_idx)
+        _add_front_row("Best O2 (Lowest Energy)", best_o2_idx)
+        _add_front_row("Knee (Normalized Midpoint)", knee_idx)
+
         t1_rows.append({
-            'Design': 'Front Best O1_ml',
-            'O1_ml (%)': round(df_pareto['O1_ml'].max(), 2),
-            'O1_adapt (%)': round(df_pareto.loc[df_pareto['O1_ml'].idxmax(), 'O1_adapt'], 2),
-            'O2 (kWh/m2)': round(df_pareto.loc[df_pareto['O1_ml'].idxmax(), 'O2'], 2),
-            'Top Med (C)': round(df_pareto.loc[df_pareto['O1_ml'].idxmax(), 'top_med'], 2),
-            'Top Max (C)': round(df_pareto.loc[df_pareto['O1_ml'].idxmax(), 'top_max'], 2),
-            'Top < 5 C (h)': int(df_pareto.loc[df_pareto['O1_ml'].idxmax(), 'top_lt_5']),
-            'Top > 35 C (h)': int(df_pareto.loc[df_pareto['O1_ml'].idxmax(), 'top_gt_35'])
-        })
-        t1_rows.append({
-            'Design': 'Front Best O2 (Lowest Energy)',
-            'O1_ml (%)': round(df_pareto.loc[df_pareto['O2'].idxmin(), 'O1_ml'], 2),
-            'O1_adapt (%)': round(df_pareto.loc[df_pareto['O2'].idxmin(), 'O1_adapt'], 2),
-            'O2 (kWh/m2)': round(df_pareto['O2'].min(), 2),
-            'Top Med (C)': round(df_pareto.loc[df_pareto['O2'].idxmin(), 'top_med'], 2),
-            'Top Max (C)': round(df_pareto.loc[df_pareto['O2'].idxmin(), 'top_max'], 2),
-            'Top < 5 C (h)': int(df_pareto.loc[df_pareto['O2'].idxmin(), 'top_lt_5']),
-            'Top > 35 C (h)': int(df_pareto.loc[df_pareto['O2'].idxmin(), 'top_gt_35'])
-        })
-        t1_rows.append({
-            'Design': 'Front Median',
+            'Design / Category': 'Front Median',
+            'Design ID': f"Median (N={len(df_pareto)})",
             'O1_ml (%)': round(df_pareto['O1_ml'].median(), 2),
             'O1_adapt (%)': round(df_pareto['O1_adapt'].median(), 2),
             'O2 (kWh/m2)': round(df_pareto['O2'].median(), 2),
@@ -754,26 +786,10 @@ class CityPipeline:
             'Top < 5 C (h)': int(df_pareto['top_lt_5'].median()),
             'Top > 35 C (h)': int(df_pareto['top_gt_35'].median())
         })
-        t1_rows.append({
-            'Design': 'Front Worst O1_ml',
-            'O1_ml (%)': round(df_pareto['O1_ml'].min(), 2),
-            'O1_adapt (%)': round(df_pareto.loc[df_pareto['O1_ml'].idxmin(), 'O1_adapt'], 2),
-            'O2 (kWh/m2)': round(df_pareto.loc[df_pareto['O1_ml'].idxmin(), 'O2'], 2),
-            'Top Med (C)': round(df_pareto.loc[df_pareto['O1_ml'].idxmin(), 'top_med'], 2),
-            'Top Max (C)': round(df_pareto.loc[df_pareto['O1_ml'].idxmin(), 'top_max'], 2),
-            'Top < 5 C (h)': int(df_pareto.loc[df_pareto['O1_ml'].idxmin(), 'top_lt_5']),
-            'Top > 35 C (h)': int(df_pareto.loc[df_pareto['O1_ml'].idxmin(), 'top_gt_35'])
-        })
-        t1_rows.append({
-            'Design': 'Front Worst O2 (Highest Energy)',
-            'O1_ml (%)': round(df_pareto.loc[df_pareto['O2'].idxmax(), 'O1_ml'], 2),
-            'O1_adapt (%)': round(df_pareto.loc[df_pareto['O2'].idxmax(), 'O1_adapt'], 2),
-            'O2 (kWh/m2)': round(df_pareto['O2'].max(), 2),
-            'Top Med (C)': round(df_pareto.loc[df_pareto['O2'].idxmax(), 'top_med'], 2),
-            'Top Max (C)': round(df_pareto.loc[df_pareto['O2'].idxmax(), 'top_max'], 2),
-            'Top < 5 C (h)': int(df_pareto.loc[df_pareto['O2'].idxmax(), 'top_lt_5']),
-            'Top > 35 C (h)': int(df_pareto.loc[df_pareto['O2'].idxmax(), 'top_gt_35'])
-        })
+
+        _add_front_row("Worst O1_ml", worst_o1_ml_idx)
+        _add_front_row("Worst O2 (Highest Energy)", worst_o2_idx)
+
         df_table1 = pd.DataFrame(t1_rows)
         print(df_table1.to_string(index=False))
 
@@ -792,8 +808,38 @@ class CityPipeline:
                             'wwr', 'orientation', 'shading_depth', 'ventilation_ach']
         print(df_pareto[show_pareto_cols].to_string(index=False))
 
+        n_p = len(df_pareto)
+        threshold_count = int(np.ceil((2.0 / 3.0) * n_p))
+
+        # Check near-duplicates: all 8 variables within 1% of span
+        spans = {
+            'roof_insulation_thickness': 0.15,
+            'wall_insulation_thickness': 0.15,
+            'roof_solar_absorptance': 0.60,
+            'wwr': 0.35,
+            'orientation': 359.0,
+            'shading_depth': 0.70,
+            'ventilation_ach': 14.0
+        }
+        dup_indices = set()
+        for i in range(n_p):
+            for j in range(i + 1, n_p):
+                r1_c = df_pareto.iloc[i]
+                r2_c = df_pareto.iloc[j]
+                if r1_c['wall_mass_class'] != r2_c['wall_mass_class']:
+                    continue
+                is_near_dup = True
+                for var, s_val in spans.items():
+                    if abs(float(r1_c[var]) - float(r2_c[var])) > 0.01 * s_val:
+                        is_near_dup = False
+                        break
+                if is_near_dup:
+                    dup_indices.add(i)
+                    dup_indices.add(j)
+
         print("\n" + "=" * 120)
-        print(f"TABLE 4: BOUNDS TABLE ({self.city_name.upper()}) - AT BOUND if (# Low + # Up >= 20 of {len(df_pareto)})")
+        print(f"TABLE 4: BOUNDS TABLE ({self.city_name.upper()}) - AT BOUND if (#low + #up) / front_size >= 2/3 (front_size = {n_p})")
+        print(f"Near-Duplicate Front Designs (all 8 variables within 1% of span): {len(dup_indices)} of {n_p}")
         print("=" * 120)
         var_cols = [
             'roof_insulation_thickness', 'wall_insulation_thickness', 'roof_solar_absorptance',
@@ -805,9 +851,6 @@ class CityPipeline:
         print(b_header)
         print(b_sep)
 
-        n_p = len(df_pareto)
-        threshold_count = int(np.ceil(20.0 / 30.0 * n_p))
-
         for var in var_cols:
             low_b, up_b = DESIGN_VARIABLE_RANGES[var]
             span = up_b - low_b
@@ -818,7 +861,7 @@ class CityPipeline:
             n_low = int(np.sum(vals <= low_thresh + 1e-6))
             n_up = int(np.sum(vals >= up_thresh - 1e-6))
             n_tot = n_low + n_up
-            status = "AT BOUND" if n_tot >= threshold_count else "INTERIOR"
+            status = "AT BOUND" if (n_tot / n_p) >= (2.0 / 3.0) else "INTERIOR"
             low_str = f"[{low_b:.3f}, {low_thresh:.3f}]"
             up_str = f"[{up_thresh:.3f}, {up_b:.3f}]"
             print(f"{var:<28} | {low_b:<7.3f} | {up_b:<7.3f} | {span:<7.3f} | {tol:<8.4f} | {low_str:<16} | {up_str:<16} | {n_low:<6} | {n_up:<6} | {n_tot:<11} | {status:<12}")
@@ -827,7 +870,7 @@ class CityPipeline:
         n_light = counts.get('light', 0)
         n_hvy = counts.get('heavy', 0)
         n_tot_mass = n_light + n_hvy
-        status_m = "AT BOUND" if n_tot_mass >= threshold_count else "INTERIOR"
+        status_m = "AT BOUND" if (n_tot_mass / n_p) >= (2.0 / 3.0) else "INTERIOR"
         print(f"{'wall_mass_class (discrete)':<28} | {'light':<7} | {'heavy':<7} | {'3 cls':<7} | {'N/A':<8} | {'light: ' + str(n_light):<16} | {'heavy: ' + str(n_hvy):<16} | {n_light:<6} | {n_hvy:<6} | {n_tot_mass:<11} | {status_m:<12}")
         print(b_sep)
 
@@ -863,9 +906,10 @@ class CityPipeline:
 def main():
     parser = argparse.ArgumentParser(description="Generic reproducible ClimateAdapt-Comfort city pipeline.")
     parser.add_argument("--city", type=str, required=True, help="City name from reports/batch_epw_manifest.csv")
+    parser.add_argument("--smoke", action="store_true", help="Run fast smoke test with reduced iterations")
     args = parser.parse_args()
 
-    pipeline = CityPipeline(args.city)
+    pipeline = CityPipeline(args.city, smoke=args.smoke)
     pipeline.run_pipeline()
 
 if __name__ == '__main__':

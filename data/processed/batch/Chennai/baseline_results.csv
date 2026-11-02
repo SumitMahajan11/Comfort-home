@@ -1,0 +1,4 @@
+design_id,O1_ml,O1_adapt,O2,top_med,top_max,top_lt_5,top_gt_35
+R1_Lightweight,86.16,66.97,501.23,30.86,41.9,0,1561
+R2_Conventional,88.89,70.33,484.69,30.71,39.06,0,606
+R3_Code_Compliant,90.76,70.29,318.37,30.09,33.91,0,0
