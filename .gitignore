@@ -31,6 +31,9 @@ data/processed/sim_*/
 data/processed/ver_*/
 data/processed/temp_*/
 data/processed/vent_check_test/
+data/processed/quantify_ground_runs/
+data/processed/pjodhpur004_reproduce/
+data/processed/runs_baselines_sensitivity/
 sim_*/
 ver_*/
 hourly_*.parquet
