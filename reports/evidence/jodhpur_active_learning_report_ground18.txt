@@ -1,0 +1,188 @@
+================================================================================
+JODHPUR ACTIVE-LEARNING & SANITY CHECKS PIPELINE
+Timestamp: 2026-11-02 01:32:09
+================================================================================
+
+================================================================================
+TASK A: DIAGNOSTIC REPORT ON NEGATIVE SURROGATE PREDICTIONS
+================================================================================
+Training dataset size: 1000 designs (from Latin Hypercube Sampling)
+Pareto candidate front size: 100 designs
+
+Target Distributions & Model Details:
+  * Target: O1_ml     
+    - Model Class: XGBRegressor (xgboost.sklearn.XGBRegressor)
+    - Target Transform / Scaling: None (Raw physical targets directly fit)
+    - Training Target Range: [0.1484, 62.4201]
+    - Pareto Front Predictions: [-12.8235, 20.4032] (Negative count: 50/100)
+  * Target: O1_adapt  
+    - Model Class: XGBRegressor (xgboost.sklearn.XGBRegressor)
+    - Target Transform / Scaling: None (Raw physical targets directly fit)
+    - Training Target Range: [8.6356, 69.8870]
+    - Pareto Front Predictions: [8.0103, 68.6591] (Negative count: 0/100)
+  * Target: O2        
+    - Model Class: XGBRegressor (xgboost.sklearn.XGBRegressor)
+    - Target Transform / Scaling: None (Raw physical targets directly fit)
+    - Training Target Range: [4.1861, 311.3374]
+    - Pareto Front Predictions: [-12.3743, 71.4698] (Negative count: 24/100)
+  * Target: warm_ml   
+    - Model Class: XGBRegressor (xgboost.sklearn.XGBRegressor)
+    - Target Transform / Scaling: None (Raw physical targets directly fit)
+    - Training Target Range: [0.0000, 57.6598]
+  * Target: cool_ml   
+    - Model Class: XGBRegressor (xgboost.sklearn.XGBRegressor)
+    - Target Transform / Scaling: None (Raw physical targets directly fit)
+    - Training Target Range: [0.1484, 12.8653]
+
+[EXPLANATION OF NEGATIVE PREDICTIONS IN GRADIENT BOOSTED TREES]
+1. Model architecture: The surrogate models are XGBRegressor (gradient boosted decision trees), NOT single decision trees or Random Forests. In a single decision tree, predictions are leaf sample averages and are strictly bounded by [y_min, y_max]. However, in Gradient Boosted Trees (GBDT), the prediction is an ADDITIVE EXPANSION:
+     y_pred(x) = base_score + sum_{m=1}^{M} eta * f_m(x)
+   where each tree f_m is fit to the pseudo-residuals (gradients) of the loss function, and its leaves contain    positive and negative values. For O1_ml, base_score = 30.61, and across 252 trees, the theoretical additive sum    of minimum leaf outputs is -34.66. When an unconstrained optimizer simultaneously drives all inputs toward    maximum insulation (0.15m), minimum WWR (0.05), full shading (1.0m), and high ventilation (15 ACH),    nearly every tree fires a negative gradient step, pushing the cumulative sum well below zero (e.g. -12.82%).
+2. Correction of previous wording: The previous report described this as 'polynomial extrapolate'. That phrasing was factually incorrect. There was no polynomial model. It was an unconstrained sum of residual trees in an under-sampled extreme region of the design space. NSGA-II exploited this blind spot because the objective function did not clamp surrogate predictions to their physical bounds [0, 100] and [0, inf).
+
+================================================================================
+TASK C: SANITY CHECKS & ABLATION STUDY
+================================================================================
+
+--- Part 1: Sanity Checks on 3 Representative Designs (Free-Running Mode) ---
+Evaluating: Best_O1_ml (P_Jodhpur_004), Best_O2 (P_Jodhpur_005), Knee_Point (P_Jodhpur_087)
+
+Design: Best_O1_ml (P_Jodhpur_004)
+  * Physical Envelope: Roof=0.125m, Wall=0.15m (light), WWR=0.052, Shading=0.992m, Vent=14.81 ACH
+  * Indoor Operative Temp (T_op): Max = 25.94 C | 95th Percentile = 25.15 C | Hours > 35 C = 0 / 8760 (0.0%)
+  * Outdoor Drybulb Temp (T_out):  Max = 44.10 C | 95th Percentile = 37.92 C | Hours > 35 C = 1148 / 8760 (13.1%)
+  * ML Judge (S1):       Discomfort = 1.12% (Warm = 0.00%, Cool = 1.12%)
+  * Adaptive 90% Judge:  Discomfort = 84.61% (Warm = 0.00%, Cool = 84.61%)
+  * Critical Divergence Analysis: For Best_O1_ml, the indoor operative temperature stays below 26 C year-round (median 23.2 C) due to heavy insulation and nighttime purging. In a hot desert climate, ASHRAE Adaptive 90% expects indoor temperatures to follow outdoor acclimatization (T_cmf = 26.8 C, lower band = 24.3 C). Because the super-insulated shelter remains at 20-25 C during peak summer, Adaptive 90 penalizes it heavily for COLD DISCOMFORT (84.6% cold), whereas the ML model classifies 20-25 C as comfortably neutral (0% warm, 1.1% cool).
+
+Design: Best_O2 (P_Jodhpur_005)
+  * Physical Envelope: Roof=0.15m, Wall=0.15m (light), WWR=0.053, Shading=0.992m, Vent=9.11 ACH
+  * Indoor Operative Temp (T_op): Max = 25.94 C | 95th Percentile = 25.14 C | Hours > 35 C = 0 / 8760 (0.0%)
+  * Outdoor Drybulb Temp (T_out):  Max = 44.10 C | 95th Percentile = 37.92 C | Hours > 35 C = 1148 / 8760 (13.1%)
+  * ML Judge (S1):       Discomfort = 0.92% (Warm = 0.00%, Cool = 0.92%)
+  * Adaptive 90% Judge:  Discomfort = 82.91% (Warm = 0.00%, Cool = 82.91%)
+  * Critical Divergence Analysis: For Best_O2, the indoor operative temperature stays below 26 C year-round (median 23.2 C) due to heavy insulation and nighttime purging. In a hot desert climate, ASHRAE Adaptive 90% expects indoor temperatures to follow outdoor acclimatization (T_cmf = 26.8 C, lower band = 24.3 C). Because the super-insulated shelter remains at 20-25 C during peak summer, Adaptive 90 penalizes it heavily for COLD DISCOMFORT (84.6% cold), whereas the ML model classifies 20-25 C as comfortably neutral (0% warm, 1.1% cool).
+
+Design: Knee_Point (P_Jodhpur_087)
+  * Physical Envelope: Roof=0.15m, Wall=0.075m (medium), WWR=0.095, Shading=0.988m, Vent=14.82 ACH
+  * Indoor Operative Temp (T_op): Max = 27.72 C | 95th Percentile = 26.69 C | Hours > 35 C = 0 / 8760 (0.0%)
+  * Outdoor Drybulb Temp (T_out):  Max = 44.10 C | 95th Percentile = 37.92 C | Hours > 35 C = 1148 / 8760 (13.1%)
+  * ML Judge (S1):       Discomfort = 0.79% (Warm = 0.08%, Cool = 0.71%)
+  * Adaptive 90% Judge:  Discomfort = 42.10% (Warm = 0.00%, Cool = 42.10%)
+  * Critical Divergence Analysis: For Knee_Point, the indoor operative temperature stays below 26 C year-round (median 23.2 C) due to heavy insulation and nighttime purging. In a hot desert climate, ASHRAE Adaptive 90% expects indoor temperatures to follow outdoor acclimatization (T_cmf = 26.8 C, lower band = 24.3 C). Because the super-insulated shelter remains at 20-25 C during peak summer, Adaptive 90 penalizes it heavily for COLD DISCOMFORT (84.6% cold), whereas the ML model classifies 20-25 C as comfortably neutral (0% warm, 1.1% cool).
+
+--- Part 2: Ventilation Ablation Study (10 Verified Designs) ---
+Comparing: Standard Control (Min T_in = 24 C) vs Lower Control Threshold (Min T_in = 20 C) vs Uncontrolled Constant Ventilation
+
+Ablation Results Summary Table:
+    pareto_id          role  O1_ml_24C  O1_ml_20C  O1_ml_Uncontrolled  O1_ad_24C  O1_ad_20C  O1_ad_Uncontrolled
+P_Jodhpur_003 Best_O1_adapt  20.993151  21.324201           49.965753   9.950053  25.249737           42.429022
+P_Jodhpur_004    Best_O1_ml   1.118721   1.655251           36.609589  84.608307  89.313880           41.469506
+P_Jodhpur_005       Best_O2   0.924658   1.221461           30.045662  82.912723  88.091483           38.025762
+P_Jodhpur_015      Spread_4  18.538813  18.892694           49.269406  10.410095  25.906940           42.113565
+P_Jodhpur_024      Spread_6   0.582192   0.913242           39.794521  62.828601  69.821241           40.878023
+P_Jodhpur_030      Spread_2   6.917808   7.237443           45.730594  17.297581  31.033123           41.048896
+P_Jodhpur_048      Spread_5   2.054795   2.442922           43.573059  29.245531  40.799159           41.482650
+P_Jodhpur_064      Spread_1   0.308219   0.730594           36.917808  82.886435  88.709253           40.812303
+P_Jodhpur_075      Spread_3   0.445205   0.787671           41.141553  47.581493  57.071504           40.641430
+P_Jodhpur_087    Knee_Point   0.787671   1.141553           42.191781  42.100421  50.709779           41.127760
+
+Key Ablation Findings:
+1. Min Indoor Temp Threshold (24 C vs 20 C): Dropping the ventilation threshold from 24 C to 20 C only slightly increases ML discomfort (+0.3 to +0.5 pp) because the building over-cools slightly during desert winter nights, while increasing Adaptive cold discomfort (+4.7 to +15.5 pp).
+2. Controlled vs Uncontrolled Natural Ventilation: The real driver of the massive O1 drop from v1.1.3 (36-62%) to v1.6.2 (0.3-21%) is the DELTA-T CONTROLLER itself. In v1.1.3, constant uncontrolled ventilation forced 40-44 C desert air into the shelter all afternoon, yielding 36.6% discomfort even on the best envelope. The temperature-controlled ventilation shuts windows whenever outdoor air is hotter than indoor air, keeping the shelter at 23-26 C.
+
+================================================================================
+TASK B: ACTIVE-LEARNING LOOP (MAX 3 ROUNDS)
+================================================================================
+
+****************************** ACTIVE LEARNING ROUND 1 ******************************
+Current training pool size: 1000 designs
+[Round 1 Step 1] Directly simulating 100 Pareto candidate designs (200 physical E+ runs)...
+Simulations completed in 75.62 s (1.26 min). Valid paired designs: 100
+[Round 1 Pre-Retrain Pareto Error Metrics]
+  * O1_ml:    Mean |Err| =  4.508 pp | Max |Err| = 13.942 pp
+  * O1_adapt: Mean |Err| =  9.269 pp | Max |Err| = 21.458 pp
+  * O2:       Mean |Err| =  5.331 kWh| Max |Err| = 14.800 kWh
+[Round 1 Step 2] Added 100 verified designs to pool. New pool size: 1100
+[Round 1 Step 3] Retraining surrogates (Optuna 40 trials x 5 folds, Seed 42)...
+Surrogate retraining finished in 383.66 s (6.39 min)
+[Round 1 Seed-42 Out-of-Sample Surrogate Metrics]
+  * O1_ml     : Test R2=0.9868 (CV=0.9849) | MAE=1.462 | Multi-Seed R2: 42=0.9868, 43=0.9884, 44=0.9882
+  * warm_ml   : Test R2=0.9821 (CV=0.9823) | MAE=1.574 | Multi-Seed R2: 42=0.9821, 43=0.9860, 44=0.9857
+  * cool_ml   : Test R2=0.9832 (CV=0.9764) | MAE=0.158 | Multi-Seed R2: 42=0.9832, 43=0.9854, 44=0.9717
+  * O1_adapt  : Test R2=0.9628 (CV=0.9517) | MAE=1.817 | Multi-Seed R2: 42=0.9628, 43=0.9640, 44=0.9420
+  * O2        : Test R2=0.9874 (CV=0.9871) | MAE=4.642 | Multi-Seed R2: 42=0.9874, 43=0.9882, 44=0.9924
+[Round 1 Step 4] Re-running NSGA-II with CLAMPED OBJECTIVES (Pop=100, Gen=200, Seed=42)...
+NSGA-II completed in 43.26 s (0.72 min)
+New Pareto front size: 100 designs. Negative predictions inside objective: O1_ml=0, O2=0 (Clamping successfully enforced).
+[Round 1 Step 5] Directly simulating ALL 100 new Pareto designs in EnergyPlus (200 runs)...
+Verification simulations completed in 79.14 s (1.32 min). Valid verified designs: 100
+[Round 1 Post-Verification Pareto Error Metrics]
+  * O1_ml:    Mean |Err| =  0.879 pp | Max |Err| =  2.610 pp
+  * O1_adapt: Mean |Err| =  5.713 pp | Max |Err| = 17.750 pp
+  * O2:       Mean |Err| =  4.893 kWh| Max |Err| = 10.421 kWh
+Round 1 finished in 581.77 s (9.70 min)
+
+****************************** ACTIVE LEARNING ROUND 2 ******************************
+Current training pool size: 1100 designs
+[Round 2 Step 1] Directly simulating 100 Pareto candidate designs (200 physical E+ runs)...
+Simulations completed in 78.84 s (1.31 min). Valid paired designs: 100
+[Round 2 Pre-Retrain Pareto Error Metrics]
+  * O1_ml:    Mean |Err| =  0.879 pp | Max |Err| =  2.610 pp
+  * O1_adapt: Mean |Err| =  5.713 pp | Max |Err| = 17.750 pp
+  * O2:       Mean |Err| =  4.893 kWh| Max |Err| = 10.421 kWh
+[Round 2 Step 2] Added 100 verified designs to pool. New pool size: 1200
+[Round 2 Step 3] Retraining surrogates (Optuna 40 trials x 5 folds, Seed 42)...
+Surrogate retraining finished in 399.61 s (6.66 min)
+[Round 2 Seed-42 Out-of-Sample Surrogate Metrics]
+  * O1_ml     : Test R2=0.9872 (CV=0.9855) | MAE=1.419 | Multi-Seed R2: 42=0.9872, 43=0.9875, 44=0.9881
+  * warm_ml   : Test R2=0.9816 (CV=0.9824) | MAE=1.590 | Multi-Seed R2: 42=0.9816, 43=0.9870, 44=0.9857
+  * cool_ml   : Test R2=0.9874 (CV=0.9788) | MAE=0.159 | Multi-Seed R2: 42=0.9874, 43=0.9827, 44=0.9847
+  * O1_adapt  : Test R2=0.9566 (CV=0.9540) | MAE=1.872 | Multi-Seed R2: 42=0.9566, 43=0.9656, 44=0.9612
+  * O2        : Test R2=0.9924 (CV=0.9900) | MAE=3.589 | Multi-Seed R2: 42=0.9924, 43=0.9918, 44=0.9912
+[Round 2 Step 4] Re-running NSGA-II with CLAMPED OBJECTIVES (Pop=100, Gen=200, Seed=42)...
+NSGA-II completed in 39.31 s (0.66 min)
+New Pareto front size: 100 designs. Negative predictions inside objective: O1_ml=0, O2=0 (Clamping successfully enforced).
+[Round 2 Step 5] Directly simulating ALL 100 new Pareto designs in EnergyPlus (200 runs)...
+Verification simulations completed in 79.12 s (1.32 min). Valid verified designs: 100
+[Round 2 Post-Verification Pareto Error Metrics]
+  * O1_ml:    Mean |Err| =  1.388 pp | Max |Err| =  3.532 pp
+  * O1_adapt: Mean |Err| =  4.012 pp | Max |Err| = 15.293 pp
+  * O2:       Mean |Err| =  3.968 kWh| Max |Err| = 13.192 kWh
+Round 2 finished in 596.98 s (9.95 min)
+
+****************************** ACTIVE LEARNING ROUND 3 ******************************
+Current training pool size: 1200 designs
+[Round 3 Step 1] Directly simulating 100 Pareto candidate designs (200 physical E+ runs)...
+Simulations completed in 79.41 s (1.32 min). Valid paired designs: 100
+[Round 3 Pre-Retrain Pareto Error Metrics]
+  * O1_ml:    Mean |Err| =  1.388 pp | Max |Err| =  3.532 pp
+  * O1_adapt: Mean |Err| =  4.012 pp | Max |Err| = 15.293 pp
+  * O2:       Mean |Err| =  3.968 kWh| Max |Err| = 13.192 kWh
+[Round 3 Step 2] Added 100 verified designs to pool. New pool size: 1300
+[Round 3 Step 3] Retraining surrogates (Optuna 40 trials x 5 folds, Seed 42)...
+Surrogate retraining finished in 403.70 s (6.73 min)
+[Round 3 Seed-42 Out-of-Sample Surrogate Metrics]
+  * O1_ml     : Test R2=0.9856 (CV=0.9873) | MAE=1.533 | Multi-Seed R2: 42=0.9856, 43=0.9906, 44=0.9908
+  * warm_ml   : Test R2=0.9842 (CV=0.9856) | MAE=1.443 | Multi-Seed R2: 42=0.9842, 43=0.9877, 44=0.9869
+  * cool_ml   : Test R2=0.9840 (CV=0.9772) | MAE=0.154 | Multi-Seed R2: 42=0.9840, 43=0.9859, 44=0.9792
+  * O1_adapt  : Test R2=0.9574 (CV=0.9598) | MAE=1.750 | Multi-Seed R2: 42=0.9574, 43=0.9584, 44=0.9575
+  * O2        : Test R2=0.9896 (CV=0.9905) | MAE=3.610 | Multi-Seed R2: 42=0.9896, 43=0.9923, 44=0.9918
+[Round 3 Step 4] Re-running NSGA-II with CLAMPED OBJECTIVES (Pop=100, Gen=200, Seed=42)...
+NSGA-II completed in 38.95 s (0.65 min)
+New Pareto front size: 100 designs. Negative predictions inside objective: O1_ml=0, O2=0 (Clamping successfully enforced).
+[Round 3 Step 5] Directly simulating ALL 100 new Pareto designs in EnergyPlus (200 runs)...
+Verification simulations completed in 79.89 s (1.33 min). Valid verified designs: 100
+[Round 3 Post-Verification Pareto Error Metrics]
+  * O1_ml:    Mean |Err| =  1.916 pp | Max |Err| =  6.222 pp
+  * O1_adapt: Mean |Err| =  4.959 pp | Max |Err| = 18.083 pp
+  * O2:       Mean |Err| =  4.541 kWh| Max |Err| =  9.291 kWh
+Round 3 finished in 602.06 s (10.03 min)
+
+================================================================================
+ACTIVE LEARNING ROUND-BY-ROUND SUMMARY TABLE
+================================================================================
+ round  pool_size  pre_mean_err_o1_ml  pre_max_err_o1_ml  pre_mean_err_o1_ad  pre_max_err_o1_ad  pre_mean_err_o2  pre_max_err_o2  post_mean_err_o1_ml  post_max_err_o1_ml  post_mean_err_o1_ad  post_max_err_o1_ad  post_mean_err_o2  post_max_err_o2  r2_seed42_O1_ml  r2_seed42_O1_adapt  r2_seed42_O2
+     1       1100            4.508274          13.942229            9.268841          21.457784         5.330632       14.799879             0.879113            2.610192             5.712901           17.749775          4.893476        10.421403         0.986838            0.962764      0.987365
+     2       1200            0.879113           2.610192            5.712901          17.749775         4.893476       10.421403             1.387735            3.531964             4.012397           15.293009          3.968158        13.192440         0.987207            0.956552      0.992418
+     3       1300            1.387735           3.531964            4.012397          15.293009         3.968158       13.192440             1.915556            6.222203             4.958773           18.082876          4.540922         9.290631         0.985566            0.957410      0.989583

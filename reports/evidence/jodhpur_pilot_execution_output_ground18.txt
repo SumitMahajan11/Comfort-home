@@ -1,0 +1,163 @@
+================================================================================
+PHASE 1 STEP 5 PILOT EXECUTION: JODHPUR ONLY (ORIGINAL SETTINGS)
+Timestamp: 2026-11-02 00:42:01
+================================================================================
+
+[ORIGINAL SETTINGS PROVENANCE LEDGER]
+  * Per-City Run Count              : 1,000 Latin Hypercube sample designs x 2 modes = 2,000 EnergyPlus runs
+    Source: reports/phase3_sim.md:26; reports/PILOT_INVALID.md:8; docs/PROJECT_SPEC.md Section 4
+  * Surrogate Tuning Trials         : 40 Optuna trials per target
+    Source: reports/phase4_surrogates.md:23; reports/PILOT_INVALID.md:9; reports/final_results.md:102
+  * Surrogate Tuning Folds          : 5-fold Cross-Validation (KFold)
+    Source: reports/phase4_surrogates.md:23; reports/PILOT_INVALID.md:9; src/models/train_surrogates.py:82
+  * NSGA-II Algorithm               : NSGA-II (pymoo) Multi-Objective Optimizer
+    Source: reports/phase5_optimization.md:67; src/optimize/nsga2.py:2-23
+  * NSGA-II Population & Generations: Pop = 100, Generations = 200
+    Source: reports/phase5_optimization.md:67; docs/TRACKER.md:58; README_draft.md:14
+  * NSGA-II Crossover & Mutation    : SBX (prob=0.9, eta=15), PM (prob=0.2, eta=20)
+    Source: reports/phase5_optimization.md:67; tools/run_station_pipeline.py:439-440
+  * Direct Verification Set         : 10 representative designs selected from front (20 physical runs)
+    Source: reports/phase5_optimization.md:114; docs/TRACKER.md:100; src/optimize/nsga2.py:175-238
+  * Seeds 42, 43, 44                : Evaluated across seeds 42, 43, 44 for surrogate stability
+    Source: docs/TRACKER.md:27; reports/audit_fix_plan.md:281
+  * Weather Baseline                : data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx/IND_RJ_Jodhpur.423390_TMYx.epw
+    Source: Decision D-034; data/raw/weather_baseline_manifest.json (size: 1,607,059 bytes, SHA256: d08d5dae5...)
+
+[SYSTEM RESOURCE BASELINE]
+  CPU Cores: 12 | Max Workers Enforced: 6
+  Initial Free Disk Space: 58.08 GB (Disk guard: 5.0 GB)
+  Initial RAM Usage: 12.78 GB
+
+--------------------------------------------------------------------------------
+[STAGE 1] ENERGYPLUS BATCH SIMULATIONS (1,000 LHS DESIGNS x 2 MODES = 2,000 RUNS)
+--------------------------------------------------------------------------------
+Generated 1,000 Latin Hypercube designs with seed 42.
+Envelope parameters enforced: Insulation in 25 mm steps [0.0..0.150 m], Overhang >= 0.30 m.
+Launching 2,000 EnergyPlus simulation runs on 6 workers...
+  [ 400/2000] Completed (400 success, 0 failed) | Free Disk: 58.07 GB
+  [ 800/2000] Completed (800 success, 0 failed) | Free Disk: 58.06 GB
+  [1200/2000] Completed (1200 success, 0 failed) | Free Disk: 58.03 GB
+  [1600/2000] Completed (1600 success, 0 failed) | Free Disk: 58.02 GB
+  [2000/2000] Completed (2000 success, 0 failed) | Free Disk: 58.02 GB
+Stage 1 Finished in 881.10 s (14.69 min) | Peak RAM: 11.54 GB | Runs: 2000/2000 (100.00%)
+
+--------------------------------------------------------------------------------
+[STAGE 2] DUAL COMFORT JUDGE COUPLING (ADAPTIVE 90% + ML CHAMPION)
+--------------------------------------------------------------------------------
+Loaded calibrated ML Champion comfort model (Ablation_A3_OutdoorTemp).
+Generated 1000 valid paired design records. Saved data/processed/pilot_jodhpur\objectives_Jodhpur.parquet
+Pruned transient hourly parquet data/processed/pilot_jodhpur\hourly_fr_Jodhpur.parquet to conserve disk space.
+Stage 2 Finished in 21.34 s (0.36 min) | Peak RAM: 11.87 GB
+
+--------------------------------------------------------------------------------
+[STAGE 3] SURROGATE MODEL TUNING & MULTI-SEED EVALUATION (SEEDS 42, 43, 44)
+--------------------------------------------------------------------------------
+Tuning 5 primary XGBoost surrogates with Optuna 5-fold CV (40 trials, seed 42)...
+  * Seed 42 | Target: O1_ml      | Test R2: 0.9807 | MAE: 1.656 | S2: PASS (CV R2: 0.9817)
+  * Seed 42 | Target: cool_ml    | Test R2: 0.9692 | MAE: 0.204 | S2: PASS (CV R2: 0.9757)
+  * Seed 42 | Target: O2         | Test R2: 0.9842 | MAE: 4.715 | S2: PASS (CV R2: 0.9888)
+  * Seed 42 | Target: warm_ml    | Test R2: 0.9773 | MAE: 1.629 | S2: PASS (CV R2: 0.9794)
+  * Seed 42 | Target: O1_adapt   | Test R2: 0.9293 | MAE: 1.987 | S2: FAIL (CV R2: 0.9227)
+
+Evaluating multi-seed test stability across seeds 43 and 44...
+  * Seed 43 | Target: O1_ml      | Test R2: 0.9947 | MAE: 0.747 | S2: PASS
+  * Seed 43 | Target: warm_ml    | Test R2: 0.9927 | MAE: 0.907 | S2: PASS
+  * Seed 43 | Target: cool_ml    | Test R2: 0.9939 | MAE: 0.097 | S2: PASS
+  * Seed 43 | Target: O1_adapt   | Test R2: 0.9819 | MAE: 0.984 | S2: PASS
+  * Seed 43 | Target: O2         | Test R2: 0.9962 | MAE: 1.965 | S2: PASS
+  * Seed 44 | Target: O1_ml      | Test R2: 0.9958 | MAE: 0.787 | S2: PASS
+  * Seed 44 | Target: warm_ml    | Test R2: 0.9943 | MAE: 0.874 | S2: PASS
+  * Seed 44 | Target: cool_ml    | Test R2: 0.9924 | MAE: 0.100 | S2: PASS
+  * Seed 44 | Target: O1_adapt   | Test R2: 0.9836 | MAE: 1.019 | S2: PASS
+  * Seed 44 | Target: O2         | Test R2: 0.9956 | MAE: 1.965 | S2: PASS
+Saved surrogate metrics table to data/processed/pilot_jodhpur\surrogate_metrics_Jodhpur.csv
+Stage 3 Finished in 78.27 s (1.30 min) | Peak RAM: 10.83 GB
+
+--------------------------------------------------------------------------------
+[STAGE 4] NSGA-II MULTI-OBJECTIVE PARETO OPTIMIZATION (POP=100, GEN=200, SEED=42)
+--------------------------------------------------------------------------------
+Extracted 100 non-dominated Pareto designs. Saved data/processed/pilot_jodhpur\pareto_Jodhpur.parquet
+Stage 4 Finished in 141.77 s (2.36 min) | Peak RAM: 10.51 GB
+
+--------------------------------------------------------------------------------
+[STAGE 5] DIRECT ENERGYPLUS VERIFICATION (10 DESIGNS x 2 MODES = 20 RUNS)
+--------------------------------------------------------------------------------
+Selected 10 representative Pareto designs for direct simulation:
+  * P_Jodhpur_004  | Role: Best_O1_ml       | Pred O1_ml: -12.82% | Pred O1_adapt: 67.85% | Pred O2: -10.99 kWh/m2
+  * P_Jodhpur_003  | Role: Best_O1_adapt    | Pred O1_ml: 19.69% | Pred O1_adapt:  8.01% | Pred O2: 71.37 kWh/m2
+  * P_Jodhpur_005  | Role: Best_O2          | Pred O1_ml: -11.69% | Pred O1_adapt: 67.21% | Pred O2: -12.37 kWh/m2
+  * P_Jodhpur_087  | Role: Knee_Point       | Pred O1_ml: -4.53% | Pred O1_adapt: 31.36% | Pred O2: 11.92 kWh/m2
+  * P_Jodhpur_064  | Role: Spread_1         | Pred O1_ml: -11.87% | Pred O1_adapt: 62.34% | Pred O2: -10.49 kWh/m2
+  * P_Jodhpur_030  | Role: Spread_2         | Pred O1_ml:  7.29% | Pred O1_adapt: 12.70% | Pred O2: 38.91 kWh/m2
+  * P_Jodhpur_075  | Role: Spread_3         | Pred O1_ml: -5.60% | Pred O1_adapt: 35.18% | Pred O2:  6.16 kWh/m2
+  * P_Jodhpur_015  | Role: Spread_4         | Pred O1_ml: 16.64% | Pred O1_adapt:  8.72% | Pred O2: 63.23 kWh/m2
+  * P_Jodhpur_048  | Role: Spread_5         | Pred O1_ml:  1.09% | Pred O1_adapt: 22.30% | Pred O2: 21.82 kWh/m2
+  * P_Jodhpur_024  | Role: Spread_6         | Pred O1_ml: -9.45% | Pred O1_adapt: 46.31% | Pred O2: -3.66 kWh/m2
+Completed direct EnergyPlus verification for 10 designs. Saved data/processed/pilot_jodhpur\verification_Jodhpur.csv
+Stage 5 Finished in 15.79 s (0.26 min) | Peak RAM: 10.49 GB
+
+--------------------------------------------------------------------------------
+[STAGE 6] COMPRESSION & TRANSIENT RUN CLEANUP
+--------------------------------------------------------------------------------
+Compressing simulation run trees into data/processed/pilot_jodhpur\archive_Jodhpur.zip...
+Archive created (7.02 MB). Removing transient uncompressed folders...
+Stage 6 Finished in 4.34 s | Archive Size: 7.02 MB | Free Disk: 57.73 GB
+
+================================================================================
+NUMERIC COMPARISON VS v1.1.3 JODHPUR RESULTS (BACKUP REFERENCE)
+================================================================================
+
+--- A. Surrogate Model Performance Comparison (Seed 42) ---
+Target     | v1.1.3 R2  | Pilot R2   | Delta R2   | v1.1.3 MAE | Pilot MAE  | Pilot S2
+--------------------------------------------------------------------------------
+O1_ml      |     0.9753 |     0.9807 |    +0.0053 |      0.991 |      1.656 | PASS    
+warm_ml    |     0.9862 |     0.9773 |    -0.0089 |      1.197 |      1.629 | PASS    
+cool_ml    |     0.9891 |     0.9692 |    -0.0199 |      0.548 |      0.204 | PASS    
+O1_adapt   |     0.9514 |     0.9293 |    -0.0221 |      1.463 |      1.987 | FAIL    
+O2         |     0.9879 |     0.9842 |    -0.0036 |      4.107 |      4.715 | PASS    
+
+--- B. Surrogate Multi-Seed Stability (Pilot Seeds 42, 43, 44) ---
+Target     | Seed 42 R2 | Seed 43 R2 | Seed 44 R2 | Min R2     | All >= 0.95?
+---------------------------------------------------------------------------
+O1_ml      |     0.9807 |     0.9947 |     0.9958 |     0.9807 | YES (PASS)  
+warm_ml    |     0.9773 |     0.9927 |     0.9943 |     0.9773 | YES (PASS)  
+cool_ml    |     0.9692 |     0.9939 |     0.9924 |     0.9692 | YES (PASS)  
+O1_adapt   |     0.9293 |     0.9819 |     0.9836 |     0.9293 | NO          
+O2         |     0.9842 |     0.9962 |     0.9956 |     0.9842 | YES (PASS)  
+
+--- C. Direct EnergyPlus Verification Results (10 Representative Designs) ---
+Design ID      | Role           | Act O1_ml % | Act O1_ad % | Act O2 kWh  | Err O1_ml pp | Err O2 kWh
+----------------------------------------------------------------------------------------
+P_Jodhpur_003  | Best_O1_adapt  |       20.99 |        9.95 |       69.62 |         1.31 |       1.76
+P_Jodhpur_004  | Best_O1_ml     |        1.12 |       84.61 |        2.65 |        13.94 |      13.64
+P_Jodhpur_005  | Best_O2        |        0.92 |       82.91 |        2.43 |        12.61 |      14.80
+P_Jodhpur_015  | Spread_4       |       18.54 |       10.41 |       64.46 |         1.90 |       1.22
+P_Jodhpur_024  | Spread_6       |        0.58 |       62.83 |        8.40 |        10.03 |      12.06
+P_Jodhpur_030  | Spread_2       |        6.92 |       17.30 |       37.20 |         0.37 |       1.71
+P_Jodhpur_048  | Spread_5       |        2.05 |       29.25 |       23.24 |         0.97 |       1.42
+P_Jodhpur_064  | Spread_1       |        0.31 |       82.89 |        2.29 |        12.18 |      12.77
+P_Jodhpur_075  | Spread_3       |        0.45 |       47.58 |       12.85 |         6.04 |       6.70
+P_Jodhpur_087  | Knee_Point     |        0.79 |       42.10 |       17.60 |         5.32 |       5.68
+
+--- D. Verified Pareto Summary vs v1.1.3 ---
+  v1.1.3 Verified Actual Ranges (Jodhpur, N=10):
+    * Actual O1_ml:    36.64% to 61.78%
+    * Actual O1_adapt: 13.63% to 82.83%
+    * Actual O2:       8.50 to 114.00 kWh/m2
+  Pilot Verified Actual Ranges (Jodhpur, N=10):
+    * Actual O1_ml:    0.31% to 20.99%
+    * Actual O1_adapt: 9.95% to 84.61%
+    * Actual O2:       2.29 to 69.62 kWh/m2
+
+================================================================================
+PER-STAGE RESOURCE PROFILING TABLE
+================================================================================
+                                                         stage  wall_time_sec  wall_time_min  peak_ram_gb  free_disk_gb
+             Stage 1: EnergyPlus Batch Simulation (2,000 runs)         881.10          14.69        11.54         57.89
+                          Stage 2: Dual Comfort Judge Coupling          21.34           0.36        11.87         58.02
+           Stage 3: Surrogate Training & Multi-Seed Evaluation          78.27           1.30        10.83         57.72
+       Stage 4: NSGA-II Pareto Optimization (Pop=100, Gen=200)         141.77           2.36        10.51         57.70
+Stage 5: Direct EnergyPlus Verification (10 designs x 2 modes)          15.79           0.26        10.49         57.70
+                                Stage 6: Compression & Cleanup           4.34           0.07        10.30         57.73
+
+Total Pipeline Wall-Clock Time: 1142.61 s (19.04 min)
