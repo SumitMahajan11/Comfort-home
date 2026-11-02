@@ -39,6 +39,8 @@ data/processed/runs_leh_summary/
 data/processed/pilot_*/sim_*/
 data/processed/pilot_*/verif_*/
 data/processed/active_learning_*/round_*_sims/
+data/processed/batch/*/*_sims/
+data/processed/batch/*/stage_markers/
 sim_*/
 ver_*/
 hourly_*.parquet
