@@ -110,19 +110,35 @@ def extract_city_metrics(city, batch_dir):
 
     front_size = len(df_p)
 
-    # Unique candidates per round
+    # Unique designs actually simulated per round
     uniques = []
     round_idx = 1
+    cols = [
+        'roof_insulation_thickness', 'wall_insulation_thickness', 'wall_mass_class',
+        'roof_solar_absorptance', 'wwr', 'orientation', 'shading_depth', 'ventilation_ach'
+    ]
     while True:
         cand_p = os.path.join(batch_dir, f"round_{round_idx}_candidates.parquet")
         if not os.path.exists(cand_p):
             break
         df_c = pd.read_parquet(cand_p)
-        cols = [
-            'roof_insulation_thickness', 'wall_insulation_thickness', 'wall_mass_class',
-            'roof_solar_absorptance', 'wwr', 'orientation', 'shading_depth', 'ventilation_ach'
-        ]
-        uniques.append(len(df_c.drop_duplicates(subset=cols)))
+
+        # Determine number of designs actually simulated in this round
+        n_sim = None
+        if not df_hist.empty and 'round' in df_hist.columns and 'pool_size_after' in df_hist.columns:
+            r_rows = df_hist[df_hist['round'] == round_idx]
+            if not r_rows.empty:
+                n_sim = int(r_rows.iloc[0]['pool_size_after'] - r_rows.iloc[0]['pool_size_before'])
+
+        if n_sim is None:
+            sim_dir = os.path.join(batch_dir, f"round_{round_idx}_sims")
+            if os.path.exists(sim_dir):
+                dids = set(d.rsplit('_', 1)[0] for d in os.listdir(sim_dir) if os.path.isdir(os.path.join(sim_dir, d)))
+                if dids:
+                    n_sim = len(dids)
+
+        df_simulated = df_c.iloc[:n_sim] if n_sim is not None else df_c
+        uniques.append(len(df_simulated.drop_duplicates(subset=cols)))
         round_idx += 1
 
     # O2 mean error % per round
@@ -236,7 +252,25 @@ def run_batch():
     parser.add_argument("--smoke-rounds", type=int, default=None, help="Number of AL rounds in smoke mode")
     parser.add_argument("--purge-sims", action="store_true", help="Remove bulky simulation directories for completed cities")
     parser.add_argument("--log-path", type=str, default=None, help="Destination log file (overrides default)")
+    parser.add_argument("--dry-run", action="store_true", help="Print city list and order it would run, starts nothing")
     args = parser.parse_args()
+
+    cities = [c.strip() for c in args.cities.split(",")] if args.cities else DEFAULT_CITY_ORDER
+
+    if args.dry_run:
+        print("=" * 90)
+        print("CLIMATEADAPT-COMFORT BATCH RUNNER - DRY RUN")
+        print("=" * 90)
+        print(f"Total Cities:    {len(cities)}")
+        print(f"Execution Mode:  {'SMOKE TEST' if args.smoke else 'FULL PRODUCTION'}")
+        print(f"Max Hours Guard: {args.max_hours if args.max_hours is not None else 'None (unlimited)'}")
+        print(f"Disk Guard:      >= {DISK_GUARD_GB} GB free required")
+        print("City List & Execution Order:")
+        for idx, city in enumerate(cities, start=1):
+            print(f"  {idx:02d}. {city}")
+        print("=" * 90)
+        print("DRY RUN FINISHED: No simulations or pipelines were started.")
+        return
 
     # Configure log files: --smoke writes to reports/batch_log_smoke.csv and reports/batch_errors_smoke.log only
     if args.smoke:
