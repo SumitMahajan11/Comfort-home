@@ -90,7 +90,7 @@ CITY_ZONE_SOURCE = {
     "Bhuj": "ASSUMED",
     "Jaisalmer": "STANDARD",
     "Leh": "STANDARD",
-    "Shimla": "STANDARD",
+    "Shimla": "ASSUMED",
     "New_Delhi": "STANDARD",
     "Mumbai": "STANDARD",
     "Jodhpur": "STANDARD",

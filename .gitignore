@@ -21,6 +21,7 @@ data/raw/*
 data/docs/
 
 # bulky generated output
+data/simulations/
 data/processed/archive/
 data/processed/batch_check/
 reports/*.log
