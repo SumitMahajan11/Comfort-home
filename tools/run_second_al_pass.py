@@ -42,14 +42,14 @@ def resolve_city_dir(city_name):
         return f"data/processed/flagship_2011_2025/{city_name}"
     return f"data/processed/batch/{city_name}"
 
-def run_round_4_for_city(city_name):
+def run_round_4_for_city(city_name, batch_dir=None, manifest_path=None):
     print("\n" + "=" * 100)
     print(f"RUNNING SECOND AL PASS (ROUND 4): {city_name.upper()}")
     print("=" * 100)
     t_city_0 = time.time()
 
-    cdir = resolve_city_dir(city_name)
-    pipeline = CityPipeline(city_name=city_name, batch_dir=cdir)
+    cdir = batch_dir or resolve_city_dir(city_name)
+    pipeline = CityPipeline(city_name=city_name, batch_dir=cdir, manifest_path=manifest_path)
 
     # 1. Load Pilot
     p_obj = os.path.join(cdir, f"objectives_{city_name}.parquet")

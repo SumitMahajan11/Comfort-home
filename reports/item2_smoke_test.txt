@@ -1,0 +1,54 @@
+=======================================================================================================================================
+ITEM 2: SMOKE TEST OF PIPELINE INTEGRITY & RUNTIME SHA256 ENFORCEMENT
+Target City: Bhuntar | Settings: 50 LHS, 1 AL Round, 5 Optuna Trials
+=======================================================================================================================================
+Authentic EPW File:   data/raw/India_Weather_Extracted/IND_HP_Bhuntar.420810_TMYx.2011-2025/IND_HP_Bhuntar.420810_TMYx.2011-2025.epw
+Manifest SHA-256:     f3bcbce0453b10f8152e4fa911dea592421458986046a10dd6a55d6dd3e0c082
+Computed Disk SHA:    f3bcbce0453b10f8152e4fa911dea592421458986046a10dd6a55d6dd3e0c082
+Pre-Check Hash Match: PASS
+---------------------------------------------------------------------------------------------------------------------------------------
+
+[PART 1: VALID MANIFEST RUN IN ISOLATED TEMP DIRECTORY]
+Temp Working Directory: C:\Users\SUMIT\AppData\Local\Temp\smoke_test_Bhuntar_nuxyxdx8
+CityPipeline.__init__ completed: EPW SHA256 check PASSED.
+Pipeline initialized epw_sha256: f3bcbce0453b10f8152e4fa911dea592421458986046a10dd6a55d6dd3e0c082
+Executing stages 1 to 5 (LHS simulation, Baselines, Surrogate Tuning, AL Round 1, Pareto Front)...
+Pipeline run finished in 216.43 seconds (3.61 minutes).
+
+[PART 2: INSPECTION OF epw_sha256 COLUMNS IN OUTPUT PARQUETS]
+---------------------------------------------------------------------------------------------------------------------------------------
+Output Parquet Filename                       | Row Count  | Has epw_sha256  | Unique epw_sha256 in Parquet
+---------------------------------------------------------------------------------------------------------------------------------------
+objectives_Bhuntar.parquet                    | 50         | True            | f3bcbce0453b10f8152e4fa9...
+round_1_candidates.parquet                    | 34         | True            | f3bcbce0453b10f8152e4fa9...
+final_verified_all_100_Bhuntar.parquet        | 10         | True            | f3bcbce0453b10f8152e4fa9...
+final_verified_pareto_Bhuntar.parquet         | 5          | True            | f3bcbce0453b10f8152e4fa9...
+---------------------------------------------------------------------------------------------------------------------------------------
+
+[PART 3: DELIBERATE MANIFEST CORRUPTION TEST]
+---------------------------------------------------------------------------------------------------------------------------------------
+Injected Corrupted Manifest SHA: deadbeefcafebabe0123456789abcdefdeadbeefcafebabe0123456789abcdef
+Testing CityPipeline instantiation with corrupted manifest...
+CityPipeline Raised ValueError as expected: True
+Verbatim Exception Message:
+  >>> EPW SHA256 mismatch for city 'Bhuntar'!
+  >>> Manifest SHA256: deadbeefcafebabe0123456789abcdefdeadbeefcafebabe0123456789abcdef
+  >>> Computed SHA256: f3bcbce0453b10f8152e4fa911dea592421458986046a10dd6a55d6dd3e0c082
+  >>> EPW File Path:   D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_HP_Bhuntar.420810_TMYx.2011-2025\IND_HP_Bhuntar.420810_TMYx.2011-2025.epw
+
+[PART 4: SECOND AL PASS (ROUND 4) CORRUPTED MANIFEST TEST]
+---------------------------------------------------------------------------------------------------------------------------------------
+Testing run_round_4_for_city with corrupted manifest...
+run_round_4_for_city Raised ValueError as expected: True
+Verbatim Exception Message:
+  >>> EPW SHA256 mismatch for city 'Bhuntar'!
+  >>> Manifest SHA256: deadbeefcafebabe0123456789abcdefdeadbeefcafebabe0123456789abcdef
+  >>> Computed SHA256: f3bcbce0453b10f8152e4fa911dea592421458986046a10dd6a55d6dd3e0c082
+  >>> EPW File Path:   D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_HP_Bhuntar.420810_TMYx.2011-2025\IND_HP_Bhuntar.420810_TMYx.2011-2025.epw
+
+=======================================================================================================================================
+SMOKE TEST VERDICT: ALL INTEGRITY GATES AND HASH ENFORCEMENTS VERIFIED.
+1. Valid manifest successfully passes SHA256 check and records hash in output parquets.
+2. Corrupted manifest is immediately trapped and aborted with explicit ValueError.
+3. Both run_city_pipeline.py and run_second_al_pass.py enforce strict runtime hash integrity.
+=======================================================================================================================================

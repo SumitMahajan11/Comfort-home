@@ -341,32 +341,34 @@ def compute_non_dominated_front(df):
 # MAIN REUSABLE CITY PIPELINE CLASS
 # -----------------------------------------------------------------------------
 class CityPipeline:
-    def __init__(self, city_name, smoke=False, smoke_rounds=None, batch_dir=None):
+    def __init__(self, city_name, smoke=False, smoke_rounds=None, batch_dir=None, manifest_path=None, lhs_designs=None, optuna_trials=None):
         self.city_name = city_name
         self.smoke = smoke
+        self.manifest_path = manifest_path or "reports/batch_epw_manifest.csv"
         if smoke:
-            self.lhs_designs = 20
+            self.lhs_designs = lhs_designs if lhs_designs is not None else 20
             self.al_rounds = smoke_rounds if smoke_rounds is not None else 1
             self.al_designs_per_round = 6 if (smoke_rounds is not None and smoke_rounds > 1) else 10
-            self.optuna_trials = 3
+            self.optuna_trials = optuna_trials if optuna_trials is not None else 3
             self.nsga2_gen = 10
             self.nsga2_pop = 100
         else:
-            self.lhs_designs = LHS_DESIGNS
+            self.lhs_designs = lhs_designs if lhs_designs is not None else LHS_DESIGNS
             self.al_rounds = AL_ROUNDS
             self.al_designs_per_round = AL_DESIGNS_PER_ROUND
-            self.optuna_trials = OPTUNA_TRIALS
+            self.optuna_trials = optuna_trials if optuna_trials is not None else OPTUNA_TRIALS
             self.nsga2_gen = NSGA2_GEN
             self.nsga2_pop = NSGA2_POP
 
         if batch_dir:
             self.batch_dir = batch_dir
+            self.models_dir = os.path.join(batch_dir, "models")
         else:
             base_batch = "data/processed/batch_smoke" if smoke else "data/processed/batch"
             self.batch_dir = os.path.join(base_batch, city_name)
+            base_models = "models/batch_smoke" if smoke else "models/batch"
+            self.models_dir = os.path.join(base_models, city_name)
 
-        base_models = "models/batch_smoke" if smoke else "models/batch"
-        self.models_dir = os.path.join(base_models, city_name)
         self.markers_dir = os.path.join(self.batch_dir, "stage_markers")
         self.timing_csv = os.path.join(self.batch_dir, "timing.csv")
         
@@ -375,13 +377,12 @@ class CityPipeline:
         os.makedirs(self.markers_dir, exist_ok=True)
 
         # Resolve EPW Path from manifest
-        manifest_path = "reports/batch_epw_manifest.csv"
-        if not os.path.exists(manifest_path):
-            raise FileNotFoundError(f"{manifest_path} not found. Run Step 2 first.")
-        df_m = pd.read_csv(manifest_path)
+        if not os.path.exists(self.manifest_path):
+            raise FileNotFoundError(f"{self.manifest_path} not found. Run Step 2 first.")
+        df_m = pd.read_csv(self.manifest_path)
         c_row = df_m[df_m['city'].str.lower() == city_name.lower()]
         if len(c_row) == 0:
-            raise ValueError(f"City '{city_name}' not found in {manifest_path}!")
+            raise ValueError(f"City '{city_name}' not found in {self.manifest_path}!")
         self.epw_path = os.path.abspath(c_row.iloc[0]['path'])
         if not os.path.exists(self.epw_path):
             raise FileNotFoundError(f"EPW file not found at {self.epw_path} for city '{city_name}'!")
