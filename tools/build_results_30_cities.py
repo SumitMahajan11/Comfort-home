@@ -201,7 +201,6 @@ def build_results_table():
         city_entries.append((f, f'data/processed/flagship_2011_2025/{f}', 'flagship', 'run_city_pipeline'))
     for b in batch_cities:
         city_entries.append((b, f'data/processed/batch/{b}', 'batch', 'run_city_pipeline'))
-    city_entries.append(('Leh', 'data/processed/active_learning_leh', 'leh', 'leh_scripts'))
 
     table_rows = []
 
@@ -274,8 +273,8 @@ def build_results_table():
         best_o2 = round(float(best_o2_row['O2']), 2)
         best_o2_id = str(best_o2_row['design_id'])
 
-        # Top < 5 and Top > 35 of the best-O2 design
-        if city == 'Leh':
+        # Top < 5 and Top > 35 of the best-O2 design, best-O1_ml design, and worst across front
+        if city == 'Leh' and 'leh_baselines_summary.csv' in os.listdir(cdir):
             sum_b2 = df_b[df_b['design'] == best_o2_id]
             if not sum_b2.empty:
                 top_lt_5_best_o2 = int(sum_b2.iloc[0]['T_op_lt_5'])
@@ -283,29 +282,66 @@ def build_results_table():
             else:
                 top_lt_5_best_o2 = int(best_o2_row.get('top_lt_5', 0))
                 top_gt_35_best_o2 = int(best_o2_row.get('top_gt_35', 0))
+            top_lt_5_best_o1_ml = int(best_o1_ml_row.get('top_lt_5', top_lt_5_best_o2))
+            top_gt_35_best_o1_ml = int(best_o1_ml_row.get('top_gt_35', top_gt_35_best_o2))
+            top_lt_5_worst_front = int(df_p['top_lt_5'].max()) if 'top_lt_5' in df_p.columns else top_lt_5_best_o2
+            top_gt_35_worst_front = int(df_p['top_gt_35'].max()) if 'top_gt_35' in df_p.columns else top_gt_35_best_o2
         else:
             top_lt_5_best_o2 = int(best_o2_row.get('top_lt_5', 0))
             top_gt_35_best_o2 = int(best_o2_row.get('top_gt_35', 0))
+            top_lt_5_best_o1_ml = int(best_o1_ml_row.get('top_lt_5', 0))
+            top_gt_35_best_o1_ml = int(best_o1_ml_row.get('top_gt_35', 0))
+            top_lt_5_worst_front = int(df_p['top_lt_5'].max()) if 'top_lt_5' in df_p.columns else top_lt_5_best_o2
+            top_gt_35_worst_front = int(df_p['top_gt_35'].max()) if 'top_gt_35' in df_p.columns else top_gt_35_best_o2
 
-        # Percent better than R3 for best O1_ml and best O2
-        # Improvement (%) = (R3 - Best) / R3 * 100
+        # Improvement in percentage points (pp) and percentage (%)
+        # Comfort improvement over R3 (pp): R3 - Best (percentage points)
+        pp_better_r3_o1_ml = round(r3_o1_ml - best_o1_ml, 2)
+        # Percent better than R3 for best O1_ml and best O2: (R3 - Best) / R3 * 100
         pct_better_r3_o1_ml = round((r3_o1_ml - best_o1_ml) / r3_o1_ml * 100.0, 2)
         pct_better_r3_o2 = round((r3_o2 - best_o2) / r3_o2 * 100.0, 2)
 
-        # Active learning history errors and flag
+        # Simulation-derived valid adaptive hours & reliability flag
+        inv_share = float(df_p['invalid_share_adapt'].iloc[0]) if 'invalid_share_adapt' in df_p.columns else 0.0
+        valid_adaptive_hours_sim = int(round(8760 * (1.0 - inv_share / 100.0)))
+        o1_adapt_reliable = bool(valid_adaptive_hours >= int(0.75 * 8760)) # >= 6570 hours
+
+        # Active learning history errors and new flags
         df_hist = pd.read_csv(os.path.join(cdir, "active_learning_history.csv"))
-        raw_errs = df_hist['mean_err_O2_pct'].values
-        o2_err_str = "; ".join(f"{e:.2f}%" for e in raw_errs)
-        flag_rising = bool(len(raw_errs) > 1 and all(raw_errs[i] < raw_errs[i+1] for i in range(len(raw_errs)-1)))
+        raw_errs_pct = df_hist['mean_err_O2_pct'].values
+        raw_errs_abs = df_hist['mean_err_O2_abs'].values if 'mean_err_O2_abs' in df_hist.columns else []
+        o2_err_str = "; ".join(f"{e:.2f}%" for e in raw_errs_pct)
+        o2_err_abs_str = "; ".join(f"{e:.2f}" for e in raw_errs_abs)
+
+        last_round_err_pct = float(raw_errs_pct[-1])
+        round_1_err_pct = float(raw_errs_pct[0])
+        flag_error_high = bool(last_round_err_pct > 5.0)
+        flag_error_rising = bool(last_round_err_pct > 1.5 * round_1_err_pct)
+
+        # Round 3 signed error & share negative
+        p_r3_cand = os.path.join(cdir, "round_3_candidates.parquet")
+        p_r3_ver = os.path.join(cdir, f"final_verified_all_100_{city}.parquet")
+        round_3_mean_signed_err = np.nan
+        round_3_share_neg = np.nan
+        if os.path.exists(p_r3_cand) and os.path.exists(p_r3_ver):
+            df_v3 = pd.read_parquet(p_r3_ver)
+            df_c3 = pd.read_parquet(p_r3_cand)
+            m3 = pd.merge(df_v3, df_c3, left_on='design_id', right_on='pareto_id', suffixes=('', '_pred'))
+            if not m3.empty:
+                s_err = m3['pred_O2'] - m3['O2']
+                round_3_mean_signed_err = round(float(np.mean(s_err)), 3)
+                round_3_share_neg = round(float(np.mean(s_err < 0) * 100.0), 1)
 
         # Timing (minutes)
-        if city == 'Leh':
-            # AL rounds: 11.42 + 7.23 + 1.32 = 19.97 min; pilot = 0.68 min -> total 20.65 min
+        if city == 'Leh' and 'timing.csv' not in os.listdir(cdir):
             total_minutes = round(float(df_hist['wall_time_min'].sum()), 2)
         else:
             p_time = os.path.join(cdir, "timing.csv")
-            df_t = pd.read_csv(p_time)
-            total_minutes = round(float(df_t['elapsed_seconds'].sum() / 60.0), 2)
+            if os.path.exists(p_time):
+                df_t = pd.read_csv(p_time)
+                total_minutes = round(float(df_t['elapsed_seconds'].sum() / 60.0), 2)
+            else:
+                total_minutes = round(float(df_hist['wall_time_sec'].sum() / 60.0), 2) if 'wall_time_sec' in df_hist.columns else 0.0
 
         table_rows.append({
             'city': city,
@@ -329,14 +365,25 @@ def build_results_table():
             'best_O1_adapt': best_o1_ad,
             'best_O2': best_o2,
             'best_O2_design_id': best_o2_id,
+            'pp_better_R3_O1_ml': pp_better_r3_o1_ml,
             'pct_better_R3_O1_ml': pct_better_r3_o1_ml,
             'pct_better_R3_O2': pct_better_r3_o2,
             'top_lt_5_best_o2': top_lt_5_best_o2,
             'top_gt_35_best_o2': top_gt_35_best_o2,
+            'top_lt_5_best_o1_ml': top_lt_5_best_o1_ml,
+            'top_gt_35_best_o1_ml': top_gt_35_best_o1_ml,
+            'top_lt_5_worst_front': top_lt_5_worst_front,
+            'top_gt_35_worst_front': top_gt_35_worst_front,
             'valid_adaptive_hours': valid_adaptive_hours,
+            'valid_adaptive_hours_sim': valid_adaptive_hours_sim,
+            'o1_adapt_reliable': o1_adapt_reliable,
             'at_bound_variables': at_bound_str,
             'O2_mean_error_pct_per_round': o2_err_str,
-            'flag_error_rising': flag_rising,
+            'O2_mean_err_abs_per_round': o2_err_abs_str,
+            'round_3_mean_signed_error': round_3_mean_signed_err,
+            'round_3_share_negative_errors': round_3_share_neg,
+            'flag_error_high': flag_error_high,
+            'flag_error_rising': flag_error_rising,
             'total_minutes': total_minutes
         })
 

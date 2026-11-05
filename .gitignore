@@ -21,6 +21,9 @@ data/raw/*
 data/docs/
 
 # bulky generated output
+data/processed/archive/
+data/processed/batch_check/
+reports/*.log
 data/processed/scaling/
 data/processed/scaling_test*/
 data/processed/pilot/
