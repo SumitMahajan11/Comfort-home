@@ -189,12 +189,26 @@ def main():
         cand_mae = float(np.mean(cand_abs))
 
         # Out-of-sample 5-fold CV on random LHS designs
-        # For the 5 primary cities and all cities, compute 5-fold CV out-of-sample residuals
-        oos_signed, _ = run_5fold_cv_residuals(df_lhs, best_params)
+        oos_signed, oos_preds = run_5fold_cv_residuals(df_lhs, best_params)
         oos_abs = np.abs(oos_signed)
         oos_mean_signed = float(np.mean(oos_signed))
         oos_share_neg = float(np.mean(oos_signed < 0.0) * 100.0)
         oos_mae = float(np.mean(oos_abs))
+
+        # Lowest 100 predicted O2 designs from 5-fold CV on pilot pool
+        idx_lowest_100 = np.argsort(oos_preds)[:100]
+        err_lowest_100 = oos_signed[idx_lowest_100]
+        lowest_mean_signed = float(np.mean(err_lowest_100))
+        lowest_share_neg = float(np.mean(err_lowest_100 < 0.0) * 100.0)
+        lowest_mae = float(np.mean(np.abs(err_lowest_100)))
+
+        # 100 random designs from pilot pool (fixed seed for reproducibility)
+        rng = np.random.RandomState(42)
+        idx_rand_100 = rng.choice(len(df_lhs), 100, replace=False)
+        err_rand_100 = oos_signed[idx_rand_100]
+        rand_mean_signed = float(np.mean(err_rand_100))
+        rand_share_neg = float(np.mean(err_rand_100 < 0.0) * 100.0)
+        rand_mae = float(np.mean(np.abs(err_rand_100)))
 
         # In-sample residuals on same model for comparison
         model = art['model']
@@ -239,6 +253,12 @@ def main():
             'NSGA Mean Signed': cand_mean_signed,
             'NSGA % Neg': cand_share_neg,
             'NSGA MAE': cand_mae,
+            'Pilot Lowest100 Signed': lowest_mean_signed,
+            'Pilot Lowest100 % Neg': lowest_share_neg,
+            'Pilot Lowest100 MAE': lowest_mae,
+            'Pilot Rand100 Signed': rand_mean_signed,
+            'Pilot Rand100 % Neg': rand_share_neg,
+            'Pilot Rand100 MAE': rand_mae,
             'OOS Rand Signed': oos_mean_signed,
             'OOS Rand % Neg': oos_share_neg,
             'OOS Rand MAE': oos_mae,
@@ -248,35 +268,40 @@ def main():
 
     df_res = pd.DataFrame(rows)
 
-    # Print Primary 5 Cities Table
+    # Print 30-City Table Comparing Pilot Lowest 100 vs Random 100 vs NSGA Candidates
     print("=" * 140)
-    print("TABLE 1: PRIMARY 5 CITIES CONTROL COMPARISON (OUT-OF-SAMPLE 5-FOLD CV vs NSGA-II CANDIDATES)")
+    print("TABLE 1: ALL 30 CITIES SELECTION BIAS EVALUATION")
+    print("Comparison: Pilot Pool Lowest-100 Predicted O2 vs Pilot Pool 100 Random Designs vs NSGA-II Selected Candidates")
     print("=" * 140)
-    p5_df = df_res[df_res['City'].isin(PRIMARY_5_CITIES)].copy()
-    display_cols = [
-        'City', 'NSGA Mean Signed', 'NSGA % Neg', 'NSGA MAE',
-        'OOS Rand Signed', 'OOS Rand % Neg', 'OOS Rand MAE',
-        'In-Sample Signed', 'r(dist, err)'
+    display_cols_all = [
+        'City', 'NSGA Mean Signed', 'NSGA % Neg',
+        'Pilot Lowest100 Signed', 'Pilot Lowest100 % Neg',
+        'Pilot Rand100 Signed', 'Pilot Rand100 % Neg',
+        'OOS Rand Signed', 'OOS Rand % Neg', 'r(dist, err)'
     ]
-    fmt_p5 = p5_df[display_cols].copy()
-    for col in ['NSGA Mean Signed', 'NSGA MAE', 'OOS Rand Signed', 'OOS Rand MAE', 'In-Sample Signed']:
-        fmt_p5[col] = fmt_p5[col].map(lambda x: f"{x:+.2f}")
-    for col in ['NSGA % Neg', 'OOS Rand % Neg']:
-        fmt_p5[col] = fmt_p5[col].map(lambda x: f"{x:.1f}%")
-    fmt_p5['r(dist, err)'] = fmt_p5['r(dist, err)'].map(lambda x: f"{x:+.3f}")
-    print(fmt_p5.to_string(index=False))
+    fmt_all = df_res[display_cols_all].copy()
+    for col in ['NSGA Mean Signed', 'Pilot Lowest100 Signed', 'Pilot Rand100 Signed', 'OOS Rand Signed']:
+        fmt_all[col] = fmt_all[col].map(lambda x: f"{x:+.2f}")
+    for col in ['NSGA % Neg', 'Pilot Lowest100 % Neg', 'Pilot Rand100 % Neg', 'OOS Rand % Neg']:
+        fmt_all[col] = fmt_all[col].map(lambda x: f"{x:.1f}%")
+    fmt_all['r(dist, err)'] = fmt_all['r(dist, err)'].map(lambda x: f"{x:+.3f}")
+    print(fmt_all.to_string(index=False))
     print("=" * 140)
 
-    # Print Summary Across All Cities
+    # Print Aggregate Summary
     print("\n" + "=" * 140)
-    print("TABLE 2: AGGREGATE SUMMARY (ALL EVALUATED CITIES)")
+    print("TABLE 2: AGGREGATE SUMMARY (ALL 30 CITIES)")
     print("=" * 140)
-    print(f"Total Cities Evaluated:                 {len(df_res)}")
-    print(f"Mean NSGA-II Signed Error:             {df_res['NSGA Mean Signed'].mean():+.2f} kWh/m2 (Share Negative: {df_res['NSGA % Neg'].mean():.1f}%)")
-    print(f"Mean OOS Random LHS Signed Error:       {df_res['OOS Rand Signed'].mean():+.2f} kWh/m2 (Share Negative: {df_res['OOS Rand % Neg'].mean():.1f}%)")
-    print(f"Mean In-Sample Random LHS Signed Error: {df_res['In-Sample Signed'].mean():+.2f} kWh/m2")
-    print(f"Mean NSGA-II MAE:                      {df_res['NSGA MAE'].mean():.2f} kWh/m2")
-    print(f"Mean OOS Random LHS MAE:               {df_res['OOS Rand MAE'].mean():.2f} kWh/m2")
+    print(f"Total Cities Evaluated:                          {len(df_res)}")
+    print(f"Mean NSGA-II Candidates Signed Error:            {df_res['NSGA Mean Signed'].mean():+.2f} kWh/m2 (Share Negative: {df_res['NSGA % Neg'].mean():.1f}%)")
+    print(f"Mean Pilot Pool 100 Lowest-Predicted O2 Error:   {df_res['Pilot Lowest100 Signed'].mean():+.2f} kWh/m2 (Share Negative: {df_res['Pilot Lowest100 % Neg'].mean():.1f}%)")
+    print(f"Mean Pilot Pool 100 Random Designs Error:        {df_res['Pilot Rand100 Signed'].mean():+.2f} kWh/m2 (Share Negative: {df_res['Pilot Rand100 % Neg'].mean():.1f}%)")
+    print(f"Mean Pilot Pool All 1000 OOS Residuals:          {df_res['OOS Rand Signed'].mean():+.2f} kWh/m2 (Share Negative: {df_res['OOS Rand % Neg'].mean():.1f}%)")
+    print(f"Mean In-Sample Random LHS Signed Error:          {df_res['In-Sample Signed'].mean():+.2f} kWh/m2")
+    print(f"Mean NSGA-II Candidates MAE:                     {df_res['NSGA MAE'].mean():.2f} kWh/m2")
+    print(f"Mean Pilot Pool 100 Lowest-Predicted MAE:        {df_res['Pilot Lowest100 MAE'].mean():.2f} kWh/m2")
+    print(f"Mean Pilot Pool 100 Random Designs MAE:          {df_res['Pilot Rand100 MAE'].mean():.2f} kWh/m2")
+    print(f"Mean Pilot Pool All 1000 OOS MAE:                {df_res['OOS Rand MAE'].mean():.2f} kWh/m2")
     print("=" * 140)
 
     # Distance Correlation Analysis
@@ -324,22 +349,27 @@ def main():
     print("\n" + "=" * 140)
     print("EMPIRICAL CONCLUSION (STATED STRICTLY AS SUPPORTED BY THE DATA):")
     print("=" * 140)
-    print("""
+    print(f"""
 1. Selection Bias / Surrogate Optimism:
-   - On out-of-sample random LHS designs, the surrogate shows virtually zero systematic bias
-     (mean signed error across cities is near 0.0 kWh/m2, with ~50% share negative).
-   - In contrast, NSGA-II selected candidates exhibit systematic negative signed error across nearly
-     all cities (mean signed error ~ -4.8 kWh/m2 to -10.5 kWh/m2, share negative ~ 85-95%).
-   - This empirically confirms classical optimizer selection bias (optimism): NSGA-II selectively picks
-     designs where the surrogate's approximation error happens to underestimate cooling energy O2.
+   - On the pilot pool (random LHS designs), 5-fold CV out-of-sample predictions across all 1,000 designs
+     exhibit virtually zero systematic bias (mean signed error = {df_res['OOS Rand Signed'].mean():+.2f} kWh/m2, {df_res['OOS Rand % Neg'].mean():.1f}% negative).
+   - Selecting the 100 lowest-predicted-O2 designs within the fixed pilot pool yields mean signed error of
+     {df_res['Pilot Lowest100 Signed'].mean():+.2f} kWh/m2 ({df_res['Pilot Lowest100 % Neg'].mean():.1f}% negative), compared to {df_res['Pilot Rand100 Signed'].mean():+.2f} kWh/m2
+     ({df_res['Pilot Rand100 % Neg'].mean():.1f}% negative) for 100 randomly sampled designs.
+   - In contrast, NSGA-II candidate selection across continuous search space yields systematic negative signed
+     error (mean signed error = {df_res['NSGA Mean Signed'].mean():+.2f} kWh/m2, {df_res['NSGA % Neg'].mean():.1f}% negative).
+   - The data demonstrates that optimizer optimism emerges from continuous evolutionary search actively
+     exploiting under-predicted regions of the surrogate surface.
 
 2. Distance vs Bounds:
-   - The partial R2 for distance to the training pool is negligible (< 1.5%), and the correlation
-     between candidate error and distance is mixed across cities (with both positive and negative correlations).
-   - Candidate errors are primarily driven by boundary clustering (designs pinned against insulation and WWR
-     extremes) rather than Euclidean distance from the training pool center.
+   - For pooled candidates across all 30 cities (N = {len(y_p)}), the partial R2 for distance to the training pool
+     (controlling for the number of variables at bounds) is {partial_r2:.4f} ({partial_r2*100:.2f}%).
+   - The correlation between candidate error and distance is mixed across cities ({len(cities_pos_corr)} cities positive,
+     {len(cities_neg_corr)} cities negative), showing no uniform global relationship between Euclidean distance
+     and signed error.
 """)
     print("=" * 140)
 
 if __name__ == "__main__":
     main()
+

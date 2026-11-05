@@ -219,10 +219,10 @@ def main():
     g_best_o1 = float(g_curr['best_O1_ml'])
 
     pct_better_o2_curr = (g_r3_o2_curr - g_best_o2) / g_r3_o2_curr * 100.0
-    pp_better_o1_curr = g_best_o1 - g_r3_o1_curr
+    pp_better_o1_curr = g_r3_o1_curr - g_best_o1
 
     pct_better_o2_alt = (res_gangtok_alt['O2'] - g_best_o2) / res_gangtok_alt['O2'] * 100.0
-    pp_better_o1_alt = g_best_o1 - res_gangtok_alt['O1_ml']
+    pp_better_o1_alt = res_gangtok_alt['O1_ml'] - g_best_o1
 
     sens_rows.append({
         'City': 'Gangtok',
@@ -248,10 +248,10 @@ def main():
     b_best_o1 = float(b_curr['best_O1_ml'])
 
     pct_better_o2_b_curr = (b_r3_o2_curr - b_best_o2) / b_r3_o2_curr * 100.0
-    pp_better_o1_b_curr = b_best_o1 - b_r3_o1_curr
+    pp_better_o1_b_curr = b_r3_o1_curr - b_best_o1
 
     pct_better_o2_b_alt = (res_bhuntar_alt['O2'] - b_best_o2) / res_bhuntar_alt['O2'] * 100.0
-    pp_better_o1_b_alt = b_best_o1 - res_bhuntar_alt['O1_ml']
+    pp_better_o1_b_alt = res_bhuntar_alt['O1_ml'] - b_best_o1
 
     sens_rows.append({
         'City': 'Bhuntar',
@@ -277,7 +277,7 @@ def main():
     bhuj_best_o1 = float(bhuj_curr['best_O1_ml'])
 
     pct_better_o2_bhuj_curr = (bhuj_r3_o2_curr - bhuj_best_o2) / bhuj_r3_o2_curr * 100.0
-    pp_better_o1_bhuj_curr = bhuj_best_o1 - bhuj_r3_o1_curr
+    pp_better_o1_bhuj_curr = bhuj_r3_o1_curr - bhuj_best_o1
 
     # Composite: delta = 0
     sens_rows.append({
@@ -297,7 +297,7 @@ def main():
 
     # Temperate
     pct_better_o2_bhuj_temp = (res_bhuj_temp['O2'] - bhuj_best_o2) / res_bhuj_temp['O2'] * 100.0
-    pp_better_o1_bhuj_temp = bhuj_best_o1 - res_bhuj_temp['O1_ml']
+    pp_better_o1_bhuj_temp = res_bhuj_temp['O1_ml'] - bhuj_best_o1
     sens_rows.append({
         'City': 'Bhuj',
         'Original Zone': 'Hot-Dry',
@@ -315,7 +315,7 @@ def main():
 
     # Cold
     pct_better_o2_bhuj_cold = (res_bhuj_cold['O2'] - bhuj_best_o2) / res_bhuj_cold['O2'] * 100.0
-    pp_better_o1_bhuj_cold = bhuj_best_o1 - res_bhuj_cold['O1_ml']
+    pp_better_o1_bhuj_cold = res_bhuj_cold['O1_ml'] - bhuj_best_o1
     sens_rows.append({
         'City': 'Bhuj',
         'Original Zone': 'Hot-Dry',

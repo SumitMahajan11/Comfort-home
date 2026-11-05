@@ -143,9 +143,13 @@ def main():
             zipf.write(fp, arcname=item['relative_path'])
 
     zip_size_mb = os.path.getsize(zip_dest) / (1024 * 1024)
+    zip_sha256 = compute_sha256(zip_dest)
     print(f"SUCCESS: Zip archive created with {len(manifest_rows) + 1} files.")
-    print(f"Total Archive Size: {zip_size_mb:.2f} MB")
+    print(f"Archive Path:   {zip_dest}")
+    print(f"Archive Size:   {zip_size_mb:.2f} MB")
+    print(f"Archive SHA256: {zip_sha256}")
     print("=" * 125)
 
 if __name__ == "__main__":
     main()
+
