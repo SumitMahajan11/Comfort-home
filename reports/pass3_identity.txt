@@ -1,0 +1,369 @@
+====================================================================================================================================================================================
+PASS 3 - ITEM 2: 30-CITY STATION IDENTITY, CROSS-PIPELINE PATH & AUDIT LOG EXPANSION
+====================================================================================================================================================================================
+
+TABLE 1: 30-CITY EPW IDENTITY, CROSS-PIPELINE PATHS & ROOT VS SUBFOLDER COPY SHA AUDIT
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+City           | WMO    | Root SHA (8) | Subfolder SHA (8)  | SHA Match  | Item1 Path                               | Item3 Path
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Srinagar       | 420270 | 5455eeaf     | 5455eeaf           | MATCH      | data/raw/India_Weather_Extracted/IND_JK_Srinagar.420270_TMYx.2011-2025/IND_JK_Srinagar.420270_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_JK_Srinagar.420270_TMYx.2011-2025/IND_JK_Srinagar.420270_TMYx.2011-2025.epw
+Bhuntar        | 420810 | NO_ROOT      | f3bcbce0           | SUB_ONLY   | data/raw/India_Weather_Extracted/IND_HP_Bhuntar.420810_TMYx.2011-2025/IND_HP_Bhuntar.420810_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_HP_Bhuntar.420810_TMYx.2011-2025/IND_HP_Bhuntar.420810_TMYx.2011-2025.epw
+Gangtok        | 422990 | 84ac6a89     | 84ac6a89           | MATCH      | data/raw/India_Weather_Extracted/IND_SK_Gangtok.422990_TMYx.2011-2025/IND_SK_Gangtok.422990_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_SK_Gangtok.422990_TMYx.2011-2025/IND_SK_Gangtok.422990_TMYx.2011-2025.epw
+Jammu          | 420560 | e920ac22     | e920ac22           | MATCH      | data/raw/India_Weather_Extracted/IND_JK_Jammu.420560_TMYx.2011-2025/IND_JK_Jammu.420560_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_JK_Jammu.420560_TMYx.2011-2025/IND_JK_Jammu.420560_TMYx.2011-2025.epw
+Dehradun       | 421110 | d27687e4     | d27687e4           | MATCH      | data/raw/India_Weather_Extracted/IND_UT_Dehradun.421110_TMYx.2011-2025/IND_UT_Dehradun.421110_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_UT_Dehradun.421110_TMYx.2011-2025/IND_UT_Dehradun.421110_TMYx.2011-2025.epw
+Lucknow        | 423690 | 1516de31     | 1516de31           | MATCH      | data/raw/India_Weather_Extracted/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025.epw
+Varanasi       | 424830 | f0de0dec     | f0de0dec           | MATCH      | data/raw/India_Weather_Extracted/IND_UP_Varanasi.424830_TMYx.2011-2025/IND_UP_Varanasi.424830_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_UP_Varanasi.424830_TMYx.2011-2025/IND_UP_Varanasi.424830_TMYx.2011-2025.epw
+Prayagraj      | 424750 | d428d99e     | d428d99e           | MATCH      | data/raw/India_Weather_Extracted/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025.epw
+Agra           | 422600 | 7e603d36     | 7e603d36           | MATCH      | data/raw/India_Weather_Extracted/IND_UP_Agra.AP.422600_TMYx.2011-2025/IND_UP_Agra.AP.422600_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_UP_Agra.AP.422600_TMYx.2011-2025/IND_UP_Agra.AP.422600_TMYx.2011-2025.epw
+Gorakhpur      | 423790 | bb28e324     | bb28e324           | MATCH      | data/raw/India_Weather_Extracted/IND_UP_Gorakhpur.423790_TMYx.2011-2025/IND_UP_Gorakhpur.423790_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_UP_Gorakhpur.423790_TMYx.2011-2025/IND_UP_Gorakhpur.423790_TMYx.2011-2025.epw
+Patna          | 424920 | 89378f9d     | 89378f9d           | MATCH      | data/raw/India_Weather_Extracted/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025.epw
+Nagpur         | 428670 | 270c0979     | 270c0979           | MATCH      | data/raw/India_Weather_Extracted/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025.epw
+Guwahati       | 424100 | 52a01ded     | 52a01ded           | MATCH      | data/raw/India_Weather_Extracted/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025.epw
+Dibrugarh      | 423140 | 2fb238a2     | 2fb238a2           | MATCH      | data/raw/India_Weather_Extracted/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw
+Imphal         | 426230 | 5902cde5     | 5902cde5           | MATCH      | data/raw/India_Weather_Extracted/IND_MN_Imphal.426230_TMYx.2011-2025/IND_MN_Imphal.426230_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_MN_Imphal.426230_TMYx.2011-2025/IND_MN_Imphal.426230_TMYx.2011-2025.epw
+Bhubaneswar    | 429710 | bdd16c04     | bdd16c04           | MATCH      | data/raw/India_Weather_Extracted/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025.epw
+Kolkata        | 428090 | 9ed43482     | 9ed43482           | MATCH      | data/raw/India_Weather_Extracted/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025.epw
+Visakhapatnam  | 431500 | 1487aecb     | 1487aecb           | MATCH      | data/raw/India_Weather_Extracted/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025.epw
+Chennai        | 432790 | 46ebf7ca     | 46ebf7ca           | MATCH      | data/raw/India_Weather_Extracted/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025.epw
+Surat          | 428400 | d24f9e4e     | d24f9e4e           | MATCH      | data/raw/India_Weather_Extracted/IND_GJ_Surat.428400_TMYx.2011-2025/IND_GJ_Surat.428400_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_GJ_Surat.428400_TMYx.2011-2025/IND_GJ_Surat.428400_TMYx.2011-2025.epw
+Kochi          | 433530 | d593ffba     | d593ffba           | MATCH      | data/raw/India_Weather_Extracted/IND_KL_Kochi.NAS.433530_TMYx.2011-2025/IND_KL_Kochi.NAS.433530_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_KL_Kochi.NAS.433530_TMYx.2011-2025/IND_KL_Kochi.NAS.433530_TMYx.2011-2025.epw
+Port Blair     | 433330 | 95907f6a     | 95907f6a           | MATCH      | data/raw/India_Weather_Extracted/IND_AN_Port.Blair.433330_TMYx.2011-2025/IND_AN_Port.Blair.433330_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_AN_Port.Blair.433330_TMYx.2011-2025/IND_AN_Port.Blair.433330_TMYx.2011-2025.epw
+Bhuj           | 426340 | 37ac3d35     | 37ac3d35           | MATCH      | data/raw/India_Weather_Extracted/IND_GJ_Bhuj.426340_TMYx.2011-2025/IND_GJ_Bhuj.426340_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_GJ_Bhuj.426340_TMYx.2011-2025/IND_GJ_Bhuj.426340_TMYx.2011-2025.epw
+Jaisalmer      | 423280 | 9344aa13     | 9344aa13           | MATCH      | data/raw/India_Weather_Extracted/IND_RJ_Jaisalmer.423280_TMYx.2011-2025/IND_RJ_Jaisalmer.423280_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_RJ_Jaisalmer.423280_TMYx.2011-2025/IND_RJ_Jaisalmer.423280_TMYx.2011-2025.epw
+Shimla         | 420830 | 8b7447ee     | 8b7447ee           | MATCH      | data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx.2011-2025/IND_HP_Shimla.420830_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx.2011-2025/IND_HP_Shimla.420830_TMYx.2011-2025.epw
+Jodhpur        | 423390 | f31bbc5a     | f31bbc5a           | MATCH      | data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx.2011-2025/IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx.2011-2025/IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw
+New_Delhi      | 421810 | c4c5279f     | c4c5279f           | MATCH      | data/raw/India_Weather_Extracted/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw
+Mumbai         | 430030 | 5e7cdca0     | 5e7cdca0           | MATCH      | data/raw/India_Weather_Extracted/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw
+Bengaluru      | 432960 | b24506e0     | b24506e0           | MATCH      | data/raw/India_Weather_Extracted/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025.epw
+Leh            | 427053 | NO_ROOT      | 3c6fe31e           | SUB_ONLY   | data/raw/India_Weather_Extracted/IND_JK_Leh.427053_TMYx.2011-2025/IND_JK_Leh.427053_TMYx.2011-2025.epw | data/raw/India_Weather_Extracted/IND_JK_Leh.427053_TMYx.2011-2025/IND_JK_Leh.427053_TMYx.2011-2025.epw
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Summary of Root vs Subfolder Copy Distribution:
+  - Cities with exact SHA-256 match between root and subfolder copies: 28 / 30
+  - Single-copy cities (subfolder only, no root copy):                  2 / 30 (Bhuntar, Leh)
+  - Total Mismatch Count:                                                0 / 30
+
+====================================================================================================================================================================================
+DETAILED VERBATIM EPW HEADER LINE 1 & FULL SHA-256 PER CITY
+====================================================================================================================================================================================
+City: Srinagar (WMO: 420270)
+  EPW Header Line 1:  LOCATION,Srinagar,JK,IND,SRC-TMYx,420270,34.05080,74.80450,5.5,1587.0
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_JK_Srinagar.420270_TMYx.2011-2025/IND_JK_Srinagar.420270_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_JK_Srinagar.420270_TMYx.2011-2025/IND_JK_Srinagar.420270_TMYx.2011-2025.epw
+  Subfolder SHA-256:  5455eeaff4b93437d05aa84bda7ce600cf9cdf781ed3058703310097b33edba4
+  Root Copy SHA-256:  5455eeaff4b93437d05aa84bda7ce600cf9cdf781ed3058703310097b33edba4
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Bhuntar (WMO: 420810)
+  EPW Header Line 1:  LOCATION,Bhuntar,HP,IND,SRC-TMYx,420810,31.83300,77.16700,5.5,1084.0
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_HP_Bhuntar.420810_TMYx.2011-2025/IND_HP_Bhuntar.420810_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_HP_Bhuntar.420810_TMYx.2011-2025/IND_HP_Bhuntar.420810_TMYx.2011-2025.epw
+  Subfolder SHA-256:  f3bcbce0453b10f8152e4fa911dea592421458986046a10dd6a55d6dd3e0c082
+  Root Copy SHA-256:  NO_ROOT_COPY
+  Copy Integrity:     SUB_ONLY
+....................................................................................................................................................................................
+City: Gangtok (WMO: 422990)
+  EPW Header Line 1:  LOCATION,Gangtok,SK,IND,SRC-TMYx,422990,27.33300,88.61700,5.5,1756.0
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_SK_Gangtok.422990_TMYx.2011-2025/IND_SK_Gangtok.422990_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_SK_Gangtok.422990_TMYx.2011-2025/IND_SK_Gangtok.422990_TMYx.2011-2025.epw
+  Subfolder SHA-256:  84ac6a899f43ede30e7cc84d8853f9890e5311ad8dfba1788fb1a1a19e0f8709
+  Root Copy SHA-256:  84ac6a899f43ede30e7cc84d8853f9890e5311ad8dfba1788fb1a1a19e0f8709
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Jammu (WMO: 420560)
+  EPW Header Line 1:  LOCATION,Jammu,JK,IND,SRC-TMYx,420560,32.66700,74.83300,5.5,367.0
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_JK_Jammu.420560_TMYx.2011-2025/IND_JK_Jammu.420560_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_JK_Jammu.420560_TMYx.2011-2025/IND_JK_Jammu.420560_TMYx.2011-2025.epw
+  Subfolder SHA-256:  e920ac222698d750e603496874f12985ca2334c8f9818a2eebc19c0c4003d792
+  Root Copy SHA-256:  e920ac222698d750e603496874f12985ca2334c8f9818a2eebc19c0c4003d792
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Dehradun (WMO: 421110)
+  EPW Header Line 1:  LOCATION,Dehradun,UT,IND,SRC-TMYx,421110,30.31700,78.03300,5.5,682.0
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_UT_Dehradun.421110_TMYx.2011-2025/IND_UT_Dehradun.421110_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_UT_Dehradun.421110_TMYx.2011-2025/IND_UT_Dehradun.421110_TMYx.2011-2025.epw
+  Subfolder SHA-256:  d27687e4f85e66b4bdf82cad9e1892fc7921af9c4f4e9a13bab5fd9cd73064b6
+  Root Copy SHA-256:  d27687e4f85e66b4bdf82cad9e1892fc7921af9c4f4e9a13bab5fd9cd73064b6
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Lucknow (WMO: 423690)
+  EPW Header Line 1:  LOCATION,Lucknow-Amausi-Singh.Intl.AP,UP,IND,SRC-TMYx,423690,26.76100,80.88900,5.5,125.0
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025.epw
+  Subfolder SHA-256:  1516de31c448843260abfd3c35a62ad38baece15aab9186cb4145b852c62952c
+  Root Copy SHA-256:  1516de31c448843260abfd3c35a62ad38baece15aab9186cb4145b852c62952c
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Varanasi (WMO: 424830)
+  EPW Header Line 1:  LOCATION,Varanasi,UP,IND,SRC-TMYx,424830,25.30000,83.01700,5.5,90.0
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_UP_Varanasi.424830_TMYx.2011-2025/IND_UP_Varanasi.424830_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_UP_Varanasi.424830_TMYx.2011-2025/IND_UP_Varanasi.424830_TMYx.2011-2025.epw
+  Subfolder SHA-256:  f0de0dec080f3450838874d727f0a078db39c9c728cd4cc1b8fee58038f85ddc
+  Root Copy SHA-256:  f0de0dec080f3450838874d727f0a078db39c9c728cd4cc1b8fee58038f85ddc
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Prayagraj (WMO: 424750)
+  EPW Header Line 1:  LOCATION,Allahabad-Bamrauli.AP,UP,IND,SRC-TMYx,424750,25.44100,81.73500,5.5,98.1
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025.epw
+  Subfolder SHA-256:  d428d99ea4475ee7724ae345d8a673279807201ba253e62a7d3fc40e9edbde69
+  Root Copy SHA-256:  d428d99ea4475ee7724ae345d8a673279807201ba253e62a7d3fc40e9edbde69
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Agra (WMO: 422600)
+  EPW Header Line 1:  LOCATION,Agra.AP,UP,IND,SRC-TMYx,422600,27.15600,77.96100,5.5,167.9
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_UP_Agra.AP.422600_TMYx.2011-2025/IND_UP_Agra.AP.422600_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_UP_Agra.AP.422600_TMYx.2011-2025/IND_UP_Agra.AP.422600_TMYx.2011-2025.epw
+  Subfolder SHA-256:  7e603d3674e2d67f3f6e6e327ca42599360e56f6a016a4e155ce1a6639cdc47a
+  Root Copy SHA-256:  7e603d3674e2d67f3f6e6e327ca42599360e56f6a016a4e155ce1a6639cdc47a
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Gorakhpur (WMO: 423790)
+  EPW Header Line 1:  LOCATION,Gorakhpur,UP,IND,SRC-TMYx,423790,26.74000,83.45000,5.5,78.9
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_UP_Gorakhpur.423790_TMYx.2011-2025/IND_UP_Gorakhpur.423790_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_UP_Gorakhpur.423790_TMYx.2011-2025/IND_UP_Gorakhpur.423790_TMYx.2011-2025.epw
+  Subfolder SHA-256:  bb28e32413c47b69a73d7e39621b9827591956ff3db32e3b0fde414e4f0eb157
+  Root Copy SHA-256:  bb28e32413c47b69a73d7e39621b9827591956ff3db32e3b0fde414e4f0eb157
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Patna (WMO: 424920)
+  EPW Header Line 1:  LOCATION,Patna-Jayaprakash.AP,BR,IND,SRC-TMYx,424920,25.59100,85.08800,5.5,51.8
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025.epw
+  Subfolder SHA-256:  89378f9d0c8cea1cf8f5b2462da4ec5bb1ced56943935ebfb4f46f88d797ea53
+  Root Copy SHA-256:  89378f9d0c8cea1cf8f5b2462da4ec5bb1ced56943935ebfb4f46f88d797ea53
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Nagpur (WMO: 428670)
+  EPW Header Line 1:  LOCATION,Nagpur-Ambedkar.Intl.AP,MH,IND,SRC-TMYx,428670,21.09200,79.04700,5.5,314.9
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025.epw
+  Subfolder SHA-256:  270c0979b66911a9cdad2ede07ff7e8f17fd965baea319b58a0a7b9a9d756415
+  Root Copy SHA-256:  270c0979b66911a9cdad2ede07ff7e8f17fd965baea319b58a0a7b9a9d756415
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Guwahati (WMO: 424100)
+  EPW Header Line 1:  LOCATION,Guwahati-Bordoloi.Intl.AP,AS,IND,SRC-TMYx,424100,26.10600,91.58600,5.5,49.4
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025.epw
+  Subfolder SHA-256:  52a01dede214d22f19f697c6313c7df5ce81ed264098f6445d21c4d6995ca886
+  Root Copy SHA-256:  52a01dede214d22f19f697c6313c7df5ce81ed264098f6445d21c4d6995ca886
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Dibrugarh (WMO: 423140)
+  EPW Header Line 1:  LOCATION,Dibrugarh.AP,AS,IND,SRC-TMYx,423140,27.48400,95.01700,5.5,110.3
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw
+  Subfolder SHA-256:  2fb238a212eeeedcc0eb088e04382560a5ae9be72f803823af5cb910befe860a
+  Root Copy SHA-256:  2fb238a212eeeedcc0eb088e04382560a5ae9be72f803823af5cb910befe860a
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Imphal (WMO: 426230)
+  EPW Header Line 1:  LOCATION,Imphal,MN,IND,SRC-TMYx,426230,24.76000,93.89700,5.5,774.2
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_MN_Imphal.426230_TMYx.2011-2025/IND_MN_Imphal.426230_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_MN_Imphal.426230_TMYx.2011-2025/IND_MN_Imphal.426230_TMYx.2011-2025.epw
+  Subfolder SHA-256:  5902cde5a4b2f4ecad9b5f4ed703cdd20fc5b51147a50ef7fab614c7d9a52a32
+  Root Copy SHA-256:  5902cde5a4b2f4ecad9b5f4ed703cdd20fc5b51147a50ef7fab614c7d9a52a32
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Bhubaneswar (WMO: 429710)
+  EPW Header Line 1:  LOCATION,Bhubaneshwar-Patnaik.Intl.AP,OR,IND,SRC-TMYx,429710,20.24400,85.81800,5.5,42.1
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025.epw
+  Subfolder SHA-256:  bdd16c04b4b97a3ca2ac0c149ce2bd545327bbaa542973abb11a9c689bf52adb
+  Root Copy SHA-256:  bdd16c04b4b97a3ca2ac0c149ce2bd545327bbaa542973abb11a9c689bf52adb
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Kolkata (WMO: 428090)
+  EPW Header Line 1:  LOCATION,Kolkata-Bose.Intl.AP,WB,IND,SRC-TMYx,428090,22.65500,88.44700,5.5,4.9
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025.epw
+  Subfolder SHA-256:  9ed434826c36f1faf70c17af80b5bbcbce73c1969ac78f315c96b5ba0ee46f21
+  Root Copy SHA-256:  9ed434826c36f1faf70c17af80b5bbcbce73c1969ac78f315c96b5ba0ee46f21
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Visakhapatnam (WMO: 431500)
+  EPW Header Line 1:  LOCATION,Vishakhapatnam,AP,IND,SRC-TMYx,431500,17.72170,83.32920,5.5,66.0
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025.epw
+  Subfolder SHA-256:  1487aecbe2d15167546da8682322ad5973e52d515edf4317e40fb86a32eaf25e
+  Root Copy SHA-256:  1487aecbe2d15167546da8682322ad5973e52d515edf4317e40fb86a32eaf25e
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Chennai (WMO: 432790)
+  EPW Header Line 1:  LOCATION,Chennai.Intl.AP,TN,IND,SRC-TMYx,432790,12.99400,80.18100,5.5,15.8
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025.epw
+  Subfolder SHA-256:  46ebf7cadabd489c09a510f9df0d96ed502b87c594f86a38172b0069f7767fb7
+  Root Copy SHA-256:  46ebf7cadabd489c09a510f9df0d96ed502b87c594f86a38172b0069f7767fb7
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Surat (WMO: 428400)
+  EPW Header Line 1:  LOCATION,Surat,GJ,IND,SRC-TMYx,428400,21.20000,72.83300,5.5,12.0
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_GJ_Surat.428400_TMYx.2011-2025/IND_GJ_Surat.428400_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_GJ_Surat.428400_TMYx.2011-2025/IND_GJ_Surat.428400_TMYx.2011-2025.epw
+  Subfolder SHA-256:  d24f9e4e373e2f09dc5dc04f54e76a8e9d487398477c6fd1342ef97b41ecfb52
+  Root Copy SHA-256:  d24f9e4e373e2f09dc5dc04f54e76a8e9d487398477c6fd1342ef97b41ecfb52
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Kochi (WMO: 433530)
+  EPW Header Line 1:  LOCATION,Kochi.NAS,KL,IND,SRC-TMYx,433530,9.94600,76.27200,5.5,2.4
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_KL_Kochi.NAS.433530_TMYx.2011-2025/IND_KL_Kochi.NAS.433530_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_KL_Kochi.NAS.433530_TMYx.2011-2025/IND_KL_Kochi.NAS.433530_TMYx.2011-2025.epw
+  Subfolder SHA-256:  d593ffba6386e84aacbd2c18051d2c3832282ea013a3b9979f2f96f0abe2a71e
+  Root Copy SHA-256:  d593ffba6386e84aacbd2c18051d2c3832282ea013a3b9979f2f96f0abe2a71e
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Port Blair (WMO: 433330)
+  EPW Header Line 1:  LOCATION,Port.Blair,AN,IND,SRC-TMYx,433330,11.66700,92.71700,5.5,79.0
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_AN_Port.Blair.433330_TMYx.2011-2025/IND_AN_Port.Blair.433330_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_AN_Port.Blair.433330_TMYx.2011-2025/IND_AN_Port.Blair.433330_TMYx.2011-2025.epw
+  Subfolder SHA-256:  95907f6a2b2e126702d10c2a609c37de49d99b16e158e32caab9f8adca404ede
+  Root Copy SHA-256:  95907f6a2b2e126702d10c2a609c37de49d99b16e158e32caab9f8adca404ede
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Bhuj (WMO: 426340)
+  EPW Header Line 1:  LOCATION,Bhuj,GJ,IND,SRC-TMYx,426340,23.28800,69.67000,5.5,81.7
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_GJ_Bhuj.426340_TMYx.2011-2025/IND_GJ_Bhuj.426340_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_GJ_Bhuj.426340_TMYx.2011-2025/IND_GJ_Bhuj.426340_TMYx.2011-2025.epw
+  Subfolder SHA-256:  37ac3d35f1b48490d75ed55ed201f4f33c2eb87a968a643ed6819695f5f0ae62
+  Root Copy SHA-256:  37ac3d35f1b48490d75ed55ed201f4f33c2eb87a968a643ed6819695f5f0ae62
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Jaisalmer (WMO: 423280)
+  EPW Header Line 1:  LOCATION,Jaisalmer,RJ,IND,SRC-TMYx,423280,26.90000,70.91700,5.5,231.0
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_RJ_Jaisalmer.423280_TMYx.2011-2025/IND_RJ_Jaisalmer.423280_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_RJ_Jaisalmer.423280_TMYx.2011-2025/IND_RJ_Jaisalmer.423280_TMYx.2011-2025.epw
+  Subfolder SHA-256:  9344aa138c33f6404aa8110b092ec573910f6b958bd05b3ff90c0f400a07fd04
+  Root Copy SHA-256:  9344aa138c33f6404aa8110b092ec573910f6b958bd05b3ff90c0f400a07fd04
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Shimla (WMO: 420830)
+  EPW Header Line 1:  LOCATION,Shimla,HP,IND,SRC-TMYx,420830,31.10000,77.16700,5.5,2202.0
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx.2011-2025/IND_HP_Shimla.420830_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx.2011-2025/IND_HP_Shimla.420830_TMYx.2011-2025.epw
+  Subfolder SHA-256:  8b7447ee12f00a3d13ba9443caca904e8ef4cf2865f30b7eac86eaa176d68286
+  Root Copy SHA-256:  8b7447ee12f00a3d13ba9443caca904e8ef4cf2865f30b7eac86eaa176d68286
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Jodhpur (WMO: 423390)
+  EPW Header Line 1:  LOCATION,Jodhpur,RJ,IND,SRC-TMYx,423390,26.25730,73.04080,5.5,218.5
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx.2011-2025/IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx.2011-2025/IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw
+  Subfolder SHA-256:  f31bbc5a7edbf38328151473a5dfb8660e14026289a9c77a4e6d4f6cf8a4de39
+  Root Copy SHA-256:  f31bbc5a7edbf38328151473a5dfb8660e14026289a9c77a4e6d4f6cf8a4de39
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: New_Delhi (WMO: 421810)
+  EPW Header Line 1:  LOCATION,New.Delhi-Gandhi.Intl.AP,DL,IND,SRC-TMYx,421810,28.56700,77.10300,5.5,236.8
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw
+  Subfolder SHA-256:  c4c5279f513ec2c1dec4511114c05f13596f214184dc825e58385a1f53ac2d5a
+  Root Copy SHA-256:  c4c5279f513ec2c1dec4511114c05f13596f214184dc825e58385a1f53ac2d5a
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Mumbai (WMO: 430030)
+  EPW Header Line 1:  LOCATION,Mumbai-Shivaji.Intl.AP,MH,IND,SRC-TMYx,430030,19.08900,72.86800,5.5,11.3
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw
+  Subfolder SHA-256:  5e7cdca030958963ab5be12751afe8d0c66b01150450e1059bb7e1b65f044552
+  Root Copy SHA-256:  5e7cdca030958963ab5be12751afe8d0c66b01150450e1059bb7e1b65f044552
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Bengaluru (WMO: 432960)
+  EPW Header Line 1:  LOCATION,Bengaluru-Hindustan.AP,KA,IND,SRC-TMYx,432960,12.95000,77.66800,5.5,888.0
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025.epw
+  Subfolder SHA-256:  b24506e034c43d31950862232b97b404e573de4c8bee04204f62d0890bcae478
+  Root Copy SHA-256:  b24506e034c43d31950862232b97b404e573de4c8bee04204f62d0890bcae478
+  Copy Integrity:     MATCH
+....................................................................................................................................................................................
+City: Leh (WMO: 427053)
+  EPW Header Line 1:  LOCATION,Leh,JK,IND,SRC-TMYx,427053,34.13600,77.54700,5.5,3255.9
+  Item1 EPW Path:     data/raw/India_Weather_Extracted/IND_JK_Leh.427053_TMYx.2011-2025/IND_JK_Leh.427053_TMYx.2011-2025.epw
+  Item3 EPW Path:     data/raw/India_Weather_Extracted/IND_JK_Leh.427053_TMYx.2011-2025/IND_JK_Leh.427053_TMYx.2011-2025.epw
+  Subfolder SHA-256:  3c6fe31eb12c438e316c846eb1fd867ea82368ad78a31207d9254fe31c4be193
+  Root Copy SHA-256:  NO_ROOT_COPY
+  Copy Integrity:     SUB_ONLY
+....................................................................................................................................................................................
+
+====================================================================================================================================================================================
+2. ENERGYPLUS EPLUSOUT.AUDIT WEATHER LINE AUDIT ACROSS ALL 30 CITIES
+====================================================================================================================================================================================
+Audit Objective: Check for weather-specific lines in eplusout.audit generated by EnergyPlus 26.2.0.
+Technical EnergyPlus 26.2.0 Specification:
+  * EnergyPlus eplusout.audit records internal data structures, schedule memory pools, and variable allocations.
+  * Weather file information is ingested via command-line argument '-w <path_to_epw>'.
+  * EnergyPlus writes weather identity directly into 'eplusout.eio' (Site:Location record) and 'eplusout.err',
+    producing ZERO weather lines in 'eplusout.audit'.
+
+Verbatim eplusout.audit Scan & eplusout.eio Site:Location per City:
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+City           | eplusout.audit Weather Line Result                 | eplusout.eio Site:Location Record
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Srinagar       | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Srinagar JK IND SRC-TMYx WMO#=420270, 34.05080, 74.80450, 5.50, 1587.0
+Bhuntar        | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Bhuntar HP IND SRC-TMYx WMO#=420810, 31.83300, 77.16700, 5.50, 1084.0
+Gangtok        | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Gangtok SK IND SRC-TMYx WMO#=422990, 27.33300, 88.61700, 5.50, 1756.0
+Jammu          | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Jammu JK IND SRC-TMYx WMO#=420560, 32.66700, 74.83300, 5.50, 367.0
+Dehradun       | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Dehradun UT IND SRC-TMYx WMO#=421110, 30.31700, 78.03300, 5.50, 682.0
+Lucknow        | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Lucknow-Amausi-Singh.Intl.AP UP IND SRC-TMYx WMO#=423690, 26.76100, 80.88900, 5.50, 125.0
+Varanasi       | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Varanasi UP IND SRC-TMYx WMO#=424830, 25.30000, 83.01700, 5.50, 90.0
+Prayagraj      | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Allahabad-Bamrauli.AP UP IND SRC-TMYx WMO#=424750, 25.44100, 81.73500, 5.50, 98.1
+Agra           | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Agra.AP UP IND SRC-TMYx WMO#=422600, 27.15600, 77.96100, 5.50, 167.9
+Gorakhpur      | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Gorakhpur UP IND SRC-TMYx WMO#=423790, 26.74000, 83.45000, 5.50, 78.9
+Patna          | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Patna-Jayaprakash.AP BR IND SRC-TMYx WMO#=424920, 25.59100, 85.08800, 5.50, 51.8
+Nagpur         | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Nagpur-Ambedkar.Intl.AP MH IND SRC-TMYx WMO#=428670, 21.09200, 79.04700, 5.50, 314.9
+Guwahati       | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Guwahati-Bordoloi.Intl.AP AS IND SRC-TMYx WMO#=424100, 26.10600, 91.58600, 5.50, 49.4
+Dibrugarh      | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Dibrugarh.AP AS IND SRC-TMYx WMO#=423140, 27.48400, 95.01700, 5.50, 110.3
+Imphal         | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Imphal MN IND SRC-TMYx WMO#=426230, 24.76000, 93.89700, 5.50, 774.2
+Bhubaneswar    | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Bhubaneshwar-Patnaik.Intl.AP OR IND SRC-TMYx WMO#=429710, 20.24400, 85.81800, 5.50, 42.1
+Kolkata        | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Kolkata-Bose.Intl.AP WB IND SRC-TMYx WMO#=428090, 22.65500, 88.44700, 5.50, 4.9
+Visakhapatnam  | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Vishakhapatnam AP IND SRC-TMYx WMO#=431500, 17.72170, 83.32920, 5.50, 66.0
+Chennai        | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Chennai.Intl.AP TN IND SRC-TMYx WMO#=432790, 12.99400, 80.18100, 5.50, 15.8
+Surat          | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Surat GJ IND SRC-TMYx WMO#=428400, 21.20000, 72.83300, 5.50, 12.0
+Kochi          | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Kochi.NAS KL IND SRC-TMYx WMO#=433530, 9.94600, 76.27200, 5.50, 2.4
+Port Blair     | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Port.Blair AN IND SRC-TMYx WMO#=433330, 11.66700, 92.71700, 5.50, 79.0
+Bhuj           | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Bhuj GJ IND SRC-TMYx WMO#=426340, 23.28800, 69.67000, 5.50, 81.7
+Jaisalmer      | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Jaisalmer RJ IND SRC-TMYx WMO#=423280, 26.90000, 70.91700, 5.50, 231.0
+Shimla         | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Shimla HP IND SRC-TMYx WMO#=420830, 31.10000, 77.16700, 5.50, 2202.0
+Jodhpur        | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Jodhpur RJ IND SRC-TMYx WMO#=423390, 26.25730, 73.04080, 5.50, 218.5
+New_Delhi      | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, New.Delhi-Gandhi.Intl.AP DL IND SRC-TMYx WMO#=421810, 28.56700, 77.10300, 5.50, 236.8
+Mumbai         | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Mumbai-Shivaji.Intl.AP MH IND SRC-TMYx WMO#=430030, 19.08900, 72.86800, 5.50, 11.3
+Bengaluru      | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Bengaluru-Hindustan.AP KA IND SRC-TMYx WMO#=432960, 12.95000, 77.66800, 5.50, 888.0
+Leh            | 0 weather lines in eplusout.audit (internal alloc only) | Site:Location, Leh JK IND SRC-TMYx WMO#=427053, 34.13600, 77.54700, 5.50, 3255.9
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Verbatim Sample of EnergyPlus 26.2.0 eplusout.audit (First 15 lines):
+  | Processing Schedule Input -- Start
+  | Processing Schedule Input -- Complete
+  | MonthlyInputCount=           0
+  | sizeMonthlyInput=           0
+  | MonthlyFieldSetInputCount=           0
+  | sizeMonthlyFieldSetInput=           0
+  | MonthlyTablesCount=           0
+  | MonthlyColumnsCount=           0
+  | sizeReportName=         100
+  | numReportName=          19
+  | sizeSubTable=         200
+  | numSubTable=         115
+  | sizeColumnTag=        1600
+  | numColumnTag=        1070
+  | sizeTableEntry=        3700
+
+====================================================================================================================================================================================
+3. GIT DIFF AUDIT: reports/item1_station_identity.txt BETWEEN 06d5ecb^ AND HEAD
+====================================================================================================================================================================================
+Execution: git diff 06d5ecb^ HEAD -- reports/item1_station_identity.txt
+Total Diff Size: 597 lines.
+
+Per-City Comparison of Station Attributes in Table 1:
+VERDICT: ZERO CITIES CHANGED STATION IDENTITY, COORDINATES, ELEVATION, OR FLAGS.
+Detailed Diff Anatomy:
+  1. Column Addition: The commit inserted column 'SHA256 (8)' into the main summary table.
+  2. Geographic & Station Properties: For all 30 cities, Station Name, WMO ID, EPW Latitude,
+     EPW Longitude, EPW Elevation, Municipal Expected Coordinates, Great-Circle Distance,
+     Elevation Delta, and Warning Flags are 100.0% identical.
+  3. Section Additions: Added detailed per-city audit sections (Verbatim Header Line 1,
+     full 64-char SHA-256 hashes, and WMO resolution narratives).
+
+====================================================================================================================================================================================
+END OF PASS 3 ITEM 2 IDENTITY REPORT
+====================================================================================================================================================================================

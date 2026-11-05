@@ -1,0 +1,78 @@
+========================================================================================================================
+PASS 3 - ITEM 4: GROUND TEMPERATURE RECOMPUTATION, GIT AUDIT & EXPECTED CITATION
+========================================================================================================================
+
+1. GROUND TEMPERATURE RECOMPUTATION FROM VARIABLES (EPW Header at 0.5 m depth)
+------------------------------------------------------------------------------------------------------------------------
+City: Jodhpur
+  EPW Path: data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx.2011-2025/IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw
+  Depth 0.5 m:
+    Monthly Temperatures (C) [Jan-Dec]: [18.95, 18.17, 19.55, 21.72, 27.38, 31.75, 34.7, 35.6, 34.07, 30.68, 26.14, 21.93]
+    Mean Temperature : 26.72 C (26.7200 C)
+    Maximum Temperature: 35.60 C (Month 8: Aug)
+    Minimum Temperature: 18.17 C (Month 2: Feb)
+  Depth 2.0 m:
+    Monthly Temperatures (C) [Jan-Dec]: [21.82, 20.43, 20.71, 21.86, 25.65, 29.08, 31.82, 33.29, 32.98, 31.05, 27.93, 24.61]
+    Mean Temperature : 26.77 C (26.7692 C)
+    Maximum Temperature: 33.29 C (Month 8: Aug)
+    Minimum Temperature: 20.43 C (Month 2: Feb)
+  Depth 4.0 m:
+    Monthly Temperatures (C) [Jan-Dec]: [24.19, 22.77, 22.46, 22.89, 25.03, 27.34, 29.46, 30.93, 31.28, 30.44, 28.61, 26.36]
+    Mean Temperature : 26.81 C (26.8133 C)
+    Maximum Temperature: 31.28 C (Month 9: Sep)
+    Minimum Temperature: 22.46 C (Month 3: Mar)
+
+City: Jaisalmer
+  EPW Path: data/raw/India_Weather_Extracted/IND_RJ_Jaisalmer.423280_TMYx.2011-2025/IND_RJ_Jaisalmer.423280_TMYx.2011-2025.epw
+  Depth 0.5 m:
+    Monthly Temperatures (C) [Jan-Dec]: [18.86, 18.04, 19.5, 21.78, 27.76, 32.37, 35.48, 36.43, 34.82, 31.24, 26.45, 22.01]
+    Mean Temperature : 27.06 C (27.0617 C)
+    Maximum Temperature: 36.43 C (Month 8: Aug)
+    Minimum Temperature: 18.04 C (Month 2: Feb)
+  Depth 2.0 m:
+    Monthly Temperatures (C) [Jan-Dec]: [21.89, 20.42, 20.72, 21.94, 25.94, 29.55, 32.44, 34.0, 33.66, 31.63, 28.34, 24.84]
+    Mean Temperature : 27.11 C (27.1142 C)
+    Maximum Temperature: 34.00 C (Month 8: Aug)
+    Minimum Temperature: 20.42 C (Month 2: Feb)
+  Depth 4.0 m:
+    Monthly Temperatures (C) [Jan-Dec]: [24.4, 22.89, 22.57, 23.02, 25.28, 27.72, 29.95, 31.51, 31.87, 30.99, 29.05, 26.69]
+    Mean Temperature : 27.16 C (27.1617 C)
+    Maximum Temperature: 31.87 C (Month 9: Sep)
+    Minimum Temperature: 22.57 C (Month 3: Mar)
+
+========================================================================================================================
+2. LITERAL GIT LOG OUTPUT: git log -S DEFAULT_GROUND_TEMP
+========================================================================================================================
+commit c42215d97d7c82be8ec3001ce71731f3984f14e8
+Author: Sumit <sumitnmahajann11@gmail.com>
+Date:   Fri Nov 6 01:13:42 2026 +0530
+
+    Closure pass 2: commit 24 untracked audit tools, reports, and corrected morphed EPWs
+
+commit 6fe5a126713403d421669ea94cf04de822c764a7
+Author: Sumit <sumitnmahajann11@gmail.com>
+Date:   Mon Nov 2 10:02:22 2026 +0530
+
+    feat(pilot): complete Shimla pilot and active learning loop under D-035
+
+commit c33a9549ce3f27df6f8f344db41fa6ff1dfe7532
+Author: Sumit <sumitnmahajann11@gmail.com>
+Date:   Mon Nov 2 08:10:02 2026 +0530
+
+    feat(sim): implement EPW ground temperature parsing for building surfaces (D-035)
+
+------------------------------------------------------------------------------------------------------------------------
+Note on D-035: The commit messages of c33a954 and 6fe5a12 explicitly cite (D-035) in their subjects:
+  - c33a954: 'feat(sim): implement EPW ground temperature parsing for building surfaces (D-035)'
+  - 6fe5a12: 'feat(pilot): complete Shimla pilot and active learning loop under D-035'
+
+========================================================================================================================
+3. SOURCE CITATION FOR 'EXPECTED' TABLE COLUMNS
+========================================================================================================================
+The 'Expected Lat', 'Expected Lon', and 'Expected Elev' columns in the station identity table
+are derived directly from the project's canonical specification dictionary in:
+  Source File : tools/report_item1_station_identity.py
+  Lines       : 29-60
+  Variable    : EXPECTED_CITY_COORDINATES
+  Definition  : Mapping of canonical city names to expected (Latitude, Longitude, Elevation_m).
+========================================================================================================================
