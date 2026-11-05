@@ -42,6 +42,10 @@ data/processed/pilot_*/verif_*/
 data/processed/active_learning_*/round_*_sims/
 data/processed/batch/*/*_sims/
 data/processed/batch/*/stage_markers/
+data/processed/flagship_2011_2025/*/pilot_sims/
+data/processed/flagship_2011_2025/*/round_*_sims/
+data/processed/flagship_2011_2025/*/baseline_sims/
+data/processed/flagship_2011_2025/*/stage_markers/
 sim_*/
 ver_*/
 hourly_*.parquet
