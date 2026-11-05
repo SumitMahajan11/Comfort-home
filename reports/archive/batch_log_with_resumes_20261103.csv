@@ -1,0 +1,76 @@
+city,status,start,end,minutes,front_size,unique_candidates_per_round,O2_mean_error_pct_per_round,best_O1_ml,best_O1_adapt,best_O2,R3_O1_ml,R3_O2,beats_R3_O1,beats_R3_O2,zone_source,top_lt_5_best_o2,top_gt_35_best_o2,valid_adaptive_hours,at_bound_variables,flag_front_size_lt_5,flag_o2_error_rising,flag_all_rounds_lt_90_unique
+Chennai,SUCCESS,2026-11-02 13:13:23,2026-11-02 13:45:07,31.73,11,98; 96; 98,3.27%; 3.69%; 4.26%,78.07,46.9,266.65,90.76,318.37,True,True,STANDARD,0,0,8712,wall_insulation_thickness; roof_solar_absorptance; wwr; ventilation_ach,False,True,False
+Srinagar,SUCCESS,2026-11-02 16:45:39,2026-11-02 17:09:31,23.85,17,96; 93; 99,2.89%; 3.11%; 2.71%,58.28,36.15,213.36,59.27,221.92,True,True,STANDARD,93,0,4752,roof_insulation_thickness; wall_insulation_thickness; roof_solar_absorptance,False,False,False
+Jammu,SUCCESS,2026-11-02 17:09:31,2026-11-02 17:32:39,23.14,45,99; 96; 95,1.66%; 4.18%; 4.86%,56.93,51.74,146.48,59.89,170.02,True,True,ASSUMED,0,0,8544,roof_insulation_thickness; wall_insulation_thickness; orientation; ventilation_ach,False,True,False
+Bhuntar,SUCCESS,2026-11-02 17:32:39,2026-11-02 17:55:30,22.85,19,97; 96; 100,0.44%; 1.36%; 1.91%,57.45,44.27,211.11,67.33,224.88,True,True,ASSUMED,204,0,4848,roof_insulation_thickness; wall_insulation_thickness; shading_depth; ventilation_ach; wall_mass_class,False,True,False
+Dehradun,SUCCESS,2026-11-02 17:55:30,2026-11-02 18:18:56,23.44,63,100; 96; 99,2.38%; 3.96%; 3.62%,41.79,34.49,85.64,48.37,104.21,True,True,STANDARD,0,0,8376,roof_insulation_thickness; ventilation_ach,False,False,False
+Gangtok,SUCCESS,2026-11-02 18:18:56,2026-11-02 18:41:44,22.79,23,96; 95; 95,0.62%; 1.38%; 0.55%,57.91,66.0,129.08,66.97,141.13,True,True,ASSUMED,0,0,6336,wall_insulation_thickness; roof_solar_absorptance; shading_depth; ventilation_ach; wall_mass_class,False,False,False
+Lucknow,SUCCESS,2026-11-02 18:41:44,2026-11-02 19:10:01,28.29,35,98; 96; 96,1.86%; 4.65%; 4.27%,49.73,46.03,184.02,53.8,216.77,True,True,STANDARD,0,0,8328,roof_insulation_thickness; roof_solar_absorptance; wall_mass_class,False,False,False
+Varanasi,SUCCESS,2026-11-02 19:10:01,2026-11-02 19:34:36,24.58,33,97; 97; 96,2.89%; 3.51%; 1.60%,48.4,42.91,194.54,53.76,228.74,True,True,ASSUMED,0,0,8184,roof_insulation_thickness; wall_insulation_thickness; wwr; orientation; ventilation_ach; wall_mass_class,False,False,False
+Prayagraj,SUCCESS,2026-11-02 19:34:36,2026-11-02 19:57:48,23.2,34,94; 98; 99,1.08%; 5.03%; 1.77%,48.95,41.41,205.12,55.09,239.95,True,True,STANDARD,0,0,7872,roof_insulation_thickness; wwr; orientation; ventilation_ach,False,False,False
+Agra,SUCCESS,2026-11-02 19:57:48,2026-11-02 20:20:48,23.0,39,99; 97; 97,0.88%; 3.37%; 4.51%,52.63,49.21,195.54,54.93,221.13,True,True,ASSUMED,0,33,7968,roof_insulation_thickness; ventilation_ach,False,True,False
+Gorakhpur,SUCCESS,2026-11-02 20:20:48,2026-11-02 20:58:54,38.11,39,96; 97; 98,3.60%; 4.39%; 1.82%,46.61,39.73,163.59,50.57,191.92,True,True,STANDARD,0,0,8592,roof_insulation_thickness; wwr; orientation; ventilation_ach,False,False,False
+Patna,SUCCESS,2026-11-02 20:58:54,2026-11-02 21:22:20,23.43,21,97; 99; 98,0.96%; 5.84%; 2.13%,47.0,39.18,179.21,52.9,210.94,True,True,STANDARD,0,0,8736,roof_insulation_thickness; wall_insulation_thickness; wwr; ventilation_ach; wall_mass_class,False,False,False
+Guwahati,SUCCESS,2026-11-02 21:22:20,2026-11-02 21:45:47,23.46,3,95; 97; 96,0.75%; 3.10%; 1.93%,40.46,24.35,137.24,44.99,162.3,True,True,STANDARD,0,0,8760,roof_insulation_thickness; wall_insulation_thickness; wwr; wall_mass_class,True,False,False
+Dibrugarh,SUCCESS,2026-11-02 21:45:48,2026-11-02 22:08:56,23.14,22,94; 98; 100,3.45%; 3.12%; 5.21%,27.89,24.59,93.82,35.8,117.57,True,True,STANDARD,0,0,8760,roof_insulation_thickness; roof_solar_absorptance; wwr; ventilation_ach,False,False,False
+Imphal,SUCCESS,2026-11-02 22:08:56,2026-11-02 22:32:23,23.44,34,94; 100; 99,9.28%; 14.84%; 10.70%,12.92,22.17,32.67,17.23,43.13,True,True,STANDARD,0,0,8760,roof_insulation_thickness; ventilation_ach,False,False,False
+Bhubaneswar,SUCCESS,2026-11-02 22:32:23,2026-11-02 23:04:23,32.0,5,91; 79; 95,1.12%; 6.72%; 4.57%,56.12,28.65,196.04,67.09,237.13,True,True,STANDARD,0,0,8760,wall_insulation_thickness; wwr; wall_mass_class,False,False,False
+Kolkata,SUCCESS,2026-11-02 23:04:23,2026-11-02 23:27:41,23.3,2,92; 99; 94,0.95%; 4.86%; 4.87%,52.66,33.53,189.97,61.22,227.28,True,True,STANDARD,0,0,8760,roof_insulation_thickness; wall_insulation_thickness; roof_solar_absorptance; wwr; ventilation_ach; wall_mass_class,True,True,False
+Visakhapatnam,SUCCESS,2026-11-02 23:27:41,2026-11-02 23:50:29,22.8,9,93; 94; 97,3.68%; 4.52%; 5.18%,69.26,42.19,225.52,81.97,273.35,True,True,STANDARD,0,0,8760,wall_insulation_thickness; roof_solar_absorptance; wwr; shading_depth; ventilation_ach; wall_mass_class,False,True,False
+Bhuj,SUCCESS,2026-11-02 23:50:29,2026-11-03 00:14:27,23.97,5,95; 100; 98,0.72%; 3.16%; 8.66%,56.54,37.43,208.38,67.57,254.03,True,True,ASSUMED,0,0,8760,wall_insulation_thickness; roof_solar_absorptance; wwr; orientation; ventilation_ach; wall_mass_class,False,True,False
+Surat,SUCCESS,2026-11-03 00:14:27,2026-11-03 00:37:40,23.2,5,87; 93; 97,3.55%; 2.99%; 4.95%,60.55,39.09,204.54,73.98,252.54,True,True,STANDARD,0,0,8760,wall_insulation_thickness; roof_solar_absorptance; wwr; orientation; ventilation_ach; wall_mass_class,False,False,False
+Kochi,SUCCESS,2026-11-03 00:37:40,2026-11-03 01:00:34,22.91,24,99; 94; 97,2.04%; 2.98%; 3.23%,67.82,32.13,217.88,90.98,267.65,True,True,STANDARD,0,0,8760,wall_insulation_thickness; roof_solar_absorptance; wwr; shading_depth; ventilation_ach; wall_mass_class,False,True,False
+ Srinagar,SKIPPED,2026-11-03 07:00:57,2026-11-03 07:00:57,0.0,17,96; 93; 99,2.89%; 3.11%; 2.71%,58.28,36.15,213.36,59.27,221.92,True,True,STANDARD,93,0,4752,roof_insulation_thickness; wall_insulation_thickness; roof_solar_absorptance,False,False,False
+Jammu,SKIPPED,2026-11-03 07:00:57,2026-11-03 07:00:57,0.0,45,99; 96; 95,1.66%; 4.18%; 4.86%,56.93,51.74,146.48,59.89,170.02,True,True,ASSUMED,0,0,8544,roof_insulation_thickness; wall_insulation_thickness; orientation; ventilation_ach,False,True,False
+Bhuntar,SKIPPED,2026-11-03 07:00:57,2026-11-03 07:00:57,0.0,19,97; 96; 100,0.44%; 1.36%; 1.91%,57.45,44.27,211.11,67.33,224.88,True,True,ASSUMED,204,0,4848,roof_insulation_thickness; wall_insulation_thickness; shading_depth; ventilation_ach; wall_mass_class,False,True,False
+Dehradun,SKIPPED,2026-11-03 07:00:57,2026-11-03 07:00:57,0.0,63,100; 96; 99,2.38%; 3.96%; 3.62%,41.79,34.49,85.64,48.37,104.21,True,True,STANDARD,0,0,8376,roof_insulation_thickness; ventilation_ach,False,False,False
+Gangtok,SKIPPED,2026-11-03 07:00:57,2026-11-03 07:00:57,0.0,23,96; 95; 95,0.62%; 1.38%; 0.55%,57.91,66.0,129.08,66.97,141.13,True,True,ASSUMED,0,0,6336,wall_insulation_thickness; roof_solar_absorptance; shading_depth; ventilation_ach; wall_mass_class,False,False,False
+Lucknow,SKIPPED,2026-11-03 07:00:57,2026-11-03 07:00:57,0.0,35,98; 96; 96,1.86%; 4.65%; 4.27%,49.73,46.03,184.02,53.8,216.77,True,True,STANDARD,0,0,8328,roof_insulation_thickness; roof_solar_absorptance; wall_mass_class,False,False,False
+Varanasi,SKIPPED,2026-11-03 07:00:57,2026-11-03 07:00:57,0.0,33,97; 97; 96,2.89%; 3.51%; 1.60%,48.4,42.91,194.54,53.76,228.74,True,True,ASSUMED,0,0,8184,roof_insulation_thickness; wall_insulation_thickness; wwr; orientation; ventilation_ach; wall_mass_class,False,False,False
+Prayagraj,SKIPPED,2026-11-03 07:00:58,2026-11-03 07:00:58,0.0,34,94; 98; 99,1.08%; 5.03%; 1.77%,48.95,41.41,205.12,55.09,239.95,True,True,STANDARD,0,0,7872,roof_insulation_thickness; wwr; orientation; ventilation_ach,False,False,False
+Agra,SKIPPED,2026-11-03 07:00:58,2026-11-03 07:00:58,0.0,39,99; 97; 97,0.88%; 3.37%; 4.51%,52.63,49.21,195.54,54.93,221.13,True,True,ASSUMED,0,33,7968,roof_insulation_thickness; ventilation_ach,False,True,False
+Gorakhpur,SKIPPED,2026-11-03 07:00:58,2026-11-03 07:00:58,0.0,39,96; 97; 98,3.60%; 4.39%; 1.82%,46.61,39.73,163.59,50.57,191.92,True,True,STANDARD,0,0,8592,roof_insulation_thickness; wwr; orientation; ventilation_ach,False,False,False
+Patna,SKIPPED,2026-11-03 07:00:58,2026-11-03 07:00:58,0.0,21,97; 99; 98,0.96%; 5.84%; 2.13%,47.0,39.18,179.21,52.9,210.94,True,True,STANDARD,0,0,8736,roof_insulation_thickness; wall_insulation_thickness; wwr; ventilation_ach; wall_mass_class,False,False,False
+Guwahati,SKIPPED,2026-11-03 07:00:58,2026-11-03 07:00:58,0.0,3,95; 97; 96,0.75%; 3.10%; 1.93%,40.46,24.35,137.24,44.99,162.3,True,True,STANDARD,0,0,8760,roof_insulation_thickness; wall_insulation_thickness; wwr; wall_mass_class,True,False,False
+Dibrugarh,SKIPPED,2026-11-03 07:00:58,2026-11-03 07:00:58,0.0,22,94; 98; 100,3.45%; 3.12%; 5.21%,27.89,24.59,93.82,35.8,117.57,True,True,STANDARD,0,0,8760,roof_insulation_thickness; roof_solar_absorptance; wwr; ventilation_ach,False,False,False
+Imphal,SKIPPED,2026-11-03 07:00:58,2026-11-03 07:00:58,0.0,34,94; 100; 99,9.28%; 14.84%; 10.70%,12.92,22.17,32.67,17.23,43.13,True,True,STANDARD,0,0,8760,roof_insulation_thickness; ventilation_ach,False,False,False
+Bhubaneswar,SKIPPED,2026-11-03 07:00:58,2026-11-03 07:00:58,0.0,5,91; 79; 95,1.12%; 6.72%; 4.57%,56.12,28.65,196.04,67.09,237.13,True,True,STANDARD,0,0,8760,wall_insulation_thickness; wwr; wall_mass_class,False,False,False
+Kolkata,SKIPPED,2026-11-03 07:00:58,2026-11-03 07:00:58,0.0,2,92; 99; 94,0.95%; 4.86%; 4.87%,52.66,33.53,189.97,61.22,227.28,True,True,STANDARD,0,0,8760,roof_insulation_thickness; wall_insulation_thickness; roof_solar_absorptance; wwr; ventilation_ach; wall_mass_class,True,True,False
+Visakhapatnam,SKIPPED,2026-11-03 07:00:59,2026-11-03 07:00:59,0.0,9,93; 94; 97,3.68%; 4.52%; 5.18%,69.26,42.19,225.52,81.97,273.35,True,True,STANDARD,0,0,8760,wall_insulation_thickness; roof_solar_absorptance; wwr; shading_depth; ventilation_ach; wall_mass_class,False,True,False
+Bhuj,SKIPPED,2026-11-03 07:00:59,2026-11-03 07:00:59,0.0,5,95; 100; 98,0.72%; 3.16%; 8.66%,56.54,37.43,208.38,67.57,254.03,True,True,ASSUMED,0,0,8760,wall_insulation_thickness; roof_solar_absorptance; wwr; orientation; ventilation_ach; wall_mass_class,False,True,False
+Surat,SKIPPED,2026-11-03 07:00:59,2026-11-03 07:00:59,0.0,5,87; 93; 97,3.55%; 2.99%; 4.95%,60.55,39.09,204.54,73.98,252.54,True,True,STANDARD,0,0,8760,wall_insulation_thickness; roof_solar_absorptance; wwr; orientation; ventilation_ach; wall_mass_class,False,False,False
+Kochi,SKIPPED,2026-11-03 07:00:59,2026-11-03 07:00:59,0.0,24,99; 94; 97,2.04%; 2.98%; 3.23%,67.82,32.13,217.88,90.98,267.65,True,True,STANDARD,0,0,8760,wall_insulation_thickness; roof_solar_absorptance; wwr; shading_depth; ventilation_ach; wall_mass_class,False,True,False
+Port Blair,SUCCESS,2026-11-03 07:00:59,2026-11-03 07:41:22,40.39,23,95; 99; 97,3.61%; 5.48%; 5.98%,63.85,23.5,205.73,86.82,251.07,True,True,ASSUMED,0,0,8760,wall_insulation_thickness; roof_solar_absorptance; wwr; wall_mass_class,False,True,False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nagpur,SUCCESS,2026-11-03 07:41:22,2026-11-03 08:05:11,23.81,19,97; 98; 96,4.22%; 3.50%; 4.22%,49.97,29.51,176.94,60.78,226.65,True,True,STANDARD,0,0,7848,wall_insulation_thickness; roof_solar_absorptance; wwr; orientation; ventilation_ach; wall_mass_class,False,False,False
+Jaisalmer,SUCCESS,2026-11-03 08:05:11,2026-11-03 08:28:41,23.49,24,100; 100; 98,0.98%; 4.26%; 4.08%,51.58,44.53,228.07,57.98,271.64,True,True,STANDARD,0,362,7032,roof_insulation_thickness; wwr,False,False,False

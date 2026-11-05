@@ -1,0 +1,8 @@
+stage,start_time,end_time,elapsed_seconds,pool_size_before,pool_size_after,notes
+stage_1_pilot_simulation,2026-11-02 21:22:23,2026-11-02 21:35:09,765.65,0,1000,1000 LHS designs x 2 modes
+stage_2_surrogate_training,2026-11-02 21:35:09,2026-11-02 21:36:36,87.05,1000,1000,"Optuna 40 trials, 5 folds"
+stage_3_initial_optimization,2026-11-02 21:36:36,2026-11-02 21:37:18,42.29,1000,1000,"Pop 100, Gen 200, Clamped"
+stage_4_al_round_1,2026-11-02 21:37:18,2026-11-02 21:40:51,212.65,1000,1100,AL Round 1
+stage_5_al_round_2,2026-11-02 21:40:51,2026-11-02 21:44:23,211.92,1100,1200,AL Round 2
+stage_6_al_round_3,2026-11-02 21:44:23,2026-11-02 21:45:41,78.48,1200,1300,AL Round 3
+stage_7_baselines_and_summary,2026-11-02 21:45:41,2026-11-02 21:45:47,5.79,100,3,Summary evaluation & tables

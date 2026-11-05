@@ -1,0 +1,4 @@
+round,pool_size_before,pool_size_after,sim_time_sec,median_O2,mean_err_O1_ml,max_err_O1_ml,mean_err_O1_adapt,max_err_O1_adapt,mean_err_O2_abs,max_err_O2_abs,mean_err_O2_pct,max_err_O2_pct,retrain_time_sec,nsga_time_sec,wall_time_sec
+1,1000,1100,77.8,35.41,0.5,2.02,1.27,3.81,3.29,5.41,9.28,15.28,88.74,42.43,208.97
+2,1100,1200,77.74,34.88,1.33,1.91,2.03,2.81,5.18,6.85,14.84,19.63,87.63,41.18,206.58
+3,1200,1300,78.44,36.15,0.75,1.45,1.13,2.51,3.87,8.19,10.7,22.65,0.0,0.0,78.46

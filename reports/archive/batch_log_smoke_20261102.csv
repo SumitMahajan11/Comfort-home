@@ -1,0 +1,8 @@
+city,status,start,end,minutes,front_size,unique_candidates_per_round,O2_mean_error_pct_per_round,best_O1_ml,best_O1_adapt,best_O2,R3_O1_ml,R3_O2,top_lt_5_best_o2,top_gt_35_best_o2,valid_adaptive_hours,at_bound_variables,flag_front_size_lt_5,flag_o2_error_rising,flag_all_rounds_lt_90_unique
+Srinagar,SUCCESS,2026-11-02 14:16:09,2026-11-02 14:16:56,0.78,3,43,5.48%,58.86,39.33,226.81,59.27,221.92,252,0,4752,wall_mass_class,True,False,False
+Jammu,SUCCESS,2026-11-02 14:16:57,2026-11-02 14:17:42,0.76,3,63,4.32%,58.32,54.17,162.66,59.89,170.02,0,12,8544,"roof_insulation_thickness, wall_mass_class",True,False,False
+Srinagar,SKIPPED,2026-11-02 14:17:50,2026-11-02 14:17:50,0.0,3,43,5.48%,58.86,39.33,226.81,59.27,221.92,252,0,4752,wall_mass_class,True,False,False
+Jammu,SKIPPED,2026-11-02 14:17:50,2026-11-02 14:17:50,0.0,3,63,4.32%,58.32,54.17,162.66,59.89,170.02,0,12,8544,"roof_insulation_thickness, wall_mass_class",True,False,False
+Srinagar,SKIPPED,2026-11-02 14:18:43,2026-11-02 14:18:43,0.0,3,43,5.48%,58.86,39.33,226.81,59.27,221.92,252,0,4752,wall_mass_class,True,False,False
+Jammu,SKIPPED,2026-11-02 14:18:43,2026-11-02 14:18:43,0.0,3,63,4.32%,58.32,54.17,162.66,59.89,170.02,0,12,8544,"roof_insulation_thickness, wall_mass_class",True,False,False
+FakeMissingCity,FAILED,2026-11-02 14:18:43,2026-11-02 14:18:45,0.05,0,,,,,,,,0,0,0,,False,False,False
