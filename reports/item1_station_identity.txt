@@ -3,95 +3,510 @@ ITEM 1: STATION IDENTITY & GEOGRAPHIC COORDINATES AUDIT ACROSS ALL 30 CITIES
 Comparison of Manifest EPW Location Headers vs Expected Municipal City Coordinates
 Flags: Distance > 30.0 km | Elevation Discrepancy > 150.0 m
 =================================================================================================================================================
-         City                Station (EPW) WMO/ID EPW Lat EPW Lon EPW Elev(m) Exp Lat Exp Lon Exp Elev(m) Dist(km) dElev(m)     Flags
-     Srinagar                     Srinagar 420270  34.051  74.805      1587.0  34.084  74.797      1585.0     3.72      2.0        OK
-      Bhuntar                      Bhuntar 420810  31.833  77.167      1084.0  31.876  77.154      1089.0     4.97      5.0        OK
-      Gangtok                      Gangtok 422990  27.333  88.617      1756.0  27.339  88.606      1650.0     1.23    106.0        OK
-        Jammu                        Jammu 420560  32.667  74.833       367.0  32.727  74.857       327.0     7.00     40.0        OK
-     Dehradun                     Dehradun 421110  30.317  78.033       682.0  30.317  78.032       640.0     0.09     42.0        OK
-      Lucknow Lucknow-Amausi-Singh.Intl.AP 423690  26.761  80.889       125.0  26.847  80.946       123.0    11.09      2.0        OK
-     Varanasi                     Varanasi 424830  25.300  83.017        90.0  25.318  82.974        81.0     4.75      9.0        OK
-    Prayagraj        Allahabad-Bamrauli.AP 424750  25.441  81.735        98.1  25.436  81.846        98.0    11.19      0.1        OK
-         Agra                      Agra.AP 422600  27.156  77.961       167.9  27.177  78.008       169.0     5.20      1.1        OK
-    Gorakhpur                    Gorakhpur 423790  26.740  83.450        78.9  26.761  83.373        84.0     7.96      5.1        OK
-        Patna         Patna-Jayaprakash.AP 424920  25.591  85.088        51.8  25.594  85.138        53.0     4.99      1.2        OK
-       Nagpur      Nagpur-Ambedkar.Intl.AP 428670  21.092  79.047       314.9  21.146  79.088       310.0     7.35      4.9        OK
-     Guwahati    Guwahati-Bordoloi.Intl.AP 424100  26.106  91.586        49.4  26.145  91.736        55.0    15.59      5.6        OK
-    Dibrugarh                 Dibrugarh.AP 423140  27.484  95.017       110.3  27.473  94.912       108.0    10.43      2.3        OK
-       Imphal                       Imphal 426230  24.760  93.897       774.2  24.817  93.937       786.0     7.50     11.8        OK
-  Bhubaneswar Bhubaneshwar-Patnaik.Intl.AP 429710  20.244  85.818        42.1  20.296  85.825        45.0     5.83      2.9        OK
-      Kolkata         Kolkata-Bose.Intl.AP 428090  22.655  88.447         4.9  22.573  88.364         9.0    12.52      4.1        OK
-Visakhapatnam               Vishakhapatnam 431500  17.722  83.329        66.0  17.687  83.219        45.0    12.35     21.0        OK
-      Chennai              Chennai.Intl.AP 432790  12.994  80.181        15.8  13.083  80.271         6.0    13.85      9.8        OK
-        Surat                        Surat 428400  21.200  72.833        12.0  21.170  72.831        13.0     3.32      1.0        OK
-        Kochi                    Kochi.NAS 433530   9.946  76.272         2.4   9.931  76.267         4.0     1.72      1.6        OK
-   Port Blair                   Port.Blair 433330  11.667  92.717        79.0  11.623  92.727        16.0     4.96     63.0        OK
-         Bhuj                         Bhuj 426340  23.288  69.670        81.7  23.242  69.667       110.0     5.12     28.3        OK
-    Jaisalmer                    Jaisalmer 423280  26.900  70.917       231.0  26.916  70.908       225.0     1.95      6.0        OK
-       Shimla                       Shimla 420830  31.100  77.167      2202.0  31.105  77.173      2206.0     0.81      4.0        OK
-      Jodhpur                      Jodhpur 423390  26.257  73.041       218.5  26.239  73.024       231.0     2.63     12.5        OK
-    New_Delhi     New.Delhi-Gandhi.Intl.AP 421810  28.567  77.103       236.8  28.614  77.209       216.0    11.59     20.8        OK
-       Mumbai       Mumbai-Shivaji.Intl.AP 430030  19.089  72.868        11.3  19.076  72.878        14.0     1.77      2.7        OK
-    Bengaluru       Bengaluru-Hindustan.AP 432960  12.950  77.668       888.0  12.972  77.595       920.0     8.31     32.0        OK
-          Leh                          Leh 427053  34.136  77.547      3255.9  34.153  77.577      3500.0     3.33    244.1 ELEV>150m
+         City                Station (EPW) WMO/ID SHA256 (8) EPW Lat EPW Lon EPW Elev(m) Exp Lat Exp Lon Exp Elev(m) Dist(km) dElev(m)     Flags
+     Srinagar                     Srinagar 420270   5455eeaf  34.051  74.805      1587.0  34.084  74.797      1585.0     3.72      2.0        OK
+      Bhuntar                      Bhuntar 420810   f3bcbce0  31.833  77.167      1084.0  31.876  77.154      1089.0     4.97      5.0        OK
+      Gangtok                      Gangtok 422990   84ac6a89  27.333  88.617      1756.0  27.339  88.606      1650.0     1.23    106.0        OK
+        Jammu                        Jammu 420560   e920ac22  32.667  74.833       367.0  32.727  74.857       327.0     7.00     40.0        OK
+     Dehradun                     Dehradun 421110   d27687e4  30.317  78.033       682.0  30.317  78.032       640.0     0.09     42.0        OK
+      Lucknow Lucknow-Amausi-Singh.Intl.AP 423690   1516de31  26.761  80.889       125.0  26.847  80.946       123.0    11.09      2.0        OK
+     Varanasi                     Varanasi 424830   f0de0dec  25.300  83.017        90.0  25.318  82.974        81.0     4.75      9.0        OK
+    Prayagraj        Allahabad-Bamrauli.AP 424750   d428d99e  25.441  81.735        98.1  25.436  81.846        98.0    11.19      0.1        OK
+         Agra                      Agra.AP 422600   7e603d36  27.156  77.961       167.9  27.177  78.008       169.0     5.20      1.1        OK
+    Gorakhpur                    Gorakhpur 423790   bb28e324  26.740  83.450        78.9  26.761  83.373        84.0     7.96      5.1        OK
+        Patna         Patna-Jayaprakash.AP 424920   89378f9d  25.591  85.088        51.8  25.594  85.138        53.0     4.99      1.2        OK
+       Nagpur      Nagpur-Ambedkar.Intl.AP 428670   270c0979  21.092  79.047       314.9  21.146  79.088       310.0     7.35      4.9        OK
+     Guwahati    Guwahati-Bordoloi.Intl.AP 424100   52a01ded  26.106  91.586        49.4  26.145  91.736        55.0    15.59      5.6        OK
+    Dibrugarh                 Dibrugarh.AP 423140   2fb238a2  27.484  95.017       110.3  27.473  94.912       108.0    10.43      2.3        OK
+       Imphal                       Imphal 426230   5902cde5  24.760  93.897       774.2  24.817  93.937       786.0     7.50     11.8        OK
+  Bhubaneswar Bhubaneshwar-Patnaik.Intl.AP 429710   bdd16c04  20.244  85.818        42.1  20.296  85.825        45.0     5.83      2.9        OK
+      Kolkata         Kolkata-Bose.Intl.AP 428090   9ed43482  22.655  88.447         4.9  22.573  88.364         9.0    12.52      4.1        OK
+Visakhapatnam               Vishakhapatnam 431500   1487aecb  17.722  83.329        66.0  17.687  83.219        45.0    12.35     21.0        OK
+      Chennai              Chennai.Intl.AP 432790   46ebf7ca  12.994  80.181        15.8  13.083  80.271         6.0    13.85      9.8        OK
+        Surat                        Surat 428400   d24f9e4e  21.200  72.833        12.0  21.170  72.831        13.0     3.32      1.0        OK
+        Kochi                    Kochi.NAS 433530   d593ffba   9.946  76.272         2.4   9.931  76.267         4.0     1.72      1.6        OK
+   Port Blair                   Port.Blair 433330   95907f6a  11.667  92.717        79.0  11.623  92.727        16.0     4.96     63.0        OK
+         Bhuj                         Bhuj 426340   37ac3d35  23.288  69.670        81.7  23.242  69.667       110.0     5.12     28.3        OK
+    Jaisalmer                    Jaisalmer 423280   9344aa13  26.900  70.917       231.0  26.916  70.908       225.0     1.95      6.0        OK
+       Shimla                       Shimla 420830   8b7447ee  31.100  77.167      2202.0  31.105  77.173      2206.0     0.81      4.0        OK
+      Jodhpur                      Jodhpur 423390   f31bbc5a  26.257  73.041       218.5  26.239  73.024       231.0     2.63     12.5        OK
+    New_Delhi     New.Delhi-Gandhi.Intl.AP 421810   c4c5279f  28.567  77.103       236.8  28.614  77.209       216.0    11.59     20.8        OK
+       Mumbai       Mumbai-Shivaji.Intl.AP 430030   5e7cdca0  19.089  72.868        11.3  19.076  72.878        14.0     1.77      2.7        OK
+    Bengaluru       Bengaluru-Hindustan.AP 432960   b24506e0  12.950  77.668       888.0  12.972  77.595       920.0     8.31     32.0        OK
+          Leh                          Leh 427053   3c6fe31e  34.136  77.547      3255.9  34.153  77.577      3500.0     3.33    244.1 ELEV>150m
 =================================================================================================================================================
 
-ANALYSIS OF FLAGGED STATIONS:
--------------------------------------------------------------------------------------------------------------------------------------------------
-1. Leh (ELEV>150m):
+=================================================================================================================================================
+VERBATIM EPW LINE 1 (REPR) AND FIRST 8 HEADER LINES FOR ALL 30 MANIFEST EPWS
+=================================================================================================================================================
+
+--- City 01/30: Srinagar ---
+File Path: data/raw/India_Weather_Extracted/IND_JK_Srinagar.420270_TMYx.2011-2025/IND_JK_Srinagar.420270_TMYx.2011-2025.epw
+SHA-256:   5455eeaff4b93437d05aa84bda7ce600cf9cdf781ed3058703310097b33edba4
+Line 1 (repr): 'LOCATION,Srinagar,JK,IND,SRC-TMYx,420270,34.05080,74.80450,5.5,1587.0'
+First 8 Header Lines:
+  Line 1: LOCATION,Srinagar,JK,IND,SRC-TMYx,420270,34.05080,74.80450,5.5,1587.0
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,-3.5,-2.6,-5.8,2.8,0.9,-5.0,3.0,0.2,2.5,1.6,1.8,3.2,0.2,140,0.352,Cooling,7,9.6,31.9,21.4,30.9,20.9,29.8,20.4,22.7,29.7,22.1,28.9,21.6,27.9,0.7,230,20.8,18.8,26.4,20.2,18.1,25.8,19.7,17.6,25.4,76.6,29.8,74.1,29.2,71.7,28.0,28.4,Extremes,2.4,1.7,1.3,-5.6,34.0,1.7,1.6,-6.8,35.1,-7.8,36.0,-8.8,36.9,-10.0,38.1,-6.1,24.6,1.6,1.5,-7.2,25.7,-8.1,26.6,-9.0,27.5,-10.1,28.6
+  Line 3: TYPICAL/EXTREME PERIODS,6,Summer - Week Nearest Max Temperature For Period,Extreme,8/17,8/23,Summer - Week Nearest Average Temperature For Period,Typical,8/ 3,8/ 9,Winter - Week Nearest Min Temperature For Period,Extreme,1/ 6,1/12,Winter - Week Nearest Average Temperature For Period,Typical,12/15,12/21,Autumn - Week Nearest Average Temperature For Period,Typical,10/13,10/19,Spring - Week Nearest Average Temperature For Period,Typical,4/19,4/25
+  Line 4: GROUND TEMPERATURES,3,.5,,,,1.87,3.83,7.64,11.25,18.08,21.68,22.67,20.85,16.63,11.38,6.22,2.80,2,,,,4.57,5.05,7.22,9.64,14.89,18.25,19.92,19.54,17.14,13.52,9.44,6.23,4,,,,7.36,7.03,7.98,9.35,12.82,15.42,17.10,17.51,16.46,14.33,11.56,9.07
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2014; Feb=2025; Mar=2024; Apr=2023; May=2015; Jun=2020; Jul=2016; Aug=2012; Sep=2013; Oct=2021; Nov=2023; Dec=2023"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 02/30: Bhuntar ---
+File Path: data/raw/India_Weather_Extracted/IND_HP_Bhuntar.420810_TMYx.2011-2025/IND_HP_Bhuntar.420810_TMYx.2011-2025.epw
+SHA-256:   f3bcbce0453b10f8152e4fa911dea592421458986046a10dd6a55d6dd3e0c082
+Line 1 (repr): 'LOCATION,Bhuntar,HP,IND,SRC-TMYx,420810,31.83300,77.16700,5.5,1084.0'
+First 8 Header Lines:
+  Line 1: LOCATION,Bhuntar,HP,IND,SRC-TMYx,420810,31.83300,77.16700,5.5,1084.0
+  Line 2: DESIGN CONDITIONS,0
+  Line 3: TYPICAL/EXTREME PERIODS,6,Summer - Week Nearest Max Temperature For Period,Extreme,7/10,7/16,Summer - Week Nearest Average Temperature For Period,Typical,6/12,6/18,Winter - Week Nearest Min Temperature For Period,Extreme,12/20,12/26,Winter - Week Nearest Average Temperature For Period,Typical,12/ 6,12/12,Autumn - Week Nearest Average Temperature For Period,Typical,9/26,10/ 2,Spring - Week Nearest Average Temperature For Period,Typical,3/ 8,3/14
+  Line 4: GROUND TEMPERATURES,3,.5,,,,3.29,2.53,3.87,5.96,11.44,15.66,18.51,19.38,17.90,14.62,10.24,6.17,2,,,,6.06,4.72,4.99,6.10,9.77,13.08,15.73,17.15,16.84,14.98,11.96,8.76,4,,,,8.36,6.98,6.68,7.09,9.17,11.40,13.44,14.87,15.20,14.39,12.62,10.45
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[12] Period of Record=2013-2025; Jan=2023; Feb=2022; Mar=2025; Apr=2019; May=2019; Jun=2018; Jul=2018; Aug=2019; Sep=2022; Oct=2022; Nov=2015; Dec=2015"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 03/30: Gangtok ---
+File Path: data/raw/India_Weather_Extracted/IND_SK_Gangtok.422990_TMYx.2011-2025/IND_SK_Gangtok.422990_TMYx.2011-2025.epw
+SHA-256:   84ac6a899f43ede30e7cc84d8853f9890e5311ad8dfba1788fb1a1a19e0f8709
+Line 1 (repr): 'LOCATION,Gangtok,SK,IND,SRC-TMYx,422990,27.33300,88.61700,5.5,1756.0'
+First 8 Header Lines:
+  Line 1: LOCATION,Gangtok,SK,IND,SRC-TMYx,422990,27.33300,88.61700,5.5,1756.0
+  Line 2: DESIGN CONDITIONS,0
+  Line 3: TYPICAL/EXTREME PERIODS,6,Summer - Week Nearest Max Temperature For Period,Extreme,7/13,7/19,Summer - Week Nearest Average Temperature For Period,Typical,6/29,7/ 5,Winter - Week Nearest Min Temperature For Period,Extreme,12/22,12/28,Winter - Week Nearest Average Temperature For Period,Typical,1/20,1/26,Autumn - Week Nearest Average Temperature For Period,Typical,10/13,10/19,Spring - Week Nearest Average Temperature For Period,Typical,4/ 5,4/11
+  Line 4: GROUND TEMPERATURES,3,.5,,,,9.91,7.90,7.35,7.82,10.55,13.59,16.46,18.54,19.14,18.17,15.82,12.86,2,,,,11.73,9.84,8.94,8.90,10.34,12.43,14.67,16.59,17.59,17.40,16.07,14.04,4,,,,12.91,11.44,10.54,10.26,10.79,12.01,13.52,15.00,15.99,16.23,15.66,14.47
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[11] Period of Record=2015-2025; Jan=2018; Feb=2019; Mar=2024; Apr=2023; May=2015; Jun=2018; Jul=2017; Aug=2025; Sep=2022; Oct=2022; Nov=2022; Dec=2021"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 04/30: Jammu ---
+File Path: data/raw/India_Weather_Extracted/IND_JK_Jammu.420560_TMYx.2011-2025/IND_JK_Jammu.420560_TMYx.2011-2025.epw
+SHA-256:   e920ac222698d750e603496874f12985ca2334c8f9818a2eebc19c0c4003d792
+Line 1 (repr): 'LOCATION,Jammu,JK,IND,SRC-TMYx,420560,32.66700,74.83300,5.5,367.0'
+First 8 Header Lines:
+  Line 1: LOCATION,Jammu,JK,IND,SRC-TMYx,420560,32.66700,74.83300,5.5,367.0
+  Line 2: DESIGN CONDITIONS,0
+  Line 3: TYPICAL/EXTREME PERIODS,8,Wet Season - Week Near Average For Period,Typical,9/ 7,9/13,Dry Season - Week Near Average For Period,Typical,11/ 1,11/ 7,Summer - Week Nearest Max Temperature For Period,Extreme,6/ 5,6/11,Summer - Week Nearest Average Temperature For Period,Typical,6/19,6/25,Winter - Week Nearest Min Temperature For Period,Extreme,1/ 4,1/10,Winter - Week Nearest Average Temperature For Period,Typical,12/ 6,12/12,Autumn - Week Nearest Average Temperature For Period,Typical,9/26,10/ 2,Spring - Week Nearest Average Temperature For Period,Typical,3/15,3/21
+  Line 4: GROUND TEMPERATURES,3,.5,,,,13.34,15.10,18.54,21.79,27.95,31.19,32.09,30.44,26.64,21.91,17.25,14.18,2,,,,15.77,16.20,18.16,20.34,25.07,28.10,29.60,29.27,27.10,23.84,20.16,17.27,4,,,,18.29,17.98,18.84,20.08,23.21,25.55,27.07,27.44,26.49,24.57,22.07,19.82
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[13] Period of Record=2011-2025; Jan=2015; Feb=2025; Mar=2024; Apr=2018; May=2015; Jun=2016; Jul=2021; Aug=2018; Sep=2023; Oct=2025; Nov=2016; Dec=2015"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 05/30: Dehradun ---
+File Path: data/raw/India_Weather_Extracted/IND_UT_Dehradun.421110_TMYx.2011-2025/IND_UT_Dehradun.421110_TMYx.2011-2025.epw
+SHA-256:   d27687e4f85e66b4bdf82cad9e1892fc7921af9c4f4e9a13bab5fd9cd73064b6
+Line 1 (repr): 'LOCATION,Dehradun,UT,IND,SRC-TMYx,421110,30.31700,78.03300,5.5,682.0'
+First 8 Header Lines:
+  Line 1: LOCATION,Dehradun,UT,IND,SRC-TMYx,421110,30.31700,78.03300,5.5,682.0
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,5.3,6.3,2.4,4.9,11.2,3.6,5.3,10.9,2.5,14.9,2.4,14.9,0.5,50,0.290,Cooling,6,10.0,37.6,22.2,36.2,22.1,34.8,22.4,27.4,31.5,26.9,30.7,26.4,30.0,1.5,270,26.3,23.7,29.6,25.9,23.1,29.0,25.5,22.6,28.5,91.7,31.7,89.3,30.9,87.3,30.2,30.6,Extremes,2.5,2.2,1.9,3.9,39.7,1.2,1.3,3.1,40.6,2.4,41.3,1.8,42.1,0.9,43.0,3.4,28.5,1.2,0.9,2.5,29.2,1.8,29.7,1.1,30.2,0.2,30.8
+  Line 3: TYPICAL/EXTREME PERIODS,6,Summer - Week Nearest Max Temperature For Period,Extreme,6/ 3,6/ 9,Summer - Week Nearest Average Temperature For Period,Typical,4/22,4/28,Winter - Week Nearest Min Temperature For Period,Extreme,12/24,12/30,Winter - Week Nearest Average Temperature For Period,Typical,11/19,11/25,Autumn - Week Nearest Average Temperature For Period,Typical,7/29,8/ 4,Spring - Week Nearest Average Temperature For Period,Typical,2/12,2/18
+  Line 4: GROUND TEMPERATURES,3,.5,,,,14.16,13.44,14.71,16.71,21.92,25.94,28.66,29.48,28.07,24.95,20.78,16.90,2,,,,16.80,15.52,15.78,16.84,20.33,23.48,26.00,27.36,27.07,25.30,22.42,19.37,4,,,,18.99,17.67,17.39,17.78,19.76,21.88,23.83,25.19,25.50,24.74,23.05,20.98
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2014; Feb=2016; Mar=2024; Apr=2019; May=2011; Jun=2015; Jul=2018; Aug=2016; Sep=2022; Oct=2019; Nov=2011; Dec=2012"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 06/30: Lucknow ---
+File Path: data/raw/India_Weather_Extracted/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025.epw
+SHA-256:   1516de31c448843260abfd3c35a62ad38baece15aab9186cb4145b852c62952c
+Line 1 (repr): 'LOCATION,Lucknow-Amausi-Singh.Intl.AP,UP,IND,SRC-TMYx,423690,26.76100,80.88900,5.5,125.0'
+First 8 Header Lines:
+  Line 1: LOCATION,Lucknow-Amausi-Singh.Intl.AP,UP,IND,SRC-TMYx,423690,26.76100,80.88900,5.5,125.0
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,6.4,7.7,2.6,4.6,21.2,4.0,5.1,18.3,6.3,20.6,5.4,20.2,0.6,270,0.370,Cooling,6,9.9,42.5,23.8,41.2,23.8,39.6,24.0,30.4,34.5,29.8,34.0,29.2,33.5,3.8,320,29.4,26.7,32.7,28.8,25.8,32.1,28.3,24.9,31.5,102.1,34.3,98.9,33.6,96.3,32.9,34.0,Extremes,6.3,5.4,4.9,3.9,44.5,1.4,1.8,2.8,45.8,2.0,46.8,1.2,47.8,0.2,49.2,3.4,31.2,1.3,1.1,2.5,32.0,1.7,32.6,1.0,33.2,0.1,33.9
+  Line 3: TYPICAL/EXTREME PERIODS,6,Summer - Week Nearest Max Temperature For Period,Extreme,6/10,6/16,Summer - Week Nearest Average Temperature For Period,Typical,5/20,5/26,Winter - Week Nearest Min Temperature For Period,Extreme,12/24,12/30,Winter - Week Nearest Average Temperature For Period,Typical,11/12,11/18,Autumn - Week Nearest Average Temperature For Period,Typical,7/15,7/21,Spring - Week Nearest Average Temperature For Period,Typical,2/26,3/ 4
+  Line 4: GROUND TEMPERATURES,3,.5,,,,17.32,16.54,17.93,20.09,25.76,30.13,33.08,33.97,32.44,29.05,24.51,20.31,2,,,,20.19,18.80,19.09,20.24,24.03,27.45,30.20,31.67,31.35,29.43,26.30,22.99,4,,,,22.57,21.14,20.83,21.26,23.41,25.72,27.83,29.31,29.65,28.82,26.98,24.74
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2021; Feb=2024; Mar=2014; Apr=2025; May=2011; Jun=2016; Jul=2025; Aug=2023; Sep=2014; Oct=2021; Nov=2018; Dec=2013"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 07/30: Varanasi ---
+File Path: data/raw/India_Weather_Extracted/IND_UP_Varanasi.424830_TMYx.2011-2025/IND_UP_Varanasi.424830_TMYx.2011-2025.epw
+SHA-256:   f0de0dec080f3450838874d727f0a078db39c9c728cd4cc1b8fee58038f85ddc
+Line 1 (repr): 'LOCATION,Varanasi,UP,IND,SRC-TMYx,424830,25.30000,83.01700,5.5,90.0'
+First 8 Header Lines:
+  Line 1: LOCATION,Varanasi,UP,IND,SRC-TMYx,424830,25.30000,83.01700,5.5,90.0
+  Line 2: DESIGN CONDITIONS,0
+  Line 3: TYPICAL/EXTREME PERIODS,8,Wet Season - Week Near Average For Period,Typical,8/28,9/ 3,Dry Season - Week Near Average For Period,Typical,11/15,11/21,Summer - Week Nearest Max Temperature For Period,Extreme,6/10,6/16,Summer - Week Nearest Average Temperature For Period,Typical,5/ 6,5/12,Winter - Week Nearest Min Temperature For Period,Extreme,12/17,12/23,Winter - Week Nearest Average Temperature For Period,Typical,11/ 5,11/11,Autumn - Week Nearest Average Temperature For Period,Typical,7/15,7/21,Spring - Week Nearest Average Temperature For Period,Typical,2/12,2/18
+  Line 4: GROUND TEMPERATURES,3,.5,,,,18.46,17.73,19.03,21.07,26.41,30.52,33.30,34.15,32.71,29.51,25.24,21.27,2,,,,21.17,19.86,20.13,21.21,24.78,28.01,30.59,31.97,31.68,29.87,26.92,23.80,4,,,,23.41,22.06,21.77,22.18,24.20,26.37,28.36,29.75,30.08,29.29,27.56,25.45
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[11] Period of Record=2015-2025; Jan=2021; Feb=2021; Mar=2019; Apr=2018; May=2016; Jun=2022; Jul=2015; Aug=2020; Sep=2023; Oct=2021; Nov=2018; Dec=2020"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 08/30: Prayagraj ---
+File Path: data/raw/India_Weather_Extracted/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025.epw
+SHA-256:   d428d99ea4475ee7724ae345d8a673279807201ba253e62a7d3fc40e9edbde69
+Line 1 (repr): 'LOCATION,Allahabad-Bamrauli.AP,UP,IND,SRC-TMYx,424750,25.44100,81.73500,5.5,98.1'
+First 8 Header Lines:
+  Line 1: LOCATION,Allahabad-Bamrauli.AP,UP,IND,SRC-TMYx,424750,25.44100,81.73500,5.5,98.1
+  Line 2: DESIGN CONDITIONS,0
+  Line 3: TYPICAL/EXTREME PERIODS,8,Wet Season - Week Near Average For Period,Typical,7/24,7/30,Dry Season - Week Near Average For Period,Typical,11/15,11/21,Summer - Week Nearest Max Temperature For Period,Extreme,5/13,5/19,Summer - Week Nearest Average Temperature For Period,Typical,5/27,6/ 2,Winter - Week Nearest Min Temperature For Period,Extreme,12/24,12/30,Winter - Week Nearest Average Temperature For Period,Typical,11/12,11/18,Autumn - Week Nearest Average Temperature For Period,Typical,8/26,9/ 1,Spring - Week Nearest Average Temperature For Period,Typical,2/ 5,2/11
+  Line 4: GROUND TEMPERATURES,3,.5,,,,18.46,17.70,19.05,21.16,26.67,30.93,33.81,34.68,33.19,29.88,25.47,21.37,2,,,,21.26,19.90,20.18,21.30,24.99,28.33,31.00,32.43,32.13,30.25,27.21,23.98,4,,,,23.57,22.18,21.88,22.30,24.39,26.64,28.70,30.13,30.47,29.66,27.87,25.69
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[13] Period of Record=2011-2025; Jan=2021; Feb=2011; Mar=2017; Apr=2012; May=2016; Jun=2015; Jul=2015; Aug=2021; Sep=2021; Oct=2021; Nov=2018; Dec=2013"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 09/30: Agra ---
+File Path: data/raw/India_Weather_Extracted/IND_UP_Agra.AP.422600_TMYx.2011-2025/IND_UP_Agra.AP.422600_TMYx.2011-2025.epw
+SHA-256:   7e603d3674e2d67f3f6e6e327ca42599360e56f6a016a4e155ce1a6639cdc47a
+Line 1 (repr): 'LOCATION,Agra.AP,UP,IND,SRC-TMYx,422600,27.15600,77.96100,5.5,167.9'
+First 8 Header Lines:
+  Line 1: LOCATION,Agra.AP,UP,IND,SRC-TMYx,422600,27.15600,77.96100,5.5,167.9
+  Line 2: DESIGN CONDITIONS,0
+  Line 3: TYPICAL/EXTREME PERIODS,8,Wet Season - Week Near Average For Period,Typical,9/14,9/20,Dry Season - Week Near Average For Period,Typical,3/ 8,3/14,Summer - Week Nearest Max Temperature For Period,Extreme,6/17,6/23,Summer - Week Nearest Average Temperature For Period,Typical,4/29,5/ 5,Winter - Week Nearest Min Temperature For Period,Extreme,12/24,12/30,Winter - Week Nearest Average Temperature For Period,Typical,11/12,11/18,Autumn - Week Nearest Average Temperature For Period,Typical,8/19,8/25,Spring - Week Nearest Average Temperature For Period,Typical,2/12,2/18
+  Line 4: GROUND TEMPERATURES,3,.5,,,,16.61,15.77,17.26,19.59,25.68,30.37,33.54,34.51,32.86,29.22,24.34,19.82,2,,,,19.70,18.20,18.51,19.74,23.82,27.50,30.45,32.03,31.69,29.62,26.26,22.70,4,,,,22.25,20.72,20.38,20.85,23.15,25.63,27.91,29.49,29.86,28.96,26.99,24.58
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2023; Feb=2024; Mar=2024; Apr=2024; May=2019; Jun=2015; Jul=2018; Aug=2017; Sep=2023; Oct=2021; Nov=2018; Dec=2013"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 10/30: Gorakhpur ---
+File Path: data/raw/India_Weather_Extracted/IND_UP_Gorakhpur.423790_TMYx.2011-2025/IND_UP_Gorakhpur.423790_TMYx.2011-2025.epw
+SHA-256:   bb28e32413c47b69a73d7e39621b9827591956ff3db32e3b0fde414e4f0eb157
+Line 1 (repr): 'LOCATION,Gorakhpur,UP,IND,SRC-TMYx,423790,26.74000,83.45000,5.5,78.9'
+First 8 Header Lines:
+  Line 1: LOCATION,Gorakhpur,UP,IND,SRC-TMYx,423790,26.74000,83.45000,5.5,78.9
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,7.9,9.0,1.9,4.4,26.2,3.8,5.0,20.4,3.7,19.1,3.1,17.3,0.3,270,0.327,Cooling,6,8.6,40.6,22.7,39.1,22.9,37.7,23.2,29.9,31.6,28.7,31.8,28.1,32.3,2.3,270,29.8,27.1,31.2,28.1,24.5,29.7,27.0,23.0,30.3,100.0,30.9,94.0,32.6,90.2,31.4,33.2,Extremes,5.1,4.0,3.2,5.8,41.9,1.0,1.4,5.1,42.9,4.5,43.7,4.0,44.4,3.3,45.4,4.6,29.6,1.1,1.3,3.8,30.6,3.1,31.3,2.5,32.0,1.7,33.0
+  Line 3: TYPICAL/EXTREME PERIODS,6,Summer - Week Nearest Max Temperature For Period,Extreme,6/ 3,6/ 9,Summer - Week Nearest Average Temperature For Period,Typical,4/29,5/ 5,Winter - Week Nearest Min Temperature For Period,Extreme,12/24,12/30,Winter - Week Nearest Average Temperature For Period,Typical,11/ 5,11/11,Autumn - Week Nearest Average Temperature For Period,Typical,9/ 9,9/15,Spring - Week Nearest Average Temperature For Period,Typical,2/12,2/18
+  Line 4: GROUND TEMPERATURES,3,.5,,,,17.90,17.19,18.45,20.41,25.54,29.51,32.18,32.99,31.61,28.53,24.42,20.60,2,,,,20.50,19.24,19.50,20.54,23.98,27.08,29.57,30.90,30.62,28.87,26.04,23.04,4,,,,22.66,21.36,21.08,21.47,23.42,25.51,27.43,28.76,29.08,28.32,26.66,24.62
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2021; Feb=2018; Mar=2014; Apr=2012; May=2017; Jun=2015; Jul=2013; Aug=2015; Sep=2021; Oct=2016; Nov=2021; Dec=2013"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 11/30: Patna ---
+File Path: data/raw/India_Weather_Extracted/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025.epw
+SHA-256:   89378f9d0c8cea1cf8f5b2462da4ec5bb1ced56943935ebfb4f46f88d797ea53
+Line 1 (repr): 'LOCATION,Patna-Jayaprakash.AP,BR,IND,SRC-TMYx,424920,25.59100,85.08800,5.5,51.8'
+First 8 Header Lines:
+  Line 1: LOCATION,Patna-Jayaprakash.AP,BR,IND,SRC-TMYx,424920,25.59100,85.08800,5.5,51.8
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,7.5,8.7,3.4,4.9,26.0,5.1,5.5,20.7,5.4,20.8,5.0,20.1,0.4,270,0.360,Cooling,6,8.5,41.3,23.1,39.7,23.6,38.0,24.4,29.9,33.4,29.3,33.5,28.7,33.1,3.5,320,29.2,26.1,31.8,28.3,24.7,31.3,27.6,23.6,30.9,99.3,33.9,95.4,33.1,93.0,33.5,35.0,Extremes,6.4,5.9,5.2,5.2,42.9,1.8,1.5,3.9,44.0,2.8,44.9,1.8,45.8,0.5,46.9,4.8,30.4,1.7,1.3,3.7,31.3,2.7,32.1,1.8,32.8,0.6,33.7
+  Line 3: TYPICAL/EXTREME PERIODS,6,Summer - Week Nearest Max Temperature For Period,Extreme,6/ 3,6/ 9,Summer - Week Nearest Average Temperature For Period,Typical,5/ 6,5/12,Winter - Week Nearest Min Temperature For Period,Extreme,12/17,12/23,Winter - Week Nearest Average Temperature For Period,Typical,11/12,11/18,Autumn - Week Nearest Average Temperature For Period,Typical,7/ 1,7/ 7,Spring - Week Nearest Average Temperature For Period,Typical,2/12,2/18
+  Line 4: GROUND TEMPERATURES,3,.5,,,,19.08,18.42,19.58,21.40,26.16,29.83,32.31,33.06,31.78,28.93,25.12,21.58,2,,,,21.49,20.32,20.56,21.53,24.71,27.59,29.89,31.13,30.86,29.25,26.62,23.84,4,,,,23.49,22.29,22.03,22.39,24.19,26.13,27.91,29.14,29.43,28.73,27.19,25.31
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2019; Feb=2018; Mar=2011; Apr=2013; May=2013; Jun=2016; Jul=2015; Aug=2014; Sep=2025; Oct=2022; Nov=2016; Dec=2021"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 12/30: Nagpur ---
+File Path: data/raw/India_Weather_Extracted/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025.epw
+SHA-256:   270c0979b66911a9cdad2ede07ff7e8f17fd965baea319b58a0a7b9a9d756415
+Line 1 (repr): 'LOCATION,Nagpur-Ambedkar.Intl.AP,MH,IND,SRC-TMYx,428670,21.09200,79.04700,5.5,314.9'
+First 8 Header Lines:
+  Line 1: LOCATION,Nagpur-Ambedkar.Intl.AP,MH,IND,SRC-TMYx,428670,21.09200,79.04700,5.5,314.9
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,11.3,12.7,0.5,4.1,28.8,2.0,4.5,26.9,5.4,26.4,4.9,25.5,0.7,20,0.344,Cooling,5,13.7,44.4,22.7,43.1,22.5,41.9,22.4,28.3,32.6,27.5,31.7,27.2,31.5,3.3,320,27.3,24.0,29.9,26.5,22.9,29.3,26.1,22.4,28.9,92.6,31.7,89.5,32.6,87.1,31.0,36.1,Extremes,7.2,6.0,5.2,7.9,45.9,1.4,1.6,6.9,47.1,6.1,48.0,5.3,48.9,4.3,50.1,5.8,30.1,1.4,2.2,4.8,31.7,4.0,33.1,3.2,34.3,2.2,35.9
+  Line 3: TYPICAL/EXTREME PERIODS,4,Wet Season - Week Near Average For Period,Typical,8/ 3,8/ 9,Dry Season - Week Near Average For Period,Typical,3/ 1,3/ 7,Tropical Hot - Week Nearest Max Temperature For Period,Extreme,5/21,5/27,Tropical Cold- Week Nearest Min Temperature For Period,Extreme,12/24,12/30
+  Line 4: GROUND TEMPERATURES,3,.5,,,,20.98,20.38,21.45,23.12,27.49,30.87,33.14,33.84,32.66,30.04,26.53,23.29,2,,,,23.20,22.13,22.34,23.23,26.16,28.80,30.92,32.05,31.81,30.33,27.91,25.36,4,,,,25.03,23.93,23.69,24.02,25.68,27.46,29.10,30.23,30.50,29.86,28.44,26.71
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2023; Feb=2011; Mar=2013; Apr=2025; May=2015; Jun=2018; Jul=2017; Aug=2025; Sep=2011; Oct=2021; Nov=2017; Dec=2020"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 13/30: Guwahati ---
+File Path: data/raw/India_Weather_Extracted/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025.epw
+SHA-256:   52a01dede214d22f19f697c6313c7df5ce81ed264098f6445d21c4d6995ca886
+Line 1 (repr): 'LOCATION,Guwahati-Bordoloi.Intl.AP,AS,IND,SRC-TMYx,424100,26.10600,91.58600,5.5,49.4'
+First 8 Header Lines:
+  Line 1: LOCATION,Guwahati-Bordoloi.Intl.AP,AS,IND,SRC-TMYx,424100,26.10600,91.58600,5.5,49.4
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,11.0,12.0,8.5,6.9,19.8,9.8,7.6,17.7,5.0,23.4,4.4,23.1,0.1,180,0.293,Cooling,8,6.1,35.5,28.1,34.7,27.8,33.9,27.5,30.4,33.0,29.7,32.6,29.2,32.3,3.0,20,29.9,27.2,31.5,29.1,25.9,31.1,28.4,24.9,30.8,101.0,32.4,98.0,33.4,95.1,31.4,34.6,Extremes,5.3,4.5,4.0,9.1,37.7,1.1,1.6,8.4,38.8,7.8,39.7,7.2,40.6,6.4,41.7,8.8,30.6,1.0,1.4,8.1,31.6,7.5,32.4,7.0,33.1,6.3,34.1
+  Line 3: TYPICAL/EXTREME PERIODS,6,Summer - Week Nearest Max Temperature For Period,Extreme,8/26,9/ 1,Summer - Week Nearest Average Temperature For Period,Typical,7/15,7/21,Winter - Week Nearest Min Temperature For Period,Extreme,1/29,2/ 4,Winter - Week Nearest Average Temperature For Period,Typical,2/12,2/18,Autumn - Week Nearest Average Temperature For Period,Typical,11/ 5,11/11,Spring - Week Nearest Average Temperature For Period,Typical,4/22,4/28
+  Line 4: GROUND TEMPERATURES,3,.5,,,,20.21,19.72,20.59,21.94,25.49,28.22,30.07,30.63,29.67,27.55,24.71,22.08,2,,,,22.01,21.14,21.32,22.03,24.41,26.55,28.26,29.18,28.99,27.78,25.83,23.76,4,,,,23.49,22.60,22.41,22.68,24.02,25.46,26.79,27.71,27.92,27.40,26.25,24.85
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2022; Feb=2016; Mar=2019; Apr=2025; May=2016; Jun=2011; Jul=2014; Aug=2012; Sep=2025; Oct=2021; Nov=2015; Dec=2021"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 14/30: Dibrugarh ---
+File Path: data/raw/India_Weather_Extracted/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw
+SHA-256:   2fb238a212eeeedcc0eb088e04382560a5ae9be72f803823af5cb910befe860a
+Line 1 (repr): 'LOCATION,Dibrugarh.AP,AS,IND,SRC-TMYx,423140,27.48400,95.01700,5.5,110.3'
+First 8 Header Lines:
+  Line 1: LOCATION,Dibrugarh.AP,AS,IND,SRC-TMYx,423140,27.48400,95.01700,5.5,110.3
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,10.0,11.1,8.2,6.8,15.0,8.9,7.2,15.2,4.6,17.5,4.2,19.1,0.1,20,0.290,Cooling,8,5.4,35.3,27.9,34.4,27.6,33.5,27.3,29.2,33.7,28.6,32.8,28.3,32.2,2.5,50,28.1,24.6,32.0,27.5,23.7,31.2,27.3,23.4,30.9,95.4,33.6,93.0,32.9,90.9,32.2,31.4,Extremes,5.4,4.6,4.1,7.8,37.0,1.6,1.1,6.7,37.8,5.7,38.4,4.9,39.0,3.7,39.8,7.3,29.6,1.4,0.5,6.3,30.0,5.5,30.3,4.7,30.6,3.7,30.9
+  Line 3: TYPICAL/EXTREME PERIODS,6,Summer - Week Nearest Max Temperature For Period,Extreme,7/13,7/19,Summer - Week Nearest Average Temperature For Period,Typical,8/24,8/30,Winter - Week Nearest Min Temperature For Period,Extreme,12/22,1/ 5,Winter - Week Nearest Average Temperature For Period,Typical,12/15,12/21,Autumn - Week Nearest Average Temperature For Period,Typical,10/27,11/ 2,Spring - Week Nearest Average Temperature For Period,Typical,4/ 5,4/11
+  Line 4: GROUND TEMPERATURES,3,.5,,,,20.89,19.04,18.53,18.97,21.48,24.28,26.92,28.83,29.39,28.49,26.33,23.60,2,,,,22.56,20.82,20.00,19.97,21.29,23.21,25.27,27.04,27.95,27.78,26.56,24.69,4,,,,23.65,22.30,21.47,21.22,21.71,22.82,24.21,25.57,26.49,26.71,26.18,25.09
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2023; Feb=2020; Mar=2018; Apr=2023; May=2017; Jun=2017; Jul=2018; Aug=2012; Sep=2015; Oct=2023; Nov=2016; Dec=2020"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 15/30: Imphal ---
+File Path: data/raw/India_Weather_Extracted/IND_MN_Imphal.426230_TMYx.2011-2025/IND_MN_Imphal.426230_TMYx.2011-2025.epw
+SHA-256:   5902cde5a4b2f4ecad9b5f4ed703cdd20fc5b51147a50ef7fab614c7d9a52a32
+Line 1 (repr): 'LOCATION,Imphal,MN,IND,SRC-TMYx,426230,24.76000,93.89700,5.5,774.2'
+First 8 Header Lines:
+  Line 1: LOCATION,Imphal,MN,IND,SRC-TMYx,426230,24.76000,93.89700,5.5,774.2
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,5.5,6.6,3.3,5.3,11.3,4.5,5.7,10.9,5.3,20.5,4.7,19.6,0.1,50,0.258,Cooling,7,6.2,32.3,24.1,31.5,24.0,30.9,23.9,26.5,30.3,26.0,30.0,25.4,29.3,2.7,140,25.4,22.7,29.1,24.8,21.8,28.4,24.4,21.2,27.8,87.6,30.4,84.8,29.9,82.6,29.3,32.5,Extremes,5.5,4.8,4.0,2.7,34.2,1.4,0.8,1.7,34.7,0.9,35.2,0.2,35.7,-0.8,36.3,2.5,27.7,1.4,1.1,1.5,28.5,0.7,29.1,0.0,29.7,-1.0,30.5
+  Line 3: TYPICAL/EXTREME PERIODS,6,Summer - Week Nearest Max Temperature For Period,Extreme,7/ 1,7/ 7,Summer - Week Nearest Average Temperature For Period,Typical,7/15,7/21,Winter - Week Nearest Min Temperature For Period,Extreme,1/ 8,1/14,Winter - Week Nearest Average Temperature For Period,Typical,2/12,2/18,Autumn - Week Nearest Average Temperature For Period,Typical,11/12,11/18,Spring - Week Nearest Average Temperature For Period,Typical,5/ 6,5/12
+  Line 4: GROUND TEMPERATURES,3,.5,,,,16.52,16.03,16.90,18.26,21.81,24.55,26.40,26.96,26.01,23.88,21.03,18.39,2,,,,18.32,17.45,17.63,18.35,20.73,22.88,24.59,25.52,25.32,24.11,22.15,20.08,4,,,,19.81,18.92,18.72,19.00,20.34,21.79,23.11,24.04,24.25,23.73,22.58,21.18
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2018; Feb=2025; Mar=2018; Apr=2013; May=2017; Jun=2016; Jul=2012; Aug=2020; Sep=2014; Oct=2023; Nov=2020; Dec=2017"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 16/30: Bhubaneswar ---
+File Path: data/raw/India_Weather_Extracted/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025.epw
+SHA-256:   bdd16c04b4b97a3ca2ac0c149ce2bd545327bbaa542973abb11a9c689bf52adb
+Line 1 (repr): 'LOCATION,Bhubaneshwar-Patnaik.Intl.AP,OR,IND,SRC-TMYx,429710,20.24400,85.81800,5.5,42.1'
+First 8 Header Lines:
+  Line 1: LOCATION,Bhubaneshwar-Patnaik.Intl.AP,OR,IND,SRC-TMYx,429710,20.24400,85.81800,5.5,42.1
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,12,13.7,14.9,7.7,6.5,25.5,9.4,7.4,24.3,6.3,21.9,5.2,23.0,0.8,320,0.350,Cooling,5,9.9,39.4,27.1,38.1,27.1,36.8,26.8,30.2,34.8,29.5,34.0,29.2,33.6,4.5,180,29.3,26.2,31.9,28.5,25.0,31.4,28.2,24.6,31.2,100.0,33.5,96.6,34.5,94.8,33.3,33.7,Extremes,9.1,7.7,6.6,11.7,42.9,1.1,1.6,11.0,44.0,10.3,45.0,9.7,45.9,9.0,47.0,10.5,31.2,1.1,1.1,9.7,31.9,9.1,32.5,8.5,33.1,7.7,33.9
+  Line 3: TYPICAL/EXTREME PERIODS,4,Wet Season - Week Near Average For Period,Typical,6/28,7/ 4,Dry Season - Week Near Average For Period,Typical,12/22,1/ 5,Tropical Hot - Week Nearest Max Temperature For Period,Extreme,4/30,5/ 6,Tropical Cold- Week Nearest Min Temperature For Period,Extreme,12/17,12/23
+  Line 4: GROUND TEMPERATURES,3,.5,,,,23.01,22.60,23.32,24.45,27.40,29.67,31.20,31.67,30.88,29.11,26.75,24.56,2,,,,24.50,23.78,23.93,24.52,26.50,28.28,29.71,30.47,30.31,29.31,27.68,25.96,4,,,,25.74,25.00,24.83,25.06,26.18,27.38,28.48,29.24,29.42,28.99,28.03,26.87
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2013; Feb=2011; Mar=2015; Apr=2021; May=2016; Jun=2022; Jul=2016; Aug=2017; Sep=2012; Oct=2021; Nov=2024; Dec=2023"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 17/30: Kolkata ---
+File Path: data/raw/India_Weather_Extracted/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025.epw
+SHA-256:   9ed434826c36f1faf70c17af80b5bbcbce73c1969ac78f315c96b5ba0ee46f21
+Line 1 (repr): 'LOCATION,Kolkata-Bose.Intl.AP,WB,IND,SRC-TMYx,428090,22.65500,88.44700,5.5,4.9'
+First 8 Header Lines:
+  Line 1: LOCATION,Kolkata-Bose.Intl.AP,WB,IND,SRC-TMYx,428090,22.65500,88.44700,5.5,4.9
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,11.5,12.6,7.0,6.2,22.3,8.3,6.8,20.7,5.3,21.0,4.8,21.6,0.7,340,0.345,Cooling,5,9.4,37.9,27.1,36.8,27.4,35.8,27.3,30.4,34.5,29.8,34.0,29.3,33.4,3.4,160,29.5,26.3,32.6,28.8,25.4,32.0,28.3,24.6,31.7,101.4,33.6,97.7,33.7,95.6,33.3,33.0,Extremes,7.1,6.1,5.3,9.8,40.1,1.3,1.5,8.9,41.2,8.1,42.1,7.4,42.9,6.4,44.0,8.9,31.0,1.1,0.7,8.1,31.5,7.4,32.0,6.8,32.4,6.0,32.9
+  Line 3: TYPICAL/EXTREME PERIODS,4,Wet Season - Week Near Average For Period,Typical,10/ 4,10/10,Dry Season - Week Near Average For Period,Typical,2/ 1,2/ 7,Tropical Hot - Week Nearest Max Temperature For Period,Extreme,4/23,4/29,Tropical Cold- Week Nearest Min Temperature For Period,Extreme,1/ 1,1/ 7
+  Line 4: GROUND TEMPERATURES,3,.5,,,,21.80,21.31,22.18,23.54,27.09,29.83,31.68,32.25,31.29,29.16,26.31,23.67,2,,,,23.60,22.73,22.91,23.63,26.01,28.16,29.88,30.80,30.60,29.40,27.44,25.36,4,,,,25.09,24.20,24.00,24.27,25.62,27.07,28.40,29.32,29.54,29.01,27.86,26.46
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2019; Feb=2017; Mar=2011; Apr=2022; May=2022; Jun=2022; Jul=2012; Aug=2014; Sep=2012; Oct=2022; Nov=2017; Dec=2016"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 18/30: Visakhapatnam ---
+File Path: data/raw/India_Weather_Extracted/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025.epw
+SHA-256:   1487aecbe2d15167546da8682322ad5973e52d515edf4317e40fb86a32eaf25e
+Line 1 (repr): 'LOCATION,Vishakhapatnam,AP,IND,SRC-TMYx,431500,17.72170,83.32920,5.5,66.0'
+First 8 Header Lines:
+  Line 1: LOCATION,Vishakhapatnam,AP,IND,SRC-TMYx,431500,17.72170,83.32920,5.5,66.0
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,20.0,20.8,11.0,8.2,25.2,12.8,9.3,24.6,6.7,24.8,6.0,25.6,1.1,0,0.343,Cooling,5,4.3,34.3,27.5,33.5,27.5,32.9,27.6,29.4,32.6,29.0,32.2,28.6,31.8,2.6,230,28.6,25.2,31.9,28.1,24.5,31.7,27.6,23.8,31.3,97.1,32.6,94.8,32.1,92.6,31.9,31.2,Extremes,7.1,6.2,5.2,18.1,38.0,1.5,1.9,17.0,39.4,16.1,40.5,15.2,41.6,14.1,43.0,14.0,29.9,1.2,0.4,13.2,30.2,12.4,30.4,11.8,30.6,10.9,30.9
+  Line 3: TYPICAL/EXTREME PERIODS,3,No Dry Season - Week Near Average Annual,Typical,3/12,3/18,No Dry Season - Week Near Annual Max,Extreme,5/21,5/27,No Dry Season - Week Near Annual Min,Extreme,1/15,1/21
+  Line 4: GROUND TEMPERATURES,3,.5,,,,25.56,25.32,25.74,26.41,28.14,29.48,30.39,30.66,30.19,29.15,27.76,26.47,2,,,,26.44,26.01,26.10,26.45,27.61,28.66,29.50,29.96,29.86,29.27,28.31,27.29,4,,,,27.17,26.73,26.63,26.77,27.42,28.13,28.78,29.23,29.34,29.08,28.52,27.83
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2012; Feb=2011; Mar=2018; Apr=2012; May=2016; Jun=2024; Jul=2019; Aug=2014; Sep=2014; Oct=2014; Nov=2022; Dec=2013"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 19/30: Chennai ---
+File Path: data/raw/India_Weather_Extracted/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025.epw
+SHA-256:   46ebf7cadabd489c09a510f9df0d96ed502b87c594f86a38172b0069f7767fb7
+Line 1 (repr): 'LOCATION,Chennai.Intl.AP,TN,IND,SRC-TMYx,432790,12.99400,80.18100,5.5,15.8'
+First 8 Header Lines:
+  Line 1: LOCATION,Chennai.Intl.AP,TN,IND,SRC-TMYx,432790,12.99400,80.18100,5.5,15.8
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,20.1,20.9,15.0,10.7,29.0,16.5,11.8,27.6,7.4,29.2,6.7,29.0,0.4,320,0.386,Cooling,5,9.1,39.0,26.3,37.8,26.4,36.7,26.2,29.2,34.1,28.5,32.9,28.3,32.5,4.1,270,28.1,24.3,31.7,27.4,23.4,31.1,27.1,22.9,30.9,94.5,34.2,92.4,32.6,89.7,33.2,32.2,Extremes,7.5,6.7,6.2,18.8,41.6,1.0,1.3,18.1,42.5,17.6,43.3,17.0,44.0,16.3,45.0,17.1,29.8,1.2,0.9,16.2,30.5,15.5,31.0,14.9,31.5,14.0,32.2
+  Line 3: TYPICAL/EXTREME PERIODS,3,No Dry Season - Week Near Average Annual,Typical,3/12,3/18,No Dry Season - Week Near Annual Max,Extreme,5/21,5/27,No Dry Season - Week Near Annual Min,Extreme,1/ 8,1/14
+  Line 4: GROUND TEMPERATURES,3,.5,,,,27.50,26.59,26.34,26.55,27.78,29.16,30.45,31.39,31.66,31.22,30.16,28.83,2,,,,28.31,27.46,27.06,27.04,27.69,28.63,29.64,30.51,30.96,30.88,30.28,29.36,4,,,,28.85,28.19,27.78,27.66,27.89,28.44,29.12,29.79,30.24,30.35,30.09,29.55
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2023; Feb=2018; Mar=2018; Apr=2012; May=2016; Jun=2011; Jul=2016; Aug=2025; Sep=2017; Oct=2020; Nov=2025; Dec=2018"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 20/30: Surat ---
+File Path: data/raw/India_Weather_Extracted/IND_GJ_Surat.428400_TMYx.2011-2025/IND_GJ_Surat.428400_TMYx.2011-2025.epw
+SHA-256:   d24f9e4e373e2f09dc5dc04f54e76a8e9d487398477c6fd1342ef97b41ecfb52
+Line 1 (repr): 'LOCATION,Surat,GJ,IND,SRC-TMYx,428400,21.20000,72.83300,5.5,12.0'
+First 8 Header Lines:
+  Line 1: LOCATION,Surat,GJ,IND,SRC-TMYx,428400,21.20000,72.83300,5.5,12.0
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,14.0,15.2,3.9,5.0,25.4,5.8,5.7,24.6,4.0,24.8,3.5,24.5,0.7,0,0.325,Cooling,5,6.4,38.3,22.6,36.9,22.9,35.6,23.4,28.5,32.1,28.2,31.6,27.9,31.3,1.7,0,27.6,23.6,30.3,27.2,23.1,30.0,27.0,22.7,29.8,91.6,32.1,90.3,31.9,89.0,31.4,29.7,Extremes,4.8,4.0,3.4,11.8,41.0,1.5,1.3,10.7,41.9,9.8,42.7,9.0,43.4,7.9,44.3,9.1,29.1,1.6,0.4,8.0,29.4,7.0,29.7,6.1,29.9,4.9,30.2
+  Line 3: TYPICAL/EXTREME PERIODS,4,Wet Season - Week Near Average For Period,Typical,6/24,6/30,Dry Season - Week Near Average For Period,Typical,12/ 6,12/12,Tropical Hot - Week Nearest Max Temperature For Period,Extreme,4/23,4/29,Tropical Cold- Week Nearest Min Temperature For Period,Extreme,1/ 1,1/ 7
+  Line 4: GROUND TEMPERATURES,3,.5,,,,23.75,23.38,24.05,25.10,27.84,29.95,31.38,31.82,31.08,29.43,27.24,25.20,2,,,,25.14,24.47,24.61,25.17,27.00,28.66,29.99,30.70,30.55,29.61,28.10,26.50,4,,,,26.30,25.60,25.45,25.66,26.70,27.82,28.84,29.56,29.72,29.32,28.43,27.35
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2015; Feb=2021; Mar=2014; Apr=2022; May=2023; Jun=2019; Jul=2016; Aug=2012; Sep=2022; Oct=2017; Nov=2013; Dec=2014"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 21/30: Kochi ---
+File Path: data/raw/India_Weather_Extracted/IND_KL_Kochi.NAS.433530_TMYx.2011-2025/IND_KL_Kochi.NAS.433530_TMYx.2011-2025.epw
+SHA-256:   d593ffba6386e84aacbd2c18051d2c3832282ea013a3b9979f2f96f0abe2a71e
+Line 1 (repr): 'LOCATION,Kochi.NAS,KL,IND,SRC-TMYx,433530,9.94600,76.27200,5.5,2.4'
+First 8 Header Lines:
+  Line 1: LOCATION,Kochi.NAS,KL,IND,SRC-TMYx,433530,9.94600,76.27200,5.5,2.4
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,7,22.8,23.3,16.8,12.0,28.2,17.9,12.9,27.8,10.2,25.9,7.8,26.5,1.4,290,0.358,Cooling,4,6.2,33.2,26.7,32.7,26.5,32.3,26.3,27.9,31.7,27.6,31.3,27.2,31.0,4.8,270,26.9,22.6,30.3,26.5,22.1,30.0,26.2,21.6,29.7,89.1,31.8,87.4,31.5,86.1,31.3,30.4,Extremes,7.5,6.4,6.0,20.1,35.3,1.7,1.9,18.9,36.7,17.9,37.8,17.0,38.9,15.8,40.3,18.1,29.2,1.2,0.6,17.3,29.6,16.6,29.9,15.9,30.3,15.1,30.7
+  Line 3: TYPICAL/EXTREME PERIODS,3,No Dry Season - Week Near Average Annual,Typical,11/ 5,11/11,No Dry Season - Week Near Annual Max,Extreme,4/23,4/29,No Dry Season - Week Near Annual Min,Extreme,7/30,8/ 5
+  Line 4: GROUND TEMPERATURES,3,.5,,,,26.50,26.75,27.24,27.70,28.58,29.05,29.17,28.94,28.40,27.72,27.05,26.62,2,,,,26.84,26.90,27.18,27.50,28.17,28.60,28.82,28.77,28.46,27.99,27.47,27.06,4,,,,27.20,27.16,27.28,27.46,27.90,28.24,28.46,28.51,28.37,28.10,27.74,27.42
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2022; Feb=2019; Mar=2020; Apr=2014; May=2020; Jun=2012; Jul=2020; Aug=2013; Sep=2014; Oct=2023; Nov=2018; Dec=2011"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 22/30: Port Blair ---
+File Path: data/raw/India_Weather_Extracted/IND_AN_Port.Blair.433330_TMYx.2011-2025/IND_AN_Port.Blair.433330_TMYx.2011-2025.epw
+SHA-256:   95907f6a2b2e126702d10c2a609c37de49d99b16e158e32caab9f8adca404ede
+Line 1 (repr): 'LOCATION,Port.Blair,AN,IND,SRC-TMYx,433330,11.66700,92.71700,5.5,79.0'
+First 8 Header Lines:
+  Line 1: LOCATION,Port.Blair,AN,IND,SRC-TMYx,433330,11.66700,92.71700,5.5,79.0
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,9,21.8,22.7,17.3,12.5,26.3,18.4,13.4,26.0,9.0,27.8,8.2,27.3,0.4,320,0.335,Cooling,4,6.1,32.8,26.7,32.1,26.4,31.6,26.2,27.6,31.0,27.2,30.4,27.0,30.1,2.1,90,26.7,22.5,29.2,26.4,22.1,28.9,26.2,21.8,28.6,88.0,31.3,86.4,30.8,85.3,30.2,30.2,Extremes,7.9,6.6,5.7,19.7,34.1,1.3,1.0,18.7,34.8,18.0,35.3,17.2,35.9,16.2,36.6,18.2,28.5,1.0,0.7,17.4,29.1,16.8,29.5,16.2,29.9,15.5,30.4
+  Line 3: TYPICAL/EXTREME PERIODS,3,No Dry Season - Week Near Average Annual,Typical,10/ 1,10/ 7,No Dry Season - Week Near Annual Max,Extreme,4/30,5/ 6,No Dry Season - Week Near Annual Min,Extreme,1/ 8,1/14
+  Line 4: GROUND TEMPERATURES,3,.5,,,,26.53,26.45,26.59,26.83,27.43,27.90,28.21,28.31,28.15,27.78,27.30,26.85,2,,,,26.84,26.69,26.72,26.84,27.25,27.61,27.91,28.06,28.03,27.82,27.49,27.14,4,,,,27.09,26.94,26.90,26.95,27.18,27.43,27.65,27.81,27.85,27.76,27.56,27.32
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2013; Feb=2017; Mar=2017; Apr=2022; May=2014; Jun=2020; Jul=2016; Aug=2015; Sep=2020; Oct=2018; Nov=2016; Dec=2022"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 23/30: Bhuj ---
+File Path: data/raw/India_Weather_Extracted/IND_GJ_Bhuj.426340_TMYx.2011-2025/IND_GJ_Bhuj.426340_TMYx.2011-2025.epw
+SHA-256:   37ac3d35f1b48490d75ed55ed201f4f33c2eb87a968a643ed6819695f5f0ae62
+Line 1 (repr): 'LOCATION,Bhuj,GJ,IND,SRC-TMYx,426340,23.28800,69.67000,5.5,81.7'
+First 8 Header Lines:
+  Line 1: LOCATION,Bhuj,GJ,IND,SRC-TMYx,426340,23.28800,69.67000,5.5,81.7
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,11.2,12.5,-5.0,2.5,21.0,-2.2,3.2,22.0,5.2,22.4,4.5,22.4,0.3,230,0.345,Cooling,5,11.5,40.6,22.4,39.4,22.7,38.3,23.1,28.5,33.2,28.0,32.6,27.5,32.0,2.1,230,27.4,23.6,30.4,27.0,22.9,29.8,26.6,22.3,29.5,92.3,33.3,89.8,32.7,87.8,31.8,30.5,Extremes,6.5,5.4,4.8,9.5,43.0,1.7,1.2,8.3,43.9,7.3,44.6,6.4,45.3,5.2,46.2,5.0,29.6,1.6,0.5,3.8,30.0,2.8,30.3,1.9,30.5,0.7,30.9
+  Line 3: TYPICAL/EXTREME PERIODS,6,Summer - Week Nearest Max Temperature For Period,Extreme,6/ 3,6/ 9,Summer - Week Nearest Average Temperature For Period,Typical,5/27,6/ 2,Winter - Week Nearest Min Temperature For Period,Extreme,12/24,12/30,Winter - Week Nearest Average Temperature For Period,Typical,11/19,11/25,Autumn - Week Nearest Average Temperature For Period,Typical,9/16,9/22,Spring - Week Nearest Average Temperature For Period,Typical,2/ 5,2/11
+  Line 4: GROUND TEMPERATURES,3,.5,,,,21.83,22.90,24.98,26.95,30.68,32.65,33.19,32.19,29.89,27.03,24.20,22.34,2,,,,23.30,23.56,24.75,26.07,28.94,30.78,31.69,31.48,30.17,28.19,25.96,24.21,4,,,,24.83,24.64,25.16,25.91,27.81,29.23,30.15,30.37,29.80,28.63,27.12,25.76
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2013; Feb=2016; Mar=2013; Apr=2018; May=2017; Jun=2016; Jul=2011; Aug=2013; Sep=2024; Oct=2022; Nov=2015; Dec=2022"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 24/30: Jaisalmer ---
+File Path: data/raw/India_Weather_Extracted/IND_RJ_Jaisalmer.423280_TMYx.2011-2025/IND_RJ_Jaisalmer.423280_TMYx.2011-2025.epw
+SHA-256:   9344aa138c33f6404aa8110b092ec573910f6b958bd05b3ff90c0f400a07fd04
+Line 1 (repr): 'LOCATION,Jaisalmer,RJ,IND,SRC-TMYx,423280,26.90000,70.91700,5.5,231.0'
+First 8 Header Lines:
+  Line 1: LOCATION,Jaisalmer,RJ,IND,SRC-TMYx,423280,26.90000,70.91700,5.5,231.0
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,7.8,9.1,-8.0,2.0,21.2,-5.5,2.4,19.7,6.5,21.2,5.4,19.2,1.0,50,0.406,Cooling,5,13.9,43.8,23.5,42.5,23.3,41.3,23.5,28.3,35.6,27.8,34.7,27.4,34.3,3.2,230,26.8,23.1,30.8,26.3,22.4,30.6,25.8,21.7,30.5,92.5,35.8,90.1,34.5,88.1,34.3,34.6,Extremes,9.3,8.2,7.2,4.5,46.0,2.0,1.7,3.0,47.3,1.8,48.3,0.7,49.3,-0.8,50.5,2.1,29.6,1.6,0.9,1.0,30.3,0.1,30.8,-0.8,31.3,-2.0,32.0
+  Line 3: TYPICAL/EXTREME PERIODS,6,Summer - Week Nearest Max Temperature For Period,Extreme,5/20,5/26,Summer - Week Nearest Average Temperature For Period,Typical,5/13,5/19,Winter - Week Nearest Min Temperature For Period,Extreme,12/17,12/23,Winter - Week Nearest Average Temperature For Period,Typical,12/ 3,12/ 9,Autumn - Week Nearest Average Temperature For Period,Typical,8/26,9/ 1,Spring - Week Nearest Average Temperature For Period,Typical,2/19,2/25
+  Line 4: GROUND TEMPERATURES,3,.5,,,,18.86,18.04,19.50,21.78,27.76,32.37,35.48,36.43,34.82,31.24,26.45,22.01,2,,,,21.89,20.42,20.72,21.94,25.94,29.55,32.44,34.00,33.66,31.63,28.34,24.84,4,,,,24.40,22.89,22.57,23.02,25.28,27.72,29.95,31.51,31.87,30.99,29.05,26.69
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2012; Feb=2020; Mar=2013; Apr=2015; May=2020; Jun=2022; Jul=2013; Aug=2017; Sep=2022; Oct=2020; Nov=2013; Dec=2020"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 25/30: Shimla ---
+File Path: data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx.2011-2025/IND_HP_Shimla.420830_TMYx.2011-2025.epw
+SHA-256:   8b7447ee12f00a3d13ba9443caca904e8ef4cf2865f30b7eac86eaa176d68286
+Line 1 (repr): 'LOCATION,Shimla,HP,IND,SRC-TMYx,420830,31.10000,77.16700,5.5,2202.0'
+First 8 Header Lines:
+  Line 1: LOCATION,Shimla,HP,IND,SRC-TMYx,420830,31.10000,77.16700,5.5,2202.0
+  Line 2: DESIGN CONDITIONS,0
+  Line 3: TYPICAL/EXTREME PERIODS,6,Summer - Week Nearest Max Temperature For Period,Extreme,5/15,5/21,Summer - Week Nearest Average Temperature For Period,Typical,6/12,6/18,Winter - Week Nearest Min Temperature For Period,Extreme,1/ 4,1/10,Winter - Week Nearest Average Temperature For Period,Typical,12/20,12/26,Autumn - Week Nearest Average Temperature For Period,Typical,9/12,9/18,Spring - Week Nearest Average Temperature For Period,Typical,3/15,3/21
+  Line 4: GROUND TEMPERATURES,3,.5,,,,9.10,8.46,9.60,11.39,16.08,19.70,22.14,22.88,21.62,18.81,15.05,11.57,2,,,,11.48,10.33,10.56,11.51,14.65,17.49,19.76,20.97,20.71,19.12,16.53,13.79,4,,,,13.45,12.27,12.01,12.36,14.14,16.05,17.80,19.02,19.31,18.62,17.10,15.24
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[12] Period of Record=2013-2025; Jan=2015; Feb=2016; Mar=2024; Apr=2019; May=2016; Jun=2016; Jul=2021; Aug=2022; Sep=2013; Oct=2021; Nov=2023; Dec=2023"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 26/30: Jodhpur ---
+File Path: data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx.2011-2025/IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw
+SHA-256:   f31bbc5a7edbf38328151473a5dfb8660e14026289a9c77a4e6d4f6cf8a4de39
+Line 1 (repr): 'LOCATION,Jodhpur,RJ,IND,SRC-TMYx,423390,26.25730,73.04080,5.5,218.5'
+First 8 Header Lines:
+  Line 1: LOCATION,Jodhpur,RJ,IND,SRC-TMYx,423390,26.25730,73.04080,5.5,218.5
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,8.6,9.8,-8.2,1.9,24.6,-5.6,2.4,22.3,4.2,21.0,3.4,19.6,0.6,50,0.354,Cooling,5,11.4,42.6,21.8,41.4,21.9,40.2,22.1,28.3,33.7,27.7,32.9,27.3,32.3,2.0,270,27.1,23.5,30.6,26.6,22.8,30.2,26.1,22.1,29.8,92.6,33.9,90.0,33.1,87.8,32.2,33.0,Extremes,5.4,4.3,3.3,5.6,44.5,1.7,1.2,4.4,45.4,3.3,46.1,2.4,46.8,1.1,47.7,2.6,29.4,1.3,0.9,1.6,30.0,0.8,30.5,0.1,31.0,-0.9,31.7
+  Line 3: TYPICAL/EXTREME PERIODS,6,Summer - Week Nearest Max Temperature For Period,Extreme,5/20,5/26,Summer - Week Nearest Average Temperature For Period,Typical,4/22,4/28,Winter - Week Nearest Min Temperature For Period,Extreme,12/24,12/30,Winter - Week Nearest Average Temperature For Period,Typical,11/12,11/18,Autumn - Week Nearest Average Temperature For Period,Typical,9/16,9/22,Spring - Week Nearest Average Temperature For Period,Typical,2/12,2/18
+  Line 4: GROUND TEMPERATURES,3,.5,,,,18.95,18.17,19.55,21.72,27.38,31.75,34.70,35.60,34.07,30.68,26.14,21.93,2,,,,21.82,20.43,20.71,21.86,25.65,29.08,31.82,33.29,32.98,31.05,27.93,24.61,4,,,,24.19,22.77,22.46,22.89,25.03,27.34,29.46,30.93,31.28,30.44,28.61,26.36
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2014; Feb=2016; Mar=2013; Apr=2011; May=2020; Jun=2018; Jul=2016; Aug=2017; Sep=2018; Oct=2020; Nov=2022; Dec=2012"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 27/30: New_Delhi ---
+File Path: data/raw/India_Weather_Extracted/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw
+SHA-256:   c4c5279f513ec2c1dec4511114c05f13596f214184dc825e58385a1f53ac2d5a
+Line 1 (repr): 'LOCATION,New.Delhi-Gandhi.Intl.AP,DL,IND,SRC-TMYx,421810,28.56700,77.10300,5.5,236.8'
+First 8 Header Lines:
+  Line 1: LOCATION,New.Delhi-Gandhi.Intl.AP,DL,IND,SRC-TMYx,421810,28.56700,77.10300,5.5,236.8
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,5.8,7.1,-0.8,3.6,23.0,1.4,4.3,23.7,7.1,18.3,6.4,17.8,1.5,250,0.406,Cooling,6,10.1,43.4,22.1,42.0,22.2,40.5,22.4,29.1,33.5,28.5,32.5,28.2,32.0,4.4,300,28.2,25.2,30.7,27.6,24.2,30.3,27.2,23.6,30.1,96.3,33.2,93.6,32.2,91.6,32.3,32.2,Extremes,7.4,6.3,5.4,3.5,45.5,1.6,1.6,2.3,46.7,1.4,47.6,0.5,48.5,-0.6,49.6,3.0,30.0,1.6,0.9,1.9,30.6,0.9,31.2,0.0,31.7,-1.1,32.4
+  Line 3: TYPICAL/EXTREME PERIODS,8,Wet Season - Week Near Average For Period,Typical,9/14,9/20,Dry Season - Week Near Average For Period,Typical,3/ 8,3/14,Summer - Week Nearest Max Temperature For Period,Extreme,6/ 5,6/11,Summer - Week Nearest Average Temperature For Period,Typical,5/ 1,5/ 7,Winter - Week Nearest Min Temperature For Period,Extreme,1/18,1/24,Winter - Week Nearest Average Temperature For Period,Typical,11/29,12/ 5,Autumn - Week Nearest Average Temperature For Period,Typical,8/22,8/28,Spring - Week Nearest Average Temperature For Period,Typical,3/15,3/21
+  Line 4: GROUND TEMPERATURES,3,.5,,,,16.51,15.65,17.18,19.59,25.87,30.72,33.99,34.99,33.29,29.53,24.50,19.83,2,,,,19.70,18.16,18.47,19.75,23.95,27.76,30.80,32.43,32.08,29.95,26.48,22.80,4,,,,22.34,20.76,20.41,20.89,23.27,25.83,28.18,29.81,30.19,29.27,27.23,24.75
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2012; Feb=2016; Mar=2024; Apr=2013; May=2011; Jun=2016; Jul=2018; Aug=2017; Sep=2025; Oct=2016; Nov=2017; Dec=2012"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 28/30: Mumbai ---
+File Path: data/raw/India_Weather_Extracted/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw
+SHA-256:   5e7cdca030958963ab5be12751afe8d0c66b01150450e1059bb7e1b65f044552
+Line 1 (repr): 'LOCATION,Mumbai-Shivaji.Intl.AP,MH,IND,SRC-TMYx,430030,19.08900,72.86800,5.5,11.3'
+First 8 Header Lines:
+  Line 1: LOCATION,Mumbai-Shivaji.Intl.AP,MH,IND,SRC-TMYx,430030,19.08900,72.86800,5.5,11.3
+  Line 2: DESIGN CONDITIONS,1,2025 ASHRAE Handbook -- Fundamentals - Chapter 14 Climatic Design Information,Heating,1,18.1,19.6,5.3,5.5,26.8,7.5,6.4,27.0,6.2,27.0,5.8,27.4,0.7,50,0.391,Cooling,5,4.6,36.1,22.3,35.1,22.6,34.3,23.1,28.4,31.4,28.1,30.9,27.6,30.5,3.7,270,27.4,23.3,29.8,27.2,23.0,29.6,26.8,22.4,29.4,90.3,31.6,88.5,31.4,87.3,30.7,30.8,Extremes,7.3,6.6,6.1,15.8,39.3,2.2,1.3,14.2,40.3,12.9,41.1,11.7,41.8,10.1,42.8,11.1,29.1,1.9,0.7,9.8,29.6,8.7,30.1,7.7,30.5,6.3,31.0
+  Line 3: TYPICAL/EXTREME PERIODS,3,No Dry Season - Week Near Average Annual,Typical,6/25,7/ 1,No Dry Season - Week Near Annual Max,Extreme,5/28,6/ 3,No Dry Season - Week Near Annual Min,Extreme,1/15,1/21
+  Line 4: GROUND TEMPERATURES,3,.5,,,,25.42,25.17,25.62,26.33,28.20,29.63,30.60,30.90,30.39,29.28,27.79,26.40,2,,,,26.37,25.91,26.00,26.38,27.63,28.75,29.65,30.14,30.03,29.40,28.37,27.29,4,,,,27.15,26.68,26.58,26.72,27.42,28.18,28.88,29.36,29.48,29.20,28.60,27.86
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2023; Feb=2015; Mar=2017; Apr=2016; May=2023; Jun=2017; Jul=2025; Aug=2017; Sep=2024; Oct=2012; Nov=2013; Dec=2012"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 29/30: Bengaluru ---
+File Path: data/raw/India_Weather_Extracted/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025.epw
+SHA-256:   b24506e034c43d31950862232b97b404e573de4c8bee04204f62d0890bcae478
+Line 1 (repr): 'LOCATION,Bengaluru-Hindustan.AP,KA,IND,SRC-TMYx,432960,12.95000,77.66800,5.5,888.0'
+First 8 Header Lines:
+  Line 1: LOCATION,Bengaluru-Hindustan.AP,KA,IND,SRC-TMYx,432960,12.95000,77.66800,5.5,888.0
+  Line 2: DESIGN CONDITIONS,0
+  Line 3: TYPICAL/EXTREME PERIODS,8,Wet Season - Week Near Average For Period,Typical,8/ 7,8/13,Dry Season - Week Near Average For Period,Typical,2/15,2/21,Summer - Week Nearest Max Temperature For Period,Extreme,4/26,5/ 2,Summer - Week Nearest Average Temperature For Period,Typical,4/19,4/25,Winter - Week Nearest Min Temperature For Period,Extreme,11/10,11/16,Winter - Week Nearest Average Temperature For Period,Typical,10/27,11/ 2,Autumn - Week Nearest Average Temperature For Period,Typical,7/27,8/ 2,Spring - Week Nearest Average Temperature For Period,Typical,12/ 8,12/14
+  Line 4: GROUND TEMPERATURES,3,.5,,,,21.57,21.28,21.80,22.60,24.70,26.33,27.42,27.76,27.19,25.93,24.24,22.68,2,,,,22.64,22.12,22.23,22.65,24.06,25.33,26.35,26.90,26.78,26.07,24.91,23.68,4,,,,23.52,22.99,22.88,23.04,23.83,24.69,25.48,26.02,26.15,25.84,25.16,24.33
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[15] Period of Record=2011-2025; Jan=2025; Feb=2020; Mar=2016; Apr=2019; May=2016; Jun=2021; Jul=2021; Aug=2021; Sep=2023; Oct=2020; Nov=2018; Dec=2021"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+--- City 30/30: Leh ---
+File Path: data/raw/India_Weather_Extracted/IND_JK_Leh.427053_TMYx.2011-2025/IND_JK_Leh.427053_TMYx.2011-2025.epw
+SHA-256:   3c6fe31eb12c438e316c846eb1fd867ea82368ad78a31207d9254fe31c4be193
+Line 1 (repr): 'LOCATION,Leh,JK,IND,SRC-TMYx,427053,34.13600,77.54700,5.5,3255.9'
+First 8 Header Lines:
+  Line 1: LOCATION,Leh,JK,IND,SRC-TMYx,427053,34.13600,77.54700,5.5,3255.9
+  Line 2: DESIGN CONDITIONS,0
+  Line 3: TYPICAL/EXTREME PERIODS,6,Summer - Week Nearest Max Temperature For Period,Extreme,8/19,8/25,Summer - Week Nearest Average Temperature For Period,Typical,7/ 8,7/14,Winter - Week Nearest Min Temperature For Period,Extreme,1/15,1/21,Winter - Week Nearest Average Temperature For Period,Typical,1/ 1,1/ 7,Autumn - Week Nearest Average Temperature For Period,Typical,11/12,11/18,Spring - Week Nearest Average Temperature For Period,Typical,5/ 6,5/12
+  Line 4: GROUND TEMPERATURES,3,.5,,,,-10.90,-11.89,-10.14,-7.41,-0.26,5.26,8.98,10.11,8.18,3.90,-1.83,-7.14,2,,,,-7.28,-9.03,-8.67,-7.22,-2.44,1.88,5.34,7.20,6.80,4.37,0.43,-3.75,4,,,,-4.28,-6.08,-6.47,-5.93,-3.22,-0.31,2.36,4.22,4.66,3.60,1.29,-1.54
+  Line 5: HOLIDAYS/DAYLIGHT SAVINGS,No,0,0,0
+  Line 6: COMMENTS 1,"NCEI ISD/ERA5 - #years=[12] Period of Record=2011-2025; Jan=2016; Feb=2022; Mar=2025; Apr=2017; May=2016; Jun=2024; Jul=2020; Aug=2021; Sep=2022; Oct=2016; Nov=2022; Dec=2015"
+  Line 7: COMMENTS 2,"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data."
+  Line 8: DATA PERIODS,1,1,Data,Sunday,1/ 1,12/31
+
+=================================================================================================================================================
+CUSTOM IDENTIFIER AUDIT & PROVENANCE REPORT
+=================================================================================================================================================
+Header lines inspected: 240 across 30 manifest EPWs (8 header lines each).
+Number of header lines containing 'Custom' (case-insensitive): 0.
+Count is 0: none of the 30 manifest EPWs contain 'Custom' in any header line.
+Conclusion: The earlier 'Custom-426230' output was wrong.
+Provenance of 'Custom-426230':
+  - File and line on disk: unknown (0 occurrences in repository files or git history).
+  - Explanation: 426230 is the authentic, official 6-digit WMO station identifier for Imphal (IND_MN_Imphal.426230_TMYx.2011-2025.epw).
+    The string 'Custom-426230' was an erroneous conversational attribution that conflated Imphal's official WMO station with a hypothetical custom-generated EPW file prefix.
+
+=================================================================================================================================================
+SOURCE PROVENANCE: 'EXPECTED' COORDINATES & 'DOWNLOADED FROM ONEBUILDING'
+=================================================================================================================================================
+1. Expected Lat / Lon / Elevation Columns:
+   - Source file and line: tools/report_item1_station_identity.py:27-56 (defined directly as an inline dictionary literal EXPECTED_CITY_COORDINATES).
+   - External source file on disk: no source on disk (values represent standard municipal city-center geographic coordinates).
+2. 'Downloaded from OneBuilding' Provenance:
+   - In-file header source: Line 7 (COMMENTS 2) of all 30 manifest EPW files verbatim states:
+     "COMMENTS 2,\"Downloaded from Climate.Onebuilding.org -- Ground temps represent undisturbed earth temperatures - calculated from this weather data.\""
+   - Reference download script: tools/download_epws.py:17-45 (contains direct download URLs for the 5 reference flagship cities).
+   - External download log or URL manifest for all 30 cities: no source on disk (full URL list not persisted; archive filenames listed in reports/climate_onebuilding_india_file_list.txt).
+
+=================================================================================================================================================
+ANALYSIS OF FLAGGED STATIONS (COMPUTED DYNAMICALLY FROM VARIABLES)
+=================================================================================================================================================
+1. Leh (Elevation Discrepancy Analysis):
    - Manifest EPW: IND_JK_Leh.427053_TMYx.2011-2025.epw (WMO 427053).
-   - Station Coordinates: 34.136° N, 77.547° E, Elevation: 3255.9 m (Kushok Bakula Rimpochee Airport runway elevation).
-   - Municipal Leh center coordinates: 34.153° N, 77.577° E, Elevation: ~3500 m.
-   - Great-circle distance is only 3.39 km (well under 30 km threshold).
+   - Station Name: Leh.
+   - Station Coordinates: Latitude 34.136 deg N, Longitude 77.547 deg E, Elevation 3255.9 m (Kushok Bakula Rimpochee Airport runway elevation).
+   - Municipal Leh Center Coordinates: Latitude 34.153 deg N, Longitude 77.577 deg E, Elevation 3500.0 m.
+   - Great-circle distance is 3.33 km (well under 30.00 km threshold).
    - Elevation difference is 244.1 m because Leh town climbs steep mountain slopes above the airport valley floor.
-   - Verdict: VALID. The airport station 427053 is the official IMD meteorological station representing Leh.
+   - Verdict: VALID. Station 427053 is the official IMD airport station representing Leh.
 
-=================================================================================================================================================
-EXPLANATION: WHAT DO 'Custom-' IDs MEAN AND WHERE DO THEY COME FROM?
-=================================================================================================================================================
-
-1. Standard WMO Station IDs vs "Custom-" Station IDs:
-   - Official Meteorological Stations:
-     Stations maintained by national meteorological organizations (such as the India Meteorological
-     Department - IMD) and indexed by the World Meteorological Organization (WMO) receive official 5-digit
-     or 6-digit numeric IDs (e.g. 423390 for Jodhpur, 421810 for New Delhi, 427053 for Leh).
-   - "Custom-" Identifiers in EnergyPlus & Weather Formats:
-     When an EPW weather file is created from gridded satellite/reanalysis models (e.g., ERA5, NASA POWER),
-     spatial interpolation, or synthetic perturbation rather than a recognized WMO surface weather station,
-     or when a simulation modeler manually creates a microclimate file, the EPW LOCATION header assigns a
-     synthetic identifier often prefixed with "Custom-" or "CUSTOM_".
-
-2. Origin of Files in this Repository (Raw vs Derived):
-   - 30 Baseline Cities (RAW OBSERVATIONAL):
-     All 30 baseline cities in reports/batch_epw_manifest.csv use official 6-digit WMO station IDs (420270 to 433530).
-     NONE of the 30 manifest files contain "Custom-" IDs.
-     * Download Source: Directly downloaded from Climate.OneBuilding.org:
-       URL: https://climate.onebuilding.org/WMO_Region_2_Asia/IND_India/
-     * Processing: 100% RAW, unaltered observational TMYx files (2011-2025 epoch) assembled by Lawrie & Crawley.
-   - Future Climate Sensitivity Scenarios (DERIVED SYNTHETIC):
-     The only non-raw weather files in this repository are the 10 sensitivity scenario files in
-     data/processed/weather_morphed/ (*_plus1p5.epw and *_plus3p0.epw for the 5 flagships).
-     * Script Source: Generated by src/sim/morph_epw.py.
-     * Processing: Derived by taking the raw 2011-2025 baseline EPWs and applying uniform +1.500 °C / +3.000 °C
-       dry-bulb shifts with psychrometric dew point recalculation via the Magnus-Tetens relationship.
-
-=================================================================================================================================================
-RESOLUTION OF DIBRUGARH WMO (423140 vs 424150 vs 424040) BY COORDINATES
-=================================================================================================================================================
-WMO ID   | Station Name              | Station Lat | Station Lon | Elev (m) | Dist to Dibrugarh (km) | True Geographic Location
--------------------------------------------------------------------------------------------------------------------------------------------------
-423140   | Dibrugarh.AP (Mohanbari)  | 27.4840     | 95.0170     | 110.3    | 10.43                  | Dibrugarh Airport (Mohanbari, Eastern Assam)
-424150   | Tezpur                    | 26.6170     | 92.7830     | 79.0     | 231.32                 | Tezpur Airport / IMD (Sonitpur district, Central Assam)
-424040   | Dhubri                    | 26.0170     | 89.9830     | 35.0     | 515.47                 | Dhubri IMD (Westernmost Assam, border of West Bengal)
--------------------------------------------------------------------------------------------------------------------------------------------------
-
-Resolution Conclusion:
-- WMO 423140 (Dibrugarh Airport / Mohanbari, 27.484° N, 95.017° E) is located exactly 10.42 km from Dibrugarh city center.
-  It is the true, authentic, and only WMO station representing Dibrugarh in OneBuilding and IMD records.
-- WMO 424150 (Tezpur, 26.617° N, 92.783° E) is 234.33 km west of Dibrugarh in Sonitpur district.
-- WMO 424040 (Dhubri, 26.017° N, 89.983° E) is 514.24 km west of Dibrugarh on the opposite end of Assam (bordering West Bengal).
-- In commit c6f2ff1, an erroneous filename string 'IND_AS_Dibrugarh.424040_TMYx.2011-2025.epw' was cited in a summary table,
-  conflating Dhubri's WMO 424040 with Dibrugarh. The actual simulation files, manifest on disk, and EPW header prove that
-  Dibrugarh has always been executed with canonical WMO 423140 (IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw).
-
+2. Dibrugarh WMO Candidates Analysis:
+   City Coordinates: Latitude 27.4728 deg N, Longitude 94.9120 deg E.
+   WMO ID   | Station Name              | Station Lat | Station Lon | Elev (m) | Dist to Dibrugarh (km) | True Geographic Location
+   ---------------------------------------------------------------------------------------------------------------------------------------
+   423140   | Dibrugarh.AP (Mohanbari)  | 27.4840     | 95.0170     | 110.3    | 10.43                  | Dibrugarh Airport (Mohanbari, Eastern Assam)
+   424150   | Tezpur                    | 26.6170     | 92.7830     | 79.0     | 231.32                 | Tezpur Airport / IMD (Sonitpur district, Central Assam)
+   424040   | Dhubri                    | 26.0170     | 89.9830     | 35.0     | 515.47                 | Dhubri IMD (Westernmost Assam, border of West Bengal)
+   ---------------------------------------------------------------------------------------------------------------------------------------
+   Resolution Conclusion:
+   - WMO 423140 (Dibrugarh.AP (Mohanbari), Latitude 27.4840 deg N, Longitude 95.0170 deg E) is located 10.43 km from Dibrugarh city center.
+   - WMO 424150 (Tezpur, Latitude 26.6170 deg N, Longitude 92.7830 deg E) is located 231.32 km west of Dibrugarh in Sonitpur district.
+   - WMO 424040 (Dhubri, Latitude 26.0170 deg N, Longitude 89.9830 deg E) is located 515.47 km west of Dibrugarh on the opposite end of Assam.
+   - Canonical station for Dibrugarh in batch_epw_manifest.csv is WMO 423140 (IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw).
 =================================================================================================================================================

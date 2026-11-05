@@ -9,19 +9,14 @@ Item 3: ROBUSTNESS ANALYSIS (NO RE-OPTIMIZATION) ACROSS 5 FLAGSHIP CITIES
     1. Baseline Climate (TMYx 2011-2025 raw EPW)
     2. +1.5 °C Uniform Warming Sensitivity Scenario (*_plus1p5.epw)
     3. +3.0 °C Uniform Warming Sensitivity Scenario (*_plus3p0.epw)
-- Setup: Exact replica of free-running + ideal-loads physical EnergyPlus simulation
-- Metrics:
-    * O1_ml (% discomfort hours)
-    * O1_adapt (% discomfort hours)
-    * O2 (HVAC energy kWh/m2)
-    * Hours above 35 °C operative temperature (top_gt_35)
-    * Absolute changes vs baseline climate (dO1_ml, dO1_adapt, dO2, dHours_gt_35)
-- Rank Preservation:
-    * Checks whether designs best under baseline stay best under +1.5 °C and +3.0 °C
-    * Computes Spearman rank correlation rho for O1_ml and O2 across all designs
-- File Hashes & Runtime:
-    * Records exact file SHA256 of all baseline and morphed EPW files
-    * Measures wall-clock runtime per city and scenario
+- Setup: Free-running comfort (O1_ml, O1_adapt) + ideal-loads HVAC energy (O2)
+- Rank Preservation & Regret:
+    a) Replace verdict labels with a computed rule; print the rule.
+    b) Compute Spearman rho on verified front only (exclude R1/R2/R3). If N < 5, print 'not testable'.
+    c) Add regret per city and scenario:
+       O1_ml of baseline-best minus lowest O1_ml on front in that scenario (pp).
+       Same for O2 (kWh/m2 and %).
+       Print the ID of each scenario's own best design.
 - Output:
     * Detailed data written to reports/robustness_flagship_details.csv
     * Formatted report and tables written to reports/item3_robustness.txt
@@ -34,24 +29,12 @@ import math
 import hashlib
 import numpy as np
 import pandas as pd
-from concurrent.futures import ProcessPoolExecutor, as_completed
 from scipy.stats import spearmanr
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 REPO_ROOT = os.path.abspath(".")
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
-
-from src.sim.render import render_shelter_idf
-from src.sim.runner import run_single_simulation
-from src.sim.parse import parse_simulation_csv
-from src.optimize.coupling import (
-    calculate_daily_mean_series,
-    compute_running_mean_outdoor_temperature_db2,
-    compute_clo_schedule_a004,
-    evaluate_adaptive_90_comfort,
-    evaluate_ml_champion_comfort,
-    load_champion_model
-)
 
 FLAGSHIPS = ['Shimla', 'Jodhpur', 'New_Delhi', 'Mumbai', 'Bengaluru']
 MAX_WORKERS = 6
@@ -63,191 +46,79 @@ def compute_sha256(filepath):
             h.update(chunk)
     return h.hexdigest()
 
-def _sim_worker(task):
-    did = task['design_id']
-    mode = task['mode']
-    rdir = task['run_dir']
-    epw = task['epw_path']
-    city = task['city']
-    params = task['params']
+def compute_rank_verdict(shift_o1_15, shift_o1_30, shift_o2_15, shift_o2_30):
+    """
+    Computed Rule for Rank Preservation Verdict:
+    M = max(shift_o1_15, shift_o1_30, shift_o2_15, shift_o2_30) where shift = rank - 1.
+    If M == 0: 'PERFECT_RANK_PRESERVED (Max rank shift = 0)'
+    elif max(shift_o1_15, shift_o1_30) == 0: 'O1_PRESERVED_O2_SHIFTED (O1 shift = 0, O2 max shift = X)'
+    elif max(shift_o2_15, shift_o2_30) == 0: 'O2_PRESERVED_O1_SHIFTED (O2 shift = 0, O1 max shift = Y)'
+    else: 'BOTH_SHIFTED (O1 max shift = X, O2 max shift = Y)'
+    """
+    max_o1 = max(shift_o1_15, shift_o1_30)
+    max_o2 = max(shift_o2_15, shift_o2_30)
+    max_total = max(max_o1, max_o2)
 
-    os.makedirs(rdir, exist_ok=True)
-    idf_path = os.path.join(rdir, "shelter.idf")
-    render_shelter_idf(params, idf_path, mode=mode, city=city, epw_path=epw)
+    if max_total == 0:
+        return "PERFECT_RANK_PRESERVED (Max rank shift = 0)"
+    elif max_o1 == 0 and max_o2 > 0:
+        return f"O1_PRESERVED_O2_SHIFTED (O1 shift = 0, O2 max shift = {max_o2})"
+    elif max_o2 == 0 and max_o1 > 0:
+        return f"O2_PRESERVED_O1_SHIFTED (O2 shift = 0, O1 max shift = {max_o1})"
+    else:
+        return f"BOTH_SHIFTED (O1 max shift = {max_o1}, O2 max shift = {max_o2})"
 
-    res = run_single_simulation(idf_path, epw, rdir)
-    hourly_dict = None
-    summary_dict = None
+def compute_monotonicity_verdict(front_size, rho_o1_15, rho_o1_30, rho_o2_15, rho_o2_30):
+    """
+    Computed Rule for Spearman Rank Monotonicity Verdict:
+    Evaluated across all four rho columns on the verified Pareto front only (excluding R1/R2/R3):
+      min_all_4 = min(rho(O1_ml, +1.5C), rho(O1_ml, +3.0C), rho(O2, +1.5C), rho(O2, +3.0C))
+    If front_size < 5: 'not testable (front size < 5)'
+    elif min_all_4 >= 0.95: 'HIGH (min rho >= 0.95)'
+    elif min_all_4 >= 0.85: 'STRONG (min rho >= 0.85)'
+    elif min_all_4 >= 0.70: 'MODERATE (min rho >= 0.70)'
+    else: 'LOW (min rho < 0.70)'
+    """
+    if front_size < 5:
+        return "not testable (front size < 5)"
+    min_all_4 = min(rho_o1_15, rho_o1_30, rho_o2_15, rho_o2_30)
+    if min_all_4 >= 0.95:
+        return f"HIGH (min rho = {min_all_4:.4f} >= 0.95)"
+    elif min_all_4 >= 0.85:
+        return f"STRONG (min rho = {min_all_4:.4f} >= 0.85)"
+    elif min_all_4 >= 0.70:
+        return f"MODERATE (min rho = {min_all_4:.4f} >= 0.70)"
+    else:
+        return f"LOW (min rho = {min_all_4:.4f} < 0.70)"
 
-    if res['status'] == 'SUCCESS':
-        csv_path = os.path.join(rdir, "eplusout.csv")
-        if os.path.exists(csv_path):
-            try:
-                hdf, sm = parse_simulation_csv(csv_path)
-                summary_dict = sm
-                if mode == 'free_running':
-                    hourly_dict = {
-                        'ta': hdf['ta'].values.astype(np.float32),
-                        'tr': hdf['tr'].values.astype(np.float32),
-                        'rh': hdf['rh'].values.astype(np.float32),
-                        't_out': hdf['t_out'].values.astype(np.float32)
-                    }
-            except Exception as e:
-                res['status'] = 'PARSE_ERROR'
-                res['error_msg'] = str(e)
+def run_or_load_robustness_data(out_csv_path, force_resim=False):
+    if os.path.exists(out_csv_path) and not force_resim:
+        print(f"Loading existing robustness simulation dataset from {out_csv_path}...")
+        df_all = pd.read_csv(out_csv_path)
+        return df_all
 
-    # Clean intermediate bulky files
-    if os.path.exists(rdir):
-        for f in os.listdir(rdir):
-            if f not in ["eplusout.err", "shelter.idf"]:
-                fp = os.path.join(rdir, f)
-                try:
-                    if os.path.isfile(fp):
-                        os.remove(fp)
-                except Exception:
-                    pass
+    print("Re-simulating robustness evaluations across 5 flagship cities...")
+    from src.sim.render import render_shelter_idf
+    from src.sim.runner import run_single_simulation
+    from src.sim.parse import parse_simulation_csv
+    from src.optimize.coupling import (
+        calculate_daily_mean_series,
+        compute_running_mean_outdoor_temperature_db2,
+        compute_clo_schedule_a004,
+        evaluate_adaptive_90_comfort,
+        evaluate_ml_champion_comfort,
+        load_champion_model
+    )
 
-    return did, mode, res['status'], summary_dict, hourly_dict
-
-def simulate_design_set(df_designs, epw_path, city_name, sim_base_dir, champ_model):
-    tasks = []
-    for _, row in df_designs.iterrows():
-        did = str(row['design_id'])
-        params = {
-            'roof_insulation_thickness': float(row['roof_insulation_thickness']),
-            'wall_insulation_thickness': float(row['wall_insulation_thickness']),
-            'wall_mass_class': str(row['wall_mass_class']),
-            'roof_solar_absorptance': float(row['roof_solar_absorptance']),
-            'wwr': float(row['wwr']),
-            'orientation': float(row['orientation']),
-            'shading_depth': float(row['shading_depth']),
-            'ventilation_ach': float(row['ventilation_ach'])
-        }
-        dir_fr = os.path.join(sim_base_dir, f"{did}_fr")
-        dir_il = os.path.join(sim_base_dir, f"{did}_il")
-        tasks.append({
-            'design_id': did, 'mode': 'free_running', 'run_dir': dir_fr,
-            'epw_path': epw_path, 'city': city_name, 'params': params
-        })
-        tasks.append({
-            'design_id': did, 'mode': 'ideal_loads', 'run_dir': dir_il,
-            'epw_path': epw_path, 'city': city_name, 'params': params
-        })
-
-    results = {}
-    total_tasks = len(tasks)
-    with ProcessPoolExecutor(max_workers=MAX_WORKERS) as executor:
-        futures = [executor.submit(_sim_worker, t) for t in tasks]
-        for f in as_completed(futures):
-            did, mode, status, sm, h_dict = f.result()
-            if did not in results:
-                results[did] = {}
-            results[did][mode] = (status, sm, h_dict)
-
-    rows = []
-    for _, row in df_designs.iterrows():
-        did = str(row['design_id'])
-        fr_res = results.get(did, {}).get('free_running')
-        il_res = results.get(did, {}).get('ideal_loads')
-        if not fr_res or not il_res:
-            continue
-        fr_stat, _, fr_h = fr_res
-        il_stat, il_sm, _ = il_res
-        if fr_stat != 'SUCCESS' or il_stat != 'SUCCESS' or fr_h is None or il_sm is None:
-            continue
-
-        ta = fr_h['ta']
-        tr = fr_h['tr']
-        rh = fr_h['rh']
-        tout = fr_h['t_out']
-
-        daily_tout = calculate_daily_mean_series(tout)
-        t_rm_daily = compute_running_mean_outdoor_temperature_db2(daily_tout, alpha=0.8)
-        t_rm_hourly = np.repeat(t_rm_daily, 24)
-        clo_hourly = compute_clo_schedule_a004(daily_tout)
-
-        adapt_res = evaluate_adaptive_90_comfort(ta, tr, t_rm_hourly)
-        ml_res = evaluate_ml_champion_comfort(
-            model=champ_model,
-            ta=ta, tr=tr, rh=rh,
-            t_outdoor_hourly=t_rm_hourly, clo_hourly=clo_hourly,
-            met=1.1, vel=0.15
-        )
-        o2_val = float(il_sm['o2_energy_kwh_per_m2'])
-        top = (ta + tr) / 2.0
-        top_med = float(np.median(top))
-        top_max = float(np.max(top))
-        top_gt_35 = int(np.sum(top > 35.0))
-        top_lt_5 = int(np.sum(top < 5.0))
-
-        rows.append({
-            'city': city_name,
-            'design_id': did,
-            'is_pareto': bool(row.get('is_pareto', False)),
-            'O1_ml': float(ml_res['O1_ml']),
-            'O1_adapt': float(adapt_res['O1_adapt']),
-            'O2': round(o2_val, 2),
-            'top_med': round(top_med, 2),
-            'top_max': round(top_max, 2),
-            'top_gt_35': top_gt_35,
-            'top_lt_5': top_lt_5
-        })
-
-    return pd.DataFrame(rows)
-
-def main():
-    t_start_all = time.time()
     manifest_df = pd.read_csv("reports/batch_epw_manifest.csv").set_index('city')
     champ_model = load_champion_model()
-
-    out_txt_path = os.path.join("reports", "item3_robustness.txt")
-    out_csv_path = os.path.join("reports", "robustness_flagship_details.csv")
-
     sim_root = os.path.join("data", "processed", "robustness_sims")
     os.makedirs(sim_root, exist_ok=True)
 
-    lines = []
-    lines.append("=" * 145)
-    lines.append("ITEM 3: ROBUSTNESS & CLIMATE SENSITIVITY AUDIT ACROSS 5 FLAGSHIP CITIES (NO RE-OPTIMIZATION)")
-    lines.append("Re-Simulation of Verified Pareto Fronts and R1/R2/R3 under +1.5 °C and +3.0 °C Uniform Warming Scenarios")
-    lines.append("Free-Running Comfort (O1_ml, O1_adapt, Hours > 35 °C) + Ideal-Loads HVAC Energy (O2)")
-    lines.append("=" * 145)
-
-    # 1. Weather Files & SHAs
-    lines.append("\nWEATHER FILE IDENTITIES & SHA-256 HASHES:")
-    lines.append("-" * 145)
-    lines.append(f"{'City':<12} | {'Scenario':<10} | {'EPW File Path':<70} | {'SHA-256 Hash'}")
-    lines.append("-" * 145)
-
-    weather_files = {}
-    for city in FLAGSHIPS:
-        base_path = manifest_df.loc[city, 'path']
-        p15_path = f"data/processed/weather_morphed/{city}_plus1p5.epw"
-        p30_path = f"data/processed/weather_morphed/{city}_plus3p0.epw"
-
-        base_sha = compute_sha256(base_path)
-        p15_sha = compute_sha256(p15_path)
-        p30_sha = compute_sha256(p30_path)
-
-        weather_files[city] = {
-            'baseline': {'path': base_path, 'sha': base_sha},
-            'plus1p5':  {'path': p15_path,  'sha': p15_sha},
-            'plus3p0':  {'path': p30_path,  'sha': p30_sha}
-        }
-
-        lines.append(f"{city:<12} | {'Baseline':<10} | {base_path:<70} | {base_sha}")
-        lines.append(f"{city:<12} | {'+1.5 °C':<10} | {p15_path:<70} | {p15_sha}")
-        lines.append(f"{city:<12} | {'+3.0 °C':<10} | {p30_path:<70} | {p30_sha}")
-    lines.append("-" * 145)
-
     all_detailed_records = []
-    city_summaries = {}
 
     for city in FLAGSHIPS:
-        t_city_0 = time.time()
-        print(f"\nProcessing Flagship Robustness: {city}...")
-
-        # Load baseline results
+        print(f"  Simulating {city}...")
         cdir = f"data/processed/flagship_2011_2025/{city}"
         base_csv = os.path.join(cdir, "baseline_results.csv")
         pareto_pq = os.path.join(cdir, f"final_verified_pareto_{city}.parquet")
@@ -258,7 +129,6 @@ def main():
         df_pareto = pd.read_parquet(pareto_pq)
         df_pareto['is_pareto'] = True
 
-        # Combine designs to evaluate
         eval_cols = [
             'city', 'design_id', 'is_pareto',
             'roof_insulation_thickness', 'wall_insulation_thickness', 'wall_mass_class',
@@ -271,34 +141,76 @@ def main():
             df_pareto[eval_cols]
         ], ignore_index=True)
 
-        print(f"  Total designs for {city}: {len(df_designs_to_sim)} ({len(df_pareto)} Pareto + {len(df_base)} Baselines)")
+        p15_path = f"data/processed/weather_morphed/{city}_plus1p5.epw"
+        p30_path = f"data/processed/weather_morphed/{city}_plus3p0.epw"
 
-        # Re-simulate under +1.5 C
-        t_sim_p15_0 = time.time()
-        p15_dir = os.path.join(sim_root, city, "plus1p5")
-        df_res_p15 = simulate_design_set(
-            df_designs_to_sim,
-            weather_files[city]['plus1p5']['path'],
-            city, p15_dir, champ_model
-        )
-        time_p15 = time.time() - t_sim_p15_0
+        # Sim worker
+        def _sim_set(df_d, epw_p, sub_d):
+            rows = []
+            for _, row_d in df_d.iterrows():
+                did = str(row_d['design_id'])
+                params = {
+                    'roof_insulation_thickness': float(row_d['roof_insulation_thickness']),
+                    'wall_insulation_thickness': float(row_d['wall_insulation_thickness']),
+                    'wall_mass_class': str(row_d['wall_mass_class']),
+                    'roof_solar_absorptance': float(row_d['roof_solar_absorptance']),
+                    'wwr': float(row_d['wwr']),
+                    'orientation': float(row_d['orientation']),
+                    'shading_depth': float(row_d['shading_depth']),
+                    'ventilation_ach': float(row_d['ventilation_ach'])
+                }
+                rdir_fr = os.path.join(sub_d, f"{did}_fr")
+                rdir_il = os.path.join(sub_d, f"{did}_il")
+                os.makedirs(rdir_fr, exist_ok=True)
+                os.makedirs(rdir_il, exist_ok=True)
+                idf_fr = os.path.join(rdir_fr, "shelter.idf")
+                idf_il = os.path.join(rdir_il, "shelter.idf")
+                render_shelter_idf(params, idf_fr, mode='free_running', city=city, epw_path=epw_p)
+                render_shelter_idf(params, idf_il, mode='ideal_loads', city=city, epw_path=epw_p)
+                run_single_simulation(idf_fr, epw_p, rdir_fr)
+                run_single_simulation(idf_il, epw_p, rdir_il)
 
-        # Re-simulate under +3.0 C
-        t_sim_p30_0 = time.time()
-        p30_dir = os.path.join(sim_root, city, "plus3p0")
-        df_res_p30 = simulate_design_set(
-            df_designs_to_sim,
-            weather_files[city]['plus3p0']['path'],
-            city, p30_dir, champ_model
-        )
-        time_p30 = time.time() - t_sim_p30_0
+                hdf_fr, _ = parse_simulation_csv(os.path.join(rdir_fr, "eplusout.csv"))
+                _, sm_il = parse_simulation_csv(os.path.join(rdir_il, "eplusout.csv"))
 
-        # Merge results with baseline
+                ta = hdf_fr['ta'].values.astype(np.float32)
+                tr = hdf_fr['tr'].values.astype(np.float32)
+                rh = hdf_fr['rh'].values.astype(np.float32)
+                tout = hdf_fr['t_out'].values.astype(np.float32)
+                daily_tout = calculate_daily_mean_series(tout)
+                t_rm_daily = compute_running_mean_outdoor_temperature_db2(daily_tout, alpha=0.8)
+                t_rm_hourly = np.repeat(t_rm_daily, 24)
+                clo_hourly = compute_clo_schedule_a004(daily_tout)
+
+                adapt_res = evaluate_adaptive_90_comfort(ta, tr, t_rm_hourly)
+                ml_res = evaluate_ml_champion_comfort(
+                    model=champ_model, ta=ta, tr=tr, rh=rh,
+                    t_outdoor_hourly=t_rm_hourly, clo_hourly=clo_hourly, met=1.1, vel=0.15
+                )
+                o2_val = float(sm_il['o2_energy_kwh_per_m2'])
+                top = (ta + tr) / 2.0
+                top_gt_35 = int(np.sum(top > 35.0))
+
+                rows.append({
+                    'design_id': did,
+                    'O1_ml': float(ml_res['O1_ml']),
+                    'O1_adapt': float(adapt_res['O1_adapt']),
+                    'O2': round(o2_val, 2),
+                    'top_gt_35': top_gt_35
+                })
+                # cleanup
+                shutil.rmtree(rdir_fr, ignore_errors=True)
+                shutil.rmtree(rdir_il, ignore_errors=True)
+            return pd.DataFrame(rows)
+
+        df_p15 = _sim_set(df_designs_to_sim, p15_path, os.path.join(sim_root, city, "p15"))
+        df_p30 = _sim_set(df_designs_to_sim, p30_path, os.path.join(sim_root, city, "p30"))
+
         df_merged = df_designs_to_sim.merge(
-            df_res_p15[['design_id', 'O1_ml', 'O1_adapt', 'O2', 'top_gt_35']],
+            df_p15[['design_id', 'O1_ml', 'O1_adapt', 'O2', 'top_gt_35']],
             on='design_id', suffixes=('_base', '_plus1p5')
         ).merge(
-            df_res_p30[['design_id', 'O1_ml', 'O1_adapt', 'O2', 'top_gt_35']],
+            df_p30[['design_id', 'O1_ml', 'O1_adapt', 'O2', 'top_gt_35']],
             on='design_id'
         ).rename(columns={
             'O1_ml': 'O1_ml_plus3p0',
@@ -307,7 +219,6 @@ def main():
             'top_gt_35': 'top_gt_35_plus3p0'
         })
 
-        # Calculate deltas
         df_merged['dO1_ml_p15'] = df_merged['O1_ml_plus1p5'] - df_merged['O1_ml_base']
         df_merged['dO1_adapt_p15'] = df_merged['O1_adapt_plus1p5'] - df_merged['O1_adapt_base']
         df_merged['dO2_p15'] = df_merged['O2_plus1p5'] - df_merged['O2_base']
@@ -320,126 +231,246 @@ def main():
 
         all_detailed_records.append(df_merged)
 
-        # Rank analysis
-        # In this study, O1_ml is discomfort (% hours), O2 is energy (kWh/m2). Minimizing both is optimal.
-        # Compute ranks across Pareto designs
-        df_pareto_res = df_merged[df_merged['is_pareto']].copy()
-
-        # Best designs under baseline
-        best_o1_base_id = df_pareto_res.loc[df_pareto_res['O1_ml_base'].idxmin()]['design_id']
-        best_o2_base_id = df_pareto_res.loc[df_pareto_res['O2_base'].idxmin()]['design_id']
-
-        # Ranks under each scenario (1 = best/minimum)
-        df_pareto_res['rank_o1_base'] = df_pareto_res['O1_ml_base'].rank(method='min')
-        df_pareto_res['rank_o1_p15']  = df_pareto_res['O1_ml_plus1p5'].rank(method='min')
-        df_pareto_res['rank_o1_p30']  = df_pareto_res['O1_ml_plus3p0'].rank(method='min')
-
-        df_pareto_res['rank_o2_base'] = df_pareto_res['O2_base'].rank(method='min')
-        df_pareto_res['rank_o2_p15']  = df_pareto_res['O2_plus1p5'].rank(method='min')
-        df_pareto_res['rank_o2_p30']  = df_pareto_res['O2_plus3p0'].rank(method='min')
-
-        # Where does the baseline-best design rank under +1.5 and +3.0?
-        row_best_o1 = df_pareto_res[df_pareto_res['design_id'] == best_o1_base_id].iloc[0]
-        row_best_o2 = df_pareto_res[df_pareto_res['design_id'] == best_o2_base_id].iloc[0]
-
-        best_o1_stay_p15 = (row_best_o1['rank_o1_p15'] == 1)
-        best_o1_stay_p30 = (row_best_o1['rank_o1_p30'] == 1)
-        best_o2_stay_p15 = (row_best_o2['rank_o2_p15'] == 1)
-        best_o2_stay_p30 = (row_best_o2['rank_o2_p30'] == 1)
-
-        # Rank correlations across all designs (Pareto + Baselines)
-        # Handle degenerate cases (e.g. front size = 1)
-        if len(df_merged) > 2:
-            rho_o1_p15, p_o1_p15 = spearmanr(df_merged['O1_ml_base'], df_merged['O1_ml_plus1p5'])
-            rho_o1_p30, p_o1_p30 = spearmanr(df_merged['O1_ml_base'], df_merged['O1_ml_plus3p0'])
-            rho_o2_p15, p_o2_p15 = spearmanr(df_merged['O2_base'], df_merged['O2_plus1p5'])
-            rho_o2_p30, p_o2_p30 = spearmanr(df_merged['O2_base'], df_merged['O2_plus3p0'])
-        else:
-            rho_o1_p15 = rho_o1_p30 = rho_o2_p15 = rho_o2_p30 = 1.0
-
-        city_wall_sec = time.time() - t_city_0
-        city_summaries[city] = {
-            'n_designs': len(df_merged),
-            'n_pareto': len(df_pareto),
-            'runtime_sec': city_wall_sec,
-            'time_p15': time_p15,
-            'time_p30': time_p30,
-            'best_o1_base_id': best_o1_base_id,
-            'best_o1_rank_p15': int(row_best_o1['rank_o1_p15']),
-            'best_o1_rank_p30': int(row_best_o1['rank_o1_p30']),
-            'best_o1_stay_p15': best_o1_stay_p15,
-            'best_o1_stay_p30': best_o1_stay_p30,
-            'best_o2_base_id': best_o2_base_id,
-            'best_o2_rank_p15': int(row_best_o2['rank_o2_p15']),
-            'best_o2_rank_p30': int(row_best_o2['rank_o2_p30']),
-            'best_o2_stay_p15': best_o2_stay_p15,
-            'best_o2_stay_p30': best_o2_stay_p30,
-            'rho_o1_p15': round(float(rho_o1_p15), 4),
-            'rho_o1_p30': round(float(rho_o1_p30), 4),
-            'rho_o2_p15': round(float(rho_o2_p15), 4),
-            'rho_o2_p30': round(float(rho_o2_p30), 4),
-            # Key design comparisons
-            'row_r1': df_merged[df_merged['design_id'] == 'R1_Lightweight'].iloc[0],
-            'row_r2': df_merged[df_merged['design_id'] == 'R2_Conventional'].iloc[0],
-            'row_r3': df_merged[df_merged['design_id'] == 'R3_Code_Compliant'].iloc[0],
-            'row_best_o1': row_best_o1,
-            'row_best_o2': row_best_o2,
-            'mean_dO1_ml_p15': df_merged['dO1_ml_p15'].mean(),
-            'mean_dO1_ml_p30': df_merged['dO1_ml_p30'].mean(),
-            'mean_dO2_p15': df_merged['dO2_p15'].mean(),
-            'mean_dO2_p30': df_merged['dO2_p30'].mean(),
-            'mean_dHours35_p15': df_merged['dHours35_p15'].mean(),
-            'mean_dHours35_p30': df_merged['dHours35_p30'].mean()
-        }
-
-    # Save full CSV
     df_all_full = pd.concat(all_detailed_records, ignore_index=True)
     df_all_full.to_csv(out_csv_path, index=False)
-    print(f"Saved complete design-by-design robustness results to {out_csv_path} ({len(df_all_full)} rows).")
+    return df_all_full
 
-    # Build Report Tables
-    lines.append("\n" + "=" * 145)
-    lines.append("TABLE 1: BEST DESIGN RANK PRESERVATION & ROBUSTNESS SUMMARY ACROSS 5 FLAGSHIPS")
-    lines.append("Does the best design under baseline climate remain best (#1) under +1.5 °C and +3.0 °C warming?")
+def main():
+    manifest_df = pd.read_csv("reports/batch_epw_manifest.csv").set_index('city')
+    out_txt_path = os.path.join("reports", "item3_robustness.txt")
+    out_csv_path = os.path.join("reports", "robustness_flagship_details.csv")
+
+    df_all_full = run_or_load_robustness_data(out_csv_path, force_resim=False)
+
+    lines = []
     lines.append("=" * 145)
-    lines.append(f"{'City':<12} | {'Designs':<8} | {'Best O1_ml ID':<22} | {'Base':<5} | {'+1.5C':<6} | {'+3.0C':<6} | {'Best O2 ID':<22} | {'Base':<5} | {'+1.5C':<6} | {'+3.0C':<6} | {'Rank Verdict'}")
+    lines.append("ITEM 3: ROBUSTNESS & CLIMATE SENSITIVITY AUDIT ACROSS 5 FLAGSHIP CITIES (NO RE-OPTIMIZATION)")
+    lines.append("Performance Preservation & Regret Under +1.5 °C and +3.0 °C Uniform Warming Scenarios")
+    lines.append("=" * 145)
+
+    # 1. Weather File Identities & Hashes
+    lines.append("\nWEATHER FILE IDENTITIES & SHA-256 HASHES:")
+    lines.append("-" * 145)
+    lines.append(f"{'City':<12} | {'Scenario':<10} | {'EPW File Path':<70} | {'SHA-256 Hash'}")
+    lines.append("-" * 145)
+
+    for city in FLAGSHIPS:
+        base_path = manifest_df.loc[city, 'path']
+        p15_path = f"data/processed/weather_morphed/{city}_plus1p5.epw"
+        p30_path = f"data/processed/weather_morphed/{city}_plus3p0.epw"
+
+        base_sha = compute_sha256(base_path)
+        p15_sha = compute_sha256(p15_path)
+        p30_sha = compute_sha256(p30_path)
+
+        lines.append(f"{city:<12} | {'Baseline':<10} | {base_path:<70} | {base_sha}")
+        lines.append(f"{city:<12} | {'+1.5 °C':<10} | {p15_path:<70} | {p15_sha}")
+        lines.append(f"{city:<12} | {'+3.0 °C':<10} | {p30_path:<70} | {p30_sha}")
+    lines.append("-" * 145)
+
+    # Computed Rule Explanations
+    lines.append("\n" + "=" * 145)
+    lines.append("COMPUTED RULES FOR VERDICT LABELS")
+    lines.append("=" * 145)
+    lines.append("1. Computed Rule for Table 1 Rank Preservation Verdict:")
+    lines.append("   Let shift_O1_15 = rank_O1_15 - 1, shift_O1_30 = rank_O1_30 - 1,")
+    lines.append("       shift_O2_15 = rank_O2_15 - 1, shift_O2_30 = rank_O2_30 - 1.")
+    lines.append("   Max rank shift M = max(shift_O1_15, shift_O1_30, shift_O2_15, shift_O2_30).")
+    lines.append("   - If M == 0: 'PERFECT_RANK_PRESERVED (Max rank shift = 0)'")
+    lines.append("   - Elif max(shift_O1_15, shift_O1_30) == 0: 'O1_PRESERVED_O2_SHIFTED (O1 shift = 0, O2 max shift = max_O2)'")
+    lines.append("   - Elif max(shift_O2_15, shift_O2_30) == 0: 'O2_PRESERVED_O1_SHIFTED (O2 shift = 0, O1 max shift = max_O1)'")
+    lines.append("   - Else: 'BOTH_SHIFTED (O1 max shift = max_O1, O2 max shift = max_O2)'")
+    lines.append("\n2. Computed Rule for Table 2 Spearman Rank Correlation (Rho) Verdict:")
+    lines.append("   Evaluated across all four rho columns on verified Pareto front designs (excluding baselines R1, R2, R3).")
+    lines.append("   Let min_all_4 = min(rho_O1_15, rho_O1_30, rho_O2_15, rho_O2_30).")
+    lines.append("   - If front size N < 5: 'not testable (front size < 5)'")
+    lines.append("   - Elif min_all_4 >= 0.95: 'HIGH (min rho >= 0.95)'")
+    lines.append("   - Elif min_all_4 >= 0.85: 'STRONG (min rho >= 0.85)'")
+    lines.append("   - Elif min_all_4 >= 0.70: 'MODERATE (min rho >= 0.70)'")
+    lines.append("   - Else: 'LOW (min rho < 0.70)'")
+    lines.append("=" * 145)
+
+    # Process City Summaries
+    city_summaries = {}
+    for city in FLAGSHIPS:
+        df_city = df_all_full[df_all_full['city'] == city].copy()
+        df_pareto = df_city[df_city['is_pareto'] == True].copy()
+
+        n_designs = len(df_city)
+        n_pareto = len(df_pareto)
+
+        # Baseline best designs on verified Pareto front
+        base_best_o1_row = df_pareto.loc[df_pareto['O1_ml_base'].idxmin()]
+        base_best_o2_row = df_pareto.loc[df_pareto['O2_base'].idxmin()]
+        best_o1_base_id = base_best_o1_row['design_id']
+        best_o2_base_id = base_best_o2_row['design_id']
+
+        # Ranks under each scenario on verified front (1 = best)
+        df_pareto['rank_o1_base'] = df_pareto['O1_ml_base'].rank(method='min')
+        df_pareto['rank_o1_p15']  = df_pareto['O1_ml_plus1p5'].rank(method='min')
+        df_pareto['rank_o1_p30']  = df_pareto['O1_ml_plus3p0'].rank(method='min')
+
+        df_pareto['rank_o2_base'] = df_pareto['O2_base'].rank(method='min')
+        df_pareto['rank_o2_p15']  = df_pareto['O2_plus1p5'].rank(method='min')
+        df_pareto['rank_o2_p30']  = df_pareto['O2_plus3p0'].rank(method='min')
+
+        row_best_o1 = df_pareto[df_pareto['design_id'] == best_o1_base_id].iloc[0]
+        row_best_o2 = df_pareto[df_pareto['design_id'] == best_o2_base_id].iloc[0]
+
+        rank_o1_15 = int(row_best_o1['rank_o1_p15'])
+        rank_o1_30 = int(row_best_o1['rank_o1_p30'])
+        rank_o2_15 = int(row_best_o2['rank_o2_p15'])
+        rank_o2_30 = int(row_best_o2['rank_o2_p30'])
+
+        shift_o1_15 = rank_o1_15 - 1
+        shift_o1_30 = rank_o1_30 - 1
+        shift_o2_15 = rank_o2_15 - 1
+        shift_o2_30 = rank_o2_30 - 1
+
+        rank_verdict = compute_rank_verdict(shift_o1_15, shift_o1_30, shift_o2_15, shift_o2_30)
+
+        # Spearman rho on verified front ONLY
+        if n_pareto >= 5:
+            rho_o1_p15, _ = spearmanr(df_pareto['O1_ml_base'], df_pareto['O1_ml_plus1p5'])
+            rho_o1_p30, _ = spearmanr(df_pareto['O1_ml_base'], df_pareto['O1_ml_plus3p0'])
+            rho_o2_p15, _ = spearmanr(df_pareto['O2_base'], df_pareto['O2_plus1p5'])
+            rho_o2_p30, _ = spearmanr(df_pareto['O2_base'], df_pareto['O2_plus3p0'])
+            mono_verdict = compute_monotonicity_verdict(n_pareto, float(rho_o1_p15), float(rho_o1_p30), float(rho_o2_p15), float(rho_o2_p30))
+            rho_o1_15_str = f"{rho_o1_p15:.4f}"
+            rho_o1_30_str = f"{rho_o1_p30:.4f}"
+            rho_o2_15_str = f"{rho_o2_p15:.4f}"
+            rho_o2_30_str = f"{rho_o2_p30:.4f}"
+        else:
+            rho_o1_15_str = "not testable"
+            rho_o1_30_str = "not testable"
+            rho_o2_15_str = "not testable"
+            rho_o2_30_str = "not testable"
+            mono_verdict = "not testable (front size < 5)"
+
+        city_summaries[city] = {
+            'n_designs': n_designs,
+            'n_pareto': n_pareto,
+            'best_o1_base_id': best_o1_base_id,
+            'rank_o1_15': rank_o1_15,
+            'rank_o1_30': rank_o1_30,
+            'best_o2_base_id': best_o2_base_id,
+            'rank_o2_15': rank_o2_15,
+            'rank_o2_30': rank_o2_30,
+            'rank_verdict': rank_verdict,
+            'rho_o1_15_str': rho_o1_15_str,
+            'rho_o1_30_str': rho_o1_30_str,
+            'rho_o2_15_str': rho_o2_15_str,
+            'rho_o2_30_str': rho_o2_30_str,
+            'mono_verdict': mono_verdict,
+            'df_city': df_city,
+            'df_pareto': df_pareto
+        }
+
+    # TABLE 1: RANK PRESERVATION
+    lines.append("\n" + "=" * 145)
+    lines.append("TABLE 1: BEST DESIGN RANK PRESERVATION SUMMARY ACROSS 5 FLAGSHIPS")
+    lines.append("Evaluates whether baseline-best designs remain #1 under +1.5 °C and +3.0 °C warming scenarios")
+    lines.append("=" * 145)
+    lines.append(f"{'City':<12} | {'Front':<6} | {'Best O1_ml ID':<22} | {'Base':<5} | {'+1.5C':<6} | {'+3.0C':<6} | {'Best O2 ID':<22} | {'Base':<5} | {'+1.5C':<6} | {'+3.0C':<6} | {'Computed Verdict'}")
     lines.append("-" * 145)
 
     for city in FLAGSHIPS:
         s = city_summaries[city]
-        v_o1 = "STAYS #1" if (s['best_o1_stay_p15'] and s['best_o1_stay_p30']) else f"Rank #{s['best_o1_rank_p30']}"
-        v_o2 = "STAYS #1" if (s['best_o2_stay_p15'] and s['best_o2_stay_p30']) else f"Rank #{s['best_o2_rank_p30']}"
-        overall_v = "PERFECT (Both #1)" if (v_o1 == "STAYS #1" and v_o2 == "STAYS #1") else f"O1:{v_o1}, O2:{v_o2}"
-
-        lines.append(
-            f"{city:<12} | {s['n_designs']:<8} | {s['best_o1_base_id']:<22} | {'#1':<5} | "
-            f"{'#'+str(s['best_o1_rank_p15']):<6} | {'#'+str(s['best_o1_rank_p30']):<6} | "
-            f"{s['best_o2_base_id']:<22} | {'#1':<5} | "
-            f"{'#'+str(s['best_o2_rank_p15']):<6} | {'#'+str(s['best_o2_rank_p30']):<6} | "
-            f"{overall_v}"
-        )
+        if s['n_pareto'] >= 5:
+            lines.append(
+                f"{city:<12} | {s['n_pareto']:<6} | {s['best_o1_base_id']:<22} | {'#1':<5} | "
+                f"{'#'+str(s['rank_o1_15']):<6} | {'#'+str(s['rank_o1_30']):<6} | "
+                f"{s['best_o2_base_id']:<22} | {'#1':<5} | "
+                f"{'#'+str(s['rank_o2_15']):<6} | {'#'+str(s['rank_o2_30']):<6} | "
+                f"{s['rank_verdict']}"
+            )
+        else:
+            lines.append(
+                f"{city:<12} | {s['n_pareto']:<6} | {s['best_o1_base_id']:<22} | {'#1':<5} | "
+                f"{'not testable':<6} | {'not testable':<6} | "
+                f"{s['best_o2_base_id']:<22} | {'#1':<5} | "
+                f"{'not testable':<6} | {'not testable':<6} | "
+                f"not testable (front size < 5)"
+            )
     lines.append("-" * 145)
 
+    # TABLE 2: SPEARMAN RANK CORRELATIONS ON VERIFIED FRONT ONLY
     lines.append("\n" + "=" * 145)
-    lines.append("TABLE 2: SPEARMAN RANK CORRELATIONS (RHO) ACROSS ALL EVALUATED DESIGNS")
-    lines.append("Evaluates monotonicity of performance ordering between Baseline and Future Warming Scenarios")
+    lines.append("TABLE 2: SPEARMAN RANK CORRELATIONS (RHO) ON VERIFIED PARETO FRONT ONLY (EXCLUDING R1/R2/R3)")
+    lines.append("Evaluates monotonicity of front design ordering between Baseline and Future Warming Scenarios")
     lines.append("=" * 145)
-    lines.append(f"{'City':<12} | {'Evaluated Designs':<18} | {'rho(O1_ml, +1.5C)':<18} | {'rho(O1_ml, +3.0C)':<18} | {'rho(O2, +1.5C)':<16} | {'rho(O2, +3.0C)':<16} | {'Rank Robustness'}")
+    lines.append(f"{'City':<12} | {'Front Size':<11} | {'rho(O1_ml, +1.5C)':<18} | {'rho(O1_ml, +3.0C)':<18} | {'rho(O2, +1.5C)':<16} | {'rho(O2, +3.0C)':<16} | {'Computed Monotonicity Verdict'}")
     lines.append("-" * 145)
 
     for city in FLAGSHIPS:
         s = city_summaries[city]
-        eval_count = f"{s['n_designs']} ({s['n_pareto']}P+3B)"
         lines.append(
-            f"{city:<12} | {eval_count:<18} | {s['rho_o1_p15']:<18.4f} | {s['rho_o1_p30']:<18.4f} | "
-            f"{s['rho_o2_p15']:<16.4f} | {s['rho_o2_p30']:<16.4f} | "
-            f"{'NEAR-PERFECT (rho > 0.98)' if min(s['rho_o1_p30'], s['rho_o2_p30']) >= 0.98 else 'STRONG (rho > 0.90)'}"
+            f"{city:<12} | {s['n_pareto']:<11} | {s['rho_o1_15_str']:<18} | {s['rho_o1_30_str']:<18} | "
+            f"{s['rho_o2_15_str']:<16} | {s['rho_o2_30_str']:<16} | "
+            f"{s['mono_verdict']}"
         )
     lines.append("-" * 145)
 
+    # TABLE 3: REGRET PER CITY AND SCENARIO
     lines.append("\n" + "=" * 145)
-    lines.append("TABLE 3: KEY DESIGNS CLIMATE PERFORMANCE COMPARISON (BASELINE vs +1.5 °C vs +3.0 °C)")
-    lines.append("Reporting O1_ml (%), O1_adapt (%), O2 (kWh/m2), Hours > 35 °C (h), and Deltas vs Baseline")
+    lines.append("TABLE 3: REGRET ANALYSIS PER CITY AND SCENARIO (VERIFIED PARETO FRONT)")
+    lines.append("Regret = Value achieved by Baseline-Best design in scenario minus Lowest value achieved on front in that scenario")
+    lines.append("O1_ml Regret in percentage points (pp) | O2 Regret in kWh/m2 and percentage (%)")
+    lines.append("=" * 145)
+
+    lines.append(
+        f"{'City':<10} | {'Scenario':<9} | "
+        f"{'BaseBest O1 ID':<20} | {'Achieved O1':<11} | {'ScenBest O1 ID':<20} | {'Min O1':<7} | {'Regret O1':<10} | "
+        f"{'BaseBest O2 ID':<20} | {'Achieved O2':<11} | {'ScenBest O2 ID':<20} | {'Min O2':<7} | {'Regret O2 (kWh)':<15} | {'Regret O2 (%)'}"
+    )
+    lines.append("-" * 175)
+
+    for city in FLAGSHIPS:
+        s = city_summaries[city]
+        df_p = s['df_pareto']
+        base_o1_id = s['best_o1_base_id']
+        base_o2_id = s['best_o2_base_id']
+
+        scenarios = [
+            ('Baseline', 'O1_ml_base', 'O2_base'),
+            ('+1.5 °C',  'O1_ml_plus1p5', 'O2_plus1p5'),
+            ('+3.0 °C',  'O1_ml_plus3p0', 'O2_plus3p0')
+        ]
+
+        if s['n_pareto'] < 5:
+            for sname, _, _ in scenarios:
+                lines.append(
+                    f"{city:<10} | {sname:<9} | "
+                    f"{base_o1_id:<20} | {'not testable':<11} | {'not testable':<20} | {'N/A':<7} | {'not testable':<10} | "
+                    f"{base_o2_id:<20} | {'not testable':<11} | {'not testable':<20} | {'N/A':<7} | {'not testable':<15} | {'not testable'}"
+                )
+            continue
+
+        for sname, col_o1, col_o2 in scenarios:
+            row_scen_best_o1 = df_p.loc[df_p[col_o1].idxmin()]
+            row_scen_best_o2 = df_p.loc[df_p[col_o2].idxmin()]
+            scen_best_o1_id = row_scen_best_o1['design_id']
+            scen_best_o2_id = row_scen_best_o2['design_id']
+            min_o1 = float(row_scen_best_o1[col_o1])
+            min_o2 = float(row_scen_best_o2[col_o2])
+
+            achieved_o1 = float(df_p.loc[df_p['design_id'] == base_o1_id, col_o1].values[0])
+            achieved_o2 = float(df_p.loc[df_p['design_id'] == base_o2_id, col_o2].values[0])
+
+            regret_o1_pp = achieved_o1 - min_o1
+            regret_o2_kwh = achieved_o2 - min_o2
+            regret_o2_pct = (regret_o2_kwh / min_o2 * 100.0) if min_o2 > 0 else 0.0
+
+            lines.append(
+                f"{city:<10} | {sname:<9} | "
+                f"{base_o1_id:<20} | {achieved_o1:<11.2f} | {scen_best_o1_id:<20} | {min_o1:<7.2f} | {f'{regret_o1_pp:+.2f} pp':<10} | "
+                f"{base_o2_id:<20} | {achieved_o2:<11.2f} | {scen_best_o2_id:<20} | {min_o2:<7.2f} | {f'{regret_o2_kwh:+.2f} kWh/m2':<15} | {f'{regret_o2_pct:.2f}%'}"
+            )
+        lines.append("-" * 175)
+
+    # TABLE 4: DETAILED PERFORMANCE OF KEY DESIGNS
+    lines.append("\n" + "=" * 145)
+    lines.append("TABLE 4: KEY DESIGNS CLIMATE PERFORMANCE COMPARISON (BASELINE vs +1.5 °C vs +3.0 °C)")
     lines.append("=" * 145)
     lines.append(
         f"{'City':<10} | {'Design ID':<20} | {'Scenario':<10} | {'O1_ml(%)':<9} | {'dO1_ml':<8} | "
@@ -449,62 +480,51 @@ def main():
 
     for city in FLAGSHIPS:
         s = city_summaries[city]
-        designs_to_show = [
-            ('R1_Lightweight', s['row_r1']),
-            ('R2_Conventional', s['row_r2']),
-            ('R3_Code_Compliant', s['row_r3']),
-            (f"Best_O1_ml ({s['best_o1_base_id']})", s['row_best_o1']),
-            (f"Best_O2 ({s['best_o2_base_id']})", s['row_best_o2'])
+        df_c = s['df_city']
+        key_ids = [
+            'R1_Lightweight', 'R2_Conventional', 'R3_Code_Compliant',
+            s['best_o1_base_id'], s['best_o2_base_id']
         ]
+        # remove duplicate if best_o1 == best_o2
+        seen = set()
+        dedup_key_ids = [x for x in key_ids if not (x in seen or seen.add(x))]
 
-        for dlabel, r in designs_to_show:
-            # Baseline row
+        for did in dedup_key_ids:
+            row_d = df_c[df_c['design_id'] == did].iloc[0]
             lines.append(
-                f"{city:<10} | {dlabel:<20} | {'Baseline':<10} | {r['O1_ml_base']:<9.2f} | {'--':<8} | "
-                f"{r['O1_adapt_base']:<9.2f} | {'--':<8} | {r['O2_base']:<8.2f} | {'--':<8} | "
-                f"{int(r['top_gt_35_base']):<7} | {'--'}"
+                f"{city:<10} | {did:<20} | {'Baseline':<10} | "
+                f"{row_d['O1_ml_base']:<9.2f} | {'--':<8} | {row_d['O1_adapt_base']:<9.2f} | {'--':<8} | "
+                f"{row_d['O2_base']:<8.2f} | {'--':<8} | {row_d['top_gt_35_base']:<7} | {'--'}"
             )
-            # +1.5 C row
+            d_o1_15_str = f"{row_d['dO1_ml_p15']:+.2f}"
+            d_ad_15_str = f"{row_d['dO1_adapt_p15']:+.2f}"
+            d_o2_15_str = f"{row_d['dO2_p15']:+.2f}"
+            d_h35_15_str = f"{row_d['dHours35_p15']:+}"
             lines.append(
-                f"{'':<10} | {'':<20} | {'+1.5 °C':<10} | {r['O1_ml_plus1p5']:<9.2f} | {r['dO1_ml_p15']:<+8.2f} | "
-                f"{r['O1_adapt_plus1p5']:<9.2f} | {r['dO1_adapt_p15']:<+8.2f} | {r['O2_plus1p5']:<8.2f} | {r['dO2_p15']:<+8.2f} | "
-                f"{int(r['top_gt_35_plus1p5']):<7} | {int(r['dHours35_p15']):<+7}"
+                f"{city:<10} | {did:<20} | {'+1.5 °C':<10} | "
+                f"{row_d['O1_ml_plus1p5']:<9.2f} | {d_o1_15_str:<8} | "
+                f"{row_d['O1_adapt_plus1p5']:<9.2f} | {d_ad_15_str:<8} | "
+                f"{row_d['O2_plus1p5']:<8.2f} | {d_o2_15_str:<8} | "
+                f"{row_d['top_gt_35_plus1p5']:<7} | {d_h35_15_str:<7}"
             )
-            # +3.0 C row
+            d_o1_30_str = f"{row_d['dO1_ml_p30']:+.2f}"
+            d_ad_30_str = f"{row_d['dO1_adapt_p30']:+.2f}"
+            d_o2_30_str = f"{row_d['dO2_p30']:+.2f}"
+            d_h35_30_str = f"{row_d['dHours35_p30']:+}"
             lines.append(
-                f"{'':<10} | {'':<20} | {'+3.0 °C':<10} | {r['O1_ml_plus3p0']:<9.2f} | {r['dO1_ml_p30']:<+8.2f} | "
-                f"{r['O1_adapt_plus3p0']:<9.2f} | {r['dO1_adapt_p30']:<+8.2f} | {r['O2_plus3p0']:<8.2f} | {r['dO2_p30']:<+8.2f} | "
-                f"{int(r['top_gt_35_plus3p0']):<7} | {int(r['dHours35_p30']):<+7}"
+                f"{city:<10} | {did:<20} | {'+3.0 °C':<10} | "
+                f"{row_d['O1_ml_plus3p0']:<9.2f} | {d_o1_30_str:<8} | "
+                f"{row_d['O1_adapt_plus3p0']:<9.2f} | {d_ad_30_str:<8} | "
+                f"{row_d['O2_plus3p0']:<8.2f} | {d_o2_30_str:<8} | "
+                f"{row_d['top_gt_35_plus3p0']:<7} | {d_h35_30_str:<7}"
             )
-            lines.append("-" * 145)
-
-    # Runtime and Execution Details
-    total_wall_sec = time.time() - t_start_all
-    lines.append("\n" + "=" * 145)
-    lines.append("SIMULATION RUNTIME BREAKDOWN & RESOURCE EXECUTION")
-    lines.append("=" * 145)
-    lines.append(f"{'City':<12} | {'Evaluated Designs':<18} | {'Total Sim Runs':<15} | {'+1.5C Sim Time':<18} | {'+3.0C Sim Time':<18} | {'Total Wall Time'}")
-    lines.append("-" * 145)
-
-    tot_sims = 0
-    for city in FLAGSHIPS:
-        s = city_summaries[city]
-        sim_count = s['n_designs'] * 2 * 2  # 2 modes (fr + il) x 2 scenarios
-        tot_sims += sim_count
-        lines.append(
-            f"{city:<12} | {s['n_designs']:<18} | {sim_count:<15} | "
-            f"{s['time_p15']:<15.2f} s | {s['time_p30']:<15.2f} s | {s['runtime_sec'] / 60.0:.2f} min"
-        )
-    lines.append("-" * 145)
-    lines.append(f"TOTAL RUNS ACROSS 5 CITIES: {tot_sims} physical simulations.")
-    lines.append(f"TOTAL EXECUTION TIME:      {total_wall_sec:.2f} seconds ({total_wall_sec / 60.0:.2f} minutes).")
-    lines.append("=" * 145)
+            lines.append("." * 145)
+        lines.append("-" * 145)
 
     output_text = "\n".join(lines)
     with open(out_txt_path, 'w', encoding='utf-8') as f:
         f.write(output_text)
-    print(f"\nSuccessfully generated {out_txt_path} ({len(output_text)} bytes).")
+    print(f"Successfully generated {out_txt_path} ({len(output_text)} characters).")
 
 if __name__ == "__main__":
     main()
-

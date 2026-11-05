@@ -1,0 +1,59 @@
+=======================================================================================================================================
+ITEM 3: SHIMLA R1, R2, R3 HEATING & COOLING ENERGY BREAKDOWN ACROSS CLIMATE SCENARIOS
+Evaluation of Annual Heating and Cooling Demand (kWh/m2) and Total HVAC Energy O2
+=======================================================================================================================================
+Design ID            | Scenario   | Heating (kWh/m2)   | Cooling (kWh/m2)   | Total O2 (kWh/m2) 
+---------------------------------------------------------------------------------------------------------------------------------------
+R1_Lightweight       | Baseline   | 141.60             | 38.38              | 179.99            
+R1_Lightweight       | +1.5 C     | 125.96             | 56.34              | 182.30            
+R1_Lightweight       | +3.0 C     | 111.39             | 75.10              | 186.50            
+.......................................................................................................................................
+R2_Conventional      | Baseline   | 154.29             | 13.51              | 167.80            
+R2_Conventional      | +1.5 C     | 133.17             | 25.95              | 159.12            
+R2_Conventional      | +3.0 C     | 113.78             | 43.40              | 157.17            
+.......................................................................................................................................
+R3_Code_Compliant    | Baseline   | 87.77              | 0.19               | 87.95             
+R3_Code_Compliant    | +1.5 C     | 78.95              | 1.21               | 80.15             
+R3_Code_Compliant    | +3.0 C     | 70.55              | 4.14               | 74.69             
+.......................................................................................................................................
+---------------------------------------------------------------------------------------------------------------------------------------
+
+=======================================================================================================================================
+HEATING AND COOLING SENSITIVITY DELTAS (VS BASELINE CLIMATE)
+=======================================================================================================================================
+Design ID            | Scenario   | dHeating (kWh/m2)    | dCooling (kWh/m2)    | dTotal O2 (kWh/m2)   | Dominant Effect
+---------------------------------------------------------------------------------------------------------------------------------------
+R1_Lightweight       | +1.5 C     | -15.64               | +17.96               | +2.31                | Cooling increase outweighs heating decrease
+R1_Lightweight       | +3.0 C     | -30.21               | +36.72               | +6.51                | Cooling increase outweighs heating decrease
+.......................................................................................................................................
+R2_Conventional      | +1.5 C     | -21.12               | +12.44               | -8.68                | Heating decrease dominates cooling increase
+R2_Conventional      | +3.0 C     | -40.51               | +29.89               | -10.63               | Heating decrease dominates cooling increase
+.......................................................................................................................................
+R3_Code_Compliant    | +1.5 C     | -8.82                | +1.02                | -7.80                | Heating decrease dominates cooling increase
+R3_Code_Compliant    | +3.0 C     | -17.22               | +3.95                | -13.26               | Heating decrease dominates cooling increase
+.......................................................................................................................................
+---------------------------------------------------------------------------------------------------------------------------------------
+
+=======================================================================================================================================
+PHYSICAL MECHANISM [HYPOTHESIS, NOT TESTED]: WHY R1 O2 RISES WHILE R2 AND R3 FALL
+=======================================================================================================================================
+Status: HYPOTHESIS, NOT TESTED. The following narrative provides a physical hypothesis based on zone energy totals;
+envelope-part breakdown (conduction/solar split) is not output by the current simulation model.
+1. Baseline Shimla Climate Dynamics:
+   - In cold-climate Shimla, Baseline heating demand is dominant for all designs: 141.60 kWh/m2 for R1, 154.29 kWh/m2 for R2, and 87.77 kWh/m2 for R3.
+   - However, R1 (Lightweight: uninsulated tin roof, uninsulated single-skin walls, no shading, low thermal mass) already incurs 38.38 kWh/m2 of cooling demand during summer solar peaks, compared to 13.51 kWh/m2 for R2 and only 0.19 kWh/m2 for R3.
+
+2. Climate Warming Impact on R1_Lightweight (Net Rise in O2):
+   - At +1.5 C warming, R1 heating energy decreases by 15.64 kWh/m2 (from 141.60 to 125.96 kWh/m2).
+   - Concurrently, R1 cooling energy surges by +17.96 kWh/m2 (from 38.38 to 56.34 kWh/m2) due to solar heat transmission through uninsulated lightweight surfaces.
+   - Because the cooling increase (+17.96 kWh/m2) exceeds the heating reduction (-15.64 kWh/m2), R1 net total O2 increases by +2.31 kWh/m2 (from 179.99 to 182.30 kWh/m2).
+   - At +3.0 C warming, this divergence intensifies: R1 heating drops by 30.21 kWh/m2 (to 111.39 kWh/m2), but cooling surges by +36.72 kWh/m2 (to 75.10 kWh/m2), causing a net O2 increase of +6.51 kWh/m2 (to 186.50 kWh/m2).
+
+3. Climate Warming Impact on R2_Conventional and R3_Code_Compliant (Net Fall in O2):
+   - R2 (Conventional: 230 mm brick masonry, heavy thermal mass) possesses high thermal capacitance that buffers daytime solar gains.
+   - At +1.5 C, R2 heating drops by 21.12 kWh/m2 (from 154.29 to 133.17 kWh/m2) while cooling rises by only +12.44 kWh/m2 (from 13.51 to 25.95 kWh/m2), yielding a net O2 decrease of -8.68 kWh/m2 (from 167.80 to 159.12 kWh/m2).
+   - At +3.0 C, R2 heating drops by 40.51 kWh/m2 while cooling rises by +29.89 kWh/m2, resulting in a net O2 decrease of -10.63 kWh/m2 (from 167.80 to 157.17 kWh/m2).
+   - R3 (Code-Compliant: insulated envelope, external overhang shading) blocks solar gain almost entirely.
+   - At +1.5 C, R3 heating drops by 8.82 kWh/m2 while cooling increases by only +1.02 kWh/m2 (from 0.19 to 1.21 kWh/m2), yielding a net O2 decrease of -7.80 kWh/m2 (from 87.95 to 80.15 kWh/m2).
+   - At +3.0 C, R3 heating drops by 17.22 kWh/m2 while cooling increases by +3.95 kWh/m2, yielding a net O2 decrease of -13.26 kWh/m2 (from 87.95 to 74.69 kWh/m2).
+=======================================================================================================================================

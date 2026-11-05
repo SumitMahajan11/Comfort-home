@@ -1,0 +1,49 @@
+=================================================================================================================================================
+ITEM 4: FUTURE CLIMATE MORPH INTEGRITY CHECK ACROSS 10 SENSITIVITY FILES
+Verification of Mean Dry-Bulb Delta, Psychrometric Dew Point Shift, Column Invariance, and Baseline Hashes
+=================================================================================================================================================
+City       | Scenario | Target  | Mean dB d  | Max abs dDP  | Max abs dOther  | Other Invariant | Baseline EPW SHA-256                                            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Shimla     | +1.5 C   | 1.5     | 1.5000     | 8.9100       | 0.0000          | PERFECT (0.0000) | 8b7447ee12f00a3d13ba9443caca904e8ef4cf2865f30b7eac86eaa176d68286
+Shimla     | +3.0 C   | 3.0     | 3.0000     | 10.3900      | 0.0000          | PERFECT (0.0000) | 8b7447ee12f00a3d13ba9443caca904e8ef4cf2865f30b7eac86eaa176d68286
+Jodhpur    | +1.5 C   | 1.5     | 1.5000     | 3.0700       | 0.0000          | PERFECT (0.0000) | f31bbc5a7edbf38328151473a5dfb8660e14026289a9c77a4e6d4f6cf8a4de39
+Jodhpur    | +3.0 C   | 3.0     | 3.0000     | 3.1000       | 0.0000          | PERFECT (0.0000) | f31bbc5a7edbf38328151473a5dfb8660e14026289a9c77a4e6d4f6cf8a4de39
+New_Delhi  | +1.5 C   | 1.5     | 1.5000     | 6.1000       | 0.0000          | PERFECT (0.0000) | c4c5279f513ec2c1dec4511114c05f13596f214184dc825e58385a1f53ac2d5a
+New_Delhi  | +3.0 C   | 3.0     | 3.0000     | 7.6000       | 0.0000          | PERFECT (0.0000) | c4c5279f513ec2c1dec4511114c05f13596f214184dc825e58385a1f53ac2d5a
+Mumbai     | +1.5 C   | 1.5     | 1.5000     | 6.7700       | 0.0000          | PERFECT (0.0000) | 5e7cdca030958963ab5be12751afe8d0c66b01150450e1059bb7e1b65f044552
+Mumbai     | +3.0 C   | 3.0     | 3.0000     | 8.2400       | 0.0000          | PERFECT (0.0000) | 5e7cdca030958963ab5be12751afe8d0c66b01150450e1059bb7e1b65f044552
+Bengaluru  | +1.5 C   | 1.5     | 1.5000     | 5.5500       | 0.0000          | PERFECT (0.0000) | b24506e034c43d31950862232b97b404e573de4c8bee04204f62d0890bcae478
+Bengaluru  | +3.0 C   | 3.0     | 3.0000     | 6.9000       | 0.0000          | PERFECT (0.0000) | b24506e034c43d31950862232b97b404e573de4c8bee04204f62d0890bcae478
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+=================================================================================================================================================
+SUMMARY AND METHODOLOGICAL OBSERVATIONS (COMPUTED DYNAMICALLY)
+=================================================================================================================================================
+1. Dry-Bulb Temperature Precision:
+   - Across all 10 morphed EPW files, mean dry-bulb delta matches target exactly:
+     * Shimla    : +1.5 C scenario achieved 1.5000 C delta | +3.0 C scenario achieved 3.0000 C delta.
+     * Jodhpur   : +1.5 C scenario achieved 1.5000 C delta | +3.0 C scenario achieved 3.0000 C delta.
+     * New_Delhi : +1.5 C scenario achieved 1.5000 C delta | +3.0 C scenario achieved 3.0000 C delta.
+     * Mumbai    : +1.5 C scenario achieved 1.5000 C delta | +3.0 C scenario achieved 3.0000 C delta.
+     * Bengaluru : +1.5 C scenario achieved 1.5000 C delta | +3.0 C scenario achieved 3.0000 C delta.
+
+2. Psychrometric Dew Point Shift (Column 7):
+   - Dew point is recalculated using the Magnus-Tetens formula to maintain proportional relative humidity (RH).
+   - Maximum absolute dew point adjustments vs baseline:
+     * Shimla    : +1.5 C max abs dDP = 8.9100 C | +3.0 C max abs dDP = 10.3900 C.
+     * Jodhpur   : +1.5 C max abs dDP = 3.0700 C | +3.0 C max abs dDP = 3.1000 C.
+     * New_Delhi : +1.5 C max abs dDP = 6.1000 C | +3.0 C max abs dDP = 7.6000 C.
+     * Mumbai    : +1.5 C max abs dDP = 6.7700 C | +3.0 C max abs dDP = 8.2400 C.
+     * Bengaluru : +1.5 C max abs dDP = 5.5500 C | +3.0 C max abs dDP = 6.9000 C.
+
+3. Absolute Invariance of All Other 33 EPW Columns:
+   - Maximum absolute difference for all other 33 columns (solar radiation, wind speed/direction, pressure, illuminance, precipitation, snow, clouds): 0.0000 across all 8,760 hours of all 10 files.
+   - Strict column invariance verified: True.
+
+4. Baseline File Provenance & SHA-256 Hashes:
+   - Shimla    : Built from baseline data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx.2011-2025/IND_HP_Shimla.420830_TMYx.2011-2025.epw (SHA-256: 8b7447ee12f00a3d13ba9443caca904e8ef4cf2865f30b7eac86eaa176d68286).
+   - Jodhpur   : Built from baseline data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx.2011-2025/IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw (SHA-256: f31bbc5a7edbf38328151473a5dfb8660e14026289a9c77a4e6d4f6cf8a4de39).
+   - New_Delhi : Built from baseline data/raw/India_Weather_Extracted/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw (SHA-256: c4c5279f513ec2c1dec4511114c05f13596f214184dc825e58385a1f53ac2d5a).
+   - Mumbai    : Built from baseline data/raw/India_Weather_Extracted/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw (SHA-256: 5e7cdca030958963ab5be12751afe8d0c66b01150450e1059bb7e1b65f044552).
+   - Bengaluru : Built from baseline data/raw/India_Weather_Extracted/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025.epw (SHA-256: b24506e034c43d31950862232b97b404e573de4c8bee04204f62d0890bcae478).
+=================================================================================================================================================

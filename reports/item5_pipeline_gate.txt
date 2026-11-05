@@ -1,0 +1,68 @@
+=================================================================================================================================================
+ITEM 5: PIPELINE GATE INTEGRITY AUDIT IN ISOLATED TEMPORARY ENVIRONMENT
+Target City: Bhuntar | Reduced Settings: 50 LHS Designs, 1 AL Round (10 Designs), 5 Optuna Trials
+=================================================================================================================================================
+Target City:            Bhuntar
+Manifest EPW Path:      data/raw/India_Weather_Extracted/IND_HP_Bhuntar.420810_TMYx.2011-2025/IND_HP_Bhuntar.420810_TMYx.2011-2025.epw
+Manifest Expected SHA:  f3bcbce0453b10f8152e4fa911dea592421458986046a10dd6a55d6dd3e0c082
+Disk Computed SHA:      f3bcbce0453b10f8152e4fa911dea592421458986046a10dd6a55d6dd3e0c082
+Manifest SHA Pre-check: PASS
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+[PART 1: PIPELINE EXECUTION IN ISOLATED TEMP DIRECTORY]
+Temp Working Directory: C:\Users\SUMIT\AppData\Local\Temp\pipeline_gate_Bhuntar_86x8rysx
+Pipeline Initialized: EPW pre-flight verification PASSED.
+Pipeline Target SHA-256: f3bcbce0453b10f8152e4fa911dea592421458986046a10dd6a55d6dd3e0c082
+Running pipeline stages 1 to 5 (LHS simulations, Baselines, Surrogate Tuning, AL Round 1, Pareto extraction)...
+Pipeline Execution Complete in 92.00 seconds (1.53 minutes).
+
+=================================================================================================================================================
+PART A: AUDIT OF epw_sha256 COLUMN IN active_learning_history AND round_N_verified PARQUETS
+Checking for full 64-character hexadecimal SHA-256 (not truncated) and exact match with manifest SHA-256
+=================================================================================================================================================
+
+1. active_learning_history.csv:
+   File Path: C:\Users\SUMIT\AppData\Local\Temp\pipeline_gate_Bhuntar_86x8rysx\active_learning_history.csv
+   Row Count: 1
+   Columns: ['round', 'pool_size_before', 'pool_size_after', 'sim_time_sec', 'median_O2', 'mean_err_O1_ml', 'max_err_O1_ml', 'mean_err_O1_adapt', 'max_err_O1_adapt', 'mean_err_O2_abs', 'max_err_O2_abs', 'mean_err_O2_pct', 'max_err_O2_pct', 'epw_path', 'epw_sha256', 'retrain_time_sec', 'nsga_time_sec', 'wall_time_sec']
+   Contains 'epw_sha256' Column: True
+   - Round 1: SHA=f3bcbce0453b10f8152e4fa911dea592421458986046a10dd6a55d6dd3e0c082 | Length=64 chars | IsFull64=True | MatchesManifest=True
+
+2. Output Parquet Files in C:\Users\SUMIT\AppData\Local\Temp\pipeline_gate_Bhuntar_86x8rysx:
+   Parquet Filename                              | Rows     | Has epw_sha256  | SHA Length   | Is Full 64-char  | Matches Manifest
+   ---------------------------------------------------------------------------------------------------------------------------------------
+   final_verified_all_100_Bhuntar.parquet        | 10       | True            | 64           | True             | True
+   final_verified_pareto_Bhuntar.parquet         | 5        | True            | 64           | True             | True
+   objectives_Bhuntar.parquet                    | 50       | True            | 64           | True             | True
+   round_1_candidates.parquet                    | 34       | True            | 64           | True             | True
+   round_1_verified.parquet                      | 10       | True            | 64           | True             | True
+   ---------------------------------------------------------------------------------------------------------------------------------------
+
+=================================================================================================================================================
+PART B: PARSING ENERGYPLUS'S OWN OUTPUT FILES FOR THE WEATHER FILE ACTUALLY USED
+Inspecting eplusout.eio / eplustbl.csv from actual simulation runs and comparing against manifest path
+=================================================================================================================================================
+Selected Simulation Directory: baseline_sims\R1_Lightweight_fr
+EnergyPlus Output File:        baseline_sims\R1_Lightweight_fr\eplusout.eio
+Verbatim eplusout.eio Line:    Site:Location,Bhuntar HP IND SRC-TMYx WMO#=420810,31.83,77.17,5.50,1084.00,88963,1.0574
+  * Weather Location Name:     Bhuntar HP IND SRC-TMYx WMO#=420810
+  * Simulation Latitude:       31.83 deg
+  * Simulation Longitude:      77.17 deg
+  * Simulation Time Zone:      5.50
+  * Simulation Elevation:      1084.00 m
+
+Manifest EPW Header Line 1:    'LOCATION,Bhuntar,HP,IND,SRC-TMYx,420810,31.83300,77.16700,5.5,1084.0'
+  * Manifest Station:          Bhuntar
+  * Manifest WMO ID:           420810
+  * Manifest Latitude:         31.83 deg
+  * Manifest Longitude:        77.17 deg
+  * Manifest Elevation:        1084.00 m
+
+Verification Comparison:
+  * WMO #420810 present in EnergyPlus Environment Name: True
+  * Station 'Bhuntar' present in EnergyPlus Environment Name: True
+  * Latitude matches (31.83 vs 31.83): True
+  * Longitude matches (77.17 vs 77.17): True
+  * Elevation matches (1084.00 vs 1084.00): True
+  * OVERALL WEATHER FILE MATCH VERDICT: CONFIRMED MATCH
+=================================================================================================================================================

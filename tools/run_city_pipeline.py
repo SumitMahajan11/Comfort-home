@@ -234,10 +234,10 @@ def _sim_worker(task):
                 res['status'] = 'PARSE_ERROR'
                 res['error_msg'] = str(e)
 
-    # Prune bulky files to conserve disk space
+    # Prune bulky files to conserve disk space (retain err, idf, and eio for weather verification)
     if os.path.exists(rdir):
         for f in os.listdir(rdir):
-            if f not in ["eplusout.err", "shelter.idf"]:
+            if f not in ["eplusout.err", "shelter.idf", "eplusout.eio"]:
                 fp = os.path.join(rdir, f)
                 try:
                     if os.path.isfile(fp):
@@ -728,6 +728,13 @@ class CityPipeline:
                 'epw_sha256': self.epw_sha256
             }
             print(f"Round {r} Error Summary: O1_ml mean err={rec['mean_err_O1_ml']} pp | O1_adapt mean err={rec['mean_err_O1_adapt']} pp | O2 mean err={rec['mean_err_O2_abs']} kWh/m2 ({rec['mean_err_O2_pct']} %)")
+
+            # Save per-round verified designs
+            df_sim_round = df_sim.copy()
+            df_sim_round['epw_path'] = self.epw_path
+            df_sim_round['epw_sha256'] = self.epw_sha256
+            round_ver_path = os.path.join(self.batch_dir, f"round_{r}_verified.parquet")
+            df_sim_round.to_parquet(round_ver_path, index=False)
 
             # 3. Augment training pool
             current_pool = pd.concat([current_pool, df_sim], ignore_index=True)

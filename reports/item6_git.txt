@@ -1,0 +1,92 @@
+========================================================================================================================
+ITEM 6: GIT COMMIT HISTORY, CHECK-IGNORE AUDIT, AND WORKING TREE STATUS
+========================================================================================================================
+
+1. GIT SHOW --STAT HEAD:
+------------------------------------------------------------------------------------------------------------------------
+commit 9ec0eb348f52d0827fd78430193336dadb52d240
+Author: Sumit <sumitnmahajann11@gmail.com>
+Date:   Thu Nov 5 22:17:27 2026 +0530
+
+    Station identity audit, pipeline smoke test with SHA mismatch prevention, and 5-flagship climate robustness evaluation
+
+ reports/item1_station_identity.txt      |  97 ++++++
+ reports/item2_smoke_test.txt            |  54 ++++
+ reports/item3_robustness.txt            | 174 +++++++++++
+ reports/robustness_flagship_details.csv | 140 +++++++++
+ tools/report_item1_station_identity.py  | 231 +++++++++++++++
+ tools/report_item2_smoke_test.py        | 181 ++++++++++++
+ tools/report_item3_robustness.py        | 510 ++++++++++++++++++++++++++++++++
+ tools/run_city_pipeline.py              |  25 +-
+ tools/run_second_al_pass.py             |   6 +-
+ 9 files changed, 1403 insertions(+), 15 deletions(-)
+------------------------------------------------------------------------------------------------------------------------
+
+2. GIT CHECK-IGNORE -V AUDIT:
+------------------------------------------------------------------------------------------------------------------------
+Command executed: git check-ignore -v [on 33 specified target files]
+Exit code: 1
+Output: None (exit code 1, empty stdout).
+Result: None of the specified target files are ignored by .gitignore.
+------------------------------------------------------------------------------------------------------------------------
+
+3. FILES DELETED OR REVERTED THIS SESSION:
+------------------------------------------------------------------------------------------------------------------------
+Working Tree Deleted Files (git status): 0 files.
+  * Exactly 0 tracked repository files are currently marked deleted in git working tree.
+
+Temporary Simulation Cleanup & Revert Record:
+  * 'clean robustness temporary simulation files': During report_item3_robustness execution,
+    shutil.rmtree() removed intermediate EnergyPlus run subdirectories under data/processed/robustness_sims/
+    after metrics extraction into reports/robustness_flagship_details.csv to conserve disk space.
+  * 'revert whitespace changes': Any accidental trailing whitespace changes across scripts were reverted
+    via git restore to keep commit diffs atomic and clean.
+------------------------------------------------------------------------------------------------------------------------
+
+4. LITERAL GIT STATUS:
+------------------------------------------------------------------------------------------------------------------------
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   reports/item1_station_identity.txt
+	modified:   reports/item3_robustness.txt
+	modified:   tools/report_item1_station_identity.py
+	modified:   tools/report_item3_robustness.py
+	modified:   tools/run_city_pipeline.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	data/processed/weather_morphed/Bengaluru_plus1p5_corrected.epw
+	data/processed/weather_morphed/Bengaluru_plus3p0_corrected.epw
+	data/processed/weather_morphed/Jodhpur_plus1p5_corrected.epw
+	data/processed/weather_morphed/Jodhpur_plus3p0_corrected.epw
+	data/processed/weather_morphed/Mumbai_plus1p5_corrected.epw
+	data/processed/weather_morphed/Mumbai_plus3p0_corrected.epw
+	data/processed/weather_morphed/New_Delhi_plus1p5_corrected.epw
+	data/processed/weather_morphed/New_Delhi_plus3p0_corrected.epw
+	data/processed/weather_morphed/Shimla_plus1p5_corrected.epw
+	data/processed/weather_morphed/Shimla_plus3p0_corrected.epw
+	reports/item1_file_identity.txt
+	reports/item2_eplus_check.txt
+	reports/item3_duplicates.txt
+	reports/item3_shimla_r1.txt
+	reports/item4_morph_check.txt
+	reports/item4_morph_deep.txt
+	reports/item5_pipeline_gate.txt
+	reports/item5_rank_tables.txt
+	reports/item6_git.txt
+	reports/item6_sources.txt
+	tools/report_item1_identity_p2.py
+	tools/report_item2_eplus_all30.py
+	tools/report_item3_duplicates.py
+	tools/report_item3_shimla_r1.py
+	tools/report_item4_morph_check.py
+	tools/report_item4_morph_p2.py
+	tools/report_item5_pipeline_gate.py
+	tools/report_item5_ranks_p2.py
+	tools/report_item6_git.py
+	tools/report_item6_sources_p2.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+========================================================================================================================
