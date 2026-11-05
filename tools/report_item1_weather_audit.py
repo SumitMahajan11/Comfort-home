@@ -165,11 +165,14 @@ def main():
         if differ:
             mismatch_flags.append(city)
 
+        # Runner -w parameter (actual path passed to EnergyPlus)
+        runner_w_path = os.path.abspath(epw_path)
+
         table_rows.append({
             'City': city,
             'WMO ID': wmo,
             'Epoch': epoch,
-            'Weather File Name': epw_name[:36],
+            'Runner -w Arg (Path)': runner_w_path,
             'EPW SHA256 (Prefix)': actual_sha[:12] if actual_sha else "MISSING",
             'Pilot': 'OK' if match_pilot else 'MISMATCH',
             'Base': 'OK' if match_base else 'MISMATCH',

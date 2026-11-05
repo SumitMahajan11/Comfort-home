@@ -67,6 +67,8 @@ def run_round_4_for_city(city_name):
         print(f"Simulating Round 1 candidates ({len(df_r1_cand)} designs)...")
         sim_dir_r1 = os.path.join(cdir, "round_1_sims")
         df_r1_ver = pipeline.simulate_designs(df_r1_cand, sim_dir_r1, id_col='pareto_id')
+        df_r1_ver['epw_path'] = pipeline.epw_path
+        df_r1_ver['epw_sha256'] = pipeline.epw_sha256
         df_r1_ver.to_parquet(p_r1_ver, index=False)
         print(f"Saved {p_r1_ver} ({len(df_r1_ver)} designs).")
 
@@ -81,6 +83,8 @@ def run_round_4_for_city(city_name):
         print(f"Simulating Round 2 candidates ({len(df_r2_cand)} designs)...")
         sim_dir_r2 = os.path.join(cdir, "round_2_sims")
         df_r2_ver = pipeline.simulate_designs(df_r2_cand, sim_dir_r2, id_col='pareto_id')
+        df_r2_ver['epw_path'] = pipeline.epw_path
+        df_r2_ver['epw_sha256'] = pipeline.epw_sha256
         df_r2_ver.to_parquet(p_r2_ver, index=False)
         print(f"Saved {p_r2_ver} ({len(df_r2_ver)} designs).")
 
@@ -91,12 +95,16 @@ def run_round_4_for_city(city_name):
         df_r3_ver = pd.read_parquet(p_r3_ver)
     elif os.path.exists(p_r3_orig):
         df_r3_ver = pd.read_parquet(p_r3_orig)
+        df_r3_ver['epw_path'] = pipeline.epw_path
+        df_r3_ver['epw_sha256'] = pipeline.epw_sha256
         df_r3_ver.to_parquet(p_r3_ver, index=False)
     else:
         p_r3_cand = os.path.join(cdir, "round_3_candidates.parquet")
         df_r3_cand = pd.read_parquet(p_r3_cand).iloc[:100]
         sim_dir_r3 = os.path.join(cdir, "round_3_sims")
         df_r3_ver = pipeline.simulate_designs(df_r3_cand, sim_dir_r3, id_col='pareto_id')
+        df_r3_ver['epw_path'] = pipeline.epw_path
+        df_r3_ver['epw_sha256'] = pipeline.epw_sha256
         df_r3_ver.to_parquet(p_r3_ver, index=False)
 
     print(f"Loaded round_3_verified.parquet: {len(df_r3_ver)} designs.")
@@ -124,6 +132,8 @@ def run_round_4_for_city(city_name):
     print("Running NSGA-II (pop 100, gen 100, seed 42, clamped)...")
     df_cand4 = run_nsga2(surrogates, seed=42, city_name=city_name, n_gen=pipeline.nsga2_gen, pop_size=pipeline.nsga2_pop)
     p_cand4 = os.path.join(cdir, "round_4_candidates.parquet")
+    df_cand4['epw_path'] = pipeline.epw_path
+    df_cand4['epw_sha256'] = pipeline.epw_sha256
     df_cand4.to_parquet(p_cand4, index=False)
     t_nsga_sec = time.time() - t_nsga_0
     print(f"Generated {len(df_cand4)} Round 4 candidates in {t_nsga_sec:.2f} s. Saved {p_cand4}.")
@@ -136,6 +146,8 @@ def run_round_4_for_city(city_name):
     df_r4_ver = pipeline.simulate_designs(df_to_sim4, sim_dir_r4, id_col='pareto_id')
     t_sim_sec = time.time() - t_sim_0
     p_r4_ver = os.path.join(cdir, "round_4_verified.parquet")
+    df_r4_ver['epw_path'] = pipeline.epw_path
+    df_r4_ver['epw_sha256'] = pipeline.epw_sha256
     df_r4_ver.to_parquet(p_r4_ver, index=False)
     print(f"Verified {len(df_r4_ver)} Round 4 candidates in {t_sim_sec:.2f} s. Saved compact parquet {p_r4_ver}.")
 
@@ -183,6 +195,8 @@ def run_round_4_for_city(city_name):
             'max_err_O2_pct': round(float(np.max(abs_err_o2) / median_o2 * 100.0), 2),
             'retrain_time_sec': round(t_retrain_sec, 2),
             'nsga_time_sec': round(t_nsga_sec, 2),
+            'epw_path': pipeline.epw_path,
+            'epw_sha256': pipeline.epw_sha256,
             'wall_time_sec': round(time.time() - t_city_0, 2)
         }
         df_hist = pd.concat([df_hist, pd.DataFrame([rec4])], ignore_index=True)
@@ -193,6 +207,8 @@ def run_round_4_for_city(city_name):
     df_pareto_new = compute_non_dominated_front(all_verified)
     
     # Save updated Pareto front
+    df_pareto_new['epw_path'] = pipeline.epw_path
+    df_pareto_new['epw_sha256'] = pipeline.epw_sha256
     df_pareto_new.to_parquet(p_pareto, index=False)
     csv_p = os.path.join(cdir, f"final_verified_pareto_{city_name}.csv")
     df_pareto_new.to_csv(csv_p, index=False)

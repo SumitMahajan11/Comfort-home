@@ -163,6 +163,13 @@ CITY_ZONE_SOURCE = {
     "Bengaluru": "STANDARD"
 }
 
+def compute_file_sha256(filepath):
+    h = hashlib.sha256()
+    with open(filepath, 'rb') as f:
+        while chunk := f.read(65536):
+            h.update(chunk)
+    return h.hexdigest()
+
 def print_settings():
     print("=" * 80)
     print("PIPELINE EXECUTION SETTINGS (Exact replica of Leh settings)")
@@ -378,6 +385,18 @@ class CityPipeline:
         self.epw_path = os.path.abspath(c_row.iloc[0]['path'])
         if not os.path.exists(self.epw_path):
             raise FileNotFoundError(f"EPW file not found at {self.epw_path} for city '{city_name}'!")
+        
+        # Verify EPW runtime SHA256 against manifest (Item 7 prevention check)
+        manifest_sha = str(c_row.iloc[0]['sha256']).strip().lower()
+        computed_sha = compute_file_sha256(self.epw_path).lower()
+        if computed_sha != manifest_sha:
+            raise ValueError(
+                f"EPW SHA256 mismatch for city '{city_name}'!\n"
+                f"Manifest SHA256: {manifest_sha}\n"
+                f"Computed SHA256: {computed_sha}\n"
+                f"EPW File Path:   {self.epw_path}"
+            )
+        self.epw_sha256 = computed_sha
         
         # Resolve Climate Zone and R3 reference
         if city_name not in CITY_CLIMATE_ZONES:
@@ -600,6 +619,8 @@ class CityPipeline:
 
         sim_dir = os.path.join(self.batch_dir, "pilot_sims")
         df_obj = self.simulate_designs(df_designs, sim_dir)
+        df_obj['epw_path'] = self.epw_path
+        df_obj['epw_sha256'] = self.epw_sha256
         df_obj.to_parquet(os.path.join(self.batch_dir, f"objectives_{self.city_name}.parquet"), index=False)
         df_obj.to_csv(os.path.join(self.batch_dir, f"objectives_{self.city_name}.csv"), index=False)
 
@@ -632,6 +653,8 @@ class CityPipeline:
             check_disk_guard(stage_nsga)
             t0 = time.time()
             df_cand1 = run_nsga2(surrogates, seed=42, city_name=self.city_name, n_gen=self.nsga2_gen, pop_size=self.nsga2_pop)
+            df_cand1['epw_path'] = self.epw_path
+            df_cand1['epw_sha256'] = self.epw_sha256
             df_cand1.to_parquet(os.path.join(self.batch_dir, "round_1_candidates.parquet"), index=False)
             t1 = time.time()
             self.log_timing(stage_nsga, t0, t1, pool_before=len(df_pool), pool_after=len(df_pool), notes=f"Pop {self.nsga2_pop}, Gen {self.nsga2_gen}, Clamped")
@@ -699,7 +722,9 @@ class CityPipeline:
                 'mean_err_O2_abs': round(float(np.mean(err_o2)), 2),
                 'max_err_O2_abs': round(float(np.max(err_o2)), 2),
                 'mean_err_O2_pct': round(mean_err_o2_pct, 2),
-                'max_err_O2_pct': round(max_err_o2_pct, 2)
+                'max_err_O2_pct': round(max_err_o2_pct, 2),
+                'epw_path': self.epw_path,
+                'epw_sha256': self.epw_sha256
             }
             print(f"Round {r} Error Summary: O1_ml mean err={rec['mean_err_O1_ml']} pp | O1_adapt mean err={rec['mean_err_O1_adapt']} pp | O2 mean err={rec['mean_err_O2_abs']} kWh/m2 ({rec['mean_err_O2_pct']} %)")
 
@@ -717,6 +742,8 @@ class CityPipeline:
                 t_nsga_0 = time.time()
                 current_cand = run_nsga2(current_surrogates, seed=42, city_name=self.city_name, n_gen=self.nsga2_gen, pop_size=self.nsga2_pop)
                 t_nsga_sec = time.time() - t_nsga_0
+                current_cand['epw_path'] = self.epw_path
+                current_cand['epw_sha256'] = self.epw_sha256
                 current_cand.to_parquet(os.path.join(self.batch_dir, f"round_{r+1}_candidates.parquet"), index=False)
 
                 rec['retrain_time_sec'] = round(t_retrain_sec, 2)
@@ -725,8 +752,12 @@ class CityPipeline:
                 rec['retrain_time_sec'] = 0.0
                 rec['nsga_time_sec'] = 0.0
                 # Final round: save final verified all & true pareto front
+                df_sim['epw_path'] = self.epw_path
+                df_sim['epw_sha256'] = self.epw_sha256
                 df_sim.to_parquet(os.path.join(self.batch_dir, f"final_verified_all_100_{self.city_name}.parquet"), index=False)
                 pareto_df = compute_non_dominated_front(df_sim)
+                pareto_df['epw_path'] = self.epw_path
+                pareto_df['epw_sha256'] = self.epw_sha256
                 pareto_df.to_parquet(os.path.join(self.batch_dir, f"final_verified_pareto_{self.city_name}.parquet"), index=False)
                 pareto_df.to_csv(os.path.join(self.batch_dir, f"final_verified_pareto_{self.city_name}.csv"), index=False)
                 print(f"Extracted {len(pareto_df)} non-dominated Pareto front designs from verified physical simulations.")
