@@ -1,0 +1,637 @@
+================================================================================================================================================================
+ITEM 1: COMPREHENSIVE FILE IDENTITY & PROVENANCE AUDIT ACROSS ALL 30 CITIES
+================================================================================================================================================================
+
+TABLE 1: 30-CITY EPW FILE IDENTITY, SHA-256 HASHES, AND CROSS-PIPELINE PATH AUDIT
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+City           | EPW Manifest Path                                          | Manifest SHA (8) | Disk SHA (8)     | Results SHA (8)  | Verdict   
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Srinagar       | data/raw/India_Weather_Extracted/IND_JK_Srinagar.420270_TMYx.2011-2025/IND_JK_Srinagar.420270_TMYx.2011-2025.epw | 5455eeaff4b93437 | 5455eeaff4b93437 | 5455eeaff4b93437 | MATCH     
+Bhuntar        | data/raw/India_Weather_Extracted/IND_HP_Bhuntar.420810_TMYx.2011-2025/IND_HP_Bhuntar.420810_TMYx.2011-2025.epw | f3bcbce0453b10f8 | f3bcbce0453b10f8 | f3bcbce0453b10f8 | MATCH     
+Gangtok        | data/raw/India_Weather_Extracted/IND_SK_Gangtok.422990_TMYx.2011-2025/IND_SK_Gangtok.422990_TMYx.2011-2025.epw | 84ac6a899f43ede3 | 84ac6a899f43ede3 | 84ac6a899f43ede3 | MATCH     
+Jammu          | data/raw/India_Weather_Extracted/IND_JK_Jammu.420560_TMYx.2011-2025/IND_JK_Jammu.420560_TMYx.2011-2025.epw | e920ac222698d750 | e920ac222698d750 | e920ac222698d750 | MATCH     
+Dehradun       | data/raw/India_Weather_Extracted/IND_UT_Dehradun.421110_TMYx.2011-2025/IND_UT_Dehradun.421110_TMYx.2011-2025.epw | d27687e4f85e66b4 | d27687e4f85e66b4 | d27687e4f85e66b4 | MATCH     
+Lucknow        | data/raw/India_Weather_Extracted/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025.epw | 1516de31c4488432 | 1516de31c4488432 | 1516de31c4488432 | MATCH     
+Varanasi       | data/raw/India_Weather_Extracted/IND_UP_Varanasi.424830_TMYx.2011-2025/IND_UP_Varanasi.424830_TMYx.2011-2025.epw | f0de0dec080f3450 | f0de0dec080f3450 | f0de0dec080f3450 | MATCH     
+Prayagraj      | data/raw/India_Weather_Extracted/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025.epw | d428d99ea4475ee7 | d428d99ea4475ee7 | d428d99ea4475ee7 | MATCH     
+Agra           | data/raw/India_Weather_Extracted/IND_UP_Agra.AP.422600_TMYx.2011-2025/IND_UP_Agra.AP.422600_TMYx.2011-2025.epw | 7e603d3674e2d67f | 7e603d3674e2d67f | 7e603d3674e2d67f | MATCH     
+Gorakhpur      | data/raw/India_Weather_Extracted/IND_UP_Gorakhpur.423790_TMYx.2011-2025/IND_UP_Gorakhpur.423790_TMYx.2011-2025.epw | bb28e32413c47b69 | bb28e32413c47b69 | bb28e32413c47b69 | MATCH     
+Patna          | data/raw/India_Weather_Extracted/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025.epw | 89378f9d0c8cea1c | 89378f9d0c8cea1c | 89378f9d0c8cea1c | MATCH     
+Nagpur         | data/raw/India_Weather_Extracted/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025.epw | 270c0979b66911a9 | 270c0979b66911a9 | 270c0979b66911a9 | MATCH     
+Guwahati       | data/raw/India_Weather_Extracted/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025.epw | 52a01dede214d22f | 52a01dede214d22f | 52a01dede214d22f | MATCH     
+Dibrugarh      | data/raw/India_Weather_Extracted/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw | 2fb238a212eeeedc | 2fb238a212eeeedc | 2fb238a212eeeedc | MATCH     
+Imphal         | data/raw/India_Weather_Extracted/IND_MN_Imphal.426230_TMYx.2011-2025/IND_MN_Imphal.426230_TMYx.2011-2025.epw | 5902cde5a4b2f4ec | 5902cde5a4b2f4ec | 5902cde5a4b2f4ec | MATCH     
+Bhubaneswar    | data/raw/India_Weather_Extracted/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025.epw | bdd16c04b4b97a3c | bdd16c04b4b97a3c | bdd16c04b4b97a3c | MATCH     
+Kolkata        | data/raw/India_Weather_Extracted/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025.epw | 9ed434826c36f1fa | 9ed434826c36f1fa | 9ed434826c36f1fa | MATCH     
+Visakhapatnam  | data/raw/India_Weather_Extracted/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025.epw | 1487aecbe2d15167 | 1487aecbe2d15167 | 1487aecbe2d15167 | MATCH     
+Chennai        | data/raw/India_Weather_Extracted/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025.epw | 46ebf7cadabd489c | 46ebf7cadabd489c | 46ebf7cadabd489c | MATCH     
+Surat          | data/raw/India_Weather_Extracted/IND_GJ_Surat.428400_TMYx.2011-2025/IND_GJ_Surat.428400_TMYx.2011-2025.epw | d24f9e4e373e2f09 | d24f9e4e373e2f09 | d24f9e4e373e2f09 | MATCH     
+Kochi          | data/raw/India_Weather_Extracted/IND_KL_Kochi.NAS.433530_TMYx.2011-2025/IND_KL_Kochi.NAS.433530_TMYx.2011-2025.epw | d593ffba6386e84a | d593ffba6386e84a | d593ffba6386e84a | MATCH     
+Port Blair     | data/raw/India_Weather_Extracted/IND_AN_Port.Blair.433330_TMYx.2011-2025/IND_AN_Port.Blair.433330_TMYx.2011-2025.epw | 95907f6a2b2e1267 | 95907f6a2b2e1267 | 95907f6a2b2e1267 | MATCH     
+Bhuj           | data/raw/India_Weather_Extracted/IND_GJ_Bhuj.426340_TMYx.2011-2025/IND_GJ_Bhuj.426340_TMYx.2011-2025.epw | 37ac3d35f1b48490 | 37ac3d35f1b48490 | 37ac3d35f1b48490 | MATCH     
+Jaisalmer      | data/raw/India_Weather_Extracted/IND_RJ_Jaisalmer.423280_TMYx.2011-2025/IND_RJ_Jaisalmer.423280_TMYx.2011-2025.epw | 9344aa138c33f640 | 9344aa138c33f640 | 9344aa138c33f640 | MATCH     
+Shimla         | data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx.2011-2025/IND_HP_Shimla.420830_TMYx.2011-2025.epw | 8b7447ee12f00a3d | 8b7447ee12f00a3d | 8b7447ee12f00a3d | MATCH     
+Jodhpur        | data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx.2011-2025/IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw | f31bbc5a7edbf383 | f31bbc5a7edbf383 | f31bbc5a7edbf383 | MATCH     
+New_Delhi      | data/raw/India_Weather_Extracted/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw | c4c5279f513ec2c1 | c4c5279f513ec2c1 | c4c5279f513ec2c1 | MATCH     
+Mumbai         | data/raw/India_Weather_Extracted/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw | 5e7cdca030958963 | 5e7cdca030958963 | 5e7cdca030958963 | MATCH     
+Bengaluru      | data/raw/India_Weather_Extracted/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025.epw | b24506e034c43d31 | b24506e034c43d31 | b24506e034c43d31 | MATCH     
+Leh            | data/raw/India_Weather_Extracted/IND_JK_Leh.427053_TMYx.2011-2025/IND_JK_Leh.427053_TMYx.2011-2025.epw | 3c6fe31eb12c438e | 3c6fe31eb12c438e | 3c6fe31eb12c438e | MATCH     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Total cities evaluated: 30. Total mismatch count: 0.
+
+================================================================================================================================================================
+DETAILED ROW AUDIT PER CITY (VERBATIM FULL SHA-256 HASHES & HEADER LINE 1)
+================================================================================================================================================================
+
+--- City 01/30: Srinagar ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_JK_Srinagar.420270_TMYx.2011-2025/IND_JK_Srinagar.420270_TMYx.2011-2025.epw
+  Manifest SHA256:   5455eeaff4b93437d05aa84bda7ce600cf9cdf781ed3058703310097b33edba4
+  Disk Computed SHA: 5455eeaff4b93437d05aa84bda7ce600cf9cdf781ed3058703310097b33edba4
+  Results CSV SHA:   5455eeaff4b93437d05aa84bda7ce600cf9cdf781ed3058703310097b33edba4
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_JK_Srinagar.420270_TMYx.2011-2025/IND_JK_Srinagar.420270_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_JK_Srinagar.420270_TMYx.2011-2025/IND_JK_Srinagar.420270_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Srinagar,JK,IND,SRC-TMYx,420270,34.05080,74.80450,5.5,1587.0'
+  Row Verdict:       MATCH
+
+--- City 02/30: Bhuntar ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_HP_Bhuntar.420810_TMYx.2011-2025/IND_HP_Bhuntar.420810_TMYx.2011-2025.epw
+  Manifest SHA256:   f3bcbce0453b10f8152e4fa911dea592421458986046a10dd6a55d6dd3e0c082
+  Disk Computed SHA: f3bcbce0453b10f8152e4fa911dea592421458986046a10dd6a55d6dd3e0c082
+  Results CSV SHA:   f3bcbce0453b10f8152e4fa911dea592421458986046a10dd6a55d6dd3e0c082
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_HP_Bhuntar.420810_TMYx.2011-2025/IND_HP_Bhuntar.420810_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_HP_Bhuntar.420810_TMYx.2011-2025/IND_HP_Bhuntar.420810_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Bhuntar,HP,IND,SRC-TMYx,420810,31.83300,77.16700,5.5,1084.0'
+  Row Verdict:       MATCH
+
+--- City 03/30: Gangtok ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_SK_Gangtok.422990_TMYx.2011-2025/IND_SK_Gangtok.422990_TMYx.2011-2025.epw
+  Manifest SHA256:   84ac6a899f43ede30e7cc84d8853f9890e5311ad8dfba1788fb1a1a19e0f8709
+  Disk Computed SHA: 84ac6a899f43ede30e7cc84d8853f9890e5311ad8dfba1788fb1a1a19e0f8709
+  Results CSV SHA:   84ac6a899f43ede30e7cc84d8853f9890e5311ad8dfba1788fb1a1a19e0f8709
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_SK_Gangtok.422990_TMYx.2011-2025/IND_SK_Gangtok.422990_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_SK_Gangtok.422990_TMYx.2011-2025/IND_SK_Gangtok.422990_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Gangtok,SK,IND,SRC-TMYx,422990,27.33300,88.61700,5.5,1756.0'
+  Row Verdict:       MATCH
+
+--- City 04/30: Jammu ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_JK_Jammu.420560_TMYx.2011-2025/IND_JK_Jammu.420560_TMYx.2011-2025.epw
+  Manifest SHA256:   e920ac222698d750e603496874f12985ca2334c8f9818a2eebc19c0c4003d792
+  Disk Computed SHA: e920ac222698d750e603496874f12985ca2334c8f9818a2eebc19c0c4003d792
+  Results CSV SHA:   e920ac222698d750e603496874f12985ca2334c8f9818a2eebc19c0c4003d792
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_JK_Jammu.420560_TMYx.2011-2025/IND_JK_Jammu.420560_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_JK_Jammu.420560_TMYx.2011-2025/IND_JK_Jammu.420560_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Jammu,JK,IND,SRC-TMYx,420560,32.66700,74.83300,5.5,367.0'
+  Row Verdict:       MATCH
+
+--- City 05/30: Dehradun ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_UT_Dehradun.421110_TMYx.2011-2025/IND_UT_Dehradun.421110_TMYx.2011-2025.epw
+  Manifest SHA256:   d27687e4f85e66b4bdf82cad9e1892fc7921af9c4f4e9a13bab5fd9cd73064b6
+  Disk Computed SHA: d27687e4f85e66b4bdf82cad9e1892fc7921af9c4f4e9a13bab5fd9cd73064b6
+  Results CSV SHA:   d27687e4f85e66b4bdf82cad9e1892fc7921af9c4f4e9a13bab5fd9cd73064b6
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_UT_Dehradun.421110_TMYx.2011-2025/IND_UT_Dehradun.421110_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_UT_Dehradun.421110_TMYx.2011-2025/IND_UT_Dehradun.421110_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Dehradun,UT,IND,SRC-TMYx,421110,30.31700,78.03300,5.5,682.0'
+  Row Verdict:       MATCH
+
+--- City 06/30: Lucknow ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025.epw
+  Manifest SHA256:   1516de31c448843260abfd3c35a62ad38baece15aab9186cb4145b852c62952c
+  Disk Computed SHA: 1516de31c448843260abfd3c35a62ad38baece15aab9186cb4145b852c62952c
+  Results CSV SHA:   1516de31c448843260abfd3c35a62ad38baece15aab9186cb4145b852c62952c
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Lucknow-Amausi-Singh.Intl.AP,UP,IND,SRC-TMYx,423690,26.76100,80.88900,5.5,125.0'
+  Row Verdict:       MATCH
+
+--- City 07/30: Varanasi ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_UP_Varanasi.424830_TMYx.2011-2025/IND_UP_Varanasi.424830_TMYx.2011-2025.epw
+  Manifest SHA256:   f0de0dec080f3450838874d727f0a078db39c9c728cd4cc1b8fee58038f85ddc
+  Disk Computed SHA: f0de0dec080f3450838874d727f0a078db39c9c728cd4cc1b8fee58038f85ddc
+  Results CSV SHA:   f0de0dec080f3450838874d727f0a078db39c9c728cd4cc1b8fee58038f85ddc
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_UP_Varanasi.424830_TMYx.2011-2025/IND_UP_Varanasi.424830_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_UP_Varanasi.424830_TMYx.2011-2025/IND_UP_Varanasi.424830_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Varanasi,UP,IND,SRC-TMYx,424830,25.30000,83.01700,5.5,90.0'
+  Row Verdict:       MATCH
+
+--- City 08/30: Prayagraj ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025.epw
+  Manifest SHA256:   d428d99ea4475ee7724ae345d8a673279807201ba253e62a7d3fc40e9edbde69
+  Disk Computed SHA: d428d99ea4475ee7724ae345d8a673279807201ba253e62a7d3fc40e9edbde69
+  Results CSV SHA:   d428d99ea4475ee7724ae345d8a673279807201ba253e62a7d3fc40e9edbde69
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025/IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Allahabad-Bamrauli.AP,UP,IND,SRC-TMYx,424750,25.44100,81.73500,5.5,98.1'
+  Row Verdict:       MATCH
+
+--- City 09/30: Agra ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_UP_Agra.AP.422600_TMYx.2011-2025/IND_UP_Agra.AP.422600_TMYx.2011-2025.epw
+  Manifest SHA256:   7e603d3674e2d67f3f6e6e327ca42599360e56f6a016a4e155ce1a6639cdc47a
+  Disk Computed SHA: 7e603d3674e2d67f3f6e6e327ca42599360e56f6a016a4e155ce1a6639cdc47a
+  Results CSV SHA:   7e603d3674e2d67f3f6e6e327ca42599360e56f6a016a4e155ce1a6639cdc47a
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_UP_Agra.AP.422600_TMYx.2011-2025/IND_UP_Agra.AP.422600_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_UP_Agra.AP.422600_TMYx.2011-2025/IND_UP_Agra.AP.422600_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Agra.AP,UP,IND,SRC-TMYx,422600,27.15600,77.96100,5.5,167.9'
+  Row Verdict:       MATCH
+
+--- City 10/30: Gorakhpur ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_UP_Gorakhpur.423790_TMYx.2011-2025/IND_UP_Gorakhpur.423790_TMYx.2011-2025.epw
+  Manifest SHA256:   bb28e32413c47b69a73d7e39621b9827591956ff3db32e3b0fde414e4f0eb157
+  Disk Computed SHA: bb28e32413c47b69a73d7e39621b9827591956ff3db32e3b0fde414e4f0eb157
+  Results CSV SHA:   bb28e32413c47b69a73d7e39621b9827591956ff3db32e3b0fde414e4f0eb157
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_UP_Gorakhpur.423790_TMYx.2011-2025/IND_UP_Gorakhpur.423790_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_UP_Gorakhpur.423790_TMYx.2011-2025/IND_UP_Gorakhpur.423790_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Gorakhpur,UP,IND,SRC-TMYx,423790,26.74000,83.45000,5.5,78.9'
+  Row Verdict:       MATCH
+
+--- City 11/30: Patna ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025.epw
+  Manifest SHA256:   89378f9d0c8cea1cf8f5b2462da4ec5bb1ced56943935ebfb4f46f88d797ea53
+  Disk Computed SHA: 89378f9d0c8cea1cf8f5b2462da4ec5bb1ced56943935ebfb4f46f88d797ea53
+  Results CSV SHA:   89378f9d0c8cea1cf8f5b2462da4ec5bb1ced56943935ebfb4f46f88d797ea53
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Patna-Jayaprakash.AP,BR,IND,SRC-TMYx,424920,25.59100,85.08800,5.5,51.8'
+  Row Verdict:       MATCH
+
+--- City 12/30: Nagpur ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025.epw
+  Manifest SHA256:   270c0979b66911a9cdad2ede07ff7e8f17fd965baea319b58a0a7b9a9d756415
+  Disk Computed SHA: 270c0979b66911a9cdad2ede07ff7e8f17fd965baea319b58a0a7b9a9d756415
+  Results CSV SHA:   270c0979b66911a9cdad2ede07ff7e8f17fd965baea319b58a0a7b9a9d756415
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Nagpur-Ambedkar.Intl.AP,MH,IND,SRC-TMYx,428670,21.09200,79.04700,5.5,314.9'
+  Row Verdict:       MATCH
+
+--- City 13/30: Guwahati ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025.epw
+  Manifest SHA256:   52a01dede214d22f19f697c6313c7df5ce81ed264098f6445d21c4d6995ca886
+  Disk Computed SHA: 52a01dede214d22f19f697c6313c7df5ce81ed264098f6445d21c4d6995ca886
+  Results CSV SHA:   52a01dede214d22f19f697c6313c7df5ce81ed264098f6445d21c4d6995ca886
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Guwahati-Bordoloi.Intl.AP,AS,IND,SRC-TMYx,424100,26.10600,91.58600,5.5,49.4'
+  Row Verdict:       MATCH
+
+--- City 14/30: Dibrugarh ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw
+  Manifest SHA256:   2fb238a212eeeedcc0eb088e04382560a5ae9be72f803823af5cb910befe860a
+  Disk Computed SHA: 2fb238a212eeeedcc0eb088e04382560a5ae9be72f803823af5cb910befe860a
+  Results CSV SHA:   2fb238a212eeeedcc0eb088e04382560a5ae9be72f803823af5cb910befe860a
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Dibrugarh.AP,AS,IND,SRC-TMYx,423140,27.48400,95.01700,5.5,110.3'
+  Row Verdict:       MATCH
+
+--- City 15/30: Imphal ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_MN_Imphal.426230_TMYx.2011-2025/IND_MN_Imphal.426230_TMYx.2011-2025.epw
+  Manifest SHA256:   5902cde5a4b2f4ecad9b5f4ed703cdd20fc5b51147a50ef7fab614c7d9a52a32
+  Disk Computed SHA: 5902cde5a4b2f4ecad9b5f4ed703cdd20fc5b51147a50ef7fab614c7d9a52a32
+  Results CSV SHA:   5902cde5a4b2f4ecad9b5f4ed703cdd20fc5b51147a50ef7fab614c7d9a52a32
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_MN_Imphal.426230_TMYx.2011-2025/IND_MN_Imphal.426230_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_MN_Imphal.426230_TMYx.2011-2025/IND_MN_Imphal.426230_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Imphal,MN,IND,SRC-TMYx,426230,24.76000,93.89700,5.5,774.2'
+  Row Verdict:       MATCH
+
+--- City 16/30: Bhubaneswar ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025.epw
+  Manifest SHA256:   bdd16c04b4b97a3ca2ac0c149ce2bd545327bbaa542973abb11a9c689bf52adb
+  Disk Computed SHA: bdd16c04b4b97a3ca2ac0c149ce2bd545327bbaa542973abb11a9c689bf52adb
+  Results CSV SHA:   bdd16c04b4b97a3ca2ac0c149ce2bd545327bbaa542973abb11a9c689bf52adb
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Bhubaneshwar-Patnaik.Intl.AP,OR,IND,SRC-TMYx,429710,20.24400,85.81800,5.5,42.1'
+  Row Verdict:       MATCH
+
+--- City 17/30: Kolkata ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025.epw
+  Manifest SHA256:   9ed434826c36f1faf70c17af80b5bbcbce73c1969ac78f315c96b5ba0ee46f21
+  Disk Computed SHA: 9ed434826c36f1faf70c17af80b5bbcbce73c1969ac78f315c96b5ba0ee46f21
+  Results CSV SHA:   9ed434826c36f1faf70c17af80b5bbcbce73c1969ac78f315c96b5ba0ee46f21
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Kolkata-Bose.Intl.AP,WB,IND,SRC-TMYx,428090,22.65500,88.44700,5.5,4.9'
+  Row Verdict:       MATCH
+
+--- City 18/30: Visakhapatnam ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025.epw
+  Manifest SHA256:   1487aecbe2d15167546da8682322ad5973e52d515edf4317e40fb86a32eaf25e
+  Disk Computed SHA: 1487aecbe2d15167546da8682322ad5973e52d515edf4317e40fb86a32eaf25e
+  Results CSV SHA:   1487aecbe2d15167546da8682322ad5973e52d515edf4317e40fb86a32eaf25e
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025/IND_AP_Vishakhapatnam.431500_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Vishakhapatnam,AP,IND,SRC-TMYx,431500,17.72170,83.32920,5.5,66.0'
+  Row Verdict:       MATCH
+
+--- City 19/30: Chennai ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025.epw
+  Manifest SHA256:   46ebf7cadabd489c09a510f9df0d96ed502b87c594f86a38172b0069f7767fb7
+  Disk Computed SHA: 46ebf7cadabd489c09a510f9df0d96ed502b87c594f86a38172b0069f7767fb7
+  Results CSV SHA:   46ebf7cadabd489c09a510f9df0d96ed502b87c594f86a38172b0069f7767fb7
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Chennai.Intl.AP,TN,IND,SRC-TMYx,432790,12.99400,80.18100,5.5,15.8'
+  Row Verdict:       MATCH
+
+--- City 20/30: Surat ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_GJ_Surat.428400_TMYx.2011-2025/IND_GJ_Surat.428400_TMYx.2011-2025.epw
+  Manifest SHA256:   d24f9e4e373e2f09dc5dc04f54e76a8e9d487398477c6fd1342ef97b41ecfb52
+  Disk Computed SHA: d24f9e4e373e2f09dc5dc04f54e76a8e9d487398477c6fd1342ef97b41ecfb52
+  Results CSV SHA:   d24f9e4e373e2f09dc5dc04f54e76a8e9d487398477c6fd1342ef97b41ecfb52
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_GJ_Surat.428400_TMYx.2011-2025/IND_GJ_Surat.428400_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_GJ_Surat.428400_TMYx.2011-2025/IND_GJ_Surat.428400_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Surat,GJ,IND,SRC-TMYx,428400,21.20000,72.83300,5.5,12.0'
+  Row Verdict:       MATCH
+
+--- City 21/30: Kochi ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_KL_Kochi.NAS.433530_TMYx.2011-2025/IND_KL_Kochi.NAS.433530_TMYx.2011-2025.epw
+  Manifest SHA256:   d593ffba6386e84aacbd2c18051d2c3832282ea013a3b9979f2f96f0abe2a71e
+  Disk Computed SHA: d593ffba6386e84aacbd2c18051d2c3832282ea013a3b9979f2f96f0abe2a71e
+  Results CSV SHA:   d593ffba6386e84aacbd2c18051d2c3832282ea013a3b9979f2f96f0abe2a71e
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_KL_Kochi.NAS.433530_TMYx.2011-2025/IND_KL_Kochi.NAS.433530_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_KL_Kochi.NAS.433530_TMYx.2011-2025/IND_KL_Kochi.NAS.433530_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Kochi.NAS,KL,IND,SRC-TMYx,433530,9.94600,76.27200,5.5,2.4'
+  Row Verdict:       MATCH
+
+--- City 22/30: Port Blair ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_AN_Port.Blair.433330_TMYx.2011-2025/IND_AN_Port.Blair.433330_TMYx.2011-2025.epw
+  Manifest SHA256:   95907f6a2b2e126702d10c2a609c37de49d99b16e158e32caab9f8adca404ede
+  Disk Computed SHA: 95907f6a2b2e126702d10c2a609c37de49d99b16e158e32caab9f8adca404ede
+  Results CSV SHA:   95907f6a2b2e126702d10c2a609c37de49d99b16e158e32caab9f8adca404ede
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_AN_Port.Blair.433330_TMYx.2011-2025/IND_AN_Port.Blair.433330_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_AN_Port.Blair.433330_TMYx.2011-2025/IND_AN_Port.Blair.433330_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Port.Blair,AN,IND,SRC-TMYx,433330,11.66700,92.71700,5.5,79.0'
+  Row Verdict:       MATCH
+
+--- City 23/30: Bhuj ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_GJ_Bhuj.426340_TMYx.2011-2025/IND_GJ_Bhuj.426340_TMYx.2011-2025.epw
+  Manifest SHA256:   37ac3d35f1b48490d75ed55ed201f4f33c2eb87a968a643ed6819695f5f0ae62
+  Disk Computed SHA: 37ac3d35f1b48490d75ed55ed201f4f33c2eb87a968a643ed6819695f5f0ae62
+  Results CSV SHA:   37ac3d35f1b48490d75ed55ed201f4f33c2eb87a968a643ed6819695f5f0ae62
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_GJ_Bhuj.426340_TMYx.2011-2025/IND_GJ_Bhuj.426340_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_GJ_Bhuj.426340_TMYx.2011-2025/IND_GJ_Bhuj.426340_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Bhuj,GJ,IND,SRC-TMYx,426340,23.28800,69.67000,5.5,81.7'
+  Row Verdict:       MATCH
+
+--- City 24/30: Jaisalmer ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_RJ_Jaisalmer.423280_TMYx.2011-2025/IND_RJ_Jaisalmer.423280_TMYx.2011-2025.epw
+  Manifest SHA256:   9344aa138c33f6404aa8110b092ec573910f6b958bd05b3ff90c0f400a07fd04
+  Disk Computed SHA: 9344aa138c33f6404aa8110b092ec573910f6b958bd05b3ff90c0f400a07fd04
+  Results CSV SHA:   9344aa138c33f6404aa8110b092ec573910f6b958bd05b3ff90c0f400a07fd04
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_RJ_Jaisalmer.423280_TMYx.2011-2025/IND_RJ_Jaisalmer.423280_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_RJ_Jaisalmer.423280_TMYx.2011-2025/IND_RJ_Jaisalmer.423280_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Jaisalmer,RJ,IND,SRC-TMYx,423280,26.90000,70.91700,5.5,231.0'
+  Row Verdict:       MATCH
+
+--- City 25/30: Shimla ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx.2011-2025/IND_HP_Shimla.420830_TMYx.2011-2025.epw
+  Manifest SHA256:   8b7447ee12f00a3d13ba9443caca904e8ef4cf2865f30b7eac86eaa176d68286
+  Disk Computed SHA: 8b7447ee12f00a3d13ba9443caca904e8ef4cf2865f30b7eac86eaa176d68286
+  Results CSV SHA:   8b7447ee12f00a3d13ba9443caca904e8ef4cf2865f30b7eac86eaa176d68286
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx.2011-2025/IND_HP_Shimla.420830_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx.2011-2025/IND_HP_Shimla.420830_TMYx.2011-2025.epw
+  EPW Header Line 1: 'LOCATION,Shimla,HP,IND,SRC-TMYx,420830,31.10000,77.16700,5.5,2202.0'
+  Row Verdict:       MATCH
+
+--- City 26/30: Jodhpur ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx.2011-2025/IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw
+  Manifest SHA256:   f31bbc5a7edbf38328151473a5dfb8660e14026289a9c77a4e6d4f6cf8a4de39
+  Disk Computed SHA: f31bbc5a7edbf38328151473a5dfb8660e14026289a9c77a4e6d4f6cf8a4de39
+  Results CSV SHA:   f31bbc5a7edbf38328151473a5dfb8660e14026289a9c77a4e6d4f6cf8a4de39
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx.2011-2025/IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx.2011-2025/IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw
+  EPW Header Line 1: 'LOCATION,Jodhpur,RJ,IND,SRC-TMYx,423390,26.25730,73.04080,5.5,218.5'
+  Row Verdict:       MATCH
+
+--- City 27/30: New_Delhi ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw
+  Manifest SHA256:   c4c5279f513ec2c1dec4511114c05f13596f214184dc825e58385a1f53ac2d5a
+  Disk Computed SHA: c4c5279f513ec2c1dec4511114c05f13596f214184dc825e58385a1f53ac2d5a
+  Results CSV SHA:   c4c5279f513ec2c1dec4511114c05f13596f214184dc825e58385a1f53ac2d5a
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw
+  EPW Header Line 1: 'LOCATION,New.Delhi-Gandhi.Intl.AP,DL,IND,SRC-TMYx,421810,28.56700,77.10300,5.5,236.8'
+  Row Verdict:       MATCH
+
+--- City 28/30: Mumbai ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw
+  Manifest SHA256:   5e7cdca030958963ab5be12751afe8d0c66b01150450e1059bb7e1b65f044552
+  Disk Computed SHA: 5e7cdca030958963ab5be12751afe8d0c66b01150450e1059bb7e1b65f044552
+  Results CSV SHA:   5e7cdca030958963ab5be12751afe8d0c66b01150450e1059bb7e1b65f044552
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw
+  EPW Header Line 1: 'LOCATION,Mumbai-Shivaji.Intl.AP,MH,IND,SRC-TMYx,430030,19.08900,72.86800,5.5,11.3'
+  Row Verdict:       MATCH
+
+--- City 29/30: Bengaluru ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025.epw
+  Manifest SHA256:   b24506e034c43d31950862232b97b404e573de4c8bee04204f62d0890bcae478
+  Disk Computed SHA: b24506e034c43d31950862232b97b404e573de4c8bee04204f62d0890bcae478
+  Results CSV SHA:   b24506e034c43d31950862232b97b404e573de4c8bee04204f62d0890bcae478
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025.epw
+  EPW Header Line 1: 'LOCATION,Bengaluru-Hindustan.AP,KA,IND,SRC-TMYx,432960,12.95000,77.66800,5.5,888.0'
+  Row Verdict:       MATCH
+
+--- City 30/30: Leh ---
+  Manifest Path:     data/raw/India_Weather_Extracted/IND_JK_Leh.427053_TMYx.2011-2025/IND_JK_Leh.427053_TMYx.2011-2025.epw
+  Manifest SHA256:   3c6fe31eb12c438e316c846eb1fd867ea82368ad78a31207d9254fe31c4be193
+  Disk Computed SHA: 3c6fe31eb12c438e316c846eb1fd867ea82368ad78a31207d9254fe31c4be193
+  Results CSV SHA:   3c6fe31eb12c438e316c846eb1fd867ea82368ad78a31207d9254fe31c4be193
+  Item1 Script Path: data/raw/India_Weather_Extracted/IND_JK_Leh.427053_TMYx.2011-2025/IND_JK_Leh.427053_TMYx.2011-2025.epw
+  Item3 Script Path: data/raw/India_Weather_Extracted/IND_JK_Leh.427053_TMYx.2011-2025/IND_JK_Leh.427053_TMYx.2011-2025.epw (manifest, not evaluated in item3 flagship set)
+  EPW Header Line 1: 'LOCATION,Leh,JK,IND,SRC-TMYx,427053,34.13600,77.54700,5.5,3255.9'
+  Row Verdict:       MATCH
+
+================================================================================================================================================================
+COUNT OF RAW EPW FILES PER CITY IN data/raw
+================================================================================================================================================================
+Total raw EPW files on disk under data/raw: 71
+
+City            | Count | Raw EPW Files Found on Disk
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Srinagar        | 2     | IND_JK_Srinagar.420270_TMYx.2011-2025.epw, IND_JK_Srinagar.420270_TMYx.2011-2025.epw
+Bhuntar         | 1     | IND_HP_Bhuntar.420810_TMYx.2011-2025.epw
+Gangtok         | 2     | IND_SK_Gangtok.422990_TMYx.2011-2025.epw, IND_SK_Gangtok.422990_TMYx.2011-2025.epw
+Jammu           | 2     | IND_JK_Jammu.420560_TMYx.2011-2025.epw, IND_JK_Jammu.420560_TMYx.2011-2025.epw
+Dehradun        | 2     | IND_UT_Dehradun.421110_TMYx.2011-2025.epw, IND_UT_Dehradun.421110_TMYx.2011-2025.epw
+Lucknow         | 2     | IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025.epw, IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025.epw
+Varanasi        | 2     | IND_UP_Varanasi.424830_TMYx.2011-2025.epw, IND_UP_Varanasi.424830_TMYx.2011-2025.epw
+Prayagraj       | 2     | IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025.epw, IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025.epw
+Agra            | 2     | IND_UP_Agra.AP.422600_TMYx.2011-2025.epw, IND_UP_Agra.AP.422600_TMYx.2011-2025.epw
+Gorakhpur       | 2     | IND_UP_Gorakhpur.423790_TMYx.2011-2025.epw, IND_UP_Gorakhpur.423790_TMYx.2011-2025.epw
+Patna           | 2     | IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025.epw, IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025.epw
+Nagpur          | 2     | IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025.epw, IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025.epw
+Guwahati        | 2     | IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025.epw, IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025.epw
+Dibrugarh       | 2     | IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw, IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw
+Imphal          | 2     | IND_MN_Imphal.426230_TMYx.2011-2025.epw, IND_MN_Imphal.426230_TMYx.2011-2025.epw
+Bhubaneswar     | 2     | IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025.epw, IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025.epw
+Kolkata         | 2     | IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025.epw, IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025.epw
+Visakhapatnam   | 2     | IND_AP_Vishakhapatnam.431500_TMYx.2011-2025.epw, IND_AP_Vishakhapatnam.431500_TMYx.2011-2025.epw
+Chennai         | 2     | IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025.epw, IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025.epw
+Surat           | 2     | IND_GJ_Surat.428400_TMYx.2011-2025.epw, IND_GJ_Surat.428400_TMYx.2011-2025.epw
+Kochi           | 2     | IND_KL_Kochi.NAS.433530_TMYx.2011-2025.epw, IND_KL_Kochi.NAS.433530_TMYx.2011-2025.epw
+Port Blair      | 2     | IND_AN_Port.Blair.433330_TMYx.2011-2025.epw, IND_AN_Port.Blair.433330_TMYx.2011-2025.epw
+Bhuj            | 2     | IND_GJ_Bhuj.426340_TMYx.2011-2025.epw, IND_GJ_Bhuj.426340_TMYx.2011-2025.epw
+Jaisalmer       | 2     | IND_RJ_Jaisalmer.423280_TMYx.2011-2025.epw, IND_RJ_Jaisalmer.423280_TMYx.2011-2025.epw
+Shimla          | 4     | IND_HP_Shimla.420830_TMYx.2011-2025.epw, IND_HP_Shimla.420830_TMYx.2011-2025.epw, IND_HP_Shimla.420830_TMYx.epw, IND_HP_Shimla.420830_TMYx.epw
+Jodhpur         | 4     | IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw, IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw, IND_RJ_Jodhpur.423390_TMYx.epw, IND_RJ_Jodhpur.423390_TMYx.epw
+New_Delhi       | 4     | IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw, IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw, IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.epw, IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.epw
+Mumbai          | 4     | IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw, IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw, IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.epw, IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.epw
+Bengaluru       | 4     | IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025.epw, IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025.epw, IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.epw, IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.epw
+Leh             | 1     | IND_JK_Leh.427053_TMYx.2011-2025.epw
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Non-manifest auxiliary stations in data/raw (3 files):
+  - data\raw\India_Weather_Extracted\IND_HP_Kullu.Manali.427051_TMYx.2011-2025\IND_HP_Kullu.Manali.427051_TMYx.2011-2025.epw
+  - data\raw\India_Weather_Extracted\IND_HP_Manali.420650_TMYx.2011-2025.epw
+  - data\raw\India_Weather_Extracted\IND_HP_Manali.420650_TMYx.2011-2025\IND_HP_Manali.420650_TMYx.2011-2025.epw
+
+Raw file distribution structure:
+  - Standard batch cities with exactly 2 files (root + subfolder copy): 23 cities (46 files)
+  - Flagship cities with exactly 4 files (2011-2025 TMYx + legacy TMYx pairs): 5 cities (20 files)
+  - Single-copy cities (subfolder only): 2 cities (Bhuntar, Leh) (2 files)
+  - Auxiliary non-manifest station files (Manali & Kullu.Manali): 3 files
+  - Total accounted files: 71 / 71 on disk.
+
+================================================================================================================================================================
+EXPLANATION OF NEW DELHI & MUMBAI STATION NAMING
+================================================================================================================================================================
+1. New Delhi: Safdarjung (WMO 421820) vs Gandhi Intl AP (WMO 421810):
+   - WMO 421810 is Indira Gandhi International Airport (Palam), located at 28.567°N, 77.103°E, elev 236.8 m.
+   - WMO 421820 is Safdarjung Airport, located at 28.589°N, 77.206°E, elev 216.0 m in central New Delhi.
+   - In OneBuilding's repository, both stations exist as separate archives:
+     * IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.zip
+     * IND_DL_New.Delhi-Safdarjung.AP.421820_TMYx.2011-2025.zip
+   - In batch_epw_manifest.csv, New Delhi's canonical EPW is Gandhi.Intl.AP (WMO 421810):
+     data/raw/India_Weather_Extracted/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw
+   - Earlier conversational references cited 'Safdarjung' because Safdarjung is the central IMD municipal observatory
+     cited in building standard ECBC/NBC tables. However, the simulation files, manifest, and results table
+     strictly use Gandhi.Intl.AP.421810.
+
+2. Mumbai: Santacruz vs Shivaji Intl AP (WMO 430030):
+   - WMO 430030 is Chhatrapati Shivaji Maharaj International Airport (BOM), located at 19.089°N, 72.868°E, elev 11.3 m.
+   - Historically and in IMD meteorological literature, WMO 430030 is officially designated 'Santacruz Observatory'
+     because the airfield occupies the Santacruz/Sahar area of Mumbai.
+   - OneBuilding names the file using the airport's official civic title: IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw.
+   - Thus, 'Santacruz' and 'Shivaji.Intl.AP' refer to the EXACT SAME WMO station (WMO 430030).
+   - There is no separate Santacruz EPW file for WMO 430030; 'Santacruz' is the IMD station name and 'Shivaji.Intl.AP'
+     is the OneBuilding archive naming convention.
+
+================================================================================================================================================================
+AUDIT OF GIT DIFF 9ec0eb3 -- reports/item1_station_identity.txt
+================================================================================================================================================================
+Git diff exit code: 0
+Total diff length: 77317 characters.
+
+City table changes in git diff 9ec0eb3 -- reports/item1_station_identity.txt:
+  Detected changes for 201 entries:
+    Srinagar: -     Srinagar                     Srinagar 420270  34.051  74.805      1587.0  34.084  74.797      1585.0     3.72      2.0        OK
+    Bhuntar: -      Bhuntar                      Bhuntar 420810  31.833  77.167      1084.0  31.876  77.154      1089.0     4.97      5.0        OK
+    Gangtok: -      Gangtok                      Gangtok 422990  27.333  88.617      1756.0  27.339  88.606      1650.0     1.23    106.0        OK
+    Jammu: -        Jammu                        Jammu 420560  32.667  74.833       367.0  32.727  74.857       327.0     7.00     40.0        OK
+    Dehradun: -     Dehradun                     Dehradun 421110  30.317  78.033       682.0  30.317  78.032       640.0     0.09     42.0        OK
+    Lucknow: -      Lucknow Lucknow-Amausi-Singh.Intl.AP 423690  26.761  80.889       125.0  26.847  80.946       123.0    11.09      2.0        OK
+    Varanasi: -     Varanasi                     Varanasi 424830  25.300  83.017        90.0  25.318  82.974        81.0     4.75      9.0        OK
+    Prayagraj: -    Prayagraj        Allahabad-Bamrauli.AP 424750  25.441  81.735        98.1  25.436  81.846        98.0    11.19      0.1        OK
+    Agra: -         Agra                      Agra.AP 422600  27.156  77.961       167.9  27.177  78.008       169.0     5.20      1.1        OK
+    Gorakhpur: -    Gorakhpur                    Gorakhpur 423790  26.740  83.450        78.9  26.761  83.373        84.0     7.96      5.1        OK
+    Patna: -        Patna         Patna-Jayaprakash.AP 424920  25.591  85.088        51.8  25.594  85.138        53.0     4.99      1.2        OK
+    Nagpur: -       Nagpur      Nagpur-Ambedkar.Intl.AP 428670  21.092  79.047       314.9  21.146  79.088       310.0     7.35      4.9        OK
+    Guwahati: -     Guwahati    Guwahati-Bordoloi.Intl.AP 424100  26.106  91.586        49.4  26.145  91.736        55.0    15.59      5.6        OK
+    Dibrugarh: -    Dibrugarh                 Dibrugarh.AP 423140  27.484  95.017       110.3  27.473  94.912       108.0    10.43      2.3        OK
+    Imphal: -       Imphal                       Imphal 426230  24.760  93.897       774.2  24.817  93.937       786.0     7.50     11.8        OK
+    Patna: -  Bhubaneswar Bhubaneshwar-Patnaik.Intl.AP 429710  20.244  85.818        42.1  20.296  85.825        45.0     5.83      2.9        OK
+    Bhubaneswar: -  Bhubaneswar Bhubaneshwar-Patnaik.Intl.AP 429710  20.244  85.818        42.1  20.296  85.825        45.0     5.83      2.9        OK
+    Kolkata: -      Kolkata         Kolkata-Bose.Intl.AP 428090  22.655  88.447         4.9  22.573  88.364         9.0    12.52      4.1        OK
+    Visakhapatnam: -Visakhapatnam               Vishakhapatnam 431500  17.722  83.329        66.0  17.687  83.219        45.0    12.35     21.0        OK
+    Chennai: -      Chennai              Chennai.Intl.AP 432790  12.994  80.181        15.8  13.083  80.271         6.0    13.85      9.8        OK
+    Surat: -        Surat                        Surat 428400  21.200  72.833        12.0  21.170  72.831        13.0     3.32      1.0        OK
+    Kochi: -        Kochi                    Kochi.NAS 433530   9.946  76.272         2.4   9.931  76.267         4.0     1.72      1.6        OK
+    Port Blair: -   Port Blair                   Port.Blair 433330  11.667  92.717        79.0  11.623  92.727        16.0     4.96     63.0        OK
+    Bhuj: -         Bhuj                         Bhuj 426340  23.288  69.670        81.7  23.242  69.667       110.0     5.12     28.3        OK
+    Jaisalmer: -    Jaisalmer                    Jaisalmer 423280  26.900  70.917       231.0  26.916  70.908       225.0     1.95      6.0        OK
+    Shimla: -       Shimla                       Shimla 420830  31.100  77.167      2202.0  31.105  77.173      2206.0     0.81      4.0        OK
+    Jodhpur: -      Jodhpur                      Jodhpur 423390  26.257  73.041       218.5  26.239  73.024       231.0     2.63     12.5        OK
+    New_Delhi: -    New_Delhi     New.Delhi-Gandhi.Intl.AP 421810  28.567  77.103       236.8  28.614  77.209       216.0    11.59     20.8        OK
+    Mumbai: -       Mumbai       Mumbai-Shivaji.Intl.AP 430030  19.089  72.868        11.3  19.076  72.878        14.0     1.77      2.7        OK
+    Bengaluru: -    Bengaluru       Bengaluru-Hindustan.AP 432960  12.950  77.668       888.0  12.972  77.595       920.0     8.31     32.0        OK
+    Leh: -          Leh                          Leh 427053  34.136  77.547      3255.9  34.153  77.577      3500.0     3.33    244.1 ELEV>150m
+    Srinagar: +     Srinagar                     Srinagar 420270   5455eeaf  34.051  74.805      1587.0  34.084  74.797      1585.0     3.72      2.0        OK
+    Bhuntar: +      Bhuntar                      Bhuntar 420810   f3bcbce0  31.833  77.167      1084.0  31.876  77.154      1089.0     4.97      5.0        OK
+    Gangtok: +      Gangtok                      Gangtok 422990   84ac6a89  27.333  88.617      1756.0  27.339  88.606      1650.0     1.23    106.0        OK
+    Jammu: +        Jammu                        Jammu 420560   e920ac22  32.667  74.833       367.0  32.727  74.857       327.0     7.00     40.0        OK
+    Dehradun: +     Dehradun                     Dehradun 421110   d27687e4  30.317  78.033       682.0  30.317  78.032       640.0     0.09     42.0        OK
+    Lucknow: +      Lucknow Lucknow-Amausi-Singh.Intl.AP 423690   1516de31  26.761  80.889       125.0  26.847  80.946       123.0    11.09      2.0        OK
+    Varanasi: +     Varanasi                     Varanasi 424830   f0de0dec  25.300  83.017        90.0  25.318  82.974        81.0     4.75      9.0        OK
+    Prayagraj: +    Prayagraj        Allahabad-Bamrauli.AP 424750   d428d99e  25.441  81.735        98.1  25.436  81.846        98.0    11.19      0.1        OK
+    Agra: +         Agra                      Agra.AP 422600   7e603d36  27.156  77.961       167.9  27.177  78.008       169.0     5.20      1.1        OK
+    Gorakhpur: +    Gorakhpur                    Gorakhpur 423790   bb28e324  26.740  83.450        78.9  26.761  83.373        84.0     7.96      5.1        OK
+    Patna: +        Patna         Patna-Jayaprakash.AP 424920   89378f9d  25.591  85.088        51.8  25.594  85.138        53.0     4.99      1.2        OK
+    Nagpur: +       Nagpur      Nagpur-Ambedkar.Intl.AP 428670   270c0979  21.092  79.047       314.9  21.146  79.088       310.0     7.35      4.9        OK
+    Guwahati: +     Guwahati    Guwahati-Bordoloi.Intl.AP 424100   52a01ded  26.106  91.586        49.4  26.145  91.736        55.0    15.59      5.6        OK
+    Dibrugarh: +    Dibrugarh                 Dibrugarh.AP 423140   2fb238a2  27.484  95.017       110.3  27.473  94.912       108.0    10.43      2.3        OK
+    Imphal: +       Imphal                       Imphal 426230   5902cde5  24.760  93.897       774.2  24.817  93.937       786.0     7.50     11.8        OK
+    Patna: +  Bhubaneswar Bhubaneshwar-Patnaik.Intl.AP 429710   bdd16c04  20.244  85.818        42.1  20.296  85.825        45.0     5.83      2.9        OK
+    Bhubaneswar: +  Bhubaneswar Bhubaneshwar-Patnaik.Intl.AP 429710   bdd16c04  20.244  85.818        42.1  20.296  85.825        45.0     5.83      2.9        OK
+    Kolkata: +      Kolkata         Kolkata-Bose.Intl.AP 428090   9ed43482  22.655  88.447         4.9  22.573  88.364         9.0    12.52      4.1        OK
+    Visakhapatnam: +Visakhapatnam               Vishakhapatnam 431500   1487aecb  17.722  83.329        66.0  17.687  83.219        45.0    12.35     21.0        OK
+    Chennai: +      Chennai              Chennai.Intl.AP 432790   46ebf7ca  12.994  80.181        15.8  13.083  80.271         6.0    13.85      9.8        OK
+    Surat: +        Surat                        Surat 428400   d24f9e4e  21.200  72.833        12.0  21.170  72.831        13.0     3.32      1.0        OK
+    Kochi: +        Kochi                    Kochi.NAS 433530   d593ffba   9.946  76.272         2.4   9.931  76.267         4.0     1.72      1.6        OK
+    Port Blair: +   Port Blair                   Port.Blair 433330   95907f6a  11.667  92.717        79.0  11.623  92.727        16.0     4.96     63.0        OK
+    Bhuj: +         Bhuj                         Bhuj 426340   37ac3d35  23.288  69.670        81.7  23.242  69.667       110.0     5.12     28.3        OK
+    Jaisalmer: +    Jaisalmer                    Jaisalmer 423280   9344aa13  26.900  70.917       231.0  26.916  70.908       225.0     1.95      6.0        OK
+    Shimla: +       Shimla                       Shimla 420830   8b7447ee  31.100  77.167      2202.0  31.105  77.173      2206.0     0.81      4.0        OK
+    Jodhpur: +      Jodhpur                      Jodhpur 423390   f31bbc5a  26.257  73.041       218.5  26.239  73.024       231.0     2.63     12.5        OK
+    New_Delhi: +    New_Delhi     New.Delhi-Gandhi.Intl.AP 421810   c4c5279f  28.567  77.103       236.8  28.614  77.209       216.0    11.59     20.8        OK
+    Mumbai: +       Mumbai       Mumbai-Shivaji.Intl.AP 430030   5e7cdca0  19.089  72.868        11.3  19.076  72.878        14.0     1.77      2.7        OK
+    Bengaluru: +    Bengaluru       Bengaluru-Hindustan.AP 432960   b24506e0  12.950  77.668       888.0  12.972  77.595       920.0     8.31     32.0        OK
+    Leh: +          Leh                          Leh 427053   3c6fe31e  34.136  77.547      3255.9  34.153  77.577      3500.0     3.33    244.1 ELEV>150m
+    Leh: -1. Leh (ELEV>150m):
+    Leh: -   - Manifest EPW: IND_JK_Leh.427053_TMYx.2011-2025.epw (WMO 427053).
+    Leh: -   - Municipal Leh center coordinates: 34.153Â° N, 77.577Â° E, Elevation: ~3500 m.
+    Leh: -   - Elevation difference is 244.1 m because Leh town climbs steep mountain slopes above the airport valley floor.
+    Leh: -   - Verdict: VALID. The airport station 427053 is the official IMD meteorological station representing Leh.
+    Srinagar: +--- City 01/30: Srinagar ---
+    Srinagar: +File Path: data/raw/India_Weather_Extracted/IND_JK_Srinagar.420270_TMYx.2011-2025/IND_JK_Srinagar.420270_TMYx.2011-2025.epw
+    Srinagar: +Line 1 (repr): 'LOCATION,Srinagar,JK,IND,SRC-TMYx,420270,34.05080,74.80450,5.5,1587.0'
+    Srinagar: +  Line 1: LOCATION,Srinagar,JK,IND,SRC-TMYx,420270,34.05080,74.80450,5.5,1587.0
+    Bhuntar: +--- City 02/30: Bhuntar ---
+    Bhuntar: +File Path: data/raw/India_Weather_Extracted/IND_HP_Bhuntar.420810_TMYx.2011-2025/IND_HP_Bhuntar.420810_TMYx.2011-2025.epw
+    Bhuntar: +Line 1 (repr): 'LOCATION,Bhuntar,HP,IND,SRC-TMYx,420810,31.83300,77.16700,5.5,1084.0'
+    Bhuntar: +  Line 1: LOCATION,Bhuntar,HP,IND,SRC-TMYx,420810,31.83300,77.16700,5.5,1084.0
+    Gangtok: +--- City 03/30: Gangtok ---
+    Gangtok: +File Path: data/raw/India_Weather_Extracted/IND_SK_Gangtok.422990_TMYx.2011-2025/IND_SK_Gangtok.422990_TMYx.2011-2025.epw
+    Gangtok: +Line 1 (repr): 'LOCATION,Gangtok,SK,IND,SRC-TMYx,422990,27.33300,88.61700,5.5,1756.0'
+    Gangtok: +  Line 1: LOCATION,Gangtok,SK,IND,SRC-TMYx,422990,27.33300,88.61700,5.5,1756.0
+    Jammu: +--- City 04/30: Jammu ---
+    Jammu: +File Path: data/raw/India_Weather_Extracted/IND_JK_Jammu.420560_TMYx.2011-2025/IND_JK_Jammu.420560_TMYx.2011-2025.epw
+    Jammu: +Line 1 (repr): 'LOCATION,Jammu,JK,IND,SRC-TMYx,420560,32.66700,74.83300,5.5,367.0'
+    Jammu: +  Line 1: LOCATION,Jammu,JK,IND,SRC-TMYx,420560,32.66700,74.83300,5.5,367.0
+    Dehradun: +--- City 05/30: Dehradun ---
+    Dehradun: +File Path: data/raw/India_Weather_Extracted/IND_UT_Dehradun.421110_TMYx.2011-2025/IND_UT_Dehradun.421110_TMYx.2011-2025.epw
+    Dehradun: +Line 1 (repr): 'LOCATION,Dehradun,UT,IND,SRC-TMYx,421110,30.31700,78.03300,5.5,682.0'
+    Dehradun: +  Line 1: LOCATION,Dehradun,UT,IND,SRC-TMYx,421110,30.31700,78.03300,5.5,682.0
+    Lucknow: +--- City 06/30: Lucknow ---
+    Lucknow: +File Path: data/raw/India_Weather_Extracted/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025/IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025.epw
+    Lucknow: +Line 1 (repr): 'LOCATION,Lucknow-Amausi-Singh.Intl.AP,UP,IND,SRC-TMYx,423690,26.76100,80.88900,5.5,125.0'
+    Lucknow: +  Line 1: LOCATION,Lucknow-Amausi-Singh.Intl.AP,UP,IND,SRC-TMYx,423690,26.76100,80.88900,5.5,125.0
+    Varanasi: +--- City 07/30: Varanasi ---
+    Varanasi: +File Path: data/raw/India_Weather_Extracted/IND_UP_Varanasi.424830_TMYx.2011-2025/IND_UP_Varanasi.424830_TMYx.2011-2025.epw
+    Varanasi: +Line 1 (repr): 'LOCATION,Varanasi,UP,IND,SRC-TMYx,424830,25.30000,83.01700,5.5,90.0'
+    Varanasi: +  Line 1: LOCATION,Varanasi,UP,IND,SRC-TMYx,424830,25.30000,83.01700,5.5,90.0
+    Prayagraj: +--- City 08/30: Prayagraj ---
+    Agra: +--- City 09/30: Agra ---
+    Agra: +File Path: data/raw/India_Weather_Extracted/IND_UP_Agra.AP.422600_TMYx.2011-2025/IND_UP_Agra.AP.422600_TMYx.2011-2025.epw
+    Agra: +Line 1 (repr): 'LOCATION,Agra.AP,UP,IND,SRC-TMYx,422600,27.15600,77.96100,5.5,167.9'
+    Agra: +  Line 1: LOCATION,Agra.AP,UP,IND,SRC-TMYx,422600,27.15600,77.96100,5.5,167.9
+    Gorakhpur: +--- City 10/30: Gorakhpur ---
+    Gorakhpur: +File Path: data/raw/India_Weather_Extracted/IND_UP_Gorakhpur.423790_TMYx.2011-2025/IND_UP_Gorakhpur.423790_TMYx.2011-2025.epw
+    Gorakhpur: +Line 1 (repr): 'LOCATION,Gorakhpur,UP,IND,SRC-TMYx,423790,26.74000,83.45000,5.5,78.9'
+    Gorakhpur: +  Line 1: LOCATION,Gorakhpur,UP,IND,SRC-TMYx,423790,26.74000,83.45000,5.5,78.9
+    Patna: +--- City 11/30: Patna ---
+    Patna: +File Path: data/raw/India_Weather_Extracted/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025/IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025.epw
+    Patna: +Line 1 (repr): 'LOCATION,Patna-Jayaprakash.AP,BR,IND,SRC-TMYx,424920,25.59100,85.08800,5.5,51.8'
+    Patna: +  Line 1: LOCATION,Patna-Jayaprakash.AP,BR,IND,SRC-TMYx,424920,25.59100,85.08800,5.5,51.8
+    Nagpur: +--- City 12/30: Nagpur ---
+    Nagpur: +File Path: data/raw/India_Weather_Extracted/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025/IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025.epw
+    Nagpur: +Line 1 (repr): 'LOCATION,Nagpur-Ambedkar.Intl.AP,MH,IND,SRC-TMYx,428670,21.09200,79.04700,5.5,314.9'
+    Nagpur: +  Line 1: LOCATION,Nagpur-Ambedkar.Intl.AP,MH,IND,SRC-TMYx,428670,21.09200,79.04700,5.5,314.9
+    Guwahati: +--- City 13/30: Guwahati ---
+    Guwahati: +File Path: data/raw/India_Weather_Extracted/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025/IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025.epw
+    Guwahati: +Line 1 (repr): 'LOCATION,Guwahati-Bordoloi.Intl.AP,AS,IND,SRC-TMYx,424100,26.10600,91.58600,5.5,49.4'
+    Guwahati: +  Line 1: LOCATION,Guwahati-Bordoloi.Intl.AP,AS,IND,SRC-TMYx,424100,26.10600,91.58600,5.5,49.4
+    Dibrugarh: +--- City 14/30: Dibrugarh ---
+    Dibrugarh: +File Path: data/raw/India_Weather_Extracted/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025/IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw
+    Dibrugarh: +Line 1 (repr): 'LOCATION,Dibrugarh.AP,AS,IND,SRC-TMYx,423140,27.48400,95.01700,5.5,110.3'
+    Dibrugarh: +  Line 1: LOCATION,Dibrugarh.AP,AS,IND,SRC-TMYx,423140,27.48400,95.01700,5.5,110.3
+    Imphal: +--- City 15/30: Imphal ---
+    Imphal: +File Path: data/raw/India_Weather_Extracted/IND_MN_Imphal.426230_TMYx.2011-2025/IND_MN_Imphal.426230_TMYx.2011-2025.epw
+    Imphal: +Line 1 (repr): 'LOCATION,Imphal,MN,IND,SRC-TMYx,426230,24.76000,93.89700,5.5,774.2'
+    Imphal: +  Line 1: LOCATION,Imphal,MN,IND,SRC-TMYx,426230,24.76000,93.89700,5.5,774.2
+    Bhubaneswar: +--- City 16/30: Bhubaneswar ---
+    Patna: +File Path: data/raw/India_Weather_Extracted/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025/IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025.epw
+    Patna: +Line 1 (repr): 'LOCATION,Bhubaneshwar-Patnaik.Intl.AP,OR,IND,SRC-TMYx,429710,20.24400,85.81800,5.5,42.1'
+    Patna: +  Line 1: LOCATION,Bhubaneshwar-Patnaik.Intl.AP,OR,IND,SRC-TMYx,429710,20.24400,85.81800,5.5,42.1
+    Kolkata: +--- City 17/30: Kolkata ---
+    Kolkata: +File Path: data/raw/India_Weather_Extracted/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025/IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025.epw
+    Kolkata: +Line 1 (repr): 'LOCATION,Kolkata-Bose.Intl.AP,WB,IND,SRC-TMYx,428090,22.65500,88.44700,5.5,4.9'
+    Kolkata: +  Line 1: LOCATION,Kolkata-Bose.Intl.AP,WB,IND,SRC-TMYx,428090,22.65500,88.44700,5.5,4.9
+    Visakhapatnam: +--- City 18/30: Visakhapatnam ---
+    Chennai: +--- City 19/30: Chennai ---
+    Chennai: +File Path: data/raw/India_Weather_Extracted/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025/IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025.epw
+    Chennai: +Line 1 (repr): 'LOCATION,Chennai.Intl.AP,TN,IND,SRC-TMYx,432790,12.99400,80.18100,5.5,15.8'
+    Chennai: +  Line 1: LOCATION,Chennai.Intl.AP,TN,IND,SRC-TMYx,432790,12.99400,80.18100,5.5,15.8
+    Surat: +--- City 20/30: Surat ---
+    Surat: +File Path: data/raw/India_Weather_Extracted/IND_GJ_Surat.428400_TMYx.2011-2025/IND_GJ_Surat.428400_TMYx.2011-2025.epw
+    Surat: +Line 1 (repr): 'LOCATION,Surat,GJ,IND,SRC-TMYx,428400,21.20000,72.83300,5.5,12.0'
+    Surat: +  Line 1: LOCATION,Surat,GJ,IND,SRC-TMYx,428400,21.20000,72.83300,5.5,12.0
+    Kochi: +--- City 21/30: Kochi ---
+    Kochi: +File Path: data/raw/India_Weather_Extracted/IND_KL_Kochi.NAS.433530_TMYx.2011-2025/IND_KL_Kochi.NAS.433530_TMYx.2011-2025.epw
+    Kochi: +Line 1 (repr): 'LOCATION,Kochi.NAS,KL,IND,SRC-TMYx,433530,9.94600,76.27200,5.5,2.4'
+    Kochi: +  Line 1: LOCATION,Kochi.NAS,KL,IND,SRC-TMYx,433530,9.94600,76.27200,5.5,2.4
+    Port Blair: +--- City 22/30: Port Blair ---
+    Bhuj: +--- City 23/30: Bhuj ---
+    Bhuj: +File Path: data/raw/India_Weather_Extracted/IND_GJ_Bhuj.426340_TMYx.2011-2025/IND_GJ_Bhuj.426340_TMYx.2011-2025.epw
+    Bhuj: +Line 1 (repr): 'LOCATION,Bhuj,GJ,IND,SRC-TMYx,426340,23.28800,69.67000,5.5,81.7'
+    Bhuj: +  Line 1: LOCATION,Bhuj,GJ,IND,SRC-TMYx,426340,23.28800,69.67000,5.5,81.7
+    Jaisalmer: +--- City 24/30: Jaisalmer ---
+    Jaisalmer: +File Path: data/raw/India_Weather_Extracted/IND_RJ_Jaisalmer.423280_TMYx.2011-2025/IND_RJ_Jaisalmer.423280_TMYx.2011-2025.epw
+    Jaisalmer: +Line 1 (repr): 'LOCATION,Jaisalmer,RJ,IND,SRC-TMYx,423280,26.90000,70.91700,5.5,231.0'
+    Jaisalmer: +  Line 1: LOCATION,Jaisalmer,RJ,IND,SRC-TMYx,423280,26.90000,70.91700,5.5,231.0
+    Shimla: +--- City 25/30: Shimla ---
+    Shimla: +File Path: data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx.2011-2025/IND_HP_Shimla.420830_TMYx.2011-2025.epw
+    Shimla: +Line 1 (repr): 'LOCATION,Shimla,HP,IND,SRC-TMYx,420830,31.10000,77.16700,5.5,2202.0'
+    Shimla: +  Line 1: LOCATION,Shimla,HP,IND,SRC-TMYx,420830,31.10000,77.16700,5.5,2202.0
+    Jodhpur: +--- City 26/30: Jodhpur ---
+    Jodhpur: +File Path: data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx.2011-2025/IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw
+    Jodhpur: +Line 1 (repr): 'LOCATION,Jodhpur,RJ,IND,SRC-TMYx,423390,26.25730,73.04080,5.5,218.5'
+    Jodhpur: +  Line 1: LOCATION,Jodhpur,RJ,IND,SRC-TMYx,423390,26.25730,73.04080,5.5,218.5
+    New_Delhi: +--- City 27/30: New_Delhi ---
+    Mumbai: +--- City 28/30: Mumbai ---
+    Mumbai: +File Path: data/raw/India_Weather_Extracted/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw
+    Mumbai: +Line 1 (repr): 'LOCATION,Mumbai-Shivaji.Intl.AP,MH,IND,SRC-TMYx,430030,19.08900,72.86800,5.5,11.3'
+    Mumbai: +  Line 1: LOCATION,Mumbai-Shivaji.Intl.AP,MH,IND,SRC-TMYx,430030,19.08900,72.86800,5.5,11.3
+    Bengaluru: +--- City 29/30: Bengaluru ---
+    Bengaluru: +File Path: data/raw/India_Weather_Extracted/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025.epw
+    Bengaluru: +Line 1 (repr): 'LOCATION,Bengaluru-Hindustan.AP,KA,IND,SRC-TMYx,432960,12.95000,77.66800,5.5,888.0'
+    Bengaluru: +  Line 1: LOCATION,Bengaluru-Hindustan.AP,KA,IND,SRC-TMYx,432960,12.95000,77.66800,5.5,888.0
+    Leh: +--- City 30/30: Leh ---
+    Leh: +File Path: data/raw/India_Weather_Extracted/IND_JK_Leh.427053_TMYx.2011-2025/IND_JK_Leh.427053_TMYx.2011-2025.epw
+    Leh: +Line 1 (repr): 'LOCATION,Leh,JK,IND,SRC-TMYx,427053,34.13600,77.54700,5.5,3255.9'
+    Leh: +  Line 1: LOCATION,Leh,JK,IND,SRC-TMYx,427053,34.13600,77.54700,5.5,3255.9
+    Imphal: +  - Explanation: 426230 is the authentic, official 6-digit WMO station identifier for Imphal (IND_MN_Imphal.426230_TMYx.2011-2025.epw).
+    Imphal: +    The string 'Custom-426230' was an erroneous conversational attribution that conflated Imphal's official WMO station with a hypothetical custom-generated EPW file prefix.
+    Jodhpur: -     or 6-digit numeric IDs (e.g. 423390 for Jodhpur, 421810 for New Delhi, 427053 for Leh).
+    Leh: -     or 6-digit numeric IDs (e.g. 423390 for Jodhpur, 421810 for New Delhi, 427053 for Leh).
+    Dibrugarh: -WMO ID   | Station Name              | Station Lat | Station Lon | Elev (m) | Dist to Dibrugarh (km) | True Geographic Location
+    Dibrugarh: -423140   | Dibrugarh.AP (Mohanbari)  | 27.4840     | 95.0170     | 110.3    | 10.43                  | Dibrugarh Airport (Mohanbari, Eastern Assam)
+    Dibrugarh: -- WMO 423140 (Dibrugarh Airport / Mohanbari, 27.484Â° N, 95.017Â° E) is located exactly 10.42 km from Dibrugarh city center.
+    Dibrugarh: -  It is the true, authentic, and only WMO station representing Dibrugarh in OneBuilding and IMD records.
+    Dibrugarh: -- WMO 424150 (Tezpur, 26.617Â° N, 92.783Â° E) is 234.33 km west of Dibrugarh in Sonitpur district.
+    Dibrugarh: -- WMO 424040 (Dhubri, 26.017Â° N, 89.983Â° E) is 514.24 km west of Dibrugarh on the opposite end of Assam (bordering West Bengal).
+    Dibrugarh: -- In commit c6f2ff1, an erroneous filename string 'IND_AS_Dibrugarh.424040_TMYx.2011-2025.epw' was cited in a summary table,
+    Dibrugarh: -  conflating Dhubri's WMO 424040 with Dibrugarh. The actual simulation files, manifest on disk, and EPW header prove that
+    Dibrugarh: -  Dibrugarh has always been executed with canonical WMO 423140 (IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw).
+    Leh: +1. Leh (Elevation Discrepancy Analysis):
+    Leh: +   - Manifest EPW: IND_JK_Leh.427053_TMYx.2011-2025.epw (WMO 427053).
+    Leh: +   - Station Name: Leh.
+    Leh: +   - Municipal Leh Center Coordinates: Latitude 34.153 deg N, Longitude 77.577 deg E, Elevation 3500.0 m.
+    Leh: +   - Elevation difference is 244.1 m because Leh town climbs steep mountain slopes above the airport valley floor.
+    Leh: +   - Verdict: VALID. Station 427053 is the official IMD airport station representing Leh.
+    Dibrugarh: +2. Dibrugarh WMO Candidates Analysis:
+    Dibrugarh: +   WMO ID   | Station Name              | Station Lat | Station Lon | Elev (m) | Dist to Dibrugarh (km) | True Geographic Location
+    Dibrugarh: +   423140   | Dibrugarh.AP (Mohanbari)  | 27.4840     | 95.0170     | 110.3    | 10.43                  | Dibrugarh Airport (Mohanbari, Eastern Assam)
+    Dibrugarh: +   - WMO 423140 (Dibrugarh.AP (Mohanbari), Latitude 27.4840 deg N, Longitude 95.0170 deg E) is located 10.43 km from Dibrugarh city center.
+    Dibrugarh: +   - WMO 424150 (Tezpur, Latitude 26.6170 deg N, Longitude 92.7830 deg E) is located 231.32 km west of Dibrugarh in Sonitpur district.
+    Dibrugarh: +   - WMO 424040 (Dhubri, Latitude 26.0170 deg N, Longitude 89.9830 deg E) is located 515.47 km west of Dibrugarh on the opposite end of Assam.
+    Dibrugarh: +   - Canonical station for Dibrugarh in batch_epw_manifest.csv is WMO 423140 (IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw).
+
+================================================================================================================================================================
+ITEM 1 EPW SELECTION MECHANISM PROVENANCE
+================================================================================================================================================================
+Question: How does item1 choose its EPW (glob, registry, or manifest)?
+Answer:   tools/report_item1_station_identity.py exclusively and strictly reads from reports/batch_epw_manifest.csv.
+          Code: manifest_path = os.path.join('reports', 'batch_epw_manifest.csv'); df_manifest = pd.read_csv(manifest_path)
+          It iterates directly over df_manifest['path']. It does NOT use glob or station_registry.csv.
+================================================================================================================================================================

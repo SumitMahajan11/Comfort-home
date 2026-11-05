@@ -1,0 +1,206 @@
+================================================================================================================================================================
+ITEM 7: GIT REFLOG, COMMIT HISTORY, FILE TRACKING & CHECK-IGNORE CLOSURE AUDIT
+================================================================================================================================================================
+
+1. GIT REFLOG -15:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+06d5ecb HEAD@{0}: commit: Closure pass 1: station identity, robustness evaluation, Shimla R1 mechanism, morph check, pipeline gate, and git audit
+9ec0eb3 HEAD@{1}: commit: Station identity audit, pipeline smoke test with SHA mismatch prevention, and 5-flagship climate robustness evaluation
+75f9a91 HEAD@{2}: commit: Reconcile results history, EPW file identity audit, 30-city re-sim test, and pipeline EPW integrity prevention
+a21331b HEAD@{3}: commit: Provenance audit, optimism selection bias analysis, and zone sensitivity corrections
+cb3d19c HEAD@{4}: commit: Reconcile pre-Phase 6 audit: weather files, out-of-sample optimism control, Dibrugarh line, Leh exact parity, Shimla zone reclassification to ASSUMED with R3 sensitivity, sensitivity scenarios naming, and core assets backup
+50d8908 HEAD@{5}: commit: Reconcile pre-Phase 6 report across all 30 cities: valid hours, selection bias, Round 4 deltas, Leh independence, safety metrics, updated rising error flags, zone citations, and 2011-2025 morphed files
+59645ee HEAD@{6}: commit: Complete Pre-Phase 6 verification and audit across 30 cities: valid hours, error flags, optimism diagnosis, Round 4 AL pass, Leh consistency, and safety metrics
+c6f2ff1 HEAD@{7}: commit: feat(reports): generate 30-city results table and build tool
+881c5d9 HEAD@{8}: commit: feat(data): commit active learning objectives, round candidates, and final verified datasets
+05cb6ae HEAD@{9}: commit: feat(batch): commit batch active learning summaries, pareto fronts, and baselines
+d39659c HEAD@{10}: commit: feat(flagship): rerun 5 flagship cities on 2011-2025 EPWs with active learning verification
+40ea0c4 HEAD@{11}: commit: Update run_batch with dry-run and simulated unique candidate count, replace Chennai baseline_results with verified simulation output
+4246fa0 HEAD@{12}: commit: feat(batch): canonical valid adaptive hours, smoke rounds support, and batch checks
+67a6252 HEAD@{13}: commit: feat(batch): batch runner, weather checks, reporting fixes, and smoke verification
+2648cca HEAD@{14}: commit: feat(batch): complete generic pipeline, verified 24-city EPW registry, and Chennai pipeline run
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. GIT LOG --STAT -5:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+commit 06d5ecbc96e17eaea6b8b0f98432842c0bbcef1e
+Author: Sumit <sumitnmahajann11@gmail.com>
+Date:   Fri Nov 6 00:49:43 2026 +0530
+
+    Closure pass 1: station identity, robustness evaluation, Shimla R1 mechanism, morph check, pipeline gate, and git audit
+
+ reports/item1_station_identity.txt     | 577 +++++++++++++++++++++----
+ reports/item3_robustness.txt           | 261 +++++++-----
+ reports/item3_shimla_r1.txt            |  59 +++
+ reports/item4_morph_check.txt          |  49 +++
+ reports/item5_pipeline_gate.txt        |  68 +++
+ reports/item6_git.txt                  |  92 ++++
+ tools/report_item1_station_identity.py | 198 +++++----
+ tools/report_item3_robustness.py       | 750 +++++++++++++++++----------------
+ tools/report_item3_shimla_r1.py        | 201 +++++++++
+ tools/report_item4_morph_check.py      | 197 +++++++++
+ tools/report_item5_pipeline_gate.py    | 218 ++++++++++
+ tools/report_item6_git.py              | 108 +++++
+ tools/run_city_pipeline.py             |  11 +-
+ 13 files changed, 2152 insertions(+), 637 deletions(-)
+
+commit 9ec0eb348f52d0827fd78430193336dadb52d240
+Author: Sumit <sumitnmahajann11@gmail.com>
+Date:   Thu Nov 5 22:17:27 2026 +0530
+
+    Station identity audit, pipeline smoke test with SHA mismatch prevention, and 5-flagship climate robustness evaluation
+
+ reports/item1_station_identity.txt      |  97 ++++++
+ reports/item2_smoke_test.txt            |  54 ++++
+ reports/item3_robustness.txt            | 174 +++++++++++
+ reports/robustness_flagship_details.csv | 140 +++++++++
+ tools/report_item1_station_identity.py  | 231 +++++++++++++++
+ tools/report_item2_smoke_test.py        | 181 ++++++++++++
+ tools/report_item3_robustness.py        | 510 ++++++++++++++++++++++++++++++++
+ tools/run_city_pipeline.py              |  25 +-
+ tools/run_second_al_pass.py             |   6 +-
+ 9 files changed, 1403 insertions(+), 15 deletions(-)
+
+commit 75f9a91fbd91c899b7ac4d5a658406059014b13b
+Author: Sumit <sumitnmahajann11@gmail.com>
+Date:   Thu Nov 5 21:06:33 2026 +0530
+
+    Reconcile results history, EPW file identity audit, 30-city re-sim test, and pipeline EPW integrity prevention
+
+ reports/item3_resim_audit_details.csv | 207 +++++++++++++++++++
+ tools/check_provenance_item1.py       |   1 +
+ tools/check_provenance_item2.py       |   1 +
+ tools/print_item5_table.py            |   1 +
+ tools/report_item1_history.py         | 125 ++++++++++++
+ tools/report_item1_weather_audit.py   |   5 +-
+ tools/report_item2_file_identity.py   | 157 +++++++++++++++
+ tools/report_item4_offset.py          | 128 ++++++++++++
+ tools/report_item5_kolkata.py         | 120 +++++++++++
+ tools/report_item6_nsga_means.py      | 132 ++++++++++++
+ tools/run_city_pipeline.py            |  33 ++-
+ tools/run_item3_resim_test.py         | 367 ++++++++++++++++++++++++++++++++++
+ tools/run_second_al_pass.py           |  16 ++
+ 13 files changed, 1291 insertions(+), 2 deletions(-)
+
+commit a21331be6e279c4c3cf7ccd69645644ac77dafa7
+Author: Sumit <sumitnmahajann11@gmail.com>
+Date:   Thu Nov 5 19:47:08 2026 +0530
+
+    Provenance audit, optimism selection bias analysis, and zone sensitivity corrections
+
+ reports/pre_phase6_backup_manifest.csv  |   2 +-
+ tools/check_provenance_item1.py         | 208 ++++++++++++++++++++++++
+ tools/check_provenance_item2.py         | 280 ++++++++++++++++++++++++++++++++
+ tools/print_item5_table.py              |  99 +++++++++++
+ tools/report_item1_weather_audit.py     |   1 +
+ tools/report_item2_optimism_control.py  | 100 ++++++++----
+ tools/report_item3_dibrugarh_line.py    |   1 +
+ tools/report_item4_leh_comparison.py    |   1 +
+ tools/report_item5_zones_sensitivity.py |  14 +-
+ tools/report_item6_scenarios_naming.py  |   1 +
+ tools/run_item7_backup.py               |   6 +-
+ 11 files changed, 669 insertions(+), 44 deletions(-)
+
+commit cb3d19c8f1ffd177be921e52ec7ddafda2b8e987
+Author: Sumit <sumitnmahajann11@gmail.com>
+Date:   Thu Nov 5 18:59:51 2026 +0530
+
+    Reconcile pre-Phase 6 audit: weather files, out-of-sample optimism control, Dibrugarh line, Leh exact parity, Shimla zone reclassification to ASSUMED with R3 sensitivity, sensitivity scenarios naming, and core assets backup
+
+ .gitignore                              |   1 +
+ reports/pre_phase6_backup_manifest.csv  | 347 ++++++++++++++++++++++++++++++++
+ reports/results_30_cities.csv           |   2 +-
+ tools/build_results_30_cities.py        |   2 +-
+ tools/report_item1_reconcile.py         |   1 +
+ tools/report_item1_weather_audit.py     | 254 +++++++++++++++++++++++
+ tools/report_item2_optimism_control.py  | 345 +++++++++++++++++++++++++++++++
+ tools/report_item2_valid_hours.py       |   1 +
+ tools/report_item3_dibrugarh_line.py    |  70 +++++++
+ tools/report_item3_optimism.py          |   1 +
+ tools/report_item4_leh_comparison.py    | 189 +++++++++++++++++
+ tools/report_item4_round4.py            |   1 +
+ tools/report_item5_zones_sensitivity.py | 338 +++++++++++++++++++++++++++++++
+ tools/report_item6_safety.py            |   1 +
+ tools/report_item6_scenarios_naming.py  | 104 ++++++++++
+ tools/report_item7_flags.py             |   1 +
+ tools/report_item9_morph.py             |   1 +
+ tools/run_item7_backup.py               | 151 ++++++++++++++
+ 18 files changed, 1808 insertions(+), 2 deletions(-)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. AUDIT OF ACTIONS IN PREVIOUS SESSION:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+a) 'clean robustness temporary simulation files':
+   - Mechanism: In tools/report_item3_robustness.py (lines 200-201):
+     shutil.rmtree(rdir_fr, ignore_errors=True)
+     shutil.rmtree(rdir_il, ignore_errors=True)
+   - Scope of Files Removed: After EnergyPlus completed simulation for each design under +1.5 °C and +3.0 °C
+     and parsed the required metrics into reports/robustness_flagship_details.csv, the script deleted the intermediate
+     simulation directories located under data/processed/robustness_sims/<city>/p15/ and data/processed/robustness_sims/<city>/p30/.
+     Each directory contained transient EnergyPlus files (eplusout.csv, eplusout.err, eplusout.end, eplusout.eso,
+     eplusout.rdd, eplusout.mdd, shelter.idf, etc.). This prevented the disk from filling up with hundreds of megabytes
+     of raw hourly CSVs while persisting all validated metrics in reports/robustness_flagship_details.csv.
+   - Repo Impact: These files were in transient working folders and never tracked in git.
+
+b) 'revert whitespace changes':
+   - Mechanism: Executed git restore / git checkout on modified repository files during cleanup.
+   - Scope of Files Reverted: During code editing passes, editors or formatters added trailing spaces or modified
+     newline encodings on lines unrelated to the task. Reverting these whitespace-only diffs ensured that git diff
+     remained strictly atomic and contained only meaningful semantic changes.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4. GIT LS-FILES data/processed/weather_morphed:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Exit code: 0
+Tracked files under data/processed/weather_morphed:
+data/processed/weather_morphed/Bengaluru_plus1p5.epw
+data/processed/weather_morphed/Bengaluru_plus3p0.epw
+data/processed/weather_morphed/Jodhpur_plus1p5.epw
+data/processed/weather_morphed/Jodhpur_plus3p0.epw
+data/processed/weather_morphed/Mumbai_plus1p5.epw
+data/processed/weather_morphed/Mumbai_plus3p0.epw
+data/processed/weather_morphed/New_Delhi_plus1p5.epw
+data/processed/weather_morphed/New_Delhi_plus3p0.epw
+data/processed/weather_morphed/Shimla_plus1p5.epw
+data/processed/weather_morphed/Shimla_plus3p0.epw
+data/processed/weather_morphed/legacy_1975_2025/Bengaluru_plus1p5.epw
+data/processed/weather_morphed/legacy_1975_2025/Bengaluru_plus3p0.epw
+data/processed/weather_morphed/legacy_1975_2025/Jodhpur_plus1p5.epw
+data/processed/weather_morphed/legacy_1975_2025/Jodhpur_plus3p0.epw
+data/processed/weather_morphed/legacy_1975_2025/Mumbai_plus1p5.epw
+data/processed/weather_morphed/legacy_1975_2025/Mumbai_plus3p0.epw
+data/processed/weather_morphed/legacy_1975_2025/New_Delhi_plus1p5.epw
+data/processed/weather_morphed/legacy_1975_2025/New_Delhi_plus3p0.epw
+data/processed/weather_morphed/legacy_1975_2025/Shimla_plus1p5.epw
+data/processed/weather_morphed/legacy_1975_2025/Shimla_plus3p0.epw
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+5. GIT CHECK-IGNORE -V ON EXPANDED PATHS:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Found 20 EPW files on disk under data/processed/weather_morphed/*.epw:
+  - data/processed/weather_morphed\Bengaluru_plus1p5.epw
+  - data/processed/weather_morphed\Bengaluru_plus1p5_corrected.epw
+  - data/processed/weather_morphed\Bengaluru_plus3p0.epw
+  - data/processed/weather_morphed\Bengaluru_plus3p0_corrected.epw
+  - data/processed/weather_morphed\Jodhpur_plus1p5.epw
+  - data/processed/weather_morphed\Jodhpur_plus1p5_corrected.epw
+  - data/processed/weather_morphed\Jodhpur_plus3p0.epw
+  - data/processed/weather_morphed\Jodhpur_plus3p0_corrected.epw
+  - data/processed/weather_morphed\Mumbai_plus1p5.epw
+  - data/processed/weather_morphed\Mumbai_plus1p5_corrected.epw
+  - data/processed/weather_morphed\Mumbai_plus3p0.epw
+  - data/processed/weather_morphed\Mumbai_plus3p0_corrected.epw
+  - data/processed/weather_morphed\New_Delhi_plus1p5.epw
+  - data/processed/weather_morphed\New_Delhi_plus1p5_corrected.epw
+  - data/processed/weather_morphed\New_Delhi_plus3p0.epw
+  - data/processed/weather_morphed\New_Delhi_plus3p0_corrected.epw
+  - data/processed/weather_morphed\Shimla_plus1p5.epw
+  - data/processed/weather_morphed\Shimla_plus1p5_corrected.epw
+  - data/processed/weather_morphed\Shimla_plus3p0.epw
+  - data/processed/weather_morphed\Shimla_plus3p0_corrected.epw
+
+Execution: git check-ignore -v [all 20 expanded paths]
+Exit code: 1
+Output: None (exit code 1, empty stdout).
+Result: NONE of the expanded weather_morphed/*.epw files are ignored by .gitignore.
+================================================================================================================================================================

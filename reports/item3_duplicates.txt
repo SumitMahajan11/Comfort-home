@@ -1,0 +1,139 @@
+================================================================================================================================================================
+ITEM 3: 30-CITY EPW DATA ROWS HASH AUDIT, PAIRWISE DUPLICATE CHECK & JODHPUR VS JAISALMER DEEP DIVE
+================================================================================================================================================================
+
+TABLE 1: DATA ROWS (HOURS 1-8760) SHA-256 HASH ACROSS ALL 30 CITIES
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+City           | WMO      | Data Rows  | Data Rows SHA-256 Hash                                          
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Srinagar       | 420270   | 8760 hrs   | e707390ad3390c5689ec39772a8ac198b38c1ba9bdf24f425e278ccaa4c4b1cd
+Bhuntar        | 420810   | 8760 hrs   | 0948ab277a91f86f7ae5c19b6848d0bed2dbc522fe36275d0dbcd4247406e994
+Gangtok        | 422990   | 8760 hrs   | 57aa24bdd3db7c2206dfce30849126e732c0248b2ea06082a3e3aaadc42d2fb5
+Jammu          | 420560   | 8760 hrs   | 7d58a2fdba403fd4d76baf2b7767dc6bf33b0870c1a97a64db0f55997521e00b
+Dehradun       | 421110   | 8760 hrs   | 3b5d2b88a94af9a8ff8ad3ca0687c03cfc488cd3c1f5bf72b99db87aca7c6206
+Lucknow        | 423690   | 8760 hrs   | 659fe9075665b077210c1f7092336d252bf871a7ea02462e14230c5bb70aa79a
+Varanasi       | 424830   | 8760 hrs   | 85a5b240ffd35384d23540f788772fc3b6bd9763178b688b5eca7e6f5a4adc0e
+Prayagraj      | 424750   | 8760 hrs   | e557ea1380703536fc39e6d98916308be6df04f233521f2eda5708713418f2f8
+Agra           | 422600   | 8760 hrs   | 3d045ad54c4543e9041b2b9612c1c600d08766c09ca711bf5ffe631593a9d8e3
+Gorakhpur      | 423790   | 8760 hrs   | a8c2d5eb160a16a90451eea134d3b18651e2cbe43bbb220d4618fa9cfade6485
+Patna          | 424920   | 8760 hrs   | 9bc66cfdf343f448184c25acb718fbdffdff56effeaba01f4011c1cc0b76b2e1
+Nagpur         | 428670   | 8760 hrs   | 026dbe360c78c031924b6809a0b4392550de4090949a221be7cbcf3683507a5c
+Guwahati       | 424100   | 8760 hrs   | 1db8b5fbdbf9e5bdaa9fcef53ebce9decb7e8515b7bf44a426c569382d1d6396
+Dibrugarh      | 423140   | 8760 hrs   | 6ea6f18c2b2622b4b37b58e2cab73a841c47ab682e97c0cf793cbc450eba98fa
+Imphal         | 426230   | 8760 hrs   | facf692fbc09de93b39ca6415f5f93e13fefe0a6c9521bd6ed165da55ab55b6b
+Bhubaneswar    | 429710   | 8760 hrs   | 5143f10b86672826d673f97b6ff85121c885b6f536a8213de6d53d29b0fbe19c
+Kolkata        | 428090   | 8760 hrs   | 2a0e10f93e4a430cff0521266866577e9b14e80ed63ef1e4b3deba5fc5f7cb7e
+Visakhapatnam  | 431500   | 8760 hrs   | d156d63a952ac97f1c5f03192b13d584d4c8ce8db02b0e0b4be64c94389dedfe
+Chennai        | 432790   | 8760 hrs   | 982becf07687f1668a525a0990840ee31dd16f79a45c7894a79e277cb8931ad4
+Surat          | 428400   | 8760 hrs   | a515b7fa4a2038efdcdd6e0b0cd23ec725263347aafbf1eb355061145238a6fb
+Kochi          | 433530   | 8760 hrs   | c0d360df4bb17a48abec73f63b80488e3b396ac6876bc7f0f369077be1185bd5
+Port Blair     | 433330   | 8760 hrs   | 61b1f9d844f8cd3da7e473106a15669be82f0b54f36434deaffa318e28fc5b78
+Bhuj           | 426340   | 8760 hrs   | 29e2b7e59f6944a3d0f1840e9503fbfdea054b69eeec71019d1728a812c9feff
+Jaisalmer      | 423280   | 8760 hrs   | 67254f112959804c53cc2d079dd6c9236ad69e6f453bdeab694f8e9584f6ddc3
+Shimla         | 420830   | 8760 hrs   | a130d4b5c74798d333c7a7de0373be1f693e16596559933be31b2bb30fb16646
+Jodhpur        | 423390   | 8760 hrs   | 2990ff6fe26bb4cc10747f2c4462fdc3fc14df4e6056f584e8f550d4ef042a9b
+New_Delhi      | 421810   | 8760 hrs   | 43f5f29ab6ed48402ca9ca1004d56d6746517787c2237d228d9cefaad8486ad3
+Mumbai         | 430030   | 8760 hrs   | c52b2dc4b1ff256c8ce52cd2f3336e8f1100fb647b965135a48490d8730f60c9
+Bengaluru      | 432960   | 8760 hrs   | 6e15a0598ca8ce78fa4943ada3739f9359b18e8ad3abbaa955b8047ce0427002
+Leh            | 427053   | 8760 hrs   | 16e8a18df93e01bc1a65cb9e9e03bebc56594746839194a92e9f0ae44a5eb970
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Total cities evaluated: 30. Unique data-row hashes: 30/30.
+Duplicate data row sets: 0. (Zero duplicates exist among the 30 cities).
+
+================================================================================================================================================================
+PAIRWISE MAXIMUM ABSOLUTE DRY-BULB DIFFERENCE ACROSS ALL 435 CITY PAIRS
+================================================================================================================================================================
+Total pairs evaluated: 435 (30 * 29 / 2).
+Number of pairs with max absolute dry-bulb difference < 0.5 C: 0.
+  * Exactly 0 pairs have max absolute dry-bulb difference < 0.5 C.
+
+Closest 10 City Pairs by Maximum Absolute Dry-Bulb Difference:
+Rank | City 1          | City 2          | Max Abs Diff (C) | Mean Abs Diff (C)
+--------------------------------------------------------------------------------
+1    | Kochi           | Port Blair      | 8.20             | 1.49            
+2    | Visakhapatnam   | Port Blair      | 8.80             | 2.13            
+3    | Visakhapatnam   | Kochi           | 9.30             | 2.21            
+4    | Visakhapatnam   | Bengaluru       | 10.70            | 3.89            
+5    | Visakhapatnam   | Mumbai          | 10.80            | 1.72            
+6    | Visakhapatnam   | Surat           | 11.00            | 1.96            
+7    | Port Blair      | Mumbai          | 11.10            | 2.24            
+8    | Surat           | Bhuj            | 11.20            | 2.12            
+9    | Bhubaneswar     | Visakhapatnam   | 11.30            | 2.31            
+10   | Visakhapatnam   | Chennai         | 11.40            | 1.87            
+--------------------------------------------------------------------------------
+Minimum pairwise max absolute dry-bulb difference across entire 30-city set: 8.20 C between Kochi and Port Blair.
+
+================================================================================================================================================================
+DETAILED COMPARISON: JODHPUR (WMO 423390) VS JAISALMER (WMO 423280)
+================================================================================================================================================================
+1. Atmospheric Weather Differences (8760 Hours):
+   * Dry-Bulb Temperature:   Mean abs diff = 2.37 C, Median = 1.80 C, 90th percentile = 5.10 C, Max = 13.60 C
+   * Dew-Point Temperature:  Mean abs diff = 3.62 C, Median = 2.70 C, 90th percentile = 7.90 C, Max = 24.60 C
+   * Direct Normal Solar:    Mean abs diff = 63.52 Wh/m2, Max = 688.00 Wh/m2
+
+2. EPW Header Line 4 (GROUND TEMPERATURES) Verbatim:
+   * Jodhpur Line 4:   GROUND TEMPERATURES,3,.5,,,,18.95,18.17,19.55,21.72,27.38,31.75,34.70,35.60,34.07,30.68,26.14,21.93,2,,,,21.82,20.43,20.71,21.86,25.65,29.08,31.82,33.29,32.98,31.05,27.93,24.61,4,,,,24.19,22.77,22.46,22.89,25.03,27.34,29.46,30.93,31.28,30.44,28.61,26.36
+   * Jaisalmer Line 4: GROUND TEMPERATURES,3,.5,,,,18.86,18.04,19.50,21.78,27.76,32.37,35.48,36.43,34.82,31.24,26.45,22.01,2,,,,21.89,20.42,20.72,21.94,25.94,29.55,32.44,34.00,33.66,31.63,28.34,24.84,4,,,,24.40,22.89,22.57,23.02,25.28,27.72,29.95,31.51,31.87,30.99,29.05,26.69
+   * Literal String Equality: False (Lines are NOT identical).
+
+3. Numerical Ground Temperature Comparison Across All Depths and Months (C):
+Depth(m) | Month | Jodhpur (C)  | Jaisalmer(C) | Diff (C)  
+------------------------------------------------------------
+0.5 m    | Jan   |  18.95       |  18.86       |  +0.09    
+0.5 m    | Feb   |  18.17       |  18.04       |  +0.13    
+0.5 m    | Mar   |  19.55       |  19.50       |  +0.05    
+0.5 m    | Apr   |  21.72       |  21.78       |  -0.06    
+0.5 m    | May   |  27.38       |  27.76       |  -0.38    
+0.5 m    | Jun   |  31.75       |  32.37       |  -0.62    
+0.5 m    | Jul   |  34.70       |  35.48       |  -0.78    
+0.5 m    | Aug   |  35.60       |  36.43       |  -0.83    
+0.5 m    | Sep   |  34.07       |  34.82       |  -0.75    
+0.5 m    | Oct   |  30.68       |  31.24       |  -0.56    
+0.5 m    | Nov   |  26.14       |  26.45       |  -0.31    
+0.5 m    | Dec   |  21.93       |  22.01       |  -0.08    
+2.0 m    | Jan   |  21.82       |  21.89       |  -0.07    
+2.0 m    | Feb   |  20.43       |  20.42       |  +0.01    
+2.0 m    | Mar   |  20.71       |  20.72       |  -0.01    
+2.0 m    | Apr   |  21.86       |  21.94       |  -0.08    
+2.0 m    | May   |  25.65       |  25.94       |  -0.29    
+2.0 m    | Jun   |  29.08       |  29.55       |  -0.47    
+2.0 m    | Jul   |  31.82       |  32.44       |  -0.62    
+2.0 m    | Aug   |  33.29       |  34.00       |  -0.71    
+2.0 m    | Sep   |  32.98       |  33.66       |  -0.68    
+2.0 m    | Oct   |  31.05       |  31.63       |  -0.58    
+2.0 m    | Nov   |  27.93       |  28.34       |  -0.41    
+2.0 m    | Dec   |  24.61       |  24.84       |  -0.23    
+4.0 m    | Jan   |  24.19       |  24.40       |  -0.21    
+4.0 m    | Feb   |  22.77       |  22.89       |  -0.12    
+4.0 m    | Mar   |  22.46       |  22.57       |  -0.11    
+4.0 m    | Apr   |  22.89       |  23.02       |  -0.13    
+4.0 m    | May   |  25.03       |  25.28       |  -0.25    
+4.0 m    | Jun   |  27.34       |  27.72       |  -0.38    
+4.0 m    | Jul   |  29.46       |  29.95       |  -0.49    
+4.0 m    | Aug   |  30.93       |  31.51       |  -0.58    
+4.0 m    | Sep   |  31.28       |  31.87       |  -0.59    
+4.0 m    | Oct   |  30.44       |  30.99       |  -0.55    
+4.0 m    | Nov   |  28.61       |  29.05       |  -0.44    
+4.0 m    | Dec   |  26.36       |  26.69       |  -0.33    
+------------------------------------------------------------
+Ground Temperature Summary Across All 36 Points (3 depths x 12 months):
+   * Mean absolute difference: 0.36 C
+   * Maximum absolute difference: 0.83 C (occurred at 0.5 m depth in July: Jodhpur 34.70 C vs Jaisalmer 35.48 C)
+   * Minimum absolute difference: 0.01 C (occurred at 2.0 m depth in March: Jodhpur 20.71 C vs Jaisalmer 20.72 C)
+
+4. Explanation of Ground Temperature Proximity & Historical Context:
+   a) Scientific Provenance of Ground Temperatures in OneBuilding EPWs:
+      - As stated in EPW Line 7 (COMMENTS 2): 'Ground temps represent undisturbed earth temperatures - calculated from this weather data.'
+      - OneBuilding calculates undisturbed earth temperatures using the Kusuda-Achenbach annual sinusoidal soil heat diffusion model:
+        T(z, t) = T_mean - T_amp * exp(-z * sqrt(pi / (alpha * 365))) * cos(2*pi/365 * (t - t_shift - z/2 * sqrt(365 / (pi * alpha))))
+      - Jodhpur (26.26°N, 73.04°E, 218.5 m) and Jaisalmer (26.90°N, 70.92°E, 231.0 m) are neighboring stations in the arid
+        Thar Desert biome of Western Rajasthan, separated by only 220 km of open desert terrain with identical soil thermophysical properties.
+      - Because their annual mean sol-air temperatures and annual temperature amplitudes are closely matched, their calculated
+        ground temperatures are very close (mean difference 0.35 C), but strictly distinct in every monthly value.
+   b) Provenance of the 'Identical' Attribution:
+      - In the initial codebase prior to Decision D-035 (commits prior to 1ecea7d / 2648cca), ground boundary conditions in the EnergyPlus
+        IDF generator were hardcoded to DEFAULT_GROUND_TEMP = 18.0 C across all building surfaces for all cities.
+      - Consequently, in historical simulation output files, both Jodhpur and Jaisalmer were simulated with an identical 18.0 C ground
+        boundary condition. Decision D-035 replaced this static default with the dynamic EPW ground temperature parser, which now
+        correctly assigns the distinct month-by-month temperatures from Line 4.
+================================================================================================================================================================
