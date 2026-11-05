@@ -316,7 +316,11 @@ def build_results_table():
         last_round_err_pct = float(raw_errs_pct[-1])
         round_1_err_pct = float(raw_errs_pct[0])
         flag_error_high = bool(last_round_err_pct > 5.0)
-        flag_error_rising = bool(last_round_err_pct > 1.5 * round_1_err_pct)
+
+        # Updated flag_error_rising: last abs error > 1.5 * round-1 abs error AND increase > 2.0 kWh/m2
+        r1_abs_err = float(raw_errs_abs[0])
+        last_abs_err = float(raw_errs_abs[-1])
+        flag_error_rising = bool((last_abs_err > 1.5 * r1_abs_err) and ((last_abs_err - r1_abs_err) > 2.0))
 
         # Round 3 signed error & share negative
         p_r3_cand = os.path.join(cdir, "round_3_candidates.parquet")

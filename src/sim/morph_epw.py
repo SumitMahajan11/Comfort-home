@@ -26,11 +26,11 @@ BASE_RAW_DIR = os.path.abspath("data/raw/India_Weather_Extracted")
 PROCESSED_WEATHER_DIR = os.path.abspath("data/processed/weather_morphed")
 
 CITIES_EPW_MAP = {
-    "Jodhpur": os.path.join(BASE_RAW_DIR, "IND_RJ_Jodhpur.423390_TMYx/IND_RJ_Jodhpur.423390_TMYx.epw"),
-    "Mumbai": os.path.join(BASE_RAW_DIR, "IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.epw"),
-    "New_Delhi": os.path.join(BASE_RAW_DIR, "IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.epw"),
-    "Bengaluru": os.path.join(BASE_RAW_DIR, "IND_KA_Bengaluru-Hindustan.AP.432960_TMYx/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.epw"),
-    "Shimla": os.path.join(BASE_RAW_DIR, "IND_HP_Shimla.420830_TMYx/IND_HP_Shimla.420830_TMYx.epw")
+    "Jodhpur": os.path.join(BASE_RAW_DIR, "IND_RJ_Jodhpur.423390_TMYx.2011-2025/IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw"),
+    "Mumbai": os.path.join(BASE_RAW_DIR, "IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw"),
+    "New_Delhi": os.path.join(BASE_RAW_DIR, "IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw"),
+    "Bengaluru": os.path.join(BASE_RAW_DIR, "IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025.epw"),
+    "Shimla": os.path.join(BASE_RAW_DIR, "IND_HP_Shimla.420830_TMYx.2011-2025/IND_HP_Shimla.420830_TMYx.2011-2025.epw")
 }
 
 def magnus_dew_point(t_db: float, rh_pct: float) -> float:
