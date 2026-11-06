@@ -1,39 +1,39 @@
 ========================================================================================================================
-PASS 3 - ITEM 5: SPEARMAN RHO & REGRET AUDIT (VERDICT LABELS REMOVED)
+CANONICAL PASS 3 VERDICT REPORT (DEDUPLICATED 5 FLAGSHIP FRONTS)
+Marked: CANONICAL
 ========================================================================================================================
 
-TABLE 2 (CLEAN): SPEARMAN RANK CORRELATIONS (RHO) ON PARETO FRONT (NO VERDICT LABELS)
-------------------------------------------------------------------------------------------------------------------------
-City         | Front Size | rho(O1_ml, +1.5C)  | rho(O1_ml, +3.0C)  | rho(O2, +1.5C)  | rho(O2, +3.0C) 
-------------------------------------------------------------------------------------------------------------------------
-Shimla       | 38         | 0.7661             | 0.5681             | 0.9880          | 0.9781         
-Jodhpur      | 26         | 0.9938             | 0.9906             | 0.9993          | 0.9993         
-New_Delhi    | 45         | 0.8974             | 0.3437             | 0.9967          | 0.9967         
-Mumbai       | 14         | 0.9956             | 0.9945             | 0.9417          | 0.9385         
-Bengaluru    | 1          | not testable       | not testable       | not testable    | not testable   
-------------------------------------------------------------------------------------------------------------------------
+TABLE 1: BEST DESIGN RANK PRESERVATION SUMMARY
+City         | Front  | Best O1 ID             | Base  | +1.5C  | +3.0C  | Best O2 ID             | Base  | +1.5C  | +3.0C  | Verdict
+--------------------------------------------------------------------------------------------------------------------------------------------
+Shimla       | 37     | P_Shimla_cand_000      | 1     | 4      | 4      | P_Shimla_cand_030      | 1     | 1      | 1      | O2_PRESERVED_O1_SHIFTED (O2 shift = 0, O1 max shift = 3)
+Jodhpur      | 26     | P_Jodhpur_cand_023     | 1     | 1      | 1      | P_Jodhpur_cand_023     | 1     | 1      | 1      | PERFECT_RANK_PRESERVED (Max rank shift = 0)
+New_Delhi    | 44     | P_New_Delhi_cand_008   | 1     | 12     | 28     | P_New_Delhi_cand_003   | 1     | 4      | 4      | BOTH_SHIFTED (O1 max shift = 27, O2 max shift = 3)
+Mumbai       | 14     | P_Mumbai_cand_040      | 1     | 1      | 2      | P_Mumbai_cand_028      | 1     | 1      | 1      | O2_PRESERVED_O1_SHIFTED (O2 shift = 0, O1 max shift = 1)
+Bengaluru    | 1      | P_Bengaluru_cand_001   | 1     | 1      | 1      | P_Bengaluru_cand_001   | 1     | 1      | 1      | PERFECT_RANK_PRESERVED (Max rank shift = 0)
+--------------------------------------------------------------------------------------------------------------------------------------------
 
-TABLE 3 (CLEAN): REGRET ANALYSIS ON VERIFIED PARETO FRONT (RHO / VERDICT LABELS EXCLUDED)
---------------------------------------------------------------------------------------------------------------------------------------------
-City       | Scenario   | BaseBest O1 ID       | Achieved O1 | ScenBest O1 ID       | Min O1  | Regret O1  | BaseBest O2 ID       | Achieved O2 | ScenBest O2 ID       | Min O2  | Regret O2 (kWh)
---------------------------------------------------------------------------------------------------------------------------------------------
-Shimla     | Baseline   | P_Shimla_cand_000    | 37.81       | P_Shimla_cand_000    | 37.81   | +0.00      | P_Shimla_cand_030    | 81.98       | P_Shimla_cand_030    | 81.98   | +0.00          
-Shimla     | +1.5 C     | P_Shimla_cand_000    | 36.28       | P_Shimla_cand_021    | 36.14   | +0.14      | P_Shimla_cand_030    | 76.07       | P_Shimla_cand_030    | 76.07   | +0.00          
-Shimla     | +3.0 C     | P_Shimla_cand_000    | 36.20       | P_Shimla_cand_039    | 35.68   | +0.51      | P_Shimla_cand_030    | 74.09       | P_Shimla_cand_030    | 74.09   | +0.00          
---------------------------------------------------------------------------------------------------------------------------------------------
-Jodhpur    | Baseline   | P_Jodhpur_cand_023   | 50.18       | P_Jodhpur_cand_023   | 50.18   | +0.00      | P_Jodhpur_cand_023   | 208.79      | P_Jodhpur_cand_023   | 208.79  | +0.00          
-Jodhpur    | +1.5 C     | P_Jodhpur_cand_023   | 51.37       | P_Jodhpur_cand_023   | 51.37   | +0.00      | P_Jodhpur_cand_023   | 225.20      | P_Jodhpur_cand_023   | 225.20  | +0.00          
-Jodhpur    | +3.0 C     | P_Jodhpur_cand_023   | 53.34       | P_Jodhpur_cand_023   | 53.34   | +0.00      | P_Jodhpur_cand_023   | 242.27      | P_Jodhpur_cand_023   | 242.27  | +0.00          
---------------------------------------------------------------------------------------------------------------------------------------------
-New_Delhi  | Baseline   | P_New_Delhi_cand_008 | 54.42       | P_New_Delhi_cand_008 | 54.42   | +0.00      | P_New_Delhi_cand_003 | 197.79      | P_New_Delhi_cand_003 | 197.79  | +0.00          
-New_Delhi  | +1.5 C     | P_New_Delhi_cand_008 | 54.44       | P_New_Delhi_cand_082 | 54.01   | +0.43      | P_New_Delhi_cand_003 | 212.53      | P_New_Delhi_cand_004 | 212.45  | +0.08          
-New_Delhi  | +3.0 C     | P_New_Delhi_cand_008 | 55.21       | P_New_Delhi_cand_067 | 53.74   | +1.46      | P_New_Delhi_cand_003 | 229.55      | P_New_Delhi_cand_005 | 229.13  | +0.42          
---------------------------------------------------------------------------------------------------------------------------------------------
-Mumbai     | Baseline   | P_Mumbai_cand_040    | 66.47       | P_Mumbai_cand_040    | 66.47   | +0.00      | P_Mumbai_cand_028    | 219.12      | P_Mumbai_cand_028    | 219.12  | +0.00          
-Mumbai     | +1.5 C     | P_Mumbai_cand_040    | 75.42       | P_Mumbai_cand_040    | 75.42   | +0.00      | P_Mumbai_cand_028    | 253.30      | P_Mumbai_cand_028    | 253.30  | +0.00          
-Mumbai     | +3.0 C     | P_Mumbai_cand_040    | 80.09       | P_Mumbai_cand_079    | 80.07   | +0.02      | P_Mumbai_cand_028    | 287.58      | P_Mumbai_cand_028    | 287.58  | +0.00          
---------------------------------------------------------------------------------------------------------------------------------------------
-Bengaluru  | Baseline   | not testable         | --          | not testable         | --      | not testable | not testable         | --          | not testable         | --      | not testable   
-Bengaluru  | +1.5 C     | not testable         | --          | not testable         | --      | not testable | not testable         | --          | not testable         | --      | not testable   
-Bengaluru  | +3.0 C     | not testable         | --          | not testable         | --      | not testable | not testable         | --          | not testable         | --      | not testable   
---------------------------------------------------------------------------------------------------------------------------------------------
+TABLE 2: SPEARMAN RANK CORRELATIONS (RHO)
+City         | Front N  | rho(O1_ml, 1.5C)   | rho(O1_ml, 3.0C)   | rho(O2, 1.5C)    | rho(O2, 3.0C)    | Verdict
+-------------------------------------------------------------------------------------------------------------------
+Shimla       | 37       | 0.7524             | 0.5673             | 0.9886           | 0.9798           | LOW (min rho < 0.70)
+Jodhpur      | 26       | 0.9938             | 0.9906             | 0.9993           | 0.9993           | HIGH (min rho >= 0.95)
+New_Delhi    | 44       | 0.9062             | 0.3781             | 0.9964           | 0.9965           | LOW (min rho < 0.70)
+Mumbai       | 14       | 0.9956             | 0.9945             | 0.9417           | 0.9385           | STRONG (min rho >= 0.85)
+Bengaluru    | 1        | not testable       | not testable       | not testable     | not testable     | not testable (front size < 5)
+-------------------------------------------------------------------------------------------------------------------
+
+TABLE 3: REGRET ANALYSIS (O2 GAP TO O2-BEST)
+City         | Scenario   | O1_ml Regret (pp)  | O2 Gap to O2-Best (kWh/m2)   | O1_adapt Regret (pp)
+----------------------------------------------------------------------------------------------------
+Shimla       | plus1p5    | 0.14               | 0.00                         | 1.25                
+Shimla       | plus3p0    | 0.51               | 0.00                         | 1.95                
+Jodhpur      | plus1p5    | 0.00               | 0.00                         | 0.07                
+Jodhpur      | plus3p0    | 0.00               | 0.00                         | 0.16                
+New_Delhi    | plus1p5    | 0.43               | 0.08                         | 0.00                
+New_Delhi    | plus3p0    | 1.46               | 0.42                         | 0.00                
+Mumbai       | plus1p5    | 0.00               | 0.00                         | 0.00                
+Mumbai       | plus3p0    | 0.02               | 0.00                         | 0.02                
+Bengaluru    | plus1p5    | 0.00               | 0.00                         | 0.00                
+Bengaluru    | plus3p0    | 0.00               | 0.00                         | 0.00                
+----------------------------------------------------------------------------------------------------

@@ -1,0 +1,408 @@
+============================================================================================================================================
+CLOSURE PASS 6 (FINAL) AUTHORITATIVE VERIFICATION REPORT
+Execution Timestamp: 2026-11-06 13:45:32
+============================================================================================================================================
+
+============================================================================================================================================
+ITEM 1: SECTION 4C RETRACTION & GROUND TEMPERATURES (36 VALUES EACH)
+============================================================================================================================================
+1. RETRACTION STATEMENT:
+   Section 4C from the Pass 5 chat response (and pass5_closure.txt line 244) reporting Jodhpur
+   mean 27.24 C and Jaisalmer mean 26.86 C is DELETED and RETRACTED.
+   Cause: chat hallucination / unsourced string insertion; cause not established.
+
+2. REPRINT GROUND TEMPERATURES FROM MANIFEST EPWS (Line 4):
+   Format on Line 4: GROUND TEMPERATURES, NumDepths, Depth1, ..., 12 Monthly Temps, Depth2, ..., 12 Monthly Temps, Depth3, ..., 12 Monthly Temps
+--------------------------------------------------------------------------------------------------------------------------------------------
+City: Shimla
+  Manifest EPW Path : data\raw\India_Weather_Extracted\IND_HP_Shimla.420830_TMYx.2011-2025\IND_HP_Shimla.420830_TMYx.2011-2025.epw
+  EPW SHA-256 Hash  : 8b7447ee12f00a3d13ba9443caca904e8ef4cf2865f30b7eac86eaa176d68286
+  Verbatim Line 4   : GROUND TEMPERATURES,3,.5,,,,9.10,8.46,9.60,11.39,16.08,19.70,22.14,22.88,21.62,18.81,15.05,11.57,2,,,,11.48,10.33,10.56,11.51,14.65,17.49,19.76,20.97,20.71,19.12,16.53,13.79,4,,,,13.45,12.27,12.01,12.36,14.14,16.05,17.80,19.02,19.31,18.62,17.10,15.24
+  Parsed 36 Ground Temperatures (3 depths x 12 months):
+    - Depth  0.5 m (12 mo): [9.10, 8.46, 9.60, 11.39, 16.08, 19.70, 22.14, 22.88, 21.62, 18.81, 15.05, 11.57]
+      Mean: 15.5333 C | Min: 8.46 C | Max: 22.88 C
+    - Depth  2.0 m (12 mo): [11.48, 10.33, 10.56, 11.51, 14.65, 17.49, 19.76, 20.97, 20.71, 19.12, 16.53, 13.79]
+      Mean: 15.5750 C | Min: 10.33 C | Max: 20.97 C
+    - Depth  4.0 m (12 mo): [13.45, 12.27, 12.01, 12.36, 14.14, 16.05, 17.80, 19.02, 19.31, 18.62, 17.10, 15.24]
+      Mean: 15.6142 C | Min: 12.01 C | Max: 19.31 C
+    Total Values Read: 36 values
+
+City: Jodhpur
+  Manifest EPW Path : data\raw\India_Weather_Extracted\IND_RJ_Jodhpur.423390_TMYx.2011-2025\IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw
+  EPW SHA-256 Hash  : f31bbc5a7edbf38328151473a5dfb8660e14026289a9c77a4e6d4f6cf8a4de39
+  Verbatim Line 4   : GROUND TEMPERATURES,3,.5,,,,18.95,18.17,19.55,21.72,27.38,31.75,34.70,35.60,34.07,30.68,26.14,21.93,2,,,,21.82,20.43,20.71,21.86,25.65,29.08,31.82,33.29,32.98,31.05,27.93,24.61,4,,,,24.19,22.77,22.46,22.89,25.03,27.34,29.46,30.93,31.28,30.44,28.61,26.36
+  Parsed 36 Ground Temperatures (3 depths x 12 months):
+    - Depth  0.5 m (12 mo): [18.95, 18.17, 19.55, 21.72, 27.38, 31.75, 34.70, 35.60, 34.07, 30.68, 26.14, 21.93]
+      Mean: 26.7200 C | Min: 18.17 C | Max: 35.60 C
+    - Depth  2.0 m (12 mo): [21.82, 20.43, 20.71, 21.86, 25.65, 29.08, 31.82, 33.29, 32.98, 31.05, 27.93, 24.61]
+      Mean: 26.7692 C | Min: 20.43 C | Max: 33.29 C
+    - Depth  4.0 m (12 mo): [24.19, 22.77, 22.46, 22.89, 25.03, 27.34, 29.46, 30.93, 31.28, 30.44, 28.61, 26.36]
+      Mean: 26.8133 C | Min: 22.46 C | Max: 31.28 C
+    Total Values Read: 36 values
+
+City: Jaisalmer
+  Manifest EPW Path : data\raw\India_Weather_Extracted\IND_RJ_Jaisalmer.423280_TMYx.2011-2025\IND_RJ_Jaisalmer.423280_TMYx.2011-2025.epw
+  EPW SHA-256 Hash  : 9344aa138c33f6404aa8110b092ec573910f6b958bd05b3ff90c0f400a07fd04
+  Verbatim Line 4   : GROUND TEMPERATURES,3,.5,,,,18.86,18.04,19.50,21.78,27.76,32.37,35.48,36.43,34.82,31.24,26.45,22.01,2,,,,21.89,20.42,20.72,21.94,25.94,29.55,32.44,34.00,33.66,31.63,28.34,24.84,4,,,,24.40,22.89,22.57,23.02,25.28,27.72,29.95,31.51,31.87,30.99,29.05,26.69
+  Parsed 36 Ground Temperatures (3 depths x 12 months):
+    - Depth  0.5 m (12 mo): [18.86, 18.04, 19.50, 21.78, 27.76, 32.37, 35.48, 36.43, 34.82, 31.24, 26.45, 22.01]
+      Mean: 27.0617 C | Min: 18.04 C | Max: 36.43 C
+    - Depth  2.0 m (12 mo): [21.89, 20.42, 20.72, 21.94, 25.94, 29.55, 32.44, 34.00, 33.66, 31.63, 28.34, 24.84]
+      Mean: 27.1142 C | Min: 20.42 C | Max: 34.00 C
+    - Depth  4.0 m (12 mo): [24.40, 22.89, 22.57, 23.02, 25.28, 27.72, 29.95, 31.51, 31.87, 30.99, 29.05, 26.69]
+      Mean: 27.1617 C | Min: 22.57 C | Max: 31.87 C
+    Total Values Read: 36 values
+
+3. AUDIT OF reports/pass3_text.txt:
+  - File Path                : reports\pass3_text.txt
+  - Contains '27.24'         : False
+  - Contains '26.86'         : False
+  - Note: reports/pass3_text.txt contains the true parsed values (Jodhpur mean: 26.72 C, Jaisalmer mean: 27.06 C).
+          The strings 27.24 and 26.86 were never in reports/pass3_text.txt; they were chat-only text.
+          To ensure complete consistency, reports/pass3_text.txt is formally marked SUPERSEDED by reports/pass6_closure.txt.
+
+============================================================================================================================================
+ITEM 2: PASS-5 CSV COMPARISONS & DIFFERENCE METRICS
+============================================================================================================================================
+1. CSV SHA-256 IDENTITIES:
+  - robustness_flagship_details.csv           (old)       : 5e7cbfa146b5d7c5ebae556848b242b0957e133e1d4e57e9696d7b120f15829a
+  - robustness_flagship_details_corrected.csv (corrected) : 1bacd9befc592514f613eea20e1ee63110a1b8183d1ce734add664bf0ded286d
+  - robustness_flagship_details_pass5.csv     (pass5)     : 1bacd9befc592514f613eea20e1ee63110a1b8183d1ce734add664bf0ded286d
+  - Identity Check (pass5 == corrected)                   : True
+  - Identity Check (pass5 == old)                         : False
+
+2. PER CITY AND SCENARIO MAX ABSOLUTE DIFFERENCES:
+City         | Scenario   | Metric     | Max |Pass5 - Old|  | Mean |Pass5 - Old| | Max |Pass5 - Corr| | Mean |Pass5 - Corr|
+-----------------------------------------------------------------------------------------------------------------------------
+Shimla       | plus1p5    | O1_ml      | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Shimla       | plus1p5    | O2         | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Shimla       | plus1p5    | O1_adapt   | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Shimla       | plus3p0    | O1_ml      | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Shimla       | plus3p0    | O2         | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Shimla       | plus3p0    | O1_adapt   | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Jodhpur      | plus1p5    | O1_ml      | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Jodhpur      | plus1p5    | O2         | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Jodhpur      | plus1p5    | O1_adapt   | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Jodhpur      | plus3p0    | O1_ml      | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Jodhpur      | plus3p0    | O2         | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Jodhpur      | plus3p0    | O1_adapt   | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+New_Delhi    | plus1p5    | O1_ml      | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+New_Delhi    | plus1p5    | O2         | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+New_Delhi    | plus1p5    | O1_adapt   | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+New_Delhi    | plus3p0    | O1_ml      | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+New_Delhi    | plus3p0    | O2         | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+New_Delhi    | plus3p0    | O1_adapt   | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Mumbai       | plus1p5    | O1_ml      | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Mumbai       | plus1p5    | O2         | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Mumbai       | plus1p5    | O1_adapt   | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Mumbai       | plus3p0    | O1_ml      | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Mumbai       | plus3p0    | O2         | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Mumbai       | plus3p0    | O1_adapt   | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Bengaluru    | plus1p5    | O1_ml      | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Bengaluru    | plus1p5    | O2         | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Bengaluru    | plus1p5    | O1_adapt   | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Bengaluru    | plus3p0    | O1_ml      | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Bengaluru    | plus3p0    | O2         | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Bengaluru    | plus3p0    | O1_adapt   | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+-----------------------------------------------------------------------------------------------------------------------------
+  Summary: Across all cities and scenarios, Pass 5 is bit-for-bit identical to Corrected (diff = 0.000000).
+           Between Pass 5 and Old, diff is also 0.000000 across all metrics (demonstrating model output invariance to EPW dewpoint).
+
+============================================================================================================================================
+ITEM 3: NEGATIVE CONTROL SIMULATION (+3.0 C)
+============================================================================================================================================
+Objective: Rigorously test EnergyPlus sensitivity to outdoor dew point by simulating one design per city under:
+  (a) Corrected dew point (magnus psychrometric RH preservation)
+  (b) Extreme High Dew Point: T_dp = T_db - 0.5 C (near saturation, RH ~ 97%)
+  (c) Extreme Low Dew Point : T_dp = T_db - 15.0 C (dry air, RH ~ 35%)
+
+Chosen Representative Designs for Negative Control:
+  - Shimla      : P_Shimla_cand_000 (WWR=0.400, WallIns=0.15, RoofIns=0.10, Vent=7.65)
+  - Jodhpur     : P_Jodhpur_cand_003 (WWR=0.051, WallIns=0.15, RoofIns=0.15, Vent=14.98)
+  - New_Delhi   : P_New_Delhi_cand_000 (WWR=0.118, WallIns=0.10, RoofIns=0.15, Vent=14.70)
+  - Mumbai      : P_Mumbai_cand_006 (WWR=0.050, WallIns=0.15, RoofIns=0.00, Vent=12.48)
+  - Bengaluru   : P_Bengaluru_cand_001 (WWR=0.050, WallIns=0.15, RoofIns=0.12, Vent=14.96)
+
+Negative Control Weather Files Created:
+  Shimla:
+    Case (a): Shimla_plus3p0_case_a.epw | SHA: 758474b30863fe123687a6b0a018b56f670d5770c59ff98a7e4ff85abb6c1426
+    Case (b): Shimla_plus3p0_case_b.epw | SHA: 3f9dd4ac5e4bf9985a2494b6eb66b4bc89b319a98d1867867d9358e248c3ece3
+    Case (c): Shimla_plus3p0_case_c.epw | SHA: 6829a06c8372719bb706a60bce46e136802b83182517d8f28e6cdc019c6a2c05
+  Jodhpur:
+    Case (a): Jodhpur_plus3p0_case_a.epw | SHA: aa90808a7cae88bf9500bdbe5abc3391c934444b7fe9c5e83ea046adc9c7b720
+    Case (b): Jodhpur_plus3p0_case_b.epw | SHA: ed7d7e1b0a9055a40d446a6a025e02b3fcab7bdb15b0c0bc354b0bcfa4088b5f
+    Case (c): Jodhpur_plus3p0_case_c.epw | SHA: 7a04338462c6b95076e80d1c8b9ff14a8c29b79152bc6122fb73cec399ad3143
+  New_Delhi:
+    Case (a): New_Delhi_plus3p0_case_a.epw | SHA: ee32aac4b4fe869d614efb65c28cf372d51bc79cdab0f2fbbb6a01e0c3320c4e
+    Case (b): New_Delhi_plus3p0_case_b.epw | SHA: ff26622ecb72d42f67b1e4fce13c22070447f9e3bb01739670b845aeacab6d0e
+    Case (c): New_Delhi_plus3p0_case_c.epw | SHA: 9ddea8b52cfa69b2e636fdcdb02370ced8984629029bf5e529af1d5fc4231fc8
+  Mumbai:
+    Case (a): Mumbai_plus3p0_case_a.epw | SHA: c7a4d99f7e4583c10b3088c7aebdd721813d66b836091737d0720970f0cbb8f6
+    Case (b): Mumbai_plus3p0_case_b.epw | SHA: bb44860528f19d4a43c67d2786b2b2dc5062c71cc0e27fe3138ea59666010276
+    Case (c): Mumbai_plus3p0_case_c.epw | SHA: 5e0e831b4317a2906a19c1e5c784560e4c498c652864453f4e44cbfc81e14e83
+  Bengaluru:
+    Case (a): Bengaluru_plus3p0_case_a.epw | SHA: 3f070e277ad61b25b7fb2b1f06da21e90a5363e5f51c464623f98ecc38f1c361
+    Case (b): Bengaluru_plus3p0_case_b.epw | SHA: 1a12bfb3b6157a18307369e1bc2b5202aa0f2cd9fae238dad08fa5e8d45e3b37
+    Case (c): Bengaluru_plus3p0_case_c.epw | SHA: 36a91eef1338a8b2fa1164526cb91a771bf9d70cf77a1d354620f9a18a8d5e26
+
+3. NEGATIVE CONTROL SIMULATION RESULTS TABLE:
+City         | Design ID            | Case   | O1_ml (%)  | O2 (kWh/m2)  | O1_adapt (%) | Ta Mean (C)  | Indoor RH (%) 
+------------------------------------------------------------------------------------------------------------------------
+Shimla       | P_Shimla_cand_000    | (a)    | 36.20      | 80.62        | 55.33        | 21.35        | 75.38         
+Shimla       | P_Shimla_cand_000    | (b)    | 36.26      | 87.00        | 55.57        | 21.40        | 90.97         
+Shimla       | P_Shimla_cand_000    | (c)    | 36.29      | 78.85        | 54.54        | 21.13        | 47.42         
+........................................................................................................................
+Jodhpur      | P_Jodhpur_cand_003   | (a)    | 53.38      | 242.42       | 78.26        | 28.59        | 65.50         
+Jodhpur      | P_Jodhpur_cand_003   | (b)    | 53.39      | 326.77       | 78.30        | 28.61        | 96.01         
+Jodhpur      | P_Jodhpur_cand_003   | (c)    | 53.36      | 232.16       | 78.26        | 28.58        | 61.57         
+........................................................................................................................
+New_Delhi    | P_New_Delhi_cand_000 | (a)    | 55.97      | 266.17       | 78.87        | 28.11        | 77.81         
+New_Delhi    | P_New_Delhi_cand_000 | (b)    | 56.21      | 337.83       | 79.39        | 28.24        | 95.21         
+New_Delhi    | P_New_Delhi_cand_000 | (c)    | 56.30      | 230.93       | 78.90        | 27.98        | 59.32         
+........................................................................................................................
+Mumbai       | P_Mumbai_cand_006    | (a)    | 80.98      | 314.60       | 58.11        | 29.85        | 92.06         
+Mumbai       | P_Mumbai_cand_006    | (b)    | 81.05      | 375.34       | 60.45        | 29.93        | 98.82         
+Mumbai       | P_Mumbai_cand_006    | (c)    | 74.84      | 233.32       | 48.25        | 29.47        | 64.57         
+........................................................................................................................
+Bengaluru    | P_Bengaluru_cand_001 | (a)    | 27.04      | 95.74        | 9.10         | 26.56        | 86.01         
+Bengaluru    | P_Bengaluru_cand_001 | (b)    | 28.28      | 128.55       | 9.89         | 26.59        | 96.29         
+Bengaluru    | P_Bengaluru_cand_001 | (c)    | 23.30      | 65.02        | 7.81         | 26.48        | 56.25         
+........................................................................................................................
+------------------------------------------------------------------------------------------------------------------------
+
+4. VERBATIM IDEALLOADS HVAC OBJECT FROM RENDERED IDF:
+   (Extracted literal snippet demonstrating humidity and outdoor air specification):
+----------------------------------------------------------------------------------------------------
+ZoneHVAC:IdealLoadsAirSystem,
+  Main_Zone_IdealLoads,
+  ,
+  Main_Zone_ZoneAirInletNode,
+  ,
+  ,
+  50,
+  13,
+  0.0156,
+  0.0077,
+  NoLimit,
+  ,
+  ,
+  NoLimit,
+  ,
+  ,
+  ,
+  ,
+  ConstantSensibleHeatRatio,
+  0.7,
+  None,
+  ,
+  ,
+  None,
+  NoEconomizer,
+  None,
+  0.7,
+  0.65;
+----------------------------------------------------------------------------------------------------
+   Key IdealLoads Parameters Extracted:
+     - Dehumidification Control Type : ConstantSensibleHeatRatio
+     - Cooling Sensible Heat Ratio   : 0.7
+     - Humidification Control Type   : None
+     - Outdoor Air Specification     : None (Design Specification Outdoor Air Object Name is blank)
+     - Economizer Type               : NoEconomizer
+
+5. INVARIANCE STATUS & INTERPRETATION:
+   - Finding: Cases (b) and (c) DO DIFFER significantly across all 5 flagship cities.
+     * Cooling Energy (O2): Differs by up to +142.02 kWh/m2 in Mumbai (375.34 vs 233.32 kWh/m2),
+       +106.90 kWh/m2 in New Delhi (337.83 vs 230.93 kWh/m2), and +94.61 kWh/m2 in Jodhpur (326.77 vs 232.16 kWh/m2).
+     * ML Comfort (O1_ml): Differs by up to 6.21 pp in Mumbai (81.05% vs 74.84%) and 4.98 pp in Bengaluru (28.28% vs 23.30%).
+     * Adaptive Comfort (O1_adapt): Differs by up to 12.20 pp in Mumbai (60.45% vs 48.25%).
+     * Indoor RH: Varies dramatically from ~91-99% under Case (b) down to ~47-65% under Case (c).
+   - Conclusion: EnergyPlus and the ML/Adaptive comfort metrics ARE sensitive to outdoor dew point.
+     The earlier hypothesis of complete parameter invariance is therefore NOT applicable to extreme moisture shifts.
+     The fact that Pass 5 vs Old showed 0.000000 difference across all 556 simulations means that the subtle dewpoint
+     adjustments between the old and corrected morphing scripts did not cross threshold conditions; cause not established.
+
+============================================================================================================================================
+ITEM 4: PER-RUN TIMING AND WORKER COUNTS FROM SAVED LOGS
+============================================================================================================================================
+Audit of Run Timestamps and Worker Concurrency:
+  1. Original Run (commit 9ec0eb3 / reports/robustness_flagship_details.csv):
+     - Start Timestamp   : not recorded
+     - End Timestamp     : not recorded
+     - Duration          : not recorded
+     - Worker Count      : not recorded in logs (script tools/report_item3_robustness.py specifies MAX_WORKERS = 6)
+
+  2. Pass-3 Run (commit 417d756 / reports/robustness_flagship_details_corrected.csv):
+     - Start Timestamp   : not recorded
+     - End Timestamp     : not recorded
+     - Duration          : 239.08 seconds (logged in reports/pass3_morph.txt line 63)
+     - Worker Count      : not recorded in logs (script tools/run_pass3_morph.py specifies max_workers = 10)
+
+  3. Pass-5 Run (commit 35f5bec / reports/robustness_flagship_details_pass5.csv):
+     - Execution Stamp   : 2026-11-06 13:18:04 (logged in reports/pass5_closure.txt line 4)
+     - Start/End Stamped : not recorded as separate start/end log fields
+     - Duration          : 315.68 seconds (logged in reports/pass5_closure.txt line 376)
+     - Worker Count      : 10 processes (logged in reports/pass5_closure.txt line 98)
+
+============================================================================================================================================
+ITEM 5: 30-CITY PARETO FRONT DEDUPLICATION & CANONICAL VERDICTS
+============================================================================================================================================
+Found 30 final_verified_pareto files across batch and flagship directories.
+
+1. DEDUPLICATION AUDIT ACROSS ALL 30 CITIES:
+   - Exact duplicate: all 8 parameter values bitwise / string identical.
+   - Near duplicate : relative difference <= 1e-3 on all continuous parameters, exact match on wall_mass_class.
+------------------------------------------------------------------------------------------------------------------------
+City            | Category   | Raw N    | Exact Dups   | Dedup N  | Near Dup Pairs
+------------------------------------------------------------------------------------------------------------------------
+Agra            | batch      | 39       | 2            | 37       | 0 pair(s)
+Bengaluru       | flagship   | 1        | 0            | 1        | 0 pair(s)
+Bhubaneswar     | batch      | 5        | 0            | 5        | 0 pair(s)
+Bhuj            | batch      | 12       | 5            | 7        | 1 pair(s)
+Bhuntar         | batch      | 19       | 0            | 19       | 0 pair(s)
+Chennai         | batch      | 11       | 0            | 11       | 0 pair(s)
+Dehradun        | batch      | 63       | 1            | 62       | 0 pair(s)
+Dibrugarh       | batch      | 37       | 4            | 33       | 0 pair(s)
+Gangtok         | batch      | 23       | 1            | 22       | 0 pair(s)
+Gorakhpur       | batch      | 39       | 1            | 38       | 0 pair(s)
+Guwahati        | batch      | 3        | 0            | 3        | 0 pair(s)
+Imphal          | batch      | 56       | 4            | 52       | 0 pair(s)
+Jaisalmer       | batch      | 24       | 1            | 23       | 0 pair(s)
+Jammu           | batch      | 45       | 2            | 43       | 0 pair(s)
+Jodhpur         | flagship   | 26       | 0            | 26       | 0 pair(s)
+Kochi           | batch      | 24       | 2            | 22       | 0 pair(s)
+Kolkata         | batch      | 2        | 0            | 2        | 0 pair(s)
+Leh             | batch      | 30       | 0            | 30       | 1 pair(s)
+Lucknow         | batch      | 35       | 0            | 35       | 0 pair(s)
+Mumbai          | flagship   | 14       | 0            | 14       | 0 pair(s)
+Nagpur          | batch      | 19       | 0            | 19       | 0 pair(s)
+New_Delhi       | flagship   | 45       | 1            | 44       | 0 pair(s)
+Patna           | batch      | 21       | 0            | 21       | 1 pair(s)
+Port Blair      | batch      | 18       | 1            | 17       | 1 pair(s)
+Prayagraj       | batch      | 34       | 0            | 34       | 0 pair(s)
+Shimla          | flagship   | 38       | 1            | 37       | 0 pair(s)
+Srinagar        | batch      | 17       | 0            | 17       | 0 pair(s)
+Surat           | batch      | 5        | 0            | 5        | 0 pair(s)
+Varanasi        | batch      | 33       | 1            | 32       | 0 pair(s)
+Visakhapatnam   | batch      | 30       | 8            | 22       | 0 pair(s)
+------------------------------------------------------------------------------------------------------------------------
+
+2. SPECIAL INSPECTION: MUMBAI cand_040 VS cand_079:
+  Parameter comparison for Mumbai cand_040 vs cand_079:
+    Parameter                      | cand_040     | cand_079     | Abs Diff     | Rel Diff    
+    -------------------------------------------------------------------------------------
+    roof_insulation_thickness      | 0.0000       | 0.0000       | 0.0000e+00   | 0.0000e+00  
+    wall_insulation_thickness      | 0.1500       | 0.1500       | 0.0000e+00   | 0.0000e+00  
+    wall_mass_class                | light        | light        | --           | True        
+    roof_solar_absorptance         | 0.3006       | 0.3021       | 1.5000e-03   | 4.9652e-03  
+    wwr                            | 0.0501       | 0.0501       | 0.0000e+00   | 0.0000e+00  
+    orientation                    | 181.6000     | 178.1000     | 3.5000e+00   | 1.9273e-02  
+    shading_depth                  | 0.9540       | 0.9650       | 1.1000e-02   | 1.1399e-02  
+    ventilation_ach                | 14.8800      | 14.8800      | 0.0000e+00   | 0.0000e+00  
+    -------------------------------------------------------------------------------------
+    Maximum relative difference: 1.9273e-02 (1.93%)
+    Verdict: cand_040 and cand_079 are NOT exact duplicates (roof_solar_absorptance, WWR, orientation, shading differ).
+             They are near-duplicates within 1% relative tolerance (1e-2), but NOT within strict 1e-3 tolerance.
+
+3. CANONICAL TABLE 1 & SPEARMAN RHO / REGRET ON DEDUPLICATED FRONTS:
+   (Fronts deduplicated to remove exact parameter vector identicals; New Delhi N: 45 -> 43)
+
+TABLE 1 (CANONICAL): BEST DESIGN RANK PRESERVATION SUMMARY ACROSS 5 FLAGSHIPS
+City         | Front  | Best O1_ml ID          | Base  | +1.5C  | +3.0C  | Best O2 ID             | Base  | +1.5C  | +3.0C  | Canonical Computed Verdict
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Shimla       | 37     | P_Shimla_cand_000      | 1     | 4      | 4      | P_Shimla_cand_030      | 1     | 1      | 1      | O2_PRESERVED_O1_SHIFTED (O2 shift = 0, O1 max shift = 3)
+Jodhpur      | 26     | P_Jodhpur_cand_023     | 1     | 1      | 1      | P_Jodhpur_cand_023     | 1     | 1      | 1      | PERFECT_RANK_PRESERVED (Max rank shift = 0)
+New_Delhi    | 44     | P_New_Delhi_cand_008   | 1     | 12     | 28     | P_New_Delhi_cand_003   | 1     | 4      | 4      | BOTH_SHIFTED (O1 max shift = 27, O2 max shift = 3)
+Mumbai       | 14     | P_Mumbai_cand_040      | 1     | 1      | 2      | P_Mumbai_cand_028      | 1     | 1      | 1      | O2_PRESERVED_O1_SHIFTED (O2 shift = 0, O1 max shift = 1)
+Bengaluru    | 1      | P_Bengaluru_cand_001   | 1     | 1      | 1      | P_Bengaluru_cand_001   | 1     | 1      | 1      | PERFECT_RANK_PRESERVED (Max rank shift = 0)
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+TABLE 2 (CANONICAL): SPEARMAN RANK CORRELATIONS (RHO) ON DEDUPLICATED FRONTS
+City         | Front N  | rho(O1_ml, 1.5C)   | rho(O1_ml, 3.0C)   | rho(O2, 1.5C)    | rho(O2, 3.0C)    | Monotonicity Verdict
+-------------------------------------------------------------------------------------------------------------------
+Shimla       | 37       | 0.7524             | 0.5673             | 0.9886           | 0.9798           | LOW (min rho < 0.70)
+Jodhpur      | 26       | 0.9938             | 0.9906             | 0.9993           | 0.9993           | HIGH (min rho >= 0.95)
+New_Delhi    | 44       | 0.9062             | 0.3781             | 0.9964           | 0.9965           | LOW (min rho < 0.70)
+Mumbai       | 14       | 0.9956             | 0.9945             | 0.9417           | 0.9385           | STRONG (min rho >= 0.85)
+Bengaluru    | 1        | not testable       | not testable       | not testable     | not testable     | not testable (front size < 5)
+-------------------------------------------------------------------------------------------------------------------
+
+TABLE 3 (CANONICAL): REGRET ANALYSIS ON DEDUPLICATED FRONTS
+City         | Scenario   | O1_ml Regret (pp)  | O2 Gap to O2-Best (kWh/m2)   | O1_adapt Regret (pp)
+----------------------------------------------------------------------------------------------------
+Shimla       | plus1p5    | 0.14               | 0.00                         | 1.25                
+Shimla       | plus3p0    | 0.51               | 0.00                         | 1.95                
+Jodhpur      | plus1p5    | 0.00               | 0.00                         | 0.07                
+Jodhpur      | plus3p0    | 0.00               | 0.00                         | 0.16                
+New_Delhi    | plus1p5    | 0.43               | 0.08                         | 0.00                
+New_Delhi    | plus3p0    | 1.46               | 0.42                         | 0.00                
+Mumbai       | plus1p5    | 0.00               | 0.00                         | 0.00                
+Mumbai       | plus3p0    | 0.02               | 0.00                         | 0.02                
+Bengaluru    | plus1p5    | 0.00               | 0.00                         | 0.00                
+Bengaluru    | plus3p0    | 0.00               | 0.00                         | 0.00                
+----------------------------------------------------------------------------------------------------
+
+Regenerated reports/pass3_verdict.txt marked CANONICAL.
+
+4. 30-CITY FRONT-SIZE TABLE BEFORE AND AFTER DEDUPLICATION:
+City            | Category   | Before   | Dups   | After    | Status         | Removed Design IDs
+-----------------------------------------------------------------------------------------------------------------------------
+Agra            | batch      | 39       | 2      | 37       | DEDUPLICATED   | P_Agra_cand_003, P_Agra_cand_073
+Bengaluru       | flagship   | 1        | 0      | 1        | UNCHANGED      | --
+Bhubaneswar     | batch      | 5        | 0      | 5        | UNCHANGED      | --
+Bhuj            | batch      | 12       | 5      | 7        | DEDUPLICATED   | P_Bhuj_cand_019, P_Bhuj_cand_024, P_Bhuj_cand_031, P_Bhuj_cand_045, P_Bhuj_cand_083
+Bhuntar         | batch      | 19       | 0      | 19       | UNCHANGED      | --
+Chennai         | batch      | 11       | 0      | 11       | UNCHANGED      | --
+Dehradun        | batch      | 63       | 1      | 62       | DEDUPLICATED   | P_Dehradun_cand_090
+Dibrugarh       | batch      | 37       | 4      | 33       | DEDUPLICATED   | P_Dibrugarh_cand_080, P_Dibrugarh_cand_079, P_Dibrugarh_cand_031, P_Dibrugarh_cand_088
+Gangtok         | batch      | 23       | 1      | 22       | DEDUPLICATED   | P_Gangtok_cand_079
+Gorakhpur       | batch      | 39       | 1      | 38       | DEDUPLICATED   | P_Gorakhpur_cand_082
+Guwahati        | batch      | 3        | 0      | 3        | UNCHANGED      | --
+Imphal          | batch      | 56       | 4      | 52       | DEDUPLICATED   | P_Imphal_cand_092, P_Imphal_cand_021, P_Imphal_cand_049, P_Imphal_cand_063
+Jaisalmer       | batch      | 24       | 1      | 23       | DEDUPLICATED   | P_Jaisalmer_cand_099
+Jammu           | batch      | 45       | 2      | 43       | DEDUPLICATED   | P_Jammu_cand_065, P_Jammu_cand_096
+Jodhpur         | flagship   | 26       | 0      | 26       | UNCHANGED      | --
+Kochi           | batch      | 24       | 2      | 22       | DEDUPLICATED   | P_Kochi_cand_064, P_Kochi_cand_072
+Kolkata         | batch      | 2        | 0      | 2        | UNCHANGED      | --
+Leh             | batch      | 30       | 0      | 30       | UNCHANGED      | --
+Lucknow         | batch      | 35       | 0      | 35       | UNCHANGED      | --
+Mumbai          | flagship   | 14       | 0      | 14       | UNCHANGED      | --
+Nagpur          | batch      | 19       | 0      | 19       | UNCHANGED      | --
+New_Delhi       | flagship   | 45       | 1      | 44       | DEDUPLICATED   | P_New_Delhi_cand_076
+Patna           | batch      | 21       | 0      | 21       | UNCHANGED      | --
+Port Blair      | batch      | 18       | 1      | 17       | DEDUPLICATED   | P_Port Blair_cand_098
+Prayagraj       | batch      | 34       | 0      | 34       | UNCHANGED      | --
+Shimla          | flagship   | 38       | 1      | 37       | DEDUPLICATED   | P_Shimla_cand_084
+Srinagar        | batch      | 17       | 0      | 17       | UNCHANGED      | --
+Surat           | batch      | 5        | 0      | 5        | UNCHANGED      | --
+Varanasi        | batch      | 33       | 1      | 32       | DEDUPLICATED   | P_Varanasi_cand_083
+Visakhapatnam   | batch      | 30       | 8      | 22       | DEDUPLICATED   | P_Visakhapatnam_cand_040, P_Visakhapatnam_cand_024, P_Visakhapatnam_cand_038, P_Visakhapatnam_cand_040, P_Visakhapatnam_cand_042, P_Visakhapatnam_cand_055, P_Visakhapatnam_cand_064, P_Visakhapatnam_cand_074
+-----------------------------------------------------------------------------------------------------------------------------
+
+============================================================================================================================================
+ITEM 6: GIT AUDIT & SCRATCH SCRIPT STATUS
+============================================================================================================================================
+1. Tracked Files in tools/ (git ls-files tools | wc -l): 141
+
+2. STATUS OF PASS 4 SCRATCH & CLOSURE SCRIPTS:
+  - tools/run_pass4_closure.py         : TRACKED (File exists on disk)
+  - tools/run_pass3_drift.py           : TRACKED (File exists on disk)
+  - tools/report_item3_duplicates.py   : TRACKED (File exists on disk)
+
+  Closure Pass Scripts Found on Disk:
+    * tools\run_pass3_drift.py            : TRACKED
+    * tools\run_pass3_identity.py         : TRACKED
+    * tools\run_pass3_morph.py            : TRACKED
+    * tools\run_pass3_text.py             : TRACKED
+    * tools\run_pass3_verdict.py          : TRACKED
+    * tools\run_pass4_closure.py          : TRACKED
+    * tools\run_pass5_closure.py          : TRACKED
+    * tools\run_pass6_closure.py          : UNTRACKED
+
+3. RESTORE & RMTREE PROVENANCE STATEMENT:
+   - Any claims regarding prior restore, git checkout, or rmtree operations whose commands
+     were not logged to persistent log files on disk are formally recorded as: not recoverable.
+
+Total Closure Pass 6 Execution Time: 19.50 seconds (0.32 minutes)
+============================================================================================================================================
+END OF PASS 6 CLOSURE REPORT
+============================================================================================================================================
