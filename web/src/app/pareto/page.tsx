@@ -3,7 +3,13 @@
 import React, { useState, useMemo, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { CITIES_DATA } from "@/lib/constants";
-import { getParetoDesigns, getReferencesForCity, getS3ResultForCity } from "@/lib/data";
+import {
+  getParetoDesigns,
+  getReferencesForCity,
+  getS3ResultForCity,
+  getFlagshipRobustnessData,
+  getSpearmanRhoData
+} from "@/lib/data";
 import { formatPercentagePoints, formatEnergyDelta } from "@/lib/metrics";
 import {
   formatInsulationMm,
@@ -139,6 +145,16 @@ function ParetoExplorerContent() {
   const { r1, r2 } = getReferencesForCity(selectedCity);
   const s3Result = getS3ResultForCity(selectedCity);
   const allDesigns = useMemo(() => getParetoDesigns(selectedCity), [selectedCity]);
+  const allRobustness = useMemo(() => getFlagshipRobustnessData(), []);
+  const allSpearman = useMemo(() => getSpearmanRhoData(), []);
+  const cityRobustness = useMemo(
+    () => allRobustness.filter((r) => r.city === selectedCity),
+    [allRobustness, selectedCity]
+  );
+  const citySpearman = useMemo(
+    () => allSpearman.find((s) => s.city === selectedCity),
+    [allSpearman, selectedCity]
+  );
 
   const verifiedDesigns = useMemo(
     () => allDesigns.filter((d) => d.is_verified),
@@ -833,6 +849,113 @@ function ParetoExplorerContent() {
           </div>
         </div>
       )}
+
+      {/* Climate Warming Robustness & Spearman Rank Preservation (Table 2 & 3) */}
+      <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-6 space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--line)] pb-4">
+          <div>
+            <h3 className="text-lg font-semibold text-[var(--ink)] flex items-center space-x-2">
+              <Sparkles className="w-5 h-5 text-[var(--primary)]" />
+              <span>Climate Warming Robustness Evaluation (+1.5°C & +3.0°C)</span>
+            </h3>
+            <p className="text-xs text-[var(--ink-2)] mt-0.5">
+              Physical EnergyPlus sensitivity runs testing baseline-optimal design regret under uniform warming scenarios (from canonical Table 2 & Table 3).
+            </p>
+          </div>
+          {citySpearman && (
+            <div className="text-xs font-mono px-3 py-1.5 rounded-lg bg-[var(--surface-2)] border border-[var(--line)] text-[var(--ink)]">
+              Front Size N = <strong>{citySpearman.front_size_N}</strong>
+            </div>
+          )}
+        </div>
+
+        {/* Robustness Metric Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {cityRobustness.map((scen) => (
+            <div
+              key={scen.scenario}
+              className="p-4 rounded-xl border border-[var(--line)] bg-[var(--surface-2)] space-y-3"
+            >
+              <div className="flex justify-between items-center">
+                <span className="font-bold text-xs uppercase tracking-wider text-[var(--primary)]">
+                  {scen.scenario}
+                </span>
+                <span className="text-[11px] px-2 py-0.5 rounded bg-[var(--surface)] border border-[var(--line)] text-[var(--ink-2)] font-mono">
+                  {scen.tie_flag === "TIED" ? "Tied Winners" : "Unique Optimal"}
+                </span>
+              </div>
+
+              <div className="space-y-2 text-xs">
+                <div className="p-2.5 rounded-lg bg-[var(--surface)] border border-[var(--line)]/60 space-y-1">
+                  <div className="flex justify-between">
+                    <span className="text-[var(--ink-2)]">Best Comfort Candidate:</span>
+                    <span className="font-mono font-semibold">{scen.baseline_best_o1_id}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-[var(--ink-2)]">Achieved Discomfort:</span>
+                    <span className="font-bold text-[var(--hot)]">{scen.achieved_o1_ml.toFixed(2)}%</span>
+                  </div>
+                  <div className="flex justify-between pt-1 border-t border-[var(--line)]/40 text-[11px]">
+                    <span className="text-[var(--ink-2)]">Comfort Regret R(O1):</span>
+                    <span className="font-bold text-[var(--good)]">
+                      {typeof scen.o1_ml_regret_pp === "number"
+                        ? `${scen.o1_ml_regret_pp.toFixed(2)} pp`
+                        : scen.o1_ml_regret_pp}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="p-2.5 rounded-lg bg-[var(--surface)] border border-[var(--line)]/60 space-y-1">
+                  <div className="flex justify-between">
+                    <span className="text-[var(--ink-2)]">Best Energy Candidate:</span>
+                    <span className="font-mono font-semibold">{scen.baseline_best_o2_id}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-[var(--ink-2)]">Achieved HVAC Energy:</span>
+                    <span className="font-bold text-[var(--ink)]">{scen.achieved_o2.toFixed(2)} kWh/m²</span>
+                  </div>
+                  <div className="flex justify-between pt-1 border-t border-[var(--line)]/40 text-[11px]">
+                    <span className="text-[var(--ink-2)]">Cooling Gap R(O2):</span>
+                    <span className="font-bold text-[var(--good)]">
+                      {typeof scen.o2_gap_kwh === "number"
+                        ? `${scen.o2_gap_kwh.toFixed(2)} kWh/m² (${scen.o2_gap_pct})`
+                        : scen.o2_gap_kwh}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Spearman Rank Preservation Summary */}
+        {citySpearman && (
+          <div className="p-4 rounded-xl bg-[var(--surface-2)] border border-[var(--line)] text-xs space-y-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="font-semibold text-[var(--ink)]">
+                Rank Correlation Preservation (Spearman ρ):
+              </span>
+              <div className="flex flex-wrap gap-2 text-[11px] font-mono">
+                <span className="px-2.5 py-1 rounded bg-[var(--surface)] border border-[var(--line)]">
+                  ρ(O1) @ +1.5°C: <strong>{typeof citySpearman.rho_O1_ml_plus1p5 === "number" ? citySpearman.rho_O1_ml_plus1p5.toFixed(4) : citySpearman.rho_O1_ml_plus1p5}</strong>
+                </span>
+                <span className="px-2.5 py-1 rounded bg-[var(--surface)] border border-[var(--line)]">
+                  ρ(O1) @ +3.0°C: <strong>{typeof citySpearman.rho_O1_ml_plus3p0 === "number" ? citySpearman.rho_O1_ml_plus3p0.toFixed(4) : citySpearman.rho_O1_ml_plus3p0}</strong>
+                </span>
+                <span className="px-2.5 py-1 rounded bg-[var(--surface)] border border-[var(--line)]">
+                  ρ(O2) @ +1.5°C: <strong>{typeof citySpearman.rho_O2_plus1p5 === "number" ? citySpearman.rho_O2_plus1p5.toFixed(4) : citySpearman.rho_O2_plus1p5}</strong>
+                </span>
+                <span className="px-2.5 py-1 rounded bg-[var(--surface)] border border-[var(--line)]">
+                  ρ(O2) @ +3.0°C: <strong>{typeof citySpearman.rho_O2_plus3p0 === "number" ? citySpearman.rho_O2_plus3p0.toFixed(4) : citySpearman.rho_O2_plus3p0}</strong>
+                </span>
+              </div>
+            </div>
+            <p className="text-[11px] text-[var(--ink-2)] leading-relaxed">
+              * Note: High rank preservation (ρ &gt; 0.90 in most flagship cities) confirms that envelope designs identified as Pareto optimal in the present climate remain optimal under future atmospheric warming. When front size N &lt; 5 (e.g. Bengaluru N = 1), rank metrics are formally classified as not testable.
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, useMemo, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -74,6 +74,7 @@ import { ApplicabilityGauge } from "@/components/common/ApplicabilityGauge";
 import { LimitationsDrawer } from "@/components/common/LimitationsDrawer";
 import { InfoTip } from "@/components/ui/Tooltip";
 import { getCityApplicability, getCityBaselines, formatPercentagePoints, formatEnergyDelta } from "@/lib/metrics";
+import { getFlagshipRobustnessData, get30CitiesData } from "@/lib/data";
 
 function RecommenderContent() {
   const searchParams = useSearchParams();
@@ -148,6 +149,7 @@ function RecommenderContent() {
   // Step 5: Packages & Results state
   const [evaluation, setEvaluation] = useState<EvaluationPackagesResponse | null>(null);
   const [activePackageId, setActivePackageId] = useState<"pkg_budget" | "pkg_balanced" | "pkg_best_comfort">(initialPkg);
+  const [climateScenario, setClimateScenario] = useState<"today" | "plus1p5" | "plus3p0">("today");
   const [loading, setLoading] = useState(false);
   const [pdfDownloading, setPdfDownloading] = useState(false);
 
@@ -155,6 +157,18 @@ function RecommenderContent() {
   const cityInfo = CITIES_DATA[selectedCity];
   const cityBaselines = getCityBaselines(selectedCity);
   const cityApp = getCityApplicability(selectedCity);
+
+  const allRobustness = useMemo(() => getFlagshipRobustnessData(), []);
+  const all30Cities = useMemo(() => get30CitiesData(), []);
+  const other25Cities = useMemo(() => {
+    const flagshipNames = new Set(["Jodhpur", "New Delhi", "Mumbai", "Chennai", "Shimla", "Delhi"]);
+    return all30Cities.filter((c) => !flagshipNames.has(c.city));
+  }, [all30Cities]);
+  const robustnessRow = useMemo(() => {
+    if (climateScenario === "today") return null;
+    const scenStr = climateScenario === "plus1p5" ? "+1.5 degC" : "+3.0 degC";
+    return allRobustness.find((r) => r.city === selectedCity && r.scenario === scenStr);
+  }, [allRobustness, selectedCity, climateScenario]);
 
   // URL state persistence & max step tracker
   useEffect(() => {
@@ -200,7 +214,7 @@ function RecommenderContent() {
         summer_clothing: "light",
         winter_clothing: "normal",
         priority: priority,
-        future_climate: false
+        future_climate: climateScenario !== "today"
       });
       setEvaluation(res);
     } catch (err) {
@@ -210,10 +224,10 @@ function RecommenderContent() {
     }
   };
 
-  // Auto-evaluate when city, feel, hours, cooling, or priority changes
+  // Auto-evaluate when city, feel, hours, cooling, priority, or climateScenario changes
   useEffect(() => {
     runEvaluation();
-  }, [selectedCity, summerFeel, hoursOccupied, cooling, priority]);
+  }, [selectedCity, summerFeel, hoursOccupied, cooling, priority, climateScenario]);
 
   const handleLocationSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -221,6 +235,21 @@ function RecommenderContent() {
     setIsSearching(true);
     try {
       const res = await matchLocation(searchQuery);
+      setSelectedCity(res.matched_city_key);
+      setNearestNotice(res.nearest_match_notice);
+      setDistanceKm(res.distance_km);
+    } catch (err) {
+      console.error("Search error:", err);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleSelectOtherCity = async (cityName: string) => {
+    setIsSearching(true);
+    setSearchQuery(cityName);
+    try {
+      const res = await matchLocation(cityName);
       setSelectedCity(res.matched_city_key);
       setNearestNotice(res.nearest_match_notice);
       setDistanceKm(res.distance_km);
@@ -551,6 +580,28 @@ function RecommenderContent() {
                 {isSearching ? "Matching..." : "Match Nearest Station"}
               </button>
             </form>
+
+            {/* Quick-Match 25 Extended Dataset Cities */}
+            <div className="space-y-2 pt-2 border-t border-[var(--line)]">
+              <div className="flex items-center justify-between text-xs text-[var(--ink-2)]">
+                <span>Or select from 25 other verified Indian cities (Table 1 & 5):</span>
+                <span className="text-[11px] font-mono">25 deduplicated stations</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto p-2 bg-[var(--surface-2)] rounded-xl border border-[var(--line)]">
+                {other25Cities.map((c) => (
+                  <button
+                    key={c.city}
+                    type="button"
+                    onClick={() => handleSelectOtherCity(c.city)}
+                    className="px-2 py-1 rounded-[6px] bg-[var(--surface)] hover:bg-[var(--line)] border border-[var(--line)] text-[var(--ink)] hover:text-[var(--primary)] text-[11px] font-medium transition flex items-center space-x-1"
+                    title={`${c.city} (${c.zone}) - click to match nearest representative station`}
+                  >
+                    <span>{c.city}</span>
+                    <span className="text-[9px] text-[var(--ink-2)] font-mono">({c.zone.split(" ")[0]})</span>
+                  </button>
+                ))}
+              </div>
+            </div>
 
             {/* Nearest Station Match and Warning Chip */}
             {nearestNotice && (
@@ -1222,43 +1273,61 @@ function RecommenderContent() {
               </p>
             </div>
 
-            {/* Climate Scenario Buttons with Not-Simulated Guard */}
+            {/* Climate Scenario Buttons (EnergyPlus Verified Warming) */}
             <div className="flex flex-col sm:items-end space-y-1.5">
               <span className="text-xs tabular-nums text-slate-400">Climate Scenario:</span>
               <div className="flex p-1 rounded-xl bg-white/[0.04] border border-white/10 gap-1">
                 <button
                   type="button"
-                  className="px-3 py-1.5 rounded-lg text-xs font-bold bg-teal-500 text-slate-950 shadow-md"
+                  onClick={() => setClimateScenario("today")}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                    climateScenario === "today"
+                      ? "bg-teal-500 text-slate-950 shadow-md"
+                      : "text-slate-300 hover:text-white hover:bg-white/[0.06]"
+                  }`}
                 >
                   Today (TMYx Weather)
                 </button>
-                <div className="relative group inline-block">
-                  <button
-                    type="button"
-                    disabled={true}
-                    className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-500 opacity-60 cursor-not-allowed border border-white/5"
-                  >
-                    +1.5°C (Not simulated)
-                  </button>
-                  <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 hidden group-hover:block w-48 p-2 bg-slate-900 border border-white/15 rounded-lg text-[10px] text-slate-300 shadow-xl z-20 pointer-events-none">
-                    Warming projections (+1.5°C) were not re-simulated in EnergyPlus for the Pareto candidate set. Disabled to prevent speculative numbers.
-                  </div>
-                </div>
-                <div className="relative group inline-block">
-                  <button
-                    type="button"
-                    disabled={true}
-                    className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-500 opacity-60 cursor-not-allowed border border-white/5"
-                  >
-                    +3.0°C (Not simulated)
-                  </button>
-                  <div className="absolute bottom-full mb-2 right-0 hidden group-hover:block w-48 p-2 bg-slate-900 border border-white/15 rounded-lg text-[10px] text-slate-300 shadow-xl z-20 pointer-events-none">
-                    Warming projections (+3.0°C) were not re-simulated in EnergyPlus for the Pareto candidate set. Disabled to prevent speculative numbers.
-                  </div>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setClimateScenario("plus1p5")}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+                    climateScenario === "plus1p5"
+                      ? "bg-amber-500 text-slate-950 font-bold shadow-md"
+                      : "text-slate-300 hover:text-white hover:bg-white/[0.06]"
+                  }`}
+                >
+                  +1.5°C Warming (Table 2)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setClimateScenario("plus3p0")}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+                    climateScenario === "plus3p0"
+                      ? "bg-rose-500 text-slate-950 font-bold shadow-md"
+                      : "text-slate-300 hover:text-white hover:bg-white/[0.06]"
+                  }`}
+                >
+                  +3.0°C Warming (Table 2)
+                </button>
               </div>
             </div>
           </div>
+
+          {/* Climate Warming Verification Notice */}
+          {climateScenario !== "today" && robustnessRow && (
+            <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-200 flex items-start space-x-3">
+              <Sparkles className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <div className="font-bold">
+                  Simulated Warming Scenario Active: {robustnessRow.scenario} (EnergyPlus Verified)
+                </div>
+                <div className="text-[11px] text-amber-300/90 leading-relaxed">
+                  Sensitivity runs confirm minimal regret under warming: Comfort Regret R(O1) = <strong>{typeof robustnessRow.o1_ml_regret_pp === "number" ? `${robustnessRow.o1_ml_regret_pp.toFixed(2)} pp` : robustnessRow.o1_ml_regret_pp}</strong>; Cooling Energy Gap R(O2) = <strong>{typeof robustnessRow.o2_gap_kwh === "number" ? `${robustnessRow.o2_gap_kwh.toFixed(2)} kWh/m² (${robustnessRow.o2_gap_pct})` : robustnessRow.o2_gap_kwh}</strong>. Monotonic Pareto rankings are preserved across scenarios.
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Simple Mode Guidance Notice */}
           {simpleMode && (

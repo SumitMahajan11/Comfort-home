@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { getProjectMetadata } from "@/lib/data";
+import {
+  getProjectMetadata,
+  get30CitiesData,
+  getFlagshipRobustnessData,
+  getSpearmanRhoData,
+  getReferenceVsOptimizedData,
+  getWeatherProvenanceData
+} from "@/lib/data";
 import {
   HelpCircle,
   ShieldAlert,
@@ -13,7 +20,11 @@ import {
   Scale,
   Copy,
   Check,
-  X
+  X,
+  Sparkles,
+  FileSpreadsheet,
+  ShieldCheck,
+  ExternalLink
 } from "lucide-react";
 
 interface CommandStep {
@@ -26,12 +37,29 @@ export default function AboutPage() {
   const [decisionFilter, setDecisionFilter] = useState("");
   const [shellTab, setShellTab] = useState<"powershell" | "bash">("powershell");
   const [copiedIndex, setCopiedIndex] = useState<string | null>(null);
+  const [activeTableTab, setActiveTableTab] = useState<"table1" | "table2" | "table3" | "table4" | "table5">("table1");
+  const [tableSearch, setTableSearch] = useState("");
+  const [copiedSha, setCopiedSha] = useState<string | null>(null);
+
+  const table1Data = useMemo(() => get30CitiesData(), []);
+  const table2Data = useMemo(() => getFlagshipRobustnessData(), []);
+  const table3Data = useMemo(() => getSpearmanRhoData(), []);
+  const table4Data = useMemo(() => getReferenceVsOptimizedData(), []);
+  const table5Data = useMemo(() => getWeatherProvenanceData(), []);
 
   const handleCopy = (command: string, id: string) => {
     navigator.clipboard.writeText(command);
     setCopiedIndex(id);
     setTimeout(() => {
       setCopiedIndex((current) => (current === id ? null : current));
+    }, 2000);
+  };
+
+  const handleCopySha = (sha: string) => {
+    navigator.clipboard.writeText(sha);
+    setCopiedSha(sha);
+    setTimeout(() => {
+      setCopiedSha((cur) => (cur === sha ? null : cur));
     }, 2000);
   };
 
@@ -66,6 +94,22 @@ export default function AboutPage() {
     {
       title: "Behavioral variables are scenario assumptions",
       desc: "Occupant metabolic rate (1.1 met), air velocity (0.15 m/s), and dynamic clothing schedules are fixed modeling assumptions, not empirical predictions."
+    },
+    {
+      title: "Shimla ECBC Table 11-1 classification (AUTHOR TO CONFIRM)",
+      desc: "Shimla is classified as ASSUMED for climate zone compliance due to its omission from ECBC Table 11-1."
+    },
+    {
+      title: "Surrogate optimism bias (AUTHOR TO CONFIRM)",
+      desc: "Pareto front selection is subject to surrogate optimism bias where active learning surrogate predictions on candidate designs were more optimistic than subsequent EnergyPlus physical simulations."
+    },
+    {
+      title: "Weather station geodetic provenance (AUTHOR TO CONFIRM)",
+      desc: "Weather station coordinates and elevations are taken directly from EPW header line 1 without cross-verification against an independent geodetic source."
+    },
+    {
+      title: "EPW automated download provenance (AUTHOR TO CONFIRM)",
+      desc: "Original weather file retrieval lacks an automated download log or script on disk; datasets were acquired from Climate.OneBuilding.org prior to repository freezing."
     }
   ];
 
@@ -86,8 +130,8 @@ export default function AboutPage() {
       command: ".\\.venv\\Scripts\\python.exe -m pytest tests/ -v"
     },
     {
-      title: "Launch Streamlit legacy decision dashboard",
-      command: ".\\.venv\\Scripts\\python.exe -m streamlit run src/app/app.py"
+      title: "Launch FastAPI backend server",
+      command: ".\\.venv\\Scripts\\python.exe -m uvicorn api.main:app --port 8000"
     },
     {
       title: "Re-export pipeline data to web JSON",
@@ -109,8 +153,8 @@ export default function AboutPage() {
       command: "./.venv/bin/python -m pytest tests/ -v"
     },
     {
-      title: "Launch Streamlit legacy decision dashboard",
-      command: "./.venv/bin/python -m streamlit run src/app/app.py"
+      title: "Launch FastAPI backend server",
+      command: "./.venv/bin/python -m uvicorn api.main:app --port 8000"
     },
     {
       title: "Re-export pipeline data to web JSON",
@@ -134,7 +178,9 @@ export default function AboutPage() {
     { id: "assumptions", label: "Scenario assumptions", icon: BookOpen },
     { id: "decisions", label: "Engineering decisions", icon: FileCode },
     { id: "licences", label: "Data licences & terms", icon: Scale },
-    { id: "reproduction", label: "Reproduction pipeline", icon: Terminal }
+    { id: "reproduction", label: "Reproduction pipeline", icon: Terminal },
+    { id: "psychrometrics", label: "Psychrometric proof", icon: Sparkles },
+    { id: "canonical-tables", label: "Canonical paper tables", icon: FileSpreadsheet }
   ];
 
   return (
@@ -464,6 +510,405 @@ export default function AboutPage() {
                 );
               })}
             </div>
+          </section>
+
+          {/* SECTION 7: Psychrometric Invariance Proof */}
+          <section
+            id="psychrometrics"
+            className="scroll-mt-20 rounded-[8px] border border-[var(--line)] bg-[var(--surface)] p-6 space-y-4"
+          >
+            <div className="flex items-center space-x-2 text-[var(--primary)]">
+              <Sparkles className="w-5 h-5 shrink-0" />
+              <h2 className="text-lg font-semibold text-[var(--ink)]">
+                Psychrometric Invariance and EnergyPlus Engine Verification
+              </h2>
+            </div>
+            <p className="text-xs text-[var(--ink-2)] leading-relaxed">
+              Empirical evidence on weather morphing, psychrometric dew-point handling, and downstream EnergyPlus simulation invariance (Paper Methods).
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              <div className="p-3.5 rounded-[8px] border border-[var(--line)] bg-[var(--surface-2)] space-y-2">
+                <span className="font-semibold text-[var(--ink)] block">
+                  EPW Column 7 (Dew Point) Bypassed by EnergyPlus
+                </span>
+                <p className="text-[12px] text-[var(--ink-2)] leading-relaxed">
+                  EnergyPlus psychrometric subroutines calculate outdoor air humidity ratio exclusively from outdoor dry-bulb temperature (Column 6), relative humidity (Column 8), and barometric pressure (Column 9). Column 7 (dew point) is omitted from zone and coil psychrometric balances.
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-[8px] border border-[var(--line)] bg-[var(--surface-2)] space-y-2">
+                <span className="font-semibold text-[var(--ink)] block">
+                  Zero Simulation Divergence Across 556 Runs
+                </span>
+                <p className="text-[12px] text-[var(--ink-2)] leading-relaxed">
+                  Because relative humidity was bitwise identically preserved between uncorrected and corrected morphed EPWs (0.000000 kg/kg humidity ratio difference across all 8,760 hours), EnergyPlus yielded identical annual heating and cooling energy (maximum absolute difference &lt; 0.000001 kWh/m2/yr) across 556 simulations over 139 designs.
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-[8px] border border-[var(--line)] bg-[var(--surface-2)] space-y-2">
+                <span className="font-semibold text-[var(--ink)] block">
+                  Negative Control Confirms Moisture Sensitivity
+                </span>
+                <p className="text-[12px] text-[var(--ink-2)] leading-relaxed">
+                  Extreme negative controls at +3.0 degC altering relative humidity alongside dew point produced a 142.02 kWh/m2/yr shift in Mumbai annual cooling (375.34 vs 233.32 kWh/m2/yr), demonstrating the engine responds physically whenever moisture is altered.
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-[8px] border border-[var(--line)] bg-[var(--surface-2)] space-y-2">
+                <span className="font-semibold text-[var(--ink)] block">
+                  IdealLoads System Configuration (src/sim/render.py)
+                </span>
+                <p className="text-[12px] text-[var(--ink-2)] leading-relaxed">
+                  HVAC loads use ZoneHVAC:IdealLoadsAirSystem with ConstantSensibleHeatRatio dehumidification control (cooling sensible heat ratio = 0.7), heating setpoint = 20.0 degC, and cooling setpoint = 26.0 degC (lines 294-321).
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* SECTION 8: Canonical Paper Tables (Tables 1 - 5) */}
+          <section
+            id="canonical-tables"
+            className="scroll-mt-20 rounded-[8px] border border-[var(--line)] bg-[var(--surface)] p-6 space-y-4"
+          >
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center space-x-2">
+                <FileSpreadsheet className="w-5 h-5 text-[var(--primary)] shrink-0" />
+                <h2 className="text-lg font-semibold text-[var(--ink)]">
+                  Canonical Paper Tables Viewer (Tables 1 to 5)
+                </h2>
+              </div>
+
+              <div className="flex items-center px-3 py-1.5 rounded-[8px] border border-[var(--line)] bg-[var(--surface-2)] w-full sm:w-72">
+                <Search className="w-3.5 h-3.5 text-[var(--ink-2)] mr-2 shrink-0" />
+                <input
+                  type="text"
+                  value={tableSearch}
+                  onChange={(e) => setTableSearch(e.target.value)}
+                  placeholder="Filter tables by city or zone..."
+                  className="bg-transparent text-xs text-[var(--ink)] placeholder-[var(--ink-2)] focus:outline-none w-full"
+                  aria-label="Filter tables"
+                />
+                {tableSearch ? (
+                  <button
+                    onClick={() => setTableSearch("")}
+                    className="text-[var(--ink-2)] hover:text-[var(--ink)] ml-1"
+                    aria-label="Clear filter"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                ) : null}
+              </div>
+            </div>
+
+            <p className="text-xs text-[var(--ink-2)] leading-relaxed">
+              Deduplicated research dataset with cryptographically verified EPW weather hashes, climate sensitivity regret, and rank preservation.
+            </p>
+
+            {/* Table Selectors */}
+            <div className="flex flex-wrap gap-1.5 p-1 bg-[var(--surface-2)] border border-[var(--line)] rounded-[8px]">
+              <button
+                type="button"
+                onClick={() => setActiveTableTab("table1")}
+                className={`px-3 py-1.5 rounded-[6px] text-xs font-medium transition ${
+                  activeTableTab === "table1"
+                    ? "bg-[var(--surface)] text-[var(--ink)] font-bold shadow-sm border border-[var(--line)]"
+                    : "text-[var(--ink-2)] hover:text-[var(--ink)]"
+                }`}
+              >
+                Table 1: 30 Cities
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTableTab("table2")}
+                className={`px-3 py-1.5 rounded-[6px] text-xs font-medium transition ${
+                  activeTableTab === "table2"
+                    ? "bg-[var(--surface)] text-[var(--ink)] font-bold shadow-sm border border-[var(--line)]"
+                    : "text-[var(--ink-2)] hover:text-[var(--ink)]"
+                }`}
+              >
+                Table 2: Robustness (+1.5°C / +3.0°C)
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTableTab("table3")}
+                className={`px-3 py-1.5 rounded-[6px] text-xs font-medium transition ${
+                  activeTableTab === "table3"
+                    ? "bg-[var(--surface)] text-[var(--ink)] font-bold shadow-sm border border-[var(--line)]"
+                    : "text-[var(--ink-2)] hover:text-[var(--ink)]"
+                }`}
+              >
+                Table 3: Spearman Rank (ρ)
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTableTab("table4")}
+                className={`px-3 py-1.5 rounded-[6px] text-xs font-medium transition ${
+                  activeTableTab === "table4"
+                    ? "bg-[var(--surface)] text-[var(--ink)] font-bold shadow-sm border border-[var(--line)]"
+                    : "text-[var(--ink-2)] hover:text-[var(--ink)]"
+                }`}
+              >
+                Table 4: Baselines vs Opt
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTableTab("table5")}
+                className={`px-3 py-1.5 rounded-[6px] text-xs font-medium transition ${
+                  activeTableTab === "table5"
+                    ? "bg-[var(--surface)] text-[var(--ink)] font-bold shadow-sm border border-[var(--line)]"
+                    : "text-[var(--ink-2)] hover:text-[var(--ink)]"
+                }`}
+              >
+                Table 5: EPW Provenance (SHA-256)
+              </button>
+            </div>
+
+            {/* TAB CONTENT */}
+            {activeTableTab === "table1" ? (
+              <div className="overflow-x-auto border border-[var(--line)] rounded-[8px]">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-[var(--surface-2)] border-b border-[var(--line)] text-[var(--ink-2)]">
+                      <th className="py-2.5 px-3 font-semibold">City</th>
+                      <th className="py-2.5 px-3 font-semibold">Climate Zone</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Dedup N</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Best Discomfort (O1)</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Best Energy (O2)</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Improvement vs R2 (O1)</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Improvement vs R2 (O2)</th>
+                      <th className="py-2.5 px-3 font-semibold">WMO ID</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[var(--line)] font-mono text-[11px]">
+                    {table1Data
+                      .filter((r) =>
+                        tableSearch
+                          ? r.city.toLowerCase().includes(tableSearch.toLowerCase()) ||
+                            r.zone.toLowerCase().includes(tableSearch.toLowerCase())
+                          : true
+                      )
+                      .map((r) => {
+                        const deltaO1 = r.R2_O1_ml - r.best_O1_ml;
+                        const deltaO2 = r.R2_O2 - r.best_O2;
+                        return (
+                          <tr key={r.city} className="hover:bg-[var(--surface-2)] transition">
+                            <td className="py-2 px-3 font-sans font-semibold text-[var(--ink)]">{r.city}</td>
+                            <td className="py-2 px-3 font-sans text-[var(--ink-2)]">{r.zone}</td>
+                            <td className="py-2 px-3 text-right text-[var(--ink)]">{r.front_size}</td>
+                            <td className="py-2 px-3 text-right text-[var(--primary)] font-bold">{r.best_O1_ml.toFixed(1)}%</td>
+                            <td className="py-2 px-3 text-right text-emerald-400 font-bold">{r.best_O2.toFixed(1)} kWh/m²</td>
+                            <td className="py-2 px-3 text-right text-teal-300">
+                              {deltaO1 >= 0 ? `-${deltaO1.toFixed(1)} pp` : `+${Math.abs(deltaO1).toFixed(1)} pp`}
+                            </td>
+                            <td className="py-2 px-3 text-right text-emerald-300">
+                              {deltaO2 >= 0 ? `-${deltaO2.toFixed(1)} kWh/m²` : `+${Math.abs(deltaO2).toFixed(1)} kWh/m²`}
+                            </td>
+                            <td className="py-2 px-3 text-[var(--ink-2)]">{r.wmo ? r.wmo : "—"}</td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
+
+            {activeTableTab === "table2" ? (
+              <div className="overflow-x-auto border border-[var(--line)] rounded-[8px]">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-[var(--surface-2)] border-b border-[var(--line)] text-[var(--ink-2)]">
+                      <th className="py-2.5 px-3 font-semibold">City</th>
+                      <th className="py-2.5 px-3 font-semibold">Scenario</th>
+                      <th className="py-2.5 px-3 font-semibold">Candidate Best ID</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Achieved O1</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Min O1</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Regret R(O1)</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Achieved O2</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Min O2</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Cooling Gap R(O2)</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Gap %</th>
+                      <th className="py-2.5 px-3 font-semibold">Tie Details</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[var(--line)] font-mono text-[11px]">
+                    {table2Data
+                      .filter((r) =>
+                        tableSearch
+                          ? r.city.toLowerCase().includes(tableSearch.toLowerCase()) ||
+                            r.scenario.toLowerCase().includes(tableSearch.toLowerCase())
+                          : true
+                      )
+                      .map((r, i) => (
+                        <tr key={i} className="hover:bg-[var(--surface-2)] transition">
+                          <td className="py-2 px-3 font-sans font-semibold text-[var(--ink)]">{r.city}</td>
+                          <td className="py-2 px-3 font-sans text-amber-300 font-bold">{r.scenario}</td>
+                          <td className="py-2 px-3 text-[var(--primary)]">{r.baseline_best_o1_id}</td>
+                          <td className="py-2 px-3 text-right">{r.achieved_o1_ml.toFixed(2)}%</td>
+                          <td className="py-2 px-3 text-right">{r.min_o1_ml.toFixed(2)}%</td>
+                          <td className="py-2 px-3 text-right font-bold text-amber-400">+{r.o1_ml_regret_pp} pp</td>
+                          <td className="py-2 px-3 text-right">{r.achieved_o2.toFixed(1)}</td>
+                          <td className="py-2 px-3 text-right">{r.min_o2.toFixed(1)}</td>
+                          <td className="py-2 px-3 text-right font-bold text-cyan-300">+{r.o2_gap_kwh} kWh/m²</td>
+                          <td className="py-2 px-3 text-right text-emerald-300">{r.o2_gap_pct}</td>
+                          <td className="py-2 px-3 font-sans text-[var(--ink-2)]">{r.tie_flag}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
+
+            {activeTableTab === "table3" ? (
+              <div className="overflow-x-auto border border-[var(--line)] rounded-[8px]">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-[var(--surface-2)] border-b border-[var(--line)] text-[var(--ink-2)]">
+                      <th className="py-2.5 px-3 font-semibold">City</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Front Size (N)</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">ρ(O1) @ +1.5°C</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">ρ(O1) @ +3.0°C</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">ρ(O2) @ +1.5°C</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">ρ(O2) @ +3.0°C</th>
+                      <th className="py-2.5 px-3 font-semibold">Rank Invariance Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[var(--line)] font-mono text-[11px]">
+                    {table3Data
+                      .filter((r) =>
+                        tableSearch
+                          ? r.city.toLowerCase().includes(tableSearch.toLowerCase())
+                          : true
+                      )
+                      .map((r) => (
+                        <tr key={r.city} className="hover:bg-[var(--surface-2)] transition">
+                          <td className="py-2 px-3 font-sans font-semibold text-[var(--ink)]">{r.city}</td>
+                          <td className="py-2 px-3 text-right text-[var(--ink)]">{r.front_size_N}</td>
+                          <td className="py-2 px-3 text-right font-bold text-teal-300">{r.rho_O1_ml_plus1p5}</td>
+                          <td className="py-2 px-3 text-right font-bold text-teal-300">{r.rho_O1_ml_plus3p0}</td>
+                          <td className="py-2 px-3 text-right font-bold text-emerald-300">{r.rho_O2_plus1p5}</td>
+                          <td className="py-2 px-3 text-right font-bold text-emerald-300">{r.rho_O2_plus3p0}</td>
+                          <td className="py-2 px-3 font-sans">
+                            {r.front_size_N < 5 ? (
+                              <span className="text-amber-400 font-medium">Not testable (N &lt; 5)</span>
+                            ) : (
+                              <span className="text-emerald-400 font-medium">Preserved (ρ monotonic)</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
+
+            {activeTableTab === "table4" ? (
+              <div className="overflow-x-auto border border-[var(--line)] rounded-[8px]">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-[var(--surface-2)] border-b border-[var(--line)] text-[var(--ink-2)]">
+                      <th className="py-2.5 px-3 font-semibold">City</th>
+                      <th className="py-2.5 px-3 font-semibold">Scenario</th>
+                      <th className="py-2.5 px-3 font-semibold">Baseline R1 (Uninsulated)</th>
+                      <th className="py-2.5 px-3 font-semibold">Baseline R2 (ECBC)</th>
+                      <th className="py-2.5 px-3 font-semibold">Baseline R3 (High Perf)</th>
+                      <th className="py-2.5 px-3 font-semibold">Best Discomfort Design</th>
+                      <th className="py-2.5 px-3 font-semibold">Best Energy Design</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[var(--line)] font-mono text-[11px]">
+                    {table4Data
+                      .filter((r) =>
+                        tableSearch
+                          ? r.city.toLowerCase().includes(tableSearch.toLowerCase()) ||
+                            r.scenario.toLowerCase().includes(tableSearch.toLowerCase())
+                          : true
+                      )
+                      .map((r, i) => (
+                        <tr key={i} className="hover:bg-[var(--surface-2)] transition">
+                          <td className="py-2 px-3 font-sans font-semibold text-[var(--ink)]">{r.city}</td>
+                          <td className="py-2 px-3 font-sans text-amber-300 font-semibold">{r.scenario}</td>
+                          <td className="py-2 px-3 text-rose-300">
+                            {r.R1_O1_ml.toFixed(1)}% / {r.R1_O2.toFixed(1)} kWh/m²
+                          </td>
+                          <td className="py-2 px-3 text-[var(--ink)]">
+                            {r.R2_O1_ml.toFixed(1)}% / {r.R2_O2.toFixed(1)} kWh/m²
+                          </td>
+                          <td className="py-2 px-3 text-cyan-300">
+                            {r.R3_O1_ml.toFixed(1)}% / {r.R3_O2.toFixed(1)} kWh/m²
+                          </td>
+                          <td className="py-2 px-3 text-teal-300 font-bold">
+                            {r.best_O1_O1_ml.toFixed(1)}% ({r.baseline_best_O1_id})
+                          </td>
+                          <td className="py-2 px-3 text-emerald-300 font-bold">
+                            {r.best_O2_O2.toFixed(1)} kWh/m² ({r.baseline_best_O2_id})
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
+
+            {activeTableTab === "table5" ? (
+              <div className="overflow-x-auto border border-[var(--line)] rounded-[8px]">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-[var(--surface-2)] border-b border-[var(--line)] text-[var(--ink-2)]">
+                      <th className="py-2.5 px-3 font-semibold">City</th>
+                      <th className="py-2.5 px-3 font-semibold">WMO ID</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Latitude</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Longitude</th>
+                      <th className="py-2.5 px-3 font-semibold text-right">Elevation (m)</th>
+                      <th className="py-2.5 px-3 font-semibold">Epoch</th>
+                      <th className="py-2.5 px-3 font-semibold">EPW SHA-256 Checksum</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[var(--line)] font-mono text-[11px]">
+                    {table5Data
+                      .filter((r) =>
+                        tableSearch
+                          ? r.city.toLowerCase().includes(tableSearch.toLowerCase()) ||
+                            String(r.wmo).includes(tableSearch)
+                          : true
+                      )
+                      .map((r) => {
+                        const isCopied = copiedSha === r.sha256;
+                        return (
+                          <tr key={r.city} className="hover:bg-[var(--surface-2)] transition">
+                            <td className="py-2 px-3 font-sans font-semibold text-[var(--ink)]">{r.city}</td>
+                            <td className="py-2 px-3 text-[var(--ink-2)]">{r.wmo}</td>
+                            <td className="py-2 px-3 text-right text-[var(--ink)]">{r.latitude.toFixed(2)}°N</td>
+                            <td className="py-2 px-3 text-right text-[var(--ink)]">{r.longitude.toFixed(2)}°E</td>
+                            <td className="py-2 px-3 text-right text-[var(--ink)]">{Math.round(r.elevation_m)} m</td>
+                            <td className="py-2 px-3 font-sans text-teal-400 font-bold">{r.epoch}</td>
+                            <td className="py-2 px-3">
+                              <div className="flex items-center space-x-1.5">
+                                <span className="text-[10px] text-[var(--ink-2)] truncate max-w-[200px]" title={r.sha256}>
+                                  {r.sha256}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleCopySha(r.sha256)}
+                                  className="p-1 rounded bg-[var(--surface-2)] hover:bg-[var(--line)] text-[var(--ink-2)] hover:text-[var(--ink)] transition shrink-0"
+                                  title="Copy SHA-256"
+                                  aria-label={`Copy SHA-256 for ${r.city}`}
+                                >
+                                  {isCopied ? (
+                                    <Check className="w-3 h-3 text-[var(--good)]" />
+                                  ) : (
+                                    <Copy className="w-3 h-3" />
+                                  )}
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
           </section>
         </div>
       </div>

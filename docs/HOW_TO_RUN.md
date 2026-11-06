@@ -50,10 +50,7 @@ npm run dev
 - Local Web Interface: `http://localhost:3000`
 - Production Build Verification: `npm run build`
 
-### Terminal 3: Legacy Streamlit Research Dashboard (Port 8501)
-```powershell
-streamlit run src/app/app.py
-```
+*(Note: Legacy Streamlit prototypes previously run on ports 8501/8502 have been decommissioned and safely archived in `archive/legacy_frontends/` in favor of the production Next.js 16 web application.)*
 
 ---
 

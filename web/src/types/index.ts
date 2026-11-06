@@ -321,3 +321,99 @@ export interface EvaluationPackagesResponse {
   cost_disclaimer: string;
 }
 
+// ==========================================
+// 30 Cities, Climate Robustness & Provenance Types
+// ==========================================
+
+export interface City30Record {
+  city: string;
+  station_name?: string;
+  wmo?: number;
+  latitude?: number;
+  longitude?: number;
+  elevation_m?: number;
+  pipeline: string;
+  group: "flagship" | "batch";
+  zone: string;
+  zone_source: string;
+  R3_flagship: string;
+  epw_file: string;
+  epw_sha256: string;
+  front_size: number;
+  distinct_designs: number;
+  R1_O1_ml: number;
+  R1_O2: number;
+  R2_O1_ml: number;
+  R2_O2: number;
+  R3_O1_ml: number;
+  R3_O2: number;
+  best_O1_ml: number;
+  best_O1_ml_design_id: string;
+  best_O1_adapt: number;
+  best_O2: number;
+  best_O2_design_id: string;
+  pct_better_R3_O1_ml: number;
+  pct_better_R3_O2: number;
+  valid_adaptive_hours: number;
+  valid_adaptive_hours_sim: number;
+  o1_adapt_reliable: boolean;
+  at_bound_variables?: string;
+}
+
+export interface FlagshipRobustnessRecord {
+  city: string;
+  scenario: string;
+  tie_flag: string;
+  baseline_best_o1_id: string;
+  achieved_o1_ml: number;
+  scen_best_o1_id: string;
+  min_o1_ml: number;
+  o1_ml_regret_pp: string | number;
+  baseline_best_o2_id: string;
+  achieved_o2: number;
+  scen_best_o2_id: string;
+  min_o2: number;
+  o2_gap_kwh: string | number;
+  o2_gap_pct: string;
+}
+
+export interface SpearmanRhoRecord {
+  city: string;
+  front_size_N: number;
+  rho_O1_ml_plus1p5: string | number;
+  rho_O1_ml_plus3p0: string | number;
+  rho_O2_plus1p5: string | number;
+  rho_O2_plus3p0: string | number;
+}
+
+export interface ReferenceVsOptimizedRecord {
+  city: string;
+  scenario: string;
+  tie_flag: string;
+  R1_O1_ml: number;
+  R1_O2: number;
+  R2_O1_ml: number;
+  R2_O2: number;
+  R3_O1_ml: number;
+  R3_O2: number;
+  baseline_best_O1_id: string;
+  best_O1_O1_ml: number;
+  best_O1_O2: number;
+  baseline_best_O2_id: string;
+  best_O2_O1_ml: number;
+  best_O2_O2: number;
+}
+
+export interface WeatherProvenanceRecord {
+  city: string;
+  epw_file_name: string;
+  wmo: number;
+  station_name: string;
+  latitude: number;
+  longitude: number;
+  elevation_m: number;
+  sha256: string;
+  epoch: string;
+}
+
+

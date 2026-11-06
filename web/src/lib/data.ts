@@ -10,15 +10,26 @@ import paretoShimlaJson from "../data/pareto_Shimla.json";
 import shapSummaryJson from "../data/shap_summary.json";
 import modelsLeaderboardJson from "../data/models_leaderboard.json";
 import projectMetaJson from "../data/project_meta.json";
+import results30CitiesJson from "../data/results_30_cities.json";
+import table2RobustnessJson from "../data/table2_flagship_robustness.json";
+import table3SpearmanJson from "../data/table3_spearman_rho.json";
+import table4RefVsOptJson from "../data/table4_reference_vs_optimized.json";
+import table5ProvenanceJson from "../data/table5_weather_provenance.json";
+import methodsContentJson from "../data/methods_and_limitations_content.json";
 
 import {
   ApplicabilityData,
+  City30Record,
   CityKey,
+  FlagshipRobustnessRecord,
   ParetoDesign,
   ProjectMetadata,
   ReferenceShelter,
+  ReferenceVsOptimizedRecord,
   S3Result,
-  SurrogateMetric
+  SpearmanRhoRecord,
+  SurrogateMetric,
+  WeatherProvenanceRecord
 } from "../types";
 
 export function getProjectMetadata(): ProjectMetadata {
@@ -99,3 +110,34 @@ export function getShapSummary() {
 export function getModelsLeaderboard() {
   return modelsLeaderboardJson;
 }
+
+export function get30CitiesData(): City30Record[] {
+  return results30CitiesJson as unknown as City30Record[];
+}
+
+export function getFlagshipRobustnessData(): FlagshipRobustnessRecord[] {
+  return table2RobustnessJson as unknown as FlagshipRobustnessRecord[];
+}
+
+export function getSpearmanRhoData(): SpearmanRhoRecord[] {
+  return table3SpearmanJson as unknown as SpearmanRhoRecord[];
+}
+
+export function getReferenceVsOptimizedData(): ReferenceVsOptimizedRecord[] {
+  return table4RefVsOptJson as unknown as ReferenceVsOptimizedRecord[];
+}
+
+export function getWeatherProvenanceData(): WeatherProvenanceRecord[] {
+  return table5ProvenanceJson as unknown as WeatherProvenanceRecord[];
+}
+
+export function getMethodsAndLimitationsContent(): {
+  raw_markdown: string;
+  sections: { title: string; content: string }[];
+} {
+  return methodsContentJson as unknown as {
+    raw_markdown: string;
+    sections: { title: string; content: string }[];
+  };
+}
+

@@ -1,0 +1,42 @@
+[
+  {
+    "city": "Shimla",
+    "front_size_N": 37,
+    "rho_O1_ml_plus1p5": "0.7524",
+    "rho_O1_ml_plus3p0": "0.5673",
+    "rho_O2_plus1p5": "0.9886",
+    "rho_O2_plus3p0": "0.9798"
+  },
+  {
+    "city": "Jodhpur",
+    "front_size_N": 26,
+    "rho_O1_ml_plus1p5": "0.9938",
+    "rho_O1_ml_plus3p0": "0.9906",
+    "rho_O2_plus1p5": "0.9993",
+    "rho_O2_plus3p0": "0.9993"
+  },
+  {
+    "city": "New_Delhi",
+    "front_size_N": 44,
+    "rho_O1_ml_plus1p5": "0.9062",
+    "rho_O1_ml_plus3p0": "0.3781",
+    "rho_O2_plus1p5": "0.9964",
+    "rho_O2_plus3p0": "0.9965"
+  },
+  {
+    "city": "Mumbai",
+    "front_size_N": 14,
+    "rho_O1_ml_plus1p5": "0.9956",
+    "rho_O1_ml_plus3p0": "0.9945",
+    "rho_O2_plus1p5": "0.9417",
+    "rho_O2_plus3p0": "0.9385"
+  },
+  {
+    "city": "Bengaluru",
+    "front_size_N": 1,
+    "rho_O1_ml_plus1p5": "not testable (N<5)",
+    "rho_O1_ml_plus3p0": "not testable (N<5)",
+    "rho_O2_plus1p5": "not testable (N<5)",
+    "rho_O2_plus3p0": "not testable (N<5)"
+  }
+]
