@@ -1,0 +1,152 @@
+============================================================================================================================================
+AUTHORITATIVE FIX PASS 2 (VERIFICATION & MANIFEST AUDIT REPORT)
+Execution Timestamp: 2026-11-06 17:38:12
+Execution Root     : D:\Projects\Comfort-home-main\Comfort-home-main
+============================================================================================================================================
+============================================================================================================================================
+ITEM 1. DEW-POINT NULL HYPOTHESIS & LOAD AUDIT (+3.0 degC, OLD VS CORRECTED MORPH)
+============================================================================================================================================
+Temporary Simulation Directory: C:\Users\SUMIT\AppData\Local\Temp\comfort_fix2_dewpoint_m_b7d_5v
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+CITY: Mumbai | DESIGN: P_Mumbai_cand_006 | SCENARIO: +3.0 degC
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Top 20 Hours with Largest Outdoor |Dew-Point Difference| for Mumbai (+3.0 degC):
+Rank  | Hour   | Timestamp      | T_out_db   | T_dp_old   | T_dp_corr  | |ddewpoint|  | T_zone_air   | Heating (W)  | Cooling (W)  | State
+--------------------------------------------------------------------------------------------------------------------------------------------
+1     | 8718   | M12-D30 H06    | 23.40      | 20.74      | 15.44      | 5.3000       | 23.97        | 0.00         | 0.00         | idle
+2     | 8715   | M12-D30 H03    | 24.70      | 21.62      | 16.33      | 5.2900       | 25.38        | 0.00         | 0.00         | idle
+3     | 7407   | M11-D05 H15    | 36.70      | 21.32      | 24.28      | 2.9600       | 26.00        | 0.00         | 1093.82      | cooling
+4     | 6170   | M09-D15 H02    | 29.50      | 24.38      | 25.89      | 1.5100       | 26.00        | 0.00         | 852.25       | cooling
+5     | 8147   | M12-D06 H11    | 34.00      | 16.85      | 16.64      | 0.2100       | 26.00        | 0.00         | 421.91       | cooling
+6     | 8029   | M12-D01 H13    | 34.00      | 16.85      | 16.64      | 0.2100       | 26.00        | 0.00         | 356.36       | cooling
+7     | 2156   | M03-D31 H20    | 33.20      | 24.40      | 24.61      | 0.2100       | 26.00        | 0.00         | 926.72       | cooling
+8     | 7693   | M11-D17 H13    | 35.00      | 15.38      | 15.59      | 0.2100       | 26.00        | 0.00         | 509.23       | cooling
+9     | 7550   | M11-D11 H14    | 35.00      | 15.38      | 15.59      | 0.2100       | 26.00        | 0.00         | 741.08       | cooling
+10    | 7645   | M11-D15 H13    | 35.00      | 16.82      | 16.62      | 0.2000       | 26.00        | 0.00         | 542.79       | cooling
+11    | 590    | M01-D25 H14    | 29.00      | 12.86      | 12.66      | 0.2000       | 25.92        | 0.00         | 38.00        | cooling
+12    | 7646   | M11-D15 H14    | 35.00      | 16.82      | 16.62      | 0.2000       | 26.00        | 0.00         | 625.83       | cooling
+13    | 780    | M02-D02 H12    | 32.60      | 16.87      | 16.67      | 0.2000       | 25.71        | 0.00         | 0.00         | idle
+14    | 326    | M01-D14 H14    | 29.00      | 12.86      | 12.66      | 0.2000       | 25.74        | 0.00         | 2.00         | cooling
+15    | 8628   | M12-D26 H12    | 33.40      | 16.75      | 16.55      | 0.2000       | 26.00        | 0.00         | 357.69       | cooling
+16    | 7119   | M10-D24 H15    | 37.80      | 24.92      | 24.73      | 0.1900       | 26.00        | 0.00         | 1186.41      | cooling
+17    | 7789   | M11-D21 H13    | 36.00      | 19.47      | 19.66      | 0.1900       | 26.00        | 0.00         | 482.31       | cooling
+18    | 1455   | M03-D02 H15    | 35.60      | 22.92      | 22.73      | 0.1900       | 26.00        | 0.00         | 752.51       | cooling
+19    | 7955   | M11-D28 H11    | 36.00      | 19.47      | 19.66      | 0.1900       | 26.00        | 0.00         | 651.68       | cooling
+20    | 7816   | M11-D22 H16    | 36.00      | 19.47      | 19.66      | 0.1900       | 26.00        | 0.00         | 802.75       | cooling
+
+Dew-Point Threshold Counts for Mumbai (|ddewpoint| > 0.5 degC):
+  Total hours with |ddewpoint| > 0.5 degC  : 4
+  Hours with non-zero loads (heat/cool)   : 2
+  Hours idle                              : 2
+
+HVAC Configuration Energy Output Audit for Mumbai (+3.0 degC):
+  1. Humidistat-free Baseline (CSHR 0.7, Humid None):
+     - Old Morph       : 314.6002271344 kWh/m2
+     - Corrected Morph : 314.6002271344 kWh/m2
+     - Absolute Diff   : 0.0000000000 kWh/m2
+  2. IdealLoads DehumidificationControlType None:
+     - Old Morph       : 314.3862243518 kWh/m2
+     - Corrected Morph : 314.3862243518 kWh/m2
+     - Absolute Diff   : 0.0000000000 kWh/m2
+  3. IdealLoads with Active Humidistat (60% Dehumid / 30% Humid):
+     - Old Morph       : 342.0387542705 kWh/m2
+     - Corrected Morph : 342.0387542705 kWh/m2
+     - Absolute Diff   : 0.0000000000 kWh/m2
+  4. Moisture Invariants Across All 8,760 Hours:
+     - Max Outdoor Humidity Ratio Diff : 0.000000 kg/kg
+     - Max Zone Humidity Ratio Diff    : 0.000000 kg/kg
+     - Max Zone Relative Humidity Diff : 0.000000 %
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+CITY: Shimla | DESIGN: P_Shimla_cand_000 | SCENARIO: +3.0 degC
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Top 20 Hours with Largest Outdoor |Dew-Point Difference| for Shimla (+3.0 degC):
+Rank  | Hour   | Timestamp      | T_out_db   | T_dp_old   | T_dp_corr  | |ddewpoint|  | T_zone_air   | Heating (W)  | Cooling (W)  | State
+--------------------------------------------------------------------------------------------------------------------------------------------
+1     | 5274   | M08-D08 H18    | 28.50      | 26.89      | 19.46      | 7.4300       | 25.90        | 0.00         | 290.98       | cooling
+2     | 5415   | M08-D14 H15    | 29.40      | 27.78      | 20.46      | 7.3200       | 25.96        | 0.00         | 499.07       | cooling
+3     | 5586   | M08-D21 H18    | 28.40      | 27.16      | 19.97      | 7.1900       | 26.00        | 0.00         | 542.00       | cooling
+4     | 5772   | M08-D29 H12    | 28.70      | 27.46      | 20.57      | 6.8900       | 25.86        | 0.00         | 537.09       | cooling
+5     | 4166   | M06-D23 H14    | 28.00      | 26.94      | 20.28      | 6.6600       | 26.00        | 0.00         | 317.88       | cooling
+6     | 4165   | M06-D23 H13    | 28.00      | 26.76      | 20.27      | 6.4900       | 26.00        | 0.00         | 160.13       | cooling
+7     | 4164   | M06-D23 H12    | 28.00      | 26.58      | 20.17      | 6.4100       | 25.41        | 0.00         | 13.58        | cooling
+8     | 5651   | M08-D24 H11    | 28.00      | 26.94      | 20.58      | 6.3600       | 25.58        | 0.00         | 263.83       | cooling
+9     | 5436   | M08-D15 H12    | 26.60      | 25.91      | 19.58      | 6.3300       | 25.88        | 0.00         | 15.03        | cooling
+10    | 5481   | M08-D17 H09    | 26.50      | 24.73      | 18.56      | 6.1700       | 26.00        | 0.00         | 230.68       | cooling
+11    | 5437   | M08-D15 H13    | 26.60      | 25.91      | 19.88      | 6.0300       | 26.00        | 0.00         | 198.94       | cooling
+12    | 5385   | M08-D13 H09    | 27.10      | 24.75      | 18.75      | 6.0000       | 26.00        | 0.00         | 392.15       | cooling
+13    | 5438   | M08-D15 H14    | 27.00      | 26.13      | 20.18      | 5.9500       | 26.00        | 0.00         | 412.39       | cooling
+14    | 5435   | M08-D15 H11    | 26.10      | 25.41      | 19.48      | 5.9300       | 24.54        | 0.00         | 0.00         | idle
+15    | 2558   | M04-D17 H14    | 18.70      | 17.20      | 11.47      | 5.7300       | 20.00        | 111.26       | 0.00         | heating
+16    | 3009   | M05-D06 H09    | 21.40      | 16.79      | 11.40      | 5.3900       | 21.69        | 0.00         | 0.00         | idle
+17    | 8034   | M12-D01 H18    | 16.50      | 13.97      | 9.04       | 4.9300       | 20.30        | 12.04        | 0.00         | heating
+18    | 2625   | M04-D20 H09    | 20.20      | 16.44      | 11.72      | 4.7200       | 20.00        | 90.33        | 0.00         | heating
+19    | 7193   | M10-D27 H17    | 19.60      | 14.42      | 9.78       | 4.6400       | 23.78        | 0.00         | 0.00         | idle
+20    | 1452   | M03-D02 H12    | 14.50      | 13.05      | 8.57       | 4.4800       | 20.00        | 396.80       | 0.00         | heating
+
+Dew-Point Threshold Counts for Shimla (|ddewpoint| > 0.5 degC):
+  Total hours with |ddewpoint| > 0.5 degC  : 42
+  Hours with non-zero loads (heat/cool)   : 32
+  Hours idle                              : 10
+
+HVAC Configuration Energy Output Audit for Shimla (+3.0 degC):
+  1. Humidistat-free Baseline (CSHR 0.7, Humid None):
+     - Old Morph       : 80.6156003816 kWh/m2
+     - Corrected Morph : 80.6156003816 kWh/m2
+     - Absolute Diff   : 0.0000000000 kWh/m2
+  2. IdealLoads DehumidificationControlType None:
+     - Old Morph       : 80.4436953129 kWh/m2
+     - Corrected Morph : 80.4436953129 kWh/m2
+     - Absolute Diff   : 0.0000000000 kWh/m2
+  3. IdealLoads with Active Humidistat (60% Dehumid / 30% Humid):
+     - Old Morph       : 192.1256280530 kWh/m2
+     - Corrected Morph : 192.1256280530 kWh/m2
+     - Absolute Diff   : 0.0000000000 kWh/m2
+  4. Moisture Invariants Across All 8,760 Hours:
+     - Max Outdoor Humidity Ratio Diff : 0.000000 kg/kg
+     - Max Zone Humidity Ratio Diff    : 0.000000 kg/kg
+     - Max Zone Relative Humidity Diff : 0.000000 %
+
+Deleted temporary simulation directory: C:\Users\SUMIT\AppData\Local\Temp\comfort_fix2_dewpoint_m_b7d_5v
+
+============================================================================================================================================
+AUTHORITATIVE HYPOTHESIS EVALUATION:
+============================================================================================================================================
+1. Hypothesis 'Hours are idle':
+   - STATUS: REFUTED.
+   - Evidence: In Shimla, 32 of 42 hours (76.2%) with |ddewpoint| > 0.5 degC have active, non-zero heating or cooling loads.
+   - Evidence: In Mumbai, 2 of 4 hours (50.0%) with |ddewpoint| > 0.5 degC have active cooling loads exceeding 850 W and 1090 W.
+   - The null energy difference cannot be explained by zone dormancy/idleness.
+
+2. Hypothesis 'The control ignores outdoor humidity':
+   - STATUS: SUPPORTED.
+   - Evidence 1: In the baseline ZoneHVAC:IdealLoadsAirSystem, DehumidificationControlType is ConstantSensibleHeatRatio (0.7)
+     and HumidificationControlType is None, with no ZoneControl:Humidistat specified.
+     Under this specification, cooling load is governed purely by the dry-bulb thermostat heat balance (20.0 C heating, 26.0 C cooling)
+     with total cooling defined strictly as Q_total = Q_sensible / 0.7 without humidity feedback.
+   - Evidence 2: Setting DehumidificationControlType to None strips the latent multiplier entirely, reducing Mumbai O2 from
+     314.6002 to 314.3862 kWh/m2 and Shimla O2 from
+     80.6156 to 80.4437 kWh/m2, while preserving bitwise identity (diff = 0.0000000000 kWh/m2)
+     between old and corrected morph across both configurations.
+   - Evidence 3 (Psychrometric Invariant): EnergyPlus calculates outdoor humidity ratio from dry-bulb temperature and relative humidity.
+     Because relative humidity was bitwise identically preserved between old and corrected morphing (max diff = 0.0000%),
+     EnergyPlus computed identically 0.000000 kg/kg difference in Site Outdoor Air Humidity Ratio and Zone Air Humidity Ratio across all 8,760 hours.
+
+============================================================================================================================================
+ITEM 2. MEASURED FACTS: DOSE-RESPONSE NUMBERS & HOURLY MAXIMA OF DEW-POINT DIFFERENCE
+============================================================================================================================================
+City         | Scenario   | Baseline O2 (kWh/m2)   | +0.5C Dose O2      | +2.0C Dose O2      | Hourly Max |ddewpoint| (C)
+--------------------------------------------------------------------------------------------------------------------------------------------
+Mumbai       | plus3p0    | 314.6002               | 320.1693           | 337.0025           | 5.3000    
+Mumbai       | plus1p5    | 272.8685               | 277.8698           | 292.9463           | 5.3000    
+Shimla       | plus3p0    | 80.6156                | 80.9233            | 82.2737            | 7.4300    
+Shimla       | plus1p5    | 80.3242                | 80.3732            | 80.7535            | 7.4300    
+Bengaluru    | plus3p0    | 95.7375                | 98.0667            | 104.6725           | 4.1900    
+Bengaluru    | plus1p5    | 56.3773                | 57.8390            | 62.2283            | 4.2000    
+Jodhpur      | plus3p0    | 242.4239               | 244.5126           | 250.7674           | 4.4000    
+Jodhpur      | plus1p5    | 225.3561               | 227.2504           | 233.3877           | 4.4000    
+New_Delhi    | plus3p0    | 270.8327               | 273.7299           | 282.4312           | 4.6000    
+New_Delhi    | plus1p5    | 249.7186               | 251.6883           | 257.6534           | 4.6000    
