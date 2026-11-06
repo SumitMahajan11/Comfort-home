@@ -185,12 +185,31 @@ def main():
             lines.append(fmt_g.format(f"{d_val:.1f} m", month_names[m_idx], f"{v_jod:6.2f}", f"{v_jai:6.2f}", f"{diff_g:+6.2f}"))
 
     lines.append("-" * 60)
-    lines.append(f"Ground Temperature Summary Across All 36 Points (3 depths x 12 months):")
-    lines.append(f"   * Mean absolute difference: {np.mean(all_g_diffs):.2f} C")
-    lines.append(f"   * Maximum absolute difference: {np.max(all_g_diffs):.2f} C (occurred at 0.5 m depth in July: Jodhpur 34.70 C vs Jaisalmer 35.48 C)")
-    lines.append(f"   * Minimum absolute difference: {np.min(all_g_diffs):.2f} C (occurred at 2.0 m depth in March: Jodhpur 20.71 C vs Jaisalmer 20.72 C)")
+    # Find exact location of max and min diff dynamically
+    max_idx = int(np.argmax(all_g_diffs))
+    min_idx = int(np.argmin(all_g_diffs))
+    depths = sorted(jod_gdict.keys())
 
-    # 4. Explaining the Scientific Provenance and the Historical Origin of the "Identical" Claim
+    depth_idx = max_idx // 12
+    m_idx = max_idx % 12
+    max_d_val = depths[depth_idx]
+    max_m_name = month_names[m_idx]
+    max_jod_val = jod_gdict[max_d_val][m_idx]
+    max_jai_val = jai_gdict[max_d_val][m_idx]
+
+    min_depth_idx = min_idx // 12
+    min_m_idx = min_idx % 12
+    min_d_val = depths[min_depth_idx]
+    min_m_name = month_names[min_m_idx]
+    min_jod_val = jod_gdict[min_d_val][min_m_idx]
+    min_jai_val = jai_gdict[min_d_val][min_m_idx]
+
+    lines.append(f"Ground Temperature Summary Across All 36 Points (3 depths x 12 months):")
+    lines.append(f"   * Mean absolute difference: {np.mean(all_g_diffs):.4f} C")
+    lines.append(f"   * Maximum absolute difference: {np.max(all_g_diffs):.4f} C (occurred at {max_d_val:.1f} m depth in {max_m_name}: Jodhpur {max_jod_val:.2f} C vs Jaisalmer {max_jai_val:.2f} C)")
+    lines.append(f"   * Minimum absolute difference: {np.min(all_g_diffs):.4f} C (occurred at {min_d_val:.1f} m depth in {min_m_name}: Jodhpur {min_jod_val:.2f} C vs Jaisalmer {min_jai_val:.2f} C)")
+
+    # 4. Explaining the Scientific Provenance and the Historical Origin of the \"Identical\" Claim
     lines.append("\n4. Explanation of Ground Temperature Proximity & Historical Context:")
     lines.append("   a) Scientific Provenance of Ground Temperatures in OneBuilding EPWs:")
     lines.append("      - As stated in EPW Line 7 (COMMENTS 2): 'Ground temps represent undisturbed earth temperatures - calculated from this weather data.'")
@@ -198,10 +217,10 @@ def main():
     lines.append("        T(z, t) = T_mean - T_amp * exp(-z * sqrt(pi / (alpha * 365))) * cos(2*pi/365 * (t - t_shift - z/2 * sqrt(365 / (pi * alpha))))")
     lines.append("      - Jodhpur (26.26°N, 73.04°E, 218.5 m) and Jaisalmer (26.90°N, 70.92°E, 231.0 m) are neighboring stations in the arid")
     lines.append("        Thar Desert biome of Western Rajasthan, separated by only 220 km of open desert terrain with identical soil thermophysical properties.")
-    lines.append("      - Because their annual mean sol-air temperatures and annual temperature amplitudes are closely matched, their calculated")
-    lines.append("        ground temperatures are very close (mean difference 0.35 C), but strictly distinct in every monthly value.")
+    lines.append(f"      - Because their annual mean sol-air temperatures and annual temperature amplitudes are closely matched, their calculated")
+    lines.append(f"        ground temperatures are very close (mean absolute difference {np.mean(all_g_diffs):.4f} C), but strictly distinct in every monthly value.")
     lines.append("   b) Provenance of the 'Identical' Attribution:")
-    lines.append("      - In the initial codebase prior to Decision D-035 (commits prior to 1ecea7d / 2648cca), ground boundary conditions in the EnergyPlus")
+    lines.append("      - In the initial codebase prior to Decision D-035 (commit c33a954: 2026-11-02 08:10:02 +0530), ground boundary conditions in the EnergyPlus")
     lines.append("        IDF generator were hardcoded to DEFAULT_GROUND_TEMP = 18.0 C across all building surfaces for all cities.")
     lines.append("      - Consequently, in historical simulation output files, both Jodhpur and Jaisalmer were simulated with an identical 18.0 C ground")
     lines.append("        boundary condition. Decision D-035 replaced this static default with the dynamic EPW ground temperature parser, which now")

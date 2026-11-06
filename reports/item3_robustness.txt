@@ -1,3 +1,6 @@
+[SUPERSEDED: Stale tables evaluating uncorrected morphed EPWs with psychrometric sensor jumps.
+For canonical results evaluated under corrected morphed weather files, see reports/pass3_verdict.txt and reports/robustness_flagship_details_corrected.csv]
+
 =================================================================================================================================================
 ITEM 3: ROBUSTNESS & CLIMATE SENSITIVITY AUDIT ACROSS 5 FLAGSHIP CITIES (NO RE-OPTIMIZATION)
 Performance Preservation & Regret Under +1.5 °C and +3.0 °C Uniform Warming Scenarios

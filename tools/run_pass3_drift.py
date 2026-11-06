@@ -181,7 +181,7 @@ def main():
     df_fresh = pd.DataFrame(fresh_results)
 
     # Print comparison table for R1, R2, R3
-    lines.append("\nTABLE 1A: SHIMLA R1, R2, R3 STORED VS FRESH ENERGY BREAKDOWN (HEATING, COOLING, TOTAL O2)")
+    lines.append("\nTABLE 1A [SUPERSEDED: See canonical results in reports/pass3_verdict.txt and reports/robustness_flagship_details_corrected.csv]: SHIMLA R1, R2, R3 STORED VS FRESH ENERGY BREAKDOWN (HEATING, COOLING, TOTAL O2)")
     lines.append("-" * 160)
     lines.append(
         f"{'Design ID':<20} | {'Scenario':<10} | "
@@ -261,37 +261,23 @@ def main():
                 f"  {scen:<10} | {base_best_id:<24} | {achieved_o1:<16.2f} | {scen_best_id:<24} | {min_o1:<12.2f} | {regret_pp:<+15.2f} | {regret_pp:<+15.2f}"
             )
 
-    # 3. EXPLAIN R3 BASELINE 87.95 VS 90.04 AND R1 +3.0 186.50 VS 184.35
+    # 3. AUDIT OF SHIMLA FIGURES (177.00/180.32/184.35 AND 90.04/86.90/83.33)
     lines.append("\n" + "=" * 160)
-    lines.append("3. PHYSICAL & COMPUTATIONAL EXPLANATION: R3 BASELINE 87.95 VS 90.04 & R1 +3.0 186.50 VS 184.35")
+    lines.append("3. AUDIT OF SHIMLA FIGURES (177.00/180.32/184.35 AND 90.04/86.90/83.33)")
     lines.append("=" * 160)
 
-    lines.append("A. Shimla R3 Baseline (87.95 kWh/m2 vs 90.04 kWh/m2):")
+    lines.append("A. Shimla Figures Provenance:")
     lines.append(
-        "   1. Canonical Stored & Fresh Value: 87.95 kWh/m2 (exact unrounded: 87.9537 kWh/m2).\n"
-        "      Component breakdown: Heating = 87.77 kWh/m2, Cooling = 0.19 kWh/m2, Total = 87.95 kWh/m2.\n"
-        "      This is verified on disk in reports/results_30_cities.csv (line 2, col R3_O2 = 87.95),\n"
-        "      reports/robustness_flagship_details.csv (line 4, O2_base = 87.9537), and live re-simulation.\n"
-        "   2. Where 90.04 appears in codebase:\n"
-        "      - In data/processed/batch/Dehradun/final_verified_pareto_Dehradun.csv (P_Dehradun_cand_093 O2 = 90.04 kWh/m2).\n"
-        "      - In data/processed/batch/Chennai/objectives_Chennai.csv (P_Chennai_469 O1_ml = 90.05%, P_Chennai_866 O1_ml = 90.05%).\n"
-        "      - In data/processed/flagship_2011_2025/Jodhpur/active_learning_history.csv (Round 2 retrain_time_sec = 90.04 s).\n"
-        "      - In an earlier Phase 8 design run where R3 in cold climates was simulated with an alternative internal heat gain schedule\n"
-        "        or without solar shading overhangs, resulting in slightly higher winter heating load (90.04 kWh/m2 vs 87.95 kWh/m2).\n"
-        "      - Under canonical 2011-2025 EPW with validated shading_depth=0.3m and EPW ground temperatures, the authentic physical value is 87.95 kWh/m2."
-    )
-
-    lines.append("\nB. Shimla R1 +3.0 C (186.50 kWh/m2 vs 184.35 kWh/m2):")
-    lines.append(
-        "   1. Canonical Stored & Fresh Value: 186.50 kWh/m2 (exact unrounded: 186.5000 kWh/m2).\n"
-        "      Component breakdown: Heating = 111.39 kWh/m2, Cooling = 75.10 kWh/m2, Total = 186.50 kWh/m2.\n"
-        "      This is verified on disk in reports/robustness_flagship_details.csv (line 2, O2_plus3p0 = 186.50),\n"
-        "      reports/item3_shimla_r1.txt (lines 10-15), and fresh simulation.\n"
-        "   2. Source of the 184.35 kWh/m2 figure:\n"
-        "      - The old morphed EPW (Shimla_plus3p0.epw) contained the psychrometric sensor jump (delta Tdp up to 10.39 C).\n"
-        "      - When simulated under an alternative sensible-only calculation or earlier uncorrected RH-coupled morph,\n"
-        "        summer latent cooling load was 2.15 kWh/m2 lower (72.95 kWh/m2 cooling + 111.39 kWh/m2 heating = 184.35 kWh/m2).\n"
-        "      - In the actual EnergyPlus simulation tracked in robustness_flagship_details.csv, total O2 is exactly 186.50 kWh/m2."
+        "   1. Authentic Values in Stored Reports (reports/item3_shimla_r1.txt and reports/item6_sources.txt):\n"
+        "      - R1_Lightweight O2: Baseline = 179.99 kWh/m2, +1.5 C = 182.30 kWh/m2, +3.0 C = 186.50 kWh/m2.\n"
+        "      - R3_Code_Compliant O2: Baseline = 87.95 kWh/m2, +1.5 C = 80.15 kWh/m2, +3.0 C = 74.69 kWh/m2.\n"
+        "   2. Figures 177.00 / 180.32 / 184.35 and 90.04 / 86.90 / 83.33:\n"
+        "      - No committed script or weather file on disk produced 177.00/180.32/184.35 or 90.04/86.90/83.33 for Shimla R1 or R3.\n"
+        "      - Where a cause is not shown by evidence: cause not established.\n"
+        "   3. Where 90.04 appears in commit d39659c:\n"
+        "      - In data/processed/flagship_2011_2025/Jodhpur/active_learning_history.csv line 3 (Round 2 retrain_time_sec = 90.04 s).\n"
+        "   4. Content of data/processed/active_learning_shimla/shimla_baselines_summary.csv regarding 90.04:\n"
+        "      - shimla_baselines_summary.csv contains NO 90.04 value (R1 O2 = 203.45, R2 O2 = 193.57, R3 O2 = 99.36 kWh/m2)."
     )
 
     # 4. METRIC COLUMN & TIE BREAKING AUDIT

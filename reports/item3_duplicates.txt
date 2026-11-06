@@ -117,9 +117,9 @@ Depth(m) | Month | Jodhpur (C)  | Jaisalmer(C) | Diff (C)
 4.0 m    | Dec   |  26.36       |  26.69       |  -0.33    
 ------------------------------------------------------------
 Ground Temperature Summary Across All 36 Points (3 depths x 12 months):
-   * Mean absolute difference: 0.36 C
-   * Maximum absolute difference: 0.83 C (occurred at 0.5 m depth in July: Jodhpur 34.70 C vs Jaisalmer 35.48 C)
-   * Minimum absolute difference: 0.01 C (occurred at 2.0 m depth in March: Jodhpur 20.71 C vs Jaisalmer 20.72 C)
+   * Mean absolute difference: 0.3606 C
+   * Maximum absolute difference: 0.8300 C (occurred at 0.5 m depth in Aug: Jodhpur 35.60 C vs Jaisalmer 36.43 C)
+   * Minimum absolute difference: 0.0100 C (occurred at 2.0 m depth in Feb: Jodhpur 20.43 C vs Jaisalmer 20.42 C)
 
 4. Explanation of Ground Temperature Proximity & Historical Context:
    a) Scientific Provenance of Ground Temperatures in OneBuilding EPWs:
@@ -129,9 +129,9 @@ Ground Temperature Summary Across All 36 Points (3 depths x 12 months):
       - Jodhpur (26.26°N, 73.04°E, 218.5 m) and Jaisalmer (26.90°N, 70.92°E, 231.0 m) are neighboring stations in the arid
         Thar Desert biome of Western Rajasthan, separated by only 220 km of open desert terrain with identical soil thermophysical properties.
       - Because their annual mean sol-air temperatures and annual temperature amplitudes are closely matched, their calculated
-        ground temperatures are very close (mean difference 0.35 C), but strictly distinct in every monthly value.
+        ground temperatures are very close (mean absolute difference 0.3606 C), but strictly distinct in every monthly value.
    b) Provenance of the 'Identical' Attribution:
-      - In the initial codebase prior to Decision D-035 (commits prior to 1ecea7d / 2648cca), ground boundary conditions in the EnergyPlus
+      - In the initial codebase prior to Decision D-035 (commit c33a954: 2026-11-02 08:10:02 +0530), ground boundary conditions in the EnergyPlus
         IDF generator were hardcoded to DEFAULT_GROUND_TEMP = 18.0 C across all building surfaces for all cities.
       - Consequently, in historical simulation output files, both Jodhpur and Jaisalmer were simulated with an identical 18.0 C ground
         boundary condition. Decision D-035 replaced this static default with the dynamic EPW ground temperature parser, which now

@@ -1,0 +1,420 @@
+================================================================================================================================================================
+CLOSURE PASS 4: COMPREHENSIVE AUDIT, RECONCILIATION AND VERIFICATION REPORT
+Authoritative execution report: all numbers computed directly from script variables and files on disk.
+Execution timestamp: 2026-11-06T10:01:33.433617
+================================================================================================================================================================
+
+================================================================================================================================================================
+ITEM 1: SHIMLA TABLE & TESTS AUDIT
+================================================================================================================================================================
+1.1 RESULTS OF GROUND-TEMP AND R3 TESTS PREVIOUSLY RUN:
+  A. Ground Temperature Boundary Condition Quantification (Decision D-035):
+     - Implementation: tools/quantify_ground_temps.py; documented in reports/CORRECTION_NOTE_GROUND_QUANTIFICATION.md,
+       reports/evidence/ground_temp_quantification.txt, and data/processed/ground_temp_quantification.csv.
+     - Evaluated 10 verified Pareto designs in Jodhpur under three ground boundary conditions:
+       * default_18c (legacy constant 18 °C sink): O2 ranges from 2.29 to 69.62 kWh/m2, O1_ml 0.31% to 20.99%, O1_adapt 9.95% to 84.61%.
+       * epw_ground (authentic monthly EPW line 4 ground temps at 0.5m depth): O2 ranges from 203.57 to 273.86 kWh/m2, O1_ml 53.24% to 60.17%, O1_adapt 31.60% to 43.61%.
+       * adiabatic (adiabatic ground surface): O2 ranges from 140.74 to 243.04 kWh/m2, O1_ml 59.85% to 67.79%, O1_adapt 37.30% to 53.52%.
+     - Verdict: Proved that historical low energy (O2 ~2.65 kWh/m2 for P_Jodhpur_004) was an artifact of the constant 18 °C infinite heat sink.
+  B. Shimla Baseline & Pareto Regression Audit (tools/check3_shimla_regression.py):
+     - Compared commit 6fe5a12 vs current in data/processed/active_learning_shimla/shimla_baselines_summary.csv.
+     - Across all 34 designs (including R1, R2, R3, and 31 Pareto designs): max absolute difference is 0.000000 across O1_ml, O1_adapt, and O2.
+     - Summary benchmarks: R1 O2 = 203.45 kWh/m2, R2 O2 = 193.57 kWh/m2, R3 O2 = 99.36 kWh/m2.
+  C. Shimla Climate Zone Reclassification & R3 Sensitivity (tools/report_item5_zones_sensitivity.py):
+     - Shimla reclassified from STANDARD to ASSUMED because Table 11-1 of ECBC 2017 (p. 201) lists Kullu and Shillong under Cold, but omits Shimla.
+     - Tested R3 sensitivity under alternative climate zones for ASSUMED cities (Gangtok, Bhuntar, Bhuj) using EnergyPlus ideal-loads simulation.
+
+1.2 GIT DIFF: tools/report_item3_shimla_r1.py (06d5ecb^ to HEAD):
+  Total diff lines: 207
+  Diff summary: File was newly introduced in commit 06d5ecb (+201 lines).
+  Diff between 06d5ecb and HEAD: 0 modifications (HEAD is byte-identical to 06d5ecb).
+  Verbatim diff header (first 10 lines):
+    diff --git a/tools/report_item3_shimla_r1.py b/tools/report_item3_shimla_r1.py
+    new file mode 100644
+    index 0000000..35542d2
+    --- /dev/null
+    +++ b/tools/report_item3_shimla_r1.py
+    @@ -0,0 +1,201 @@
+    +#!/usr/bin/env python3
+    +"""
+    +tools/report_item3_shimla_r1.py
+    +
+
+1.3 SCRIPT AND WEATHER FILE AUDIT FOR SHIMLA FIGURES:
+  A. Values Present in Committed Reports (reports/item3_shimla_r1.txt and reports/item6_sources.txt):
+     * R1_Lightweight O2: Baseline = 179.99 kWh/m2, +1.5 C = 182.30 kWh/m2, +3.0 C = 186.50 kWh/m2.
+     * R3_Code_Compliant O2: Baseline = 87.95 kWh/m2, +1.5 C = 80.15 kWh/m2, +3.0 C = 74.69 kWh/m2.
+     * Weather files used: Baseline = IND_HP_Shimla.420830_TMYx.2011-2025.epw, +1.5 C = Shimla_plus1p5.epw, +3.0 C = Shimla_plus3p0.epw.
+     * Script used: tools/report_item3_shimla_r1.py.
+  B. Origin of 177.00 / 180.32 / 184.35 and 90.04 / 86.90 / 83.33:
+     * Search of entire git commit history across all scripts and weather files: Neither 177.00/180.32/184.35 nor 90.04/86.90/83.33
+       was produced by any committed script or weather file for Shimla R1 or R3.
+     * Status: cause not established.
+  C. Occurrence of 90.04 in commit d39659c:
+     * In commit d39659c, 90.04 appears in: data/processed/flagship_2011_2025/Jodhpur/active_learning_history.csv line 3:
+       '2,1100,1200,78.92,217.43,0.89,1.69,1.11,2.33,7.6,13.34,3.5,6.14,90.04,43.22,212.19'
+       Column 14 is Round 2 retrain_time_sec = 90.04 seconds.
+  D. Content of data/processed/active_learning_shimla/shimla_baselines_summary.csv regarding 90.04:
+     * shimla_baselines_summary.csv contains NO 90.04 value.
+     * Verbatim baseline rows in file:
+       - R1_Lightweight:    O2 = 203.45 kWh/m2, O1_ml = 51.44%, O1_adapt = 53.36%
+       - R2_Conventional:   O2 = 193.57 kWh/m2, O1_ml = 48.82%, O1_adapt = 44.63%
+       - R3_Code_Compliant: O2 = 99.36 kWh/m2,  O1_ml = 46.70%, O1_adapt = 38.94%
+
+1.4 NARRATIVE DELETION & STALE TABLE SUPERSEDING:
+  - Deleted untested heat-schedule, overhang, and sensible-only narrative from tools/run_pass3_drift.py and reports/pass3_drift.txt.
+  - Stale tables in reports/pass3_drift.txt marked SUPERSEDED pointing to canonical reports/pass3_verdict.txt.
+  - Stale tables in reports/item3_robustness.txt marked SUPERSEDED pointing to canonical reports/pass3_verdict.txt and reports/robustness_flagship_details_corrected.csv.
+  - Stale rank tables in reports/item5_rank_tables.txt marked SUPERSEDED pointing to canonical reports/pass3_verdict.txt.
+
+================================================================================================================================================================
+ITEM 2: TABLE RECONCILIATION & DISCREPANCY AUDIT
+================================================================================================================================================================
+2.1 CSV AND METRIC COLUMN USAGE ACROSS REPORTS:
+  A. reports/item3_robustness.txt (generated by tools/report_item3_robustness.py):
+     - Source CSV : reports/robustness_flagship_details.csv
+     - Columns    : Table 1 (Rank Preservation): 'O1_ml' (comfort discomfort %) and 'O2' (HVAC energy kWh/m2).
+                    Table 2 (Spearman Rho):     'O1_ml' and 'O2'.
+                    Table 3 (Regret Analysis):  'O1_ml' (comfort regret pp) and 'O2' (energy regret kWh/m2).
+                    Table 4 (Details):          'O1_ml', 'O1_adapt' (printed as O1_ad), 'O2', 'top_gt_35'.
+  B. reports/item5_rank_tables.txt (generated by tools/report_item5_ranks_p2.py):
+     - Source CSV : reports/robustness_flagship_details.csv
+     - Columns    : Sections 1 & 2: 'O2_base', 'O2_plus1p5', 'O2_plus3p0' for New Delhi and Jodhpur.
+                    Section 4:     'O1_ml' and 'O2' across all 5 flagships.
+  C. reports/pass3_verdict.txt (generated by tools/run_pass3_verdict.py):
+     - Source CSV : reports/robustness_flagship_details_corrected.csv
+     - Columns    : Table 2: Spearman rho using 'O1_ml' and 'O2'.
+                    Table 3: Regret analysis using 'O1_ml' and 'O2'.
+
+2.2 DISCREPANCY EXPLANATION:
+  A. Mumbai Pareto Front Size (28 vs 14):
+     - CSV on disk (data/processed/flagship_2011_2025/Mumbai/final_verified_pareto_Mumbai.csv and reports/robustness_flagship_details_corrected.csv):
+       Contains exactly 14 verified Pareto front designs (cand_000, 001, 002, 003, 006, 015, 017, 020, 028, 037, 040, 046, 050, 079).
+     - The figure 28 was stated in conversational markdown text during Closure Pass 1 (transcript step 596).
+     - Cause: cause not established (conversational error / pre-verification candidate pool count).
+  B. Mumbai Best Design IDs (071/000 vs 040/028):
+     - On the authentic verified Pareto front on disk:
+       * Best O1_ml design : P_Mumbai_cand_040 (and P_Mumbai_cand_079, tied at 66.472603%).
+       * Best O2 design    : P_Mumbai_cand_028 (219.12 kWh/m2).
+     - The IDs 071/000 appeared in conversational markdown text in step 596.
+       * 'P_Mumbai_cand_071' does not exist on disk in any file.
+       * 'P_Mumbai_071' existed only in legacy unverified runs (objectives_Mumbai.csv / web/public/data/pareto_Mumbai.json).
+     - Cause: cause not established (conversational hallucination citing legacy unverified IDs).
+  C. Jodhpur Best O1 (0.07 vs 50.18):
+     - Authentic verified Pareto front on disk (final_verified_pareto_Jodhpur.csv under authentic EPW ground temperatures):
+       Best O1_ml is 50.18% (P_Jodhpur_cand_023).
+     - The 0.07% figure was an artifact of the legacy 18.0 °C constant ground boundary condition before Decision D-035.
+  D. Mumbai Best O2 (205.32 vs 219.12):
+     - Authentic verified Pareto front on disk: lowest O2 is 219.12 kWh/m2 (P_Mumbai_cand_028).
+     - The 205.32 figure appeared in conversational text in step 596. No CSV or script on disk contains 205.32 for Mumbai.
+     - Cause: cause not established.
+
+2.3 CANONICAL TABLE SET IDENTIFICATION:
+  - Canonical Table Set: reports/pass3_verdict.txt (Tables 2 & 3).
+  - Canonical Underlying Data: reports/robustness_flagship_details_corrected.csv.
+  - Rationale: Evaluates all 5 flagships using verified EnergyPlus ideal-loads and free-running simulations under clean,
+    corrected morphed weather files without relative humidity / dewpoint psychrometric sensor artifacts.
+
+================================================================================================================================================================
+ITEM 3: 30-CITY MANIFEST EPW VERBATIM HEADER LINE 1 & GEOGRAPHIC DIFF
+================================================================================================================================================================
+City            | Full Untruncated EPW Path
+                | Verbatim Line 1 (Read from File)
+                | EPW [Lat, Lon, Elev]      | Item1 [Lat, Lon, Elev]    | Item2 .eio [Lat, Lon, Elev] | Diff (.eio - EPW)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Srinagar        | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_JK_Srinagar.420270_TMYx.2011-2025\IND_JK_Srinagar.420270_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Srinagar,JK,IND,SRC-TMYx,420270,34.05080,74.80450,5.5,1587.0
+                | [34.05080, 74.80450, 1587.0] | [34.051, 74.805, 1587.0]  | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Bhuntar         | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_HP_Bhuntar.420810_TMYx.2011-2025\IND_HP_Bhuntar.420810_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Bhuntar,HP,IND,SRC-TMYx,420810,31.83300,77.16700,5.5,1084.0
+                | [31.83300, 77.16700, 1084.0] | [31.833, 77.167, 1084.0]  | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Gangtok         | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_SK_Gangtok.422990_TMYx.2011-2025\IND_SK_Gangtok.422990_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Gangtok,SK,IND,SRC-TMYx,422990,27.33300,88.61700,5.5,1756.0
+                | [27.33300, 88.61700, 1756.0] | [27.333, 88.617, 1756.0]  | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Jammu           | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_JK_Jammu.420560_TMYx.2011-2025\IND_JK_Jammu.420560_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Jammu,JK,IND,SRC-TMYx,420560,32.66700,74.83300,5.5,367.0
+                | [32.66700, 74.83300, 367.0] | [32.667, 74.833, 367.0]   | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Dehradun        | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_UT_Dehradun.421110_TMYx.2011-2025\IND_UT_Dehradun.421110_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Dehradun,UT,IND,SRC-TMYx,421110,30.31700,78.03300,5.5,682.0
+                | [30.31700, 78.03300, 682.0] | [30.317, 78.033, 682.0]   | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Lucknow         | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025\IND_UP_Lucknow-Amausi-Singh.Intl.AP.423690_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Lucknow-Amausi-Singh.Intl.AP,UP,IND,SRC-TMYx,423690,26.76100,80.88900,5.5,125.0
+                | [26.76100, 80.88900, 125.0] | [26.761, 80.889, 125.0]   | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Varanasi        | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_UP_Varanasi.424830_TMYx.2011-2025\IND_UP_Varanasi.424830_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Varanasi,UP,IND,SRC-TMYx,424830,25.30000,83.01700,5.5,90.0
+                | [25.30000, 83.01700, 90.0] | [25.300, 83.017, 90.0]    | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Prayagraj       | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025\IND_UP_Allahabad-Bamrauli.AP.424750_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Allahabad-Bamrauli.AP,UP,IND,SRC-TMYx,424750,25.44100,81.73500,5.5,98.1
+                | [25.44100, 81.73500, 98.1] | [25.441, 81.735, 98.1]    | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Agra            | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_UP_Agra.AP.422600_TMYx.2011-2025\IND_UP_Agra.AP.422600_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Agra.AP,UP,IND,SRC-TMYx,422600,27.15600,77.96100,5.5,167.9
+                | [27.15600, 77.96100, 167.9] | [27.156, 77.961, 167.9]   | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Gorakhpur       | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_UP_Gorakhpur.423790_TMYx.2011-2025\IND_UP_Gorakhpur.423790_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Gorakhpur,UP,IND,SRC-TMYx,423790,26.74000,83.45000,5.5,78.9
+                | [26.74000, 83.45000, 78.9] | [26.740, 83.450, 78.9]    | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Patna           | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025\IND_BR_Patna-Jayaprakash.AP.424920_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Patna-Jayaprakash.AP,BR,IND,SRC-TMYx,424920,25.59100,85.08800,5.5,51.8
+                | [25.59100, 85.08800, 51.8] | [25.591, 85.088, 51.8]    | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Nagpur          | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025\IND_MH_Nagpur-Ambedkar.Intl.AP.428670_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Nagpur-Ambedkar.Intl.AP,MH,IND,SRC-TMYx,428670,21.09200,79.04700,5.5,314.9
+                | [21.09200, 79.04700, 314.9] | [21.092, 79.047, 314.9]   | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Guwahati        | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025\IND_AS_Guwahati-Bordoloi.Intl.AP.424100_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Guwahati-Bordoloi.Intl.AP,AS,IND,SRC-TMYx,424100,26.10600,91.58600,5.5,49.4
+                | [26.10600, 91.58600, 49.4] | [26.106, 91.586, 49.4]    | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Dibrugarh       | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025\IND_AS_Dibrugarh.AP.423140_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Dibrugarh.AP,AS,IND,SRC-TMYx,423140,27.48400,95.01700,5.5,110.3
+                | [27.48400, 95.01700, 110.3] | [27.484, 95.017, 110.3]   | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Imphal          | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_MN_Imphal.426230_TMYx.2011-2025\IND_MN_Imphal.426230_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Imphal,MN,IND,SRC-TMYx,426230,24.76000,93.89700,5.5,774.2
+                | [24.76000, 93.89700, 774.2] | [24.760, 93.897, 774.2]   | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Bhubaneswar     | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025\IND_OR_Bhubaneshwar-Patnaik.Intl.AP.429710_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Bhubaneshwar-Patnaik.Intl.AP,OR,IND,SRC-TMYx,429710,20.24400,85.81800,5.5,42.1
+                | [20.24400, 85.81800, 42.1] | [20.244, 85.818, 42.1]    | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Kolkata         | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025\IND_WB_Kolkata-Bose.Intl.AP.428090_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Kolkata-Bose.Intl.AP,WB,IND,SRC-TMYx,428090,22.65500,88.44700,5.5,4.9
+                | [22.65500, 88.44700, 4.9] | [22.655, 88.447, 4.9]     | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Visakhapatnam   | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_AP_Vishakhapatnam.431500_TMYx.2011-2025\IND_AP_Vishakhapatnam.431500_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Vishakhapatnam,AP,IND,SRC-TMYx,431500,17.72170,83.32920,5.5,66.0
+                | [17.72170, 83.32920, 66.0] | [17.722, 83.329, 66.0]    | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Chennai         | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025\IND_TN_Chennai.Intl.AP.432790_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Chennai.Intl.AP,TN,IND,SRC-TMYx,432790,12.99400,80.18100,5.5,15.8
+                | [12.99400, 80.18100, 15.8] | [12.994, 80.181, 15.8]    | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Surat           | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_GJ_Surat.428400_TMYx.2011-2025\IND_GJ_Surat.428400_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Surat,GJ,IND,SRC-TMYx,428400,21.20000,72.83300,5.5,12.0
+                | [21.20000, 72.83300, 12.0] | [21.200, 72.833, 12.0]    | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Kochi           | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_KL_Kochi.NAS.433530_TMYx.2011-2025\IND_KL_Kochi.NAS.433530_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Kochi.NAS,KL,IND,SRC-TMYx,433530,9.94600,76.27200,5.5,2.4
+                | [9.94600, 76.27200, 2.4]  | [9.946, 76.272, 2.4]      | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Port Blair      | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_AN_Port.Blair.433330_TMYx.2011-2025\IND_AN_Port.Blair.433330_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Port.Blair,AN,IND,SRC-TMYx,433330,11.66700,92.71700,5.5,79.0
+                | [11.66700, 92.71700, 79.0] | [nan, nan, nan]           | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Bhuj            | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_GJ_Bhuj.426340_TMYx.2011-2025\IND_GJ_Bhuj.426340_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Bhuj,GJ,IND,SRC-TMYx,426340,23.28800,69.67000,5.5,81.7
+                | [23.28800, 69.67000, 81.7] | [23.288, 69.670, 81.7]    | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Jaisalmer       | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_RJ_Jaisalmer.423280_TMYx.2011-2025\IND_RJ_Jaisalmer.423280_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Jaisalmer,RJ,IND,SRC-TMYx,423280,26.90000,70.91700,5.5,231.0
+                | [26.90000, 70.91700, 231.0] | [26.900, 70.917, 231.0]   | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Shimla          | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_HP_Shimla.420830_TMYx.2011-2025\IND_HP_Shimla.420830_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Shimla,HP,IND,SRC-TMYx,420830,31.10000,77.16700,5.5,2202.0
+                | [31.10000, 77.16700, 2202.0] | [31.100, 77.167, 2202.0]  | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Jodhpur         | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_RJ_Jodhpur.423390_TMYx.2011-2025\IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Jodhpur,RJ,IND,SRC-TMYx,423390,26.25730,73.04080,5.5,218.5
+                | [26.25730, 73.04080, 218.5] | [26.257, 73.041, 218.5]   | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+New_Delhi       | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025\IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw
+                | Line 1: LOCATION,New.Delhi-Gandhi.Intl.AP,DL,IND,SRC-TMYx,421810,28.56700,77.10300,5.5,236.8
+                | [28.56700, 77.10300, 236.8] | [28.567, 77.103, 236.8]   | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Mumbai          | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025\IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Mumbai-Shivaji.Intl.AP,MH,IND,SRC-TMYx,430030,19.08900,72.86800,5.5,11.3
+                | [19.08900, 72.86800, 11.3] | [19.089, 72.868, 11.3]    | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Bengaluru       | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025\IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Bengaluru-Hindustan.AP,KA,IND,SRC-TMYx,432960,12.95000,77.66800,5.5,888.0
+                | [12.95000, 77.66800, 888.0] | [12.950, 77.668, 888.0]   | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+Leh             | Path: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_JK_Leh.427053_TMYx.2011-2025\IND_JK_Leh.427053_TMYx.2011-2025.epw
+                | Line 1: LOCATION,Leh,JK,IND,SRC-TMYx,427053,34.13600,77.54700,5.5,3255.9
+                | [34.13600, 77.54700, 3255.9] | [34.136, 77.547, 3255.9]  | [nan, nan, nan]           | dLat=+nan, dLon=+nan, dElev=+nan
+................................................................................................................................................................
+
+3.2 EXPLANATION OF EARLIER SAMPLE FOR DELHI, MUMBAI, JODHPUR AND PROVENANCE:
+  - Verbatim EPW Line 1 read directly from files:
+    * New_Delhi : LOCATION,New.Delhi-Gandhi.Intl.AP,DL,IND,SRC-TMYx,421810,28.56700,77.10300,5.5,236.8
+    * Mumbai    : LOCATION,Mumbai-Shivaji.Intl.AP,MH,IND,SRC-TMYx,430030,19.08900,72.86800,5.5,11.3
+    * Jodhpur   : LOCATION,Jodhpur,RJ,IND,SRC-TMYx,423390,26.25730,73.04080,5.5,218.5
+  - EnergyPlus .eio Site:Location output lines (from item2_eplus_check.txt):
+    * New_Delhi : Site:Location, New.Delhi-Gandhi.Intl.AP DL IND SRC-TMYx WMO#=421810, 28.57, 77.10, 5.50, 236.80
+    * Mumbai    : Site:Location, Mumbai-Shivaji.Intl.AP MH IND SRC-TMYx WMO#=430030, 19.09, 72.87, 5.50, 11.30
+    * Jodhpur   : Site:Location, Jodhpur RJ IND SRC-TMYx WMO#=423390, 26.26, 73.04, 5.50, 218.50
+  - Provenance & Discrepancy Explanation:
+    1. Coordinate Decimal Precision: The raw EPWs store coordinates to 5 decimal places (e.g. 28.56700, 77.10300).
+       EnergyPlus internal output formatter formats Site:Location latitude and longitude to 2 decimal places (28.57, 77.10).
+    2. String Synthesis: EnergyPlus builds the Site Name by combining EPW City, State, Country, and Source WMO fields.
+    3. Location of Source EPWs on Disk:
+       * New Delhi: D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025\IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw
+       * Mumbai   : D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025\IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw
+       * Jodhpur  : D:\Projects\Comfort-home-main\Comfort-home-main\data\raw\India_Weather_Extracted\IND_RJ_Jodhpur.423390_TMYx.2011-2025\IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw
+
+================================================================================================================================================================
+ITEM 4: TIED BASELINE-BEST O1_ml DESIGNS & REGRET ANALYSIS ACROSS SCENARIOS
+================================================================================================================================================================
+Audit of Tied Designs Achieving Minimum Baseline O1_ml and Regret across Scenarios:
+City         | Tied ID                | Scenario   | Achieved O1_ml  | Min O1_ml    | Regret O1 (pp)  | Achieved O2  | Min O2     | Regret O2 (kWh) | Result Change Flag
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Shimla       | P_Shimla_cand_000      | Baseline   | 37.8082         | 37.8082      | +0.0000         | 85.07        | 81.98      | +3.09           | NO_CHANGE
+Shimla       | P_Shimla_cand_000      | +1.5 C     | 36.2785         | 36.1416      | +0.1370         | 80.32        | 76.07      | +4.25           | NO_CHANGE
+Shimla       | P_Shimla_cand_000      | +3.0 C     | 36.1986         | 35.6849      | +0.5137         | 80.62        | 74.09      | +6.53           | NO_CHANGE
+................................................................................................................................................................
+Jodhpur      | P_Jodhpur_cand_023     | Baseline   | 50.1826         | 50.1826      | +0.0000         | 208.79       | 208.79     | +0.00           | NO_CHANGE
+Jodhpur      | P_Jodhpur_cand_023     | +1.5 C     | 51.3699         | 51.3699      | +0.0000         | 225.20       | 225.20     | +0.00           | NO_CHANGE
+Jodhpur      | P_Jodhpur_cand_023     | +3.0 C     | 53.3447         | 53.3447      | +0.0000         | 242.27       | 242.27     | +0.00           | NO_CHANGE
+................................................................................................................................................................
+New_Delhi    | P_New_Delhi_cand_008   | Baseline   | 54.4178         | 54.4178      | +0.0000         | 220.24       | 197.79     | +22.45          | NO_CHANGE
+New_Delhi    | P_New_Delhi_cand_008   | +1.5 C     | 54.4406         | 54.0068      | +0.4338         | 238.73       | 212.45     | +26.28          | NO_CHANGE
+New_Delhi    | P_New_Delhi_cand_008   | +3.0 C     | 55.2055         | 53.7443      | +1.4612         | 259.50       | 229.13     | +30.37          | NO_CHANGE
+New_Delhi    | P_New_Delhi_cand_076   | Baseline   | 54.4178         | 54.4178      | +0.0000         | 220.24       | 197.79     | +22.45          | NO_CHANGE
+New_Delhi    | P_New_Delhi_cand_076   | +1.5 C     | 54.4406         | 54.0068      | +0.4338         | 238.73       | 212.45     | +26.28          | NO_CHANGE
+New_Delhi    | P_New_Delhi_cand_076   | +3.0 C     | 55.2055         | 53.7443      | +1.4612         | 259.50       | 229.13     | +30.37          | NO_CHANGE
+................................................................................................................................................................
+Mumbai       | P_Mumbai_cand_040      | Baseline   | 66.4726         | 66.4726      | +0.0000         | 231.51       | 219.12     | +12.39          | NO_CHANGE
+Mumbai       | P_Mumbai_cand_040      | +1.5 C     | 75.4224         | 75.4224      | +0.0000         | 271.66       | 253.30     | +18.36          | NO_CHANGE
+Mumbai       | P_Mumbai_cand_040      | +3.0 C     | 80.0913         | 80.0685      | +0.0228         | 312.69       | 287.58     | +25.11          | FLAG_CHANGE: Regret O1=+0.02 pp vs cand_079 Regret O1=0.00 pp
+Mumbai       | P_Mumbai_cand_079      | Baseline   | 66.4726         | 66.4726      | +0.0000         | 231.53       | 219.12     | +12.41          | NO_CHANGE
+Mumbai       | P_Mumbai_cand_079      | +1.5 C     | 75.4224         | 75.4224      | +0.0000         | 271.63       | 253.30     | +18.33          | NO_CHANGE
+Mumbai       | P_Mumbai_cand_079      | +3.0 C     | 80.0685         | 80.0685      | +0.0000         | 312.68       | 287.58     | +25.10          | FLAG_CHANGE: Achieves Scenario-Best (Regret O1=0.00 pp)
+................................................................................................................................................................
+Bengaluru    | P_Bengaluru_cand_001   | Baseline   | 5.9817          | 5.9817       | +0.0000         | 34.23        | 34.23      | +0.00           | NO_CHANGE
+Bengaluru    | P_Bengaluru_cand_001   | +1.5 C     | 14.5320         | 14.5320      | +0.0000         | 56.38        | 56.38      | +0.00           | NO_CHANGE
+Bengaluru    | P_Bengaluru_cand_001   | +3.0 C     | 27.0434         | 27.0434      | +0.0000         | 95.74        | 95.74      | +0.00           | NO_CHANGE
+................................................................................................................................................................
+
+Summary of Tie Effects:
+  - New Delhi: Tied designs P_New_Delhi_cand_008 and P_New_Delhi_cand_076 have identical parameters and identical simulation outputs:
+    Regret O1 is 0.0000 pp (Baseline), +0.4338 pp (+1.5 C), +1.4612 pp (+3.0 C). Choosing either yields ZERO change in results.
+  - Mumbai: Tied designs P_Mumbai_cand_040 and P_Mumbai_cand_079 are tied at Baseline O1_ml = 66.472603%:
+    * At Baseline: cand_040 O2 regret = 12.39 kWh/m2 vs cand_079 O2 regret = 12.41 kWh/m2.
+    * At +1.5 C:   cand_040 O1 regret = 0.0000 pp vs cand_079 O1 regret = 0.0000 pp (O2 regret: 18.36 vs 18.33 kWh/m2).
+    * At +3.0 C:   cand_040 O1 regret = +0.0228 pp vs cand_079 O1 regret = 0.0000 pp (O2 regret: 25.11 vs 25.10 kWh/m2).
+    * Result Change: FLAGGED. At +3.0 C, choosing cand_079 preserves 0.00 pp comfort regret, whereas cand_040 incurs 0.02 pp regret.
+
+================================================================================================================================================================
+ITEM 5: MORPH RE-RUN VERIFICATION & ABSOLUTE DIFFERENCE AUDIT
+================================================================================================================================================================
+5.1 WEATHER FILE SHAS USED PER SIMULATION / DESIGN IN robustness_flagship_details_corrected.csv:
+City         | Scenario   | Weather File Relative Path                              | SHA-256 Hash
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Shimla       | Baseline   | data/raw/India_Weather_Extracted/IND_HP_Shimla.420830_TMYx.2011-2025/IND_HP_Shimla.420830_TMYx.2011-2025.epw | 8b7447ee12f00a3d13ba9443caca904e8ef4cf2865f30b7eac86eaa176d68286
+Shimla       | +1.5 C     | data/processed/weather_morphed/Shimla_plus1p5_corrected.epw | 870cf29852219f0ca157e6e91f779329dd6c76499fdbeb14b9adf421626e9f45
+Shimla       | +3.0 C     | data/processed/weather_morphed/Shimla_plus3p0_corrected.epw | 758474b30863fe123687a6b0a018b56f670d5770c59ff98a7e4ff85abb6c1426
+................................................................................................................................................................
+Jodhpur      | Baseline   | data/raw/India_Weather_Extracted/IND_RJ_Jodhpur.423390_TMYx.2011-2025/IND_RJ_Jodhpur.423390_TMYx.2011-2025.epw | f31bbc5a7edbf38328151473a5dfb8660e14026289a9c77a4e6d4f6cf8a4de39
+Jodhpur      | +1.5 C     | data/processed/weather_morphed/Jodhpur_plus1p5_corrected.epw | 43d73a8c698276ecc73f95c3ad88e3e5303543517f8a2f60ed1a315464f1551b
+Jodhpur      | +3.0 C     | data/processed/weather_morphed/Jodhpur_plus3p0_corrected.epw | aa90808a7cae88bf9500bdbe5abc3391c934444b7fe9c5e83ea046adc9c7b720
+................................................................................................................................................................
+New_Delhi    | Baseline   | data/raw/India_Weather_Extracted/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025/IND_DL_New.Delhi-Gandhi.Intl.AP.421810_TMYx.2011-2025.epw | c4c5279f513ec2c1dec4511114c05f13596f214184dc825e58385a1f53ac2d5a
+New_Delhi    | +1.5 C     | data/processed/weather_morphed/New_Delhi_plus1p5_corrected.epw | 9863b2a5e598370876797e352fcc223e5455eb67f458e3be749950071df34c71
+New_Delhi    | +3.0 C     | data/processed/weather_morphed/New_Delhi_plus3p0_corrected.epw | ee32aac4b4fe869d614efb65c28cf372d51bc79cdab0f2fbbb6a01e0c3320c4e
+................................................................................................................................................................
+Mumbai       | Baseline   | data/raw/India_Weather_Extracted/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025/IND_MH_Mumbai-Shivaji.Intl.AP.430030_TMYx.2011-2025.epw | 5e7cdca030958963ab5be12751afe8d0c66b01150450e1059bb7e1b65f044552
+Mumbai       | +1.5 C     | data/processed/weather_morphed/Mumbai_plus1p5_corrected.epw | 9784a294343121aab47c930c4c91e5d196c7076fc57244a0bf0dd5280b759824
+Mumbai       | +3.0 C     | data/processed/weather_morphed/Mumbai_plus3p0_corrected.epw | c7a4d99f7e4583c10b3088c7aebdd721813d66b836091737d0720970f0cbb8f6
+................................................................................................................................................................
+Bengaluru    | Baseline   | data/raw/India_Weather_Extracted/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025/IND_KA_Bengaluru-Hindustan.AP.432960_TMYx.2011-2025.epw | b24506e034c43d31950862232b97b404e573de4c8bee04204f62d0890bcae478
+Bengaluru    | +1.5 C     | data/processed/weather_morphed/Bengaluru_plus1p5_corrected.epw | 165140387fa5b6de60f1cf6364872cc06db9150ef5fc79d67476f47bea2e7283
+Bengaluru    | +3.0 C     | data/processed/weather_morphed/Bengaluru_plus3p0_corrected.epw | 3f070e277ad61b25b7fb2b1f06da21e90a5363e5f51c464623f98ecc38f1c361
+................................................................................................................................................................
+
+5.2 MAX AND MEAN ABSOLUTE DIFFERENCES: OLD VS CORRECTED CSV (O1_ml AND O2):
+City         | Scenario   | Max |dO1_ml| (pp)  | Mean |dO1_ml| (pp) | Max |dO2| (kWh/m2) | Mean |dO2| (kWh/m2)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Shimla       | Baseline   | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Shimla       | +1.5 C     | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Shimla       | +3.0 C     | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+................................................................................................................................................................
+Jodhpur      | Baseline   | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Jodhpur      | +1.5 C     | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Jodhpur      | +3.0 C     | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+................................................................................................................................................................
+New_Delhi    | Baseline   | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+New_Delhi    | +1.5 C     | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+New_Delhi    | +3.0 C     | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+................................................................................................................................................................
+Mumbai       | Baseline   | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Mumbai       | +1.5 C     | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Mumbai       | +3.0 C     | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+................................................................................................................................................................
+Bengaluru    | Baseline   | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Bengaluru    | +1.5 C     | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+Bengaluru    | +3.0 C     | 0.000000           | 0.000000           | 0.000000           | 0.000000          
+................................................................................................................................................................
+
+5.3 RUNTIME & DEFINITION OF O1_ad:
+  - Runtime of 556 simulations in tools/run_pass3_morph.py: 291.68 seconds (4.86 minutes).
+  - Definition of O1_ad:
+    'O1_ad' (also designated 'O1_adapt' in code and CSVs) is the annual thermal discomfort percentage
+    computed using the ASHRAE 55 / IMD Adaptive Comfort Model for naturally ventilated (free-running) spaces.
+    It evaluates indoor operative temperature against acceptability boundaries (80% and 90% comfort limits)
+    derived from the 30-day exponentially weighted running mean outdoor dry-bulb temperature (t_rm).
+    In contrast, 'O1_ml' is computed using the ML surrogate champion model (XGBoost/Random Forest)
+    incorporating personal metabolic rates and clothing insulation alongside physical environmental variables.
+
+================================================================================================================================================================
+ITEM 6: GROUND-TEMPERATURE RECOMPUTATION, FILE DATES & PROVENANCE AUDIT
+================================================================================================================================================================
+6.1 JODHPUR VS JAISALMER GROUND TEMPERATURE RECOMPUTATION (36 VALUES ACROSS 3 DEPTHS):
+  - Total ground temperature points compared: 36 (3 depths [0.5m, 2.0m, 4.0m] x 12 monthly values).
+  - Max Absolute Difference across all 36 values: 0.8300 °C
+    (Occurred at depth 0.5 m in Aug: Jodhpur 35.60 °C vs Jaisalmer 36.43 °C, diff = 0.8300 °C).
+  - Mean Absolute Difference across all 36 values: 0.3606 °C
+  - Breakdown by depth:
+    * Depth 0.5 m: Max diff = 0.8300 °C, Mean diff = 0.3867 °C
+    * Depth 2.0 m: Max diff = 0.7100 °C, Mean diff = 0.3467 °C
+    * Depth 4.0 m: Max diff = 0.5900 °C, Mean diff = 0.3483 °C
+
+6.2 RESULTS FILE MODIFICATION DATES VS COMMIT c33a954:
+  Reference commit c33a954 timestamp: 2026-11-02T08:10:02+05:30
+Results File Path                                                        | Commit   | Commit Timestamp             | Postdates c33a954
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+data/processed/flagship_2011_2025/Shimla/baseline_results.csv            | d39659c  | 2026-11-03 11:02:11 +0530    | True
+data/processed/flagship_2011_2025/Jodhpur/baseline_results.csv           | d39659c  | 2026-11-03 11:02:11 +0530    | True
+data/processed/flagship_2011_2025/New_Delhi/baseline_results.csv         | d39659c  | 2026-11-03 11:02:11 +0530    | True
+data/processed/flagship_2011_2025/Mumbai/baseline_results.csv            | d39659c  | 2026-11-03 11:02:11 +0530    | True
+data/processed/flagship_2011_2025/Bengaluru/baseline_results.csv         | d39659c  | 2026-11-03 11:02:11 +0530    | True
+data/processed/flagship_2011_2025/Shimla/final_verified_pareto_Shimla.csv | d39659c  | 2026-11-03 11:02:11 +0530    | True
+data/processed/flagship_2011_2025/Jodhpur/final_verified_pareto_Jodhpur.csv | d39659c  | 2026-11-03 11:02:11 +0530    | True
+data/processed/flagship_2011_2025/New_Delhi/final_verified_pareto_New_Delhi.csv | d39659c  | 2026-11-03 11:02:11 +0530    | True
+data/processed/flagship_2011_2025/Mumbai/final_verified_pareto_Mumbai.csv | d39659c  | 2026-11-03 11:02:11 +0530    | True
+data/processed/flagship_2011_2025/Bengaluru/final_verified_pareto_Bengaluru.csv | 59645ee  | 2026-11-05 16:26:48 +0530    | True
+data/processed/active_learning_shimla/shimla_baselines_summary.csv       | 1ecea7d  | 2026-11-02 11:36:24 +0530    | True
+reports/results_30_cities.csv                                            | cb3d19c  | 2026-11-05 18:59:51 +0530    | True
+reports/batch_epw_manifest.csv                                           | 59645ee  | 2026-11-05 16:26:48 +0530    | True
+reports/robustness_flagship_details.csv                                  | 9ec0eb3  | 2026-11-05 22:17:27 +0530    | True
+reports/robustness_flagship_details_corrected.csv                        | 417d756  | 2026-11-06 01:25:45 +0530    | True
+  All results files strictly postdate c33a954: True
+
+6.3 CORRECTION OF D-035 COMMIT CITATION & RETRACTION OF CLAIMS:
+  - Chronological Fact: Decision D-035 was implemented in commit c33a954 on 2026-11-02 08:10:02 +0530.
+  - Commit 1ecea7d was authored on 2026-11-02 11:36:24 +0530 (3.5 hours AFTER c33a954).
+  - Commit 2648cca was authored on 2026-11-02 13:48:04 +0530 (5.6 hours AFTER c33a954).
+  - The earlier claim that 'commits prior to 1ecea7d / 2648cca' lacked D-035 is DROPPED as factually incorrect.
+  - The unsupported narrative regarding item7/item6 envelope load breakdown is DROPPED.
+    (The current simulation model does not output component-level envelope conduction decomposition).
+
+6.4 PROVENANCE CITATION FOR 'EXPECTED' TABLE COLUMNS:
+  - The 'Expected Lat', 'Expected Lon', and 'Expected Elev' columns in station identity reports
+    originate solely from an inline Python literal dictionary defined in:
+      Source File : tools/report_item1_station_identity.py
+      Lines       : 29-60
+      Variable    : EXPECTED_CITY_COORDINATES
+  - External Source on Disk: NONE. No independent source file or official municipal registry file exists on disk.
+  - As required: Stated explicitly that no independent source file exists on disk for these expected coordinates.
+
+================================================================================================================================================================
+END OF CLOSURE PASS 4 AUDIT REPORT
+================================================================================================================================================================
