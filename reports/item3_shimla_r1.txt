@@ -53,7 +53,7 @@ envelope-part breakdown (conduction/solar split) is not output by the current si
    - R2 (Conventional: 230 mm brick masonry, heavy thermal mass) possesses high thermal capacitance that buffers daytime solar gains.
    - At +1.5 C, R2 heating drops by 21.12 kWh/m2 (from 154.29 to 133.17 kWh/m2) while cooling rises by only +12.44 kWh/m2 (from 13.51 to 25.95 kWh/m2), yielding a net O2 decrease of -8.68 kWh/m2 (from 167.80 to 159.12 kWh/m2).
    - At +3.0 C, R2 heating drops by 40.51 kWh/m2 while cooling rises by +29.89 kWh/m2, resulting in a net O2 decrease of -10.63 kWh/m2 (from 167.80 to 157.17 kWh/m2).
-   - R3 (Code-Compliant: insulated envelope, external overhang shading) blocks solar gain almost entirely.
+   - R3 (Code-Compliant: insulated envelope, external shading [overhang: marked unsupported]) blocks solar gain almost entirely.
    - At +1.5 C, R3 heating drops by 8.82 kWh/m2 while cooling increases by only +1.02 kWh/m2 (from 0.19 to 1.21 kWh/m2), yielding a net O2 decrease of -7.80 kWh/m2 (from 87.95 to 80.15 kWh/m2).
    - At +3.0 C, R3 heating drops by 17.22 kWh/m2 while cooling increases by +3.95 kWh/m2, yielding a net O2 decrease of -13.26 kWh/m2 (from 87.95 to 74.69 kWh/m2).
 =======================================================================================================================================

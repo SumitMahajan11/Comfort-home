@@ -18,7 +18,7 @@ d39659c HEAD@{10}: commit: feat(flagship): rerun 5 flagship cities on 2011-2025 
 40ea0c4 HEAD@{11}: commit: Update run_batch with dry-run and simulated unique candidate count, replace Chennai baseline_results with verified simulation output
 4246fa0 HEAD@{12}: commit: feat(batch): canonical valid adaptive hours, smoke rounds support, and batch checks
 67a6252 HEAD@{13}: commit: feat(batch): batch runner, weather checks, reporting fixes, and smoke verification
-2648cca HEAD@{14}: commit: feat(batch): complete generic pipeline, verified 24-city EPW registry, and Chennai pipeline run
+[2648cca: marked unsupported] HEAD@{14}: commit: feat(batch): complete generic pipeline, verified 24-city EPW registry, and Chennai pipeline run
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 2. GIT LOG --STAT -5:

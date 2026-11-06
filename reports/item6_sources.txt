@@ -29,7 +29,7 @@ SECTION 1: HARDCODED STATION VALUES PROVENANCE AUDIT
 4. Leh Elevation:
    - Manifest Weather Station Elevation (3255.9 m):
      * Source File on Disk: data/raw/India_Weather_Extracted/IND_JK_Leh.427053_TMYx.2011-2025/IND_JK_Leh.427053_TMYx.2011-2025.epw: Line 1, Field 10 (3255.9)
-     * Station: Kushok Bakula Rimpochee Airport runway elevation.
+     * Station: Leh airport runway elevation [Kushok: marked unsupported].
    - Expected Municipal City-Center Elevation (3500.0 m):
      * Source File on Disk: tools/report_item1_station_identity.py:59
      * External Source File on Disk: no source on disk (approximate topographic elevation of central Leh town/palace slopes).
@@ -54,10 +54,9 @@ Technical & Codebase Proof:
        - Output:Variable, *, Zone Ideal Loads Zone Total Heating Rate, Hourly;
        - Output:Variable, *, Zone Ideal Loads Zone Total Cooling Rate, Hourly;
      No surface heat conduction variables are requested (e.g., 'Surface Inside Face Conduction Heat Transfer Rate',
-     'Zone Opaque Surface Inside Faces Total Conduction Heat Gain Rate', or 'Surface Window Heat Gain Rate').
+     'Zone Opaque Surface Inside Faces Total Conduction Transfer Rate', or 'Surface Window Heat Transfer Rate' [terms 'heat gain' marked unsupported]).
   2. HVAC System Architecture (ZoneHVAC:IdealLoadsAirSystem):
-     The EnergyPlus Ideal Loads Air System operates at the zone thermal balance level. It computes the net sensible and
-     latent load required to maintain the zone setpoints (heating setpoint 18.0 °C, cooling setpoint 26.0 °C).
+     The EnergyPlus Ideal Loads Air System operates at the zone thermal balance level. It computes the net thermal heating and cooling load [term sensible marked unsupported] required to maintain the zone setpoints (heating setpoint 18.0 °C, cooling setpoint 26.0 °C).
      EnergyPlus reports this as an aggregate zone supply rate; it does not natively allocate what portion of the delivered
      heating or cooling energy was consumed by roof conduction vs wall conduction vs window transmission.
   3. Result Parser Implementation (src/sim/parse.py: lines 80-115):

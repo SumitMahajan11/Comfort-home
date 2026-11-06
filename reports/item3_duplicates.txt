@@ -124,7 +124,7 @@ Ground Temperature Summary Across All 36 Points (3 depths x 12 months):
 4. Explanation of Ground Temperature Proximity & Historical Context:
    a) Scientific Provenance of Ground Temperatures in OneBuilding EPWs:
       - As stated in EPW Line 7 (COMMENTS 2): 'Ground temps represent undisturbed earth temperatures - calculated from this weather data.'
-      - OneBuilding calculates undisturbed earth temperatures using the Kusuda-Achenbach annual sinusoidal soil heat diffusion model:
+      - OneBuilding calculates undisturbed earth temperatures using the [Kusuda: marked unsupported] annual sinusoidal annual sinusoidal soil heat diffusion model:
         T(z, t) = T_mean - T_amp * exp(-z * sqrt(pi / (alpha * 365))) * cos(2*pi/365 * (t - t_shift - z/2 * sqrt(365 / (pi * alpha))))
       - Jodhpur (26.26°N, 73.04°E, 218.5 m) and Jaisalmer (26.90°N, 70.92°E, 231.0 m) are neighboring stations in the arid
         Thar Desert biome of Western Rajasthan, separated by only 220 km of open desert terrain with identical soil thermophysical properties.
