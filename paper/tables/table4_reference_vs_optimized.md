@@ -1,0 +1,20 @@
+| city | scenario | tie_flag | R1_O1_ml | R1_O2 | R2_O1_ml | R2_O2 | R3_O1_ml | R3_O2 | baseline_best_O1_id | best_O1_O1_ml | best_O1_O2 | baseline_best_O2_id | best_O2_O1_ml | best_O2_O2 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Shimla | baseline | UNIQUE | 48.22 | 179.99 | 45.21 | 167.80 | 46.32 | 87.95 | P_Shimla_cand_000 | 37.81 | 85.07 | P_Shimla_cand_030 | 40.98 | 81.98 |
+| Shimla | +1.5 degC | UNIQUE | 48.09 | 182.30 | 45.17 | 159.12 | 44.69 | 80.15 | P_Shimla_cand_000 | 36.28 | 80.32 | P_Shimla_cand_030 | 38.71 | 76.07 |
+| Shimla | +3.0 degC | UNIQUE | 48.82 | 186.50 | 46.23 | 157.17 | 43.20 | 74.69 | P_Shimla_cand_000 | 36.20 | 80.62 | P_Shimla_cand_030 | 37.24 | 74.09 |
+| Jodhpur | baseline | UNIQUE | 72.91 | 458.65 | 68.29 | 427.82 | 56.26 | 247.02 | P_Jodhpur_cand_023 | 50.18 | 208.79 | P_Jodhpur_cand_023 | 50.18 | 208.79 |
+| Jodhpur | +1.5 degC | UNIQUE | 74.42 | 496.65 | 69.86 | 472.76 | 58.29 | 268.85 | P_Jodhpur_cand_023 | 51.37 | 225.20 | P_Jodhpur_cand_023 | 51.37 | 225.20 |
+| Jodhpur | +3.0 degC | UNIQUE | 75.78 | 536.82 | 71.68 | 521.20 | 60.78 | 292.40 | P_Jodhpur_cand_023 | 53.34 | 242.27 | P_Jodhpur_cand_023 | 53.34 | 242.27 |
+| New_Delhi | baseline | UNIQUE | 69.98 | 394.69 | 67.95 | 372.28 | 56.42 | 227.73 | P_New_Delhi_cand_008 | 54.42 | 220.24 | P_New_Delhi_cand_003 | 58.56 | 197.79 |
+| New_Delhi | +1.5 degC | UNIQUE | 70.23 | 429.52 | 68.11 | 413.37 | 56.74 | 247.92 | P_New_Delhi_cand_008 | 54.44 | 238.73 | P_New_Delhi_cand_003 | 57.02 | 212.53 |
+| New_Delhi | +3.0 degC | UNIQUE | 70.76 | 467.99 | 68.65 | 459.40 | 57.26 | 270.54 | P_New_Delhi_cand_008 | 55.21 | 259.50 | P_New_Delhi_cand_003 | 55.54 | 229.55 |
+| Mumbai | baseline | TIED | 82.00 | 442.99 | 84.98 | 421.04 | 83.38 | 269.46 | P_Mumbai_cand_040 | 66.47 | 231.51 | P_Mumbai_cand_028 | 71.19 | 219.12 |
+| Mumbai | baseline | TIED | 82.00 | 442.99 | 84.98 | 421.04 | 83.38 | 269.46 | P_Mumbai_cand_079 | 66.47 | 231.53 | P_Mumbai_cand_028 | 71.19 | 219.12 |
+| Mumbai | +1.5 degC | TIED | 87.65 | 501.89 | 90.87 | 494.09 | 88.98 | 309.59 | P_Mumbai_cand_040 | 75.42 | 271.66 | P_Mumbai_cand_028 | 79.44 | 253.30 |
+| Mumbai | +1.5 degC | TIED | 87.65 | 501.89 | 90.87 | 494.09 | 88.98 | 309.59 | P_Mumbai_cand_079 | 75.42 | 271.63 | P_Mumbai_cand_028 | 79.44 | 253.30 |
+| Mumbai | +3.0 degC | TIED | 90.55 | 562.69 | 94.36 | 569.57 | 93.28 | 350.94 | P_Mumbai_cand_040 | 80.09 | 312.69 | P_Mumbai_cand_028 | 86.13 | 287.58 |
+| Mumbai | +3.0 degC | TIED | 90.55 | 562.69 | 94.36 | 569.57 | 93.28 | 350.94 | P_Mumbai_cand_079 | 80.07 | 312.68 | P_Mumbai_cand_028 | 86.13 | 287.58 |
+| Bengaluru | baseline | UNIQUE | 43.97 | 203.34 | 38.39 | 146.07 | 21.22 | 65.14 | P_Bengaluru_cand_001 | 5.98 | 34.23 | P_Bengaluru_cand_001 | 5.98 | 34.23 |
+| Bengaluru | +1.5 degC | UNIQUE | 51.50 | 252.68 | 50.30 | 205.61 | 34.50 | 100.09 | P_Bengaluru_cand_001 | 14.53 | 56.38 | P_Bengaluru_cand_001 | 14.53 | 56.38 |
+| Bengaluru | +3.0 degC | UNIQUE | 60.48 | 310.17 | 63.17 | 277.56 | 51.59 | 148.12 | P_Bengaluru_cand_001 | 27.04 | 95.74 | P_Bengaluru_cand_001 | 27.04 | 95.74 |

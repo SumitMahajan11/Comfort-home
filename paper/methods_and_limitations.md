@@ -1,0 +1,34 @@
+# Methods and Limitations
+
+## Methods
+
+### 1. Weather Data and Provenance
+We evaluate residential building envelope performance across 30 Indian cities using Typical Meteorological Year (TMYx) weather datasets covering the 2011-2025 epoch. Each weather file is cryptographically identified by its unique 64-character SHA-256 checksum (documented in Table 5). No automated download log exists on disk for the initial retrieval of these files; they were acquired from Climate.OneBuilding.org prior to repository freezing.
+
+### 2. Warming Scenarios and Psychrometric Morphing
+Sensitivity to atmospheric warming is evaluated under uniform dry-bulb temperature increases of +1.5 degC and +3.0 degC applied uniformly across all 8760 hours of the annual weather profile. Building envelope parameters are held fixed across scenarios without re-optimization; accordingly, these simulations represent uniform-warming sensitivity runs rather than dynamic downscaled climate projections. Outdoor dew-point temperatures are adjusted using the differential Magnus psychrometric formulation to maintain relative humidity constant under the elevated dry-bulb temperatures, leaving all other weather variables completely unchanged with a measured maximum difference of 0.0000 degC.
+
+### 3. Dew-Point Correction Effect
+A quantitative audit of the differential Magnus psychrometric correction against the legacy uncorrected morphing code across all 10 flagship city-scenario pairs reveals that the correction changed outdoor dew point by 0.0531 to 0.0767 degC on average. Downstream EnergyPlus simulations under the uncorrected and corrected morphed weather files yielded bitwise identical energy and comfort results across all 556 evaluated design points, confirmed by identical SHA-256 hashes of the resulting datasets.
+
+### 4. Metrics and Evaluation Protocol
+Thermal comfort regret under climate warming is defined as $R(O_1) = O_{1,\text{achieved}}(\mathbf{x}^*_{\text{base}}) - O_{1,\text{min}}(\text{scenario})$ in percentage points (pp), measuring the comfort penalty incurred by maintaining the baseline-optimal design under warmed conditions. Similarly, cooling energy gap is defined as $R(O_2) = O_{2,\text{achieved}}(\mathbf{x}^*_{\text{base}}) - O_{2,\text{min}}(\text{scenario})$ in kWh/m2 (and expressed as a percentage gap relative to the scenario-optimal energy). Monotonic preservation of design rankings is quantified using Spearman rank correlation ($\rho$), computed via `scipy.stats.spearmanr(valid[col_base], valid[col_scen])` with fractional ranks assigned to ties. When the deduplicated front size $N < 5$ (specifically Bengaluru with $N = 1$), rank correlations and regret metrics are classified as not testable. Where ties occur among baseline-best designs, all tied designs are reported individually. Deduplication enforced exact parameter-vector equality (`drop_duplicates(subset=PARAM_COLS, keep='first')`) across the 8 physical envelope decision variables.
+
+### 5. Ideal-Loads HVAC System Configuration
+Building energy simulations model cooling loads using the EnergyPlus `ZoneHVAC:IdealLoadsAirSystem` configured in `src/sim/render.py` (lines 294-321). The system specifies a dehumidification control type of ConstantSensibleHeatRatio (line 312) with a cooling sensible heat ratio of 0.7 (line 313), a humidification control type of None (line 314), a constant heating setpoint of 20.0 degC (line 476), and a constant cooling setpoint of 26.0 degC (line 477). The maximum heating supply air temperature is set to 50.0 degC (line 300) and the minimum cooling supply air temperature is set to 13.0 degC (line 301).
+
+### 6. Negative Control Analysis
+To test EnergyPlus sensitivity to outdoor moisture under extreme boundaries, negative control simulations were conducted at +3.0 degC with outdoor dew point forced to dry-bulb minus 0.5 degC (near-saturation, Case b) and dry-bulb minus 15.0 degC (dry air, Case c), parsed from `reports/pass6_closure.txt`. Annual cooling energy $O_2$ shifted by up to 142.02 kWh/m2 in Mumbai (375.34 vs 233.32 kWh/m2), demonstrating that the simulation engine is physically sensitive to large variations in atmospheric moisture.
+
+## Limitations
+
+1. Uniform warming sensitivity runs apply fixed temperature shifts (+1.5 degC and +3.0 degC) to fixed building designs without accounting for diurnal variability or re-optimizing envelopes for future climates (`reports/robustness_flagship_details_pass5.csv`).
+2. Shimla is classified as ASSUMED for climate zone compliance due to its omission from ECBC 2017 Table 11-1 (`tools/report_item5_zones_sensitivity.py`).
+3. Pareto front selection is subject to surrogate optimism bias where active learning surrogate predictions on candidate designs were more optimistic than subsequent EnergyPlus physical simulations (`tools/report_item2_optimism_control.py`).
+4. Shimla pilot results used a legacy un-epoch-tagged weather file whereas flagship simulations used the canonical 2011-2025 epoch (`reports/pass5_closure.txt`).
+5. Weather station coordinates and elevations are taken directly from EPW header line 1 without cross-verification against an independent geodetic source (AUTHOR TO CONFIRM).
+6. Original weather file retrieval lacks an automated download log or script on disk (AUTHOR TO CONFIRM).
+7. Original batch-city Pareto fronts in `data/processed/batch/` contain duplicate rows, resolved only in the offline deduplicated fronts (`reports/dedup_audit.txt`).
+8. Bengaluru converged to a Pareto front of 1 design, precluding statistical rank correlation analysis and regret testing under climate shifts (`data/processed/flagship_2011_2025/Bengaluru/final_verified_pareto_Bengaluru_dedup.csv`).
+9. Latent cooling loads are modeled using a constant sensible heat ratio of 0.7 rather than dynamic psychrometric coil dehumidification (`src/sim/render.py` lines 312-313).
+10. Ground boundary conditions use monthly ground temperatures extracted from EPW header line 4 rather than dynamic three-dimensional ground heat transfer models (`reports/pass6_closure.txt`).
