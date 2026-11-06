@@ -324,8 +324,23 @@ def run_nsga2(surrogates, seed=42, city_name="", n_gen=NSGA2_GEN, pop_size=NSGA2
         })
     return pd.DataFrame(pareto_designs)
 
+PARAM_COLS = [
+    'roof_insulation_thickness',
+    'wall_insulation_thickness',
+    'wall_mass_class',
+    'roof_solar_absorptance',
+    'wwr',
+    'orientation',
+    'shading_depth',
+    'ventilation_ach'
+]
+
 def compute_non_dominated_front(df):
-    """Computes Pareto non-dominated subset under true verified physical objectives."""
+    """
+    Computes Pareto non-dominated subset under true verified physical objectives,
+    filtering out dominated designs and dropping exact parameter-vector duplicates
+    (keeping the first occurrence in the file's row order).
+    """
     F = df[['O1_ml', 'O1_adapt', 'O2']].values
     n = len(F)
     is_dominated = np.zeros(n, dtype=bool)
@@ -335,7 +350,22 @@ def compute_non_dominated_front(df):
                 if (F[j] <= F[i]).all() and (F[j] < F[i]).any():
                     is_dominated[i] = True
                     break
-    return df[~is_dominated].copy()
+
+    df_non_dom = df[~is_dominated].copy()
+
+    # Drop exact parameter-vector duplicates (keep first occurrence in row order)
+    param_cols = [c for c in PARAM_COLS if c in df_non_dom.columns]
+    if param_cols:
+        df_clean = df_non_dom.drop_duplicates(subset=param_cols, keep='first').copy()
+    else:
+        id_col = 'design_id' if 'design_id' in df_non_dom.columns else 'pareto_id'
+        df_clean = df_non_dom.drop_duplicates(subset=[id_col], keep='first').copy() if id_col in df_non_dom.columns else df_non_dom
+
+    # Assertion after assembly that no parameter-vector duplicates remain
+    if param_cols:
+        assert not df_clean.duplicated(subset=param_cols).any(), "Parameter-vector duplicates remain in Pareto front assembly!"
+
+    return df_clean
 
 # -----------------------------------------------------------------------------
 # MAIN REUSABLE CITY PIPELINE CLASS

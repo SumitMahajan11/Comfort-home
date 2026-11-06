@@ -1,0 +1,394 @@
+====================================================================================================
+PARETO FRONT DEDUPLICATION & RESULTS-V2 AUDIT REPORT
+Timestamp: 2026-11-06 15:07:50
+Repository Root: D:\Projects\Comfort-home-main\Comfort-home-main
+====================================================================================================
+
+ORIGINAL INPUT FILES SHA-256 INTEGRITY (INITIAL CHECK)
+----------------------------------------------------------------------------------------------------
+data/processed/flagship_2011_2025/Shimla/final_verified_pareto_Shimla.csv | 3a41976fc34893c839736143404a8da7d1393f947d96ace3b910a84b52736ed4
+data/processed/flagship_2011_2025/Jodhpur/final_verified_pareto_Jodhpur.csv | 354b1379b0c0cc64df9969ba26ff6c7d483373dde555b25a8553b526adf90cb1
+data/processed/flagship_2011_2025/New_Delhi/final_verified_pareto_New_Delhi.csv | 03c0b968b40396822717f827a951b858c7b13e04d3668e04160051bf362e28c7
+data/processed/flagship_2011_2025/Mumbai/final_verified_pareto_Mumbai.csv | 81757e5d38385f60fc51757b011dbbc52cdd0b4a95156d9e42c8bb5593c4e162
+data/processed/flagship_2011_2025/Bengaluru/final_verified_pareto_Bengaluru.csv | d75ffb1bd242380dfa3f2bb0ad104b8fda23aa73cfda500e62040fd9d1c77a81
+data/processed/batch/Agra/final_verified_pareto_Agra.csv          | d0f332a36cfdb487c90cd28415ed57543c2fa9d74f3033736ffce6a4e4e0d5f8
+data/processed/batch/Bhubaneswar/final_verified_pareto_Bhubaneswar.csv | 30af6923ddcea2c3801836f275ea4038150f966417a7f2240180d0e8b5664f3c
+data/processed/batch/Bhuj/final_verified_pareto_Bhuj.csv          | d99cc5c8cae33d295fab795b6e9d7f4f326f851bdda36b5e8ac579d032e256ba
+data/processed/batch/Bhuntar/final_verified_pareto_Bhuntar.csv    | 3c1b30d17a883e2d9101622fabfef5d41107fdc6eb0512cb3887cd935c63ae1d
+data/processed/batch/Chennai/final_verified_pareto_Chennai.csv    | b24a171746f963ab96cfebed05e66006cf2b17ce589f98fd6526e3281e523780
+data/processed/batch/Dehradun/final_verified_pareto_Dehradun.csv  | ed91a1b5f16e337cda631da1f0730437fae69417b3af18780908bfb30ad68373
+data/processed/batch/Dibrugarh/final_verified_pareto_Dibrugarh.csv | 6ecb0ab0ca15f5301c7f7191521be869b43fbd915b1810c0dd5137be34f5442a
+data/processed/batch/Gangtok/final_verified_pareto_Gangtok.csv    | 38aed9d57bc92eaacddc51c8fea03acfeec63afedcdcd5d188fa0f6cfe64b75b
+data/processed/batch/Gorakhpur/final_verified_pareto_Gorakhpur.csv | d2e9e62876356bd2e9b5a94fa31d3fe317627b3e69880cfd1e547fe1d6649461
+data/processed/batch/Guwahati/final_verified_pareto_Guwahati.csv  | a6a8c4aaa2abe45ff4f1a83be56202c617c2a4976808596164b96736aa42d37a
+data/processed/batch/Imphal/final_verified_pareto_Imphal.csv      | 440f571d13700fee288f902564d0303a91d28b6974f043f3c7885c7c37d31700
+data/processed/batch/Jaisalmer/final_verified_pareto_Jaisalmer.csv | b6248d4e8d9c6a736e31e52ff0349784f566cc2af8529678d16e4caf55390a90
+data/processed/batch/Jammu/final_verified_pareto_Jammu.csv        | d6a218c8a7566a6b8b63268cb77ad9e10e7ab1e826ada8a3adf84f0711370bdf
+data/processed/batch/Kochi/final_verified_pareto_Kochi.csv        | 26899cd0fc60da230f337ee545f074cb1a6a14c200c9c7db1cc5beabbcca9e59
+data/processed/batch/Kolkata/final_verified_pareto_Kolkata.csv    | 7c6e264f4779fa80fa0d6ba6bcd8bf1afae350f656355bd05a493d69213d5a3b
+data/processed/batch/Leh/final_verified_pareto_Leh.csv            | c165c106834ba93ca2c8d7dc9063dfb3936dd5db275099dc0d8c76eb627294d4
+data/processed/batch/Lucknow/final_verified_pareto_Lucknow.csv    | 76a05626c004edc549117ec652e0fc6b2bad32d0548eea6c368e0eb4cc929d76
+data/processed/batch/Nagpur/final_verified_pareto_Nagpur.csv      | bf979583fac426720479dd9916ff9c047eade600150e5fdefe748caa093de13b
+data/processed/batch/Patna/final_verified_pareto_Patna.csv        | 388d359f78fffcd4f6ab11907c22edd45d17e52d14eedf04cc859299514a3ae6
+data/processed/batch/Port Blair/final_verified_pareto_Port Blair.csv | fc5549637edec0af78c70e822304bc8c81f2fe12de1d828e9e89f19f222bf62b
+data/processed/batch/Prayagraj/final_verified_pareto_Prayagraj.csv | c12c9eeb6e3647d878d395d90b0471b3bc214423b58c85f7b70b03c5dfd09289
+data/processed/batch/Srinagar/final_verified_pareto_Srinagar.csv  | a22b54b26865a99ba69b74c9683f9a334d1aa553bda91c087623913ea9f0c591
+data/processed/batch/Surat/final_verified_pareto_Surat.csv        | 285f1948dd8d8ab7e94a4af8727499b10246f378921eba5b278903376604159a
+data/processed/batch/Varanasi/final_verified_pareto_Varanasi.csv  | 29b4fc65320aaafa45e9949cd266d5aba62ab02311628dec1a0222ab1a18a445
+data/processed/batch/Visakhapatnam/final_verified_pareto_Visakhapatnam.csv | a1a9478cfed4974b79ffb82272a7c6c2fce96e7c36e689217ee6e486f1647029
+reports/results_30_cities.csv                                     | 82c46e20d760a7a24692dbd280cf8f5ee89a4da7906d2180197e148762857355
+----------------------------------------------------------------------------------------------------
+
+====================================================================================================
+STEP 1. LOCATE THE BUG
+====================================================================================================
+Code paths that write final_verified_pareto_<City>.csv:
+1. tools/run_city_pipeline.py:
+   - Function: CityPipeline.run_al_rounds (Line 770)
+   - Front Assembly Lines (Lines 766-770):
+       pareto_df = compute_non_dominated_front(df_sim)
+       pareto_df['epw_path'] = self.epw_path
+       pareto_df['epw_sha256'] = self.epw_sha256
+       pareto_df.to_parquet(os.path.join(self.batch_dir, f'final_verified_pareto_{self.city_name}.parquet'), index=False)
+       pareto_df.to_csv(os.path.join(self.batch_dir, f'final_verified_pareto_{self.city_name}.csv'), index=False)
+2. tools/run_second_al_pass.py:
+   - Function: run_second_pass (Line 213)
+   - Front Assembly Lines (Lines 206-214):
+       all_verified = pd.concat([df_pareto_old, df_r1_ver, df_r2_ver, df_r3_ver, df_r4_ver], ignore_index=True)
+       df_pareto_new = compute_non_dominated_front(all_verified)
+       df_pareto_new.to_parquet(p_pareto, index=False)
+       df_pareto_new.to_csv(csv_p, index=False)
+3. tools/run_active_learning_leh.py:
+   - Function: main (Line 534)
+   - Assembly Lines 439 & 536:
+       final_verified_pareto = compute_non_dominated_front(all_100_final)
+       final_verified_pareto.to_csv(final_csv, index=False)
+4. tools/run_active_learning_shimla.py:
+   - Function: main (Line 468)
+   - Assembly Lines 437 & 470:
+       final_verified_pareto = compute_non_dominated_front(all_100_final)
+       final_verified_pareto.to_csv(final_csv, index=False)
+5. tools/run_active_learning_jodhpur.py:
+   - Function: main (Line 809)
+
+How duplicate rows enter (Evidence from Code and Data):
+Mechanism A (Discretization duplicate vectors in NSGA-II):
+  In tools/run_city_pipeline.py lines 309-322 (run_nsga2), continuous NSGA-II decision variables
+  are snapped to discrete physical increments: roof/wall insulation to 25 mm (0.025 m), shading clamped
+  to min 0.30 m, orientation rounded to 0.1 deg, and ventilation rounded to 0.01 ACH. Distinct continuous
+  chromosomes in pymoo collapse to identical 8-parameter physical designs, each assigned a unique candidate ID.
+  When simulated in EnergyPlus, identical physical envelopes yield identical objective values.
+  In compute_non_dominated_front, Pareto dominance check: (F[j] <= F[i]).all() and (F[j] < F[i]).any()
+  fails for identical objective vectors because neither is strictly better on any objective.
+  Therefore, both designs survive non-domination filtering and enter the front with different IDs.
+Mechanism B (Full-row identical concatenation across active learning rounds):
+  In tools/run_second_al_pass.py line 206, all_verified concatenates df_pareto_old with df_r1_ver,
+  df_r2_ver, df_r3_ver, and df_r4_ver. Because df_pareto_old was already composed of designs from
+  rounds 1-3, these identical designs were concatenated twice with identical design IDs, parameters, and
+  objectives. Because compute_non_dominated_front did not deduplicate, exact full-row duplicates were retained.
+
+====================================================================================================
+STEP 2. CENSUS (ALL 30 CITIES, READ-ONLY)
+====================================================================================================
+City            Rows   Unique IDs  Repeat ID  Full Dup  Param Dup Diff ID  Obj Identical  Max Obj Diff
+---------------------------------------------------------------------------------------------------------
+Agra            39     39          0          0         2                  True           0.0e+00     
+Bengaluru       1      1           0          0         0                  True           0.0e+00     
+Bhubaneswar     5      5           0          0         0                  True           0.0e+00     
+Bhuj            12     7           5          5         0                  True           0.0e+00     
+Bhuntar         19     19          0          0         0                  True           0.0e+00     
+Chennai         11     11          0          0         0                  True           0.0e+00     
+Dehradun        63     63          0          0         1                  True           0.0e+00     
+Dibrugarh       37     33          4          2         2                  True           0.0e+00     
+Gangtok         23     23          0          0         1                  True           0.0e+00     
+Gorakhpur       39     39          0          0         1                  True           0.0e+00     
+Guwahati        3      3           0          0         0                  True           0.0e+00     
+Imphal          56     45          11         3         1                  True           0.0e+00     
+Jaisalmer       24     24          0          0         1                  True           0.0e+00     
+Jammu           45     45          0          0         2                  True           0.0e+00     
+Jodhpur         26     26          0          0         0                  True           0.0e+00     
+Kochi           24     24          0          0         2                  True           0.0e+00     
+Kolkata         2      2           0          0         0                  True           0.0e+00     
+Leh             30     30          0          0         0                  True           0.0e+00     
+Lucknow         35     35          0          0         0                  True           0.0e+00     
+Mumbai          14     14          0          0         0                  True           0.0e+00     
+Nagpur          19     19          0          0         0                  True           0.0e+00     
+New_Delhi       45     45          0          0         1                  True           0.0e+00     
+Patna           21     21          0          0         0                  True           0.0e+00     
+Port Blair      18     18          0          0         1                  True           0.0e+00     
+Prayagraj       34     34          0          0         0                  True           0.0e+00     
+Shimla          38     38          0          0         1                  True           0.0e+00     
+Srinagar        17     17          0          0         0                  True           0.0e+00     
+Surat           5      5           0          0         0                  True           0.0e+00     
+Varanasi        33     33          0          0         1                  True           0.0e+00     
+Visakhapatnam   30     22          8          7         2                  True           0.0e+00     
+---------------------------------------------------------------------------------------------------------
+
+Near-Duplicate Pairs Summary (Information Only, Tolerance: relative difference <= 1e-3, same wall_mass_class):
+Total near-duplicate pairs identified across all 30 cities: 42
+
+====================================================================================================
+STEP 3. TEST FIRST, THEN FIX
+====================================================================================================
+3a. Pytest Synthetic Front Test (tests/test_pareto_dedup.py):
+    - Synthetic front with 5 rows: (i) repeated ID D1, (ii) differing ID D2 with identical parameters, (iii) near-duplicates D3/D4.
+    - Ran pytest against old compute_non_dominated_front: FAILED with AssertionError (assert 5 == 3).
+3b. Fix Front-Assembly Code (tools/run_city_pipeline.py):
+    - Updated compute_non_dominated_front to drop exact parameter-vector duplicates keeping first occurrence.
+    - Added assertion: assert not df_clean.duplicated(subset=param_cols).any()
+    - Reran pytest tests/test_pareto_dedup.py: PASSED (1 passed in 3.44s).
+    - Ran test suite on tests/ directory: 70 passed, 1 skipped in 48.32s.
+3c. Call Assembly on Saved Inputs for Bhuj and Visakhapatnam (No Simulation):
+    Bhuj           : Assembled from saved rounds = 7, Offline Dedup = 7, Match = True
+    Visakhapatnam  : Assembled from saved rounds = 22, Offline Dedup = 22, Match = True
+
+====================================================================================================
+STEP 4. DEDUPLICATED FRONTS GENERATION (ALL 30 CITIES)
+====================================================================================================
+City            Original Rows   Dedup Rows   Removed Count  Removed Design IDs
+--------------------------------------------------------------------------------------------------------------
+Agra            39              37           2              P_Agra_cand_003, P_Agra_cand_073
+Bengaluru       1               1            0              none
+Bhubaneswar     5               5            0              none
+Bhuj            12              7            5              P_Bhuj_cand_019, P_Bhuj_cand_024, P_Bhuj_cand_031, P_Bhuj_cand_045, P_Bhuj_cand_083
+Bhuntar         19              19           0              none
+Chennai         11              11           0              none
+Dehradun        63              62           1              P_Dehradun_cand_090
+Dibrugarh       37              33           4              P_Dibrugarh_cand_080, P_Dibrugarh_cand_079, P_Dibrugarh_cand_031, P_Dibrugarh_cand_088
+Gangtok         23              22           1              P_Gangtok_cand_079
+Gorakhpur       39              38           1              P_Gorakhpur_cand_082
+Guwahati        3               3            0              none
+Imphal          56              52           4              P_Imphal_cand_092, P_Imphal_cand_021, P_Imphal_cand_049, P_Imphal_cand_063
+Jaisalmer       24              23           1              P_Jaisalmer_cand_099
+Jammu           45              43           2              P_Jammu_cand_065, P_Jammu_cand_096
+Jodhpur         26              26           0              none
+Kochi           24              22           2              P_Kochi_cand_064, P_Kochi_cand_072
+Kolkata         2               2            0              none
+Leh             30              30           0              none
+Lucknow         35              35           0              none
+Mumbai          14              14           0              none
+Nagpur          19              19           0              none
+New_Delhi       45              44           1              P_New_Delhi_cand_076
+Patna           21              21           0              none
+Port Blair      18              17           1              P_Port Blair_cand_098
+Prayagraj       34              34           0              none
+Shimla          38              37           1              P_Shimla_cand_084
+Srinagar        17              17           0              none
+Surat           5               5            0              none
+Varanasi        33              32           1              P_Varanasi_cand_083
+Visakhapatnam   30              22           8              P_Visakhapatnam_cand_040, P_Visakhapatnam_cand_024, P_Visakhapatnam_cand_038, P_Visakhapatnam_cand_040, P_Visakhapatnam_cand_042, P_Visakhapatnam_cand_055, P_Visakhapatnam_cand_064, P_Visakhapatnam_cand_074
+--------------------------------------------------------------------------------------------------------------
+Sanity Check across all 30 cities: zero remaining parameter-vector duplicates; all kept IDs are strict subsets of original IDs.
+
+====================================================================================================
+STEP 5. NON-DOMINANCE SANITY VERIFICATION
+====================================================================================================
+Objective columns: ['O1_ml', 'O1_adapt', 'O2']
+Objective directions: MINIMIZE O1_ml, MINIMIZE O1_adapt, MINIMIZE O2
+------------------------------------------------------------
+City                 Dedup Front Size   Dominated Designs
+------------------------------------------------------------
+Agra                 37                 0
+Bengaluru            1                  0
+Bhubaneswar          5                  0
+Bhuj                 7                  0
+Bhuntar              19                 0
+Chennai              11                 0
+Dehradun             62                 0
+Dibrugarh            33                 0
+Gangtok              22                 0
+Gorakhpur            38                 0
+Guwahati             3                  0
+Imphal               52                 0
+Jaisalmer            23                 0
+Jammu                43                 0
+Jodhpur              26                 0
+Kochi                22                 0
+Kolkata              2                  0
+Leh                  30                 0
+Lucknow              35                 0
+Mumbai               14                 0
+Nagpur               19                 0
+New_Delhi            44                 0
+Patna                21                 0
+Port Blair           17                 0
+Prayagraj            34                 0
+Shimla               37                 0
+Srinagar             17                 0
+Surat                5                  0
+Varanasi             32                 0
+Visakhapatnam        22                 0
+------------------------------------------------------------
+Total dominated designs across all 30 deduplicated fronts: 0
+
+====================================================================================================
+STEP 6. DOWNSTREAM IMPACT ANALYSIS
+====================================================================================================
+6a. Scripts reading final_verified_pareto files and dependency:
+    - tools/build_results_30_cities.py: depends on front size (front_size column) and distinct designs.
+    - tools/report_flagship_comparison.py: prints front size and front design rows.
+    - tools/report_item1_history.py: file presence/mtime check only (independent of row count).
+    - tools/report_item2_valid_hours.py: reads invalid_share_adapt from first row (independent).
+    - tools/report_item3_robustness.py: selects Pareto front designs for climate change simulation.
+    - tools/report_item6_nsga_means.py: computes mean objectives over front designs (duplicate rows would bias means).
+    - tools/run_item3_resim_test.py: loads best-O1 and best-O2 designs (unaffected by duplicate non-best designs).
+    - tools/run_pass6_closure.py: already used deduplicated 5-flagship fronts.
+
+6b. Columns of reports/results_30_cities.csv derived from fronts:
+    1. front_size               : len(df_p)
+    2. distinct_designs         : compute_distinct_designs(df_p)
+    3. best_O1_ml               : df_p['O1_ml'].min()
+    4. best_O1_ml_design_id     : df_p.loc[df_p['O1_ml'].idxmin()]['design_id']
+    5. best_O1_adapt            : df_p['O1_adapt'].min()
+    6. best_O2                  : df_p['O2'].min()
+    7. best_O2_design_id        : df_p.loc[df_p['O2'].idxmin()]['design_id']
+    8. pp_better_R3_O1_ml       : R3_O1_ml - best_O1_ml
+    9. pct_better_R3_O1_ml      : (R3_O1_ml - best_O1_ml) / R3_O1_ml * 100
+   10. pct_better_R3_O2         : (R3_O2 - best_O2) / R3_O2 * 100
+   11. top_lt_5_best_o2         : best_o2_row['top_lt_5']
+   12. top_gt_35_best_o2        : best_o2_row['top_gt_35']
+   13. top_lt_5_best_o1_ml      : best_o1_ml_row['top_lt_5']
+   14. top_gt_35_best_o1_ml     : best_o1_ml_row['top_gt_35']
+   15. top_lt_5_worst_front     : df_p['top_lt_5'].max()
+   16. top_gt_35_worst_front    : df_p['top_gt_35'].max()
+   17. valid_adaptive_hours_sim : 8760 * (1 - invalid_share_adapt / 100)
+   18. at_bound_variables       : compute_at_bound_variables(df_p)
+
+6c. Building reports/results_30_cities_dedup.csv and Cell-by-Cell Diff:
+    Saved deduplicated results to: D:\Projects\Comfort-home-main\Comfort-home-main\reports\results_30_cities_dedup.csv
+
+    Column-by-column status:
+      - city                            : NO CHANGED CELLS
+      - pipeline                        : NO CHANGED CELLS
+      - group                           : NO CHANGED CELLS
+      - zone                            : NO CHANGED CELLS
+      - zone_source                     : NO CHANGED CELLS
+      - R3_flagship                     : NO CHANGED CELLS
+      - epw_file                        : NO CHANGED CELLS
+      - epw_sha256                      : NO CHANGED CELLS
+      - front_size                      : 15 CHANGED CELLS
+      - distinct_designs                : NO CHANGED CELLS
+      - R1_O1_ml                        : NO CHANGED CELLS
+      - R1_O2                           : NO CHANGED CELLS
+      - R2_O1_ml                        : NO CHANGED CELLS
+      - R2_O2                           : NO CHANGED CELLS
+      - R3_O1_ml                        : NO CHANGED CELLS
+      - R3_O2                           : NO CHANGED CELLS
+      - best_O1_ml                      : NO CHANGED CELLS
+      - best_O1_ml_design_id            : NO CHANGED CELLS
+      - best_O1_adapt                   : NO CHANGED CELLS
+      - best_O2                         : NO CHANGED CELLS
+      - best_O2_design_id               : NO CHANGED CELLS
+      - pp_better_R3_O1_ml              : NO CHANGED CELLS
+      - pct_better_R3_O1_ml             : NO CHANGED CELLS
+      - pct_better_R3_O2                : NO CHANGED CELLS
+      - top_lt_5_best_o2                : NO CHANGED CELLS
+      - top_gt_35_best_o2               : NO CHANGED CELLS
+      - top_lt_5_best_o1_ml             : NO CHANGED CELLS
+      - top_gt_35_best_o1_ml            : NO CHANGED CELLS
+      - top_lt_5_worst_front            : NO CHANGED CELLS
+      - top_gt_35_worst_front           : NO CHANGED CELLS
+      - valid_adaptive_hours            : NO CHANGED CELLS
+      - valid_adaptive_hours_sim        : NO CHANGED CELLS
+      - o1_adapt_reliable               : NO CHANGED CELLS
+      - at_bound_variables              : 2 CHANGED CELLS
+      - O2_mean_error_pct_per_round     : NO CHANGED CELLS
+      - O2_mean_err_abs_per_round       : NO CHANGED CELLS
+      - round_3_mean_signed_error       : NO CHANGED CELLS
+      - round_3_share_negative_errors   : NO CHANGED CELLS
+      - flag_error_high                 : NO CHANGED CELLS
+      - flag_error_rising               : NO CHANGED CELLS
+      - total_minutes                   : NO CHANGED CELLS
+
+    Total Changed Cells: 17
+    Detailed Cell Diffs:
+      * Shimla           | Col: front_size             | Old: 38 -> New: 37
+      * New_Delhi        | Col: front_size             | Old: 45 -> New: 44
+      * Agra             | Col: front_size             | Old: 39 -> New: 37
+      * Bhuj             | Col: front_size             | Old: 12 -> New: 7
+      * Dehradun         | Col: front_size             | Old: 63 -> New: 62
+      * Dibrugarh        | Col: front_size             | Old: 37 -> New: 33
+      * Gangtok          | Col: front_size             | Old: 23 -> New: 22
+      * Gorakhpur        | Col: front_size             | Old: 39 -> New: 38
+      * Imphal           | Col: front_size             | Old: 56 -> New: 52
+      * Jaisalmer        | Col: front_size             | Old: 24 -> New: 23
+      * Jammu            | Col: front_size             | Old: 45 -> New: 43
+      * Kochi            | Col: front_size             | Old: 24 -> New: 22
+      * Port Blair       | Col: front_size             | Old: 18 -> New: 17
+      * Varanasi         | Col: front_size             | Old: 33 -> New: 32
+      * Visakhapatnam    | Col: front_size             | Old: 30 -> New: 22
+      * Bhuj             | Col: at_bound_variables     | Old: wall_insulation_thickness; roof_solar_absorptance; wwr; ventilation_ach; wall_mass_class -> New: wall_insulation_thickness; roof_solar_absorptance; wwr; wall_mass_class
+      * Port Blair       | Col: at_bound_variables     | Old: wall_insulation_thickness; roof_solar_absorptance; wwr; ventilation_ach; wall_mass_class -> New: wall_insulation_thickness; roof_solar_absorptance; wwr; wall_mass_class
+
+6d. Flagship Front Verification against reports/pass3_verdict.txt:
+    Shimla      : Actual Dedup Front Size = 37, Expected (pass3_verdict.txt) = 37 -> MATCH
+    Jodhpur     : Actual Dedup Front Size = 26, Expected (pass3_verdict.txt) = 26 -> MATCH
+    New_Delhi   : Actual Dedup Front Size = 44, Expected (pass3_verdict.txt) = 44 -> MATCH
+    Mumbai      : Actual Dedup Front Size = 14, Expected (pass3_verdict.txt) = 14 -> MATCH
+    Bengaluru   : Actual Dedup Front Size = 1, Expected (pass3_verdict.txt) = 1 -> MATCH
+
+====================================================================================================
+STEP 7. DECISION
+====================================================================================================
+Changed cells in results_30_cities: 17
+Decision: create tag results-v2 = YES
+
+====================================================================================================
+STEP 8. RESULTS-V2 BACKUP ARCHIVE & RESTORE VERIFICATION
+====================================================================================================
+Total target files collected for results-v2 backup: 27269
+Wrote cryptographic manifest: D:\Projects\Comfort-home-main\Comfort-home-main\reports\results_v2_backup_manifest.csv (27269 rows)
+Results-v2 Backup Zip Created:
+  Path            : D:\Projects\Comfort-home-main\comfort_home_results_v2_backup.zip
+  SHA-256         : 5f09b372517b46fe2377f26883aade6a0844a458ac72b80ec9ba122a9d45f817
+  Total Files     : 27270
+  Compressed Size : 114.75 MB (120322538 bytes)
+  Zip Time        : 27.34 s
+
+Results-v2 Backup Restore Verification:
+  Temp Directory  : C:\Users\SUMIT\AppData\Local\Temp\comfort_home_v2_restore_jens2zlc
+  Files Checked   : 27269
+  Matches         : 27269
+  Mismatches      : 0 (none)
+  Missing         : 0 (none)
+  Manifest Check  : MATCH
+  Verification s  : 129.71 s
+  Deleted Temp Dir: C:\Users\SUMIT\AppData\Local\Temp\comfort_home_v2_restore_jens2zlc
+
+====================================================================================================
+ORIGINAL INPUT FILES SHA-256 INTEGRITY (POST-RUN VERIFICATION)
+====================================================================================================
+data/processed/flagship_2011_2025/Shimla/final_verified_pareto_Shimla.csv | Before: 3a41976fc348... | After: 3a41976fc348... | MATCH
+data/processed/flagship_2011_2025/Jodhpur/final_verified_pareto_Jodhpur.csv | Before: 354b1379b0c0... | After: 354b1379b0c0... | MATCH
+data/processed/flagship_2011_2025/New_Delhi/final_verified_pareto_New_Delhi.csv | Before: 03c0b968b403... | After: 03c0b968b403... | MATCH
+data/processed/flagship_2011_2025/Mumbai/final_verified_pareto_Mumbai.csv | Before: 81757e5d3838... | After: 81757e5d3838... | MATCH
+data/processed/flagship_2011_2025/Bengaluru/final_verified_pareto_Bengaluru.csv | Before: d75ffb1bd242... | After: d75ffb1bd242... | MATCH
+data/processed/batch/Agra/final_verified_pareto_Agra.csv          | Before: d0f332a36cfd... | After: d0f332a36cfd... | MATCH
+data/processed/batch/Bhubaneswar/final_verified_pareto_Bhubaneswar.csv | Before: 30af6923ddce... | After: 30af6923ddce... | MATCH
+data/processed/batch/Bhuj/final_verified_pareto_Bhuj.csv          | Before: d99cc5c8cae3... | After: d99cc5c8cae3... | MATCH
+data/processed/batch/Bhuntar/final_verified_pareto_Bhuntar.csv    | Before: 3c1b30d17a88... | After: 3c1b30d17a88... | MATCH
+data/processed/batch/Chennai/final_verified_pareto_Chennai.csv    | Before: b24a171746f9... | After: b24a171746f9... | MATCH
+data/processed/batch/Dehradun/final_verified_pareto_Dehradun.csv  | Before: ed91a1b5f16e... | After: ed91a1b5f16e... | MATCH
+data/processed/batch/Dibrugarh/final_verified_pareto_Dibrugarh.csv | Before: 6ecb0ab0ca15... | After: 6ecb0ab0ca15... | MATCH
+data/processed/batch/Gangtok/final_verified_pareto_Gangtok.csv    | Before: 38aed9d57bc9... | After: 38aed9d57bc9... | MATCH
+data/processed/batch/Gorakhpur/final_verified_pareto_Gorakhpur.csv | Before: d2e9e6287635... | After: d2e9e6287635... | MATCH
+data/processed/batch/Guwahati/final_verified_pareto_Guwahati.csv  | Before: a6a8c4aaa2ab... | After: a6a8c4aaa2ab... | MATCH
+data/processed/batch/Imphal/final_verified_pareto_Imphal.csv      | Before: 440f571d1370... | After: 440f571d1370... | MATCH
+data/processed/batch/Jaisalmer/final_verified_pareto_Jaisalmer.csv | Before: b6248d4e8d9c... | After: b6248d4e8d9c... | MATCH
+data/processed/batch/Jammu/final_verified_pareto_Jammu.csv        | Before: d6a218c8a756... | After: d6a218c8a756... | MATCH
+data/processed/batch/Kochi/final_verified_pareto_Kochi.csv        | Before: 26899cd0fc60... | After: 26899cd0fc60... | MATCH
+data/processed/batch/Kolkata/final_verified_pareto_Kolkata.csv    | Before: 7c6e264f4779... | After: 7c6e264f4779... | MATCH
+data/processed/batch/Leh/final_verified_pareto_Leh.csv            | Before: c165c106834b... | After: c165c106834b... | MATCH
+data/processed/batch/Lucknow/final_verified_pareto_Lucknow.csv    | Before: 76a05626c004... | After: 76a05626c004... | MATCH
+data/processed/batch/Nagpur/final_verified_pareto_Nagpur.csv      | Before: bf979583fac4... | After: bf979583fac4... | MATCH
+data/processed/batch/Patna/final_verified_pareto_Patna.csv        | Before: 388d359f78ff... | After: 388d359f78ff... | MATCH
+data/processed/batch/Port Blair/final_verified_pareto_Port Blair.csv | Before: fc5549637ede... | After: fc5549637ede... | MATCH
+data/processed/batch/Prayagraj/final_verified_pareto_Prayagraj.csv | Before: c12c9eeb6e36... | After: c12c9eeb6e36... | MATCH
+data/processed/batch/Srinagar/final_verified_pareto_Srinagar.csv  | Before: a22b54b26865... | After: a22b54b26865... | MATCH
+data/processed/batch/Surat/final_verified_pareto_Surat.csv        | Before: 285f1948dd8d... | After: 285f1948dd8d... | MATCH
+data/processed/batch/Varanasi/final_verified_pareto_Varanasi.csv  | Before: 29b4fc65320a... | After: 29b4fc65320a... | MATCH
+data/processed/batch/Visakhapatnam/final_verified_pareto_Visakhapatnam.csv | Before: a1a9478cfed4... | After: a1a9478cfed4... | MATCH
+reports/results_30_cities.csv                                     | Before: 82c46e20d760... | After: 82c46e20d760... | MATCH
+----------------------------------------------------------------------------------------------------
+All 31 original input files byte-identical: MATCH
+====================================================================================================
