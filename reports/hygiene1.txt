@@ -1,0 +1,246 @@
+HYGIENE PASS 1 VERIFICATION REPORT
+Timestamp: 2026-11-06 14:42:58
+Repository Root: D:\Projects\Comfort-home-main\Comfort-home-main
+
+==========================================================================================
+ITEM A. BACKUP RESTORE TEST
+==========================================================================================
+A1. Backup Zip SHA-256 Verification:
+    Path                 : D:\Projects\Comfort-home-main\comfort_home_results_v1_backup.zip
+    Computed SHA-256     : d410f2f16e652086a9f2f87b53e6c1f4372375563bcbf6b59e4eec6500e857a2
+    Recorded SHA-256     : d410f2f16e652086a9f2f87b53e6c1f4372375563bcbf6b59e4eec6500e857a2
+    Status               : MATCH
+    Hash Time            : 0.24 s
+
+A2. Extraction & File Counts:
+    Temp Directory Path  : C:\Users\SUMIT\AppData\Local\Temp\comfort_home_hygiene1_restore_f_l9g2vs
+    Extracted Files Count: 27207
+    Zip Entry Count      : 27207
+    Manifest Rows Count  : 27206
+    Extraction Time      : 42.60 s
+
+A3. Discrepancy Identification & Explanation:
+    Entries in zip but not in manifest: results_v1_backup_manifest.csv
+    Entries in manifest but not in zip: none
+    Explanation from Disk Evidence:
+    In tools/create_results_v1_backup.py, lines 41-86 scan target directories
+    to collect 27206 target files. Line 104 writes the cryptographic manifest
+    to reports/results_v1_backup_manifest.csv (27206 rows).
+    Then at line 114, the script explicitly injects the manifest file itself into the zip
+    archive root via zipf.write(manifest_csv, arcname='results_v1_backup_manifest.csv')
+    before writing the 27206 cataloged target files (lines 115-117).
+    Consequently, the zip archive contains exactly 27206 + 1 = 27207 files,
+    where the single extra file is 'results_v1_backup_manifest.csv' itself.
+
+A4. Full Cryptographic Verification:
+    Files Checked (Manifest)  : 27206
+    Matches                   : 27206
+    Mismatches                : 0
+    Missing                   : 0
+    List of Mismatches        : none
+    List of Missing           : none
+    Extra Manifest Entry Check: MATCH (matches reports/results_v1_backup_manifest.csv)
+    Verification Time         : 111.71 s
+
+A5. Extraction Directory State:
+    Extraction Path: C:\Users\SUMIT\AppData\Local\Temp\comfort_home_hygiene1_restore_f_l9g2vs
+    (Retained until end of script for verification, then deleted).
+
+==========================================================================================
+ITEM B. DEW-POINT CORRECTION SIZE (FLAGSHIP CITIES)
+==========================================================================================
+City         Scenario   Mean |diff|    Median |diff|  99th % |diff|  Max |diff|     Hours > 0.01C  Max Other Diff
+------------------------------------------------------------------------------------------------------------
+Shimla       plus1p5    0.0580         0.0300         0.1500         7.4300         7100           0.0000        
+Shimla       plus3p0    0.0579         0.0300         0.1500         7.4300         7068           0.0000        
+Jodhpur      plus1p5    0.0767         0.0500         0.3500         4.4000         7696           0.0000        
+Jodhpur      plus3p0    0.0767         0.0500         0.3500         4.4000         7644           0.0000        
+New_Delhi    plus1p5    0.0681         0.0400         0.2500         4.6000         7314           0.0000        
+New_Delhi    plus3p0    0.0685         0.0400         0.2600         4.6000         7244           0.0000        
+Mumbai       plus1p5    0.0531         0.0400         0.1600         5.3000         8154           0.0000        
+Mumbai       plus3p0    0.0540         0.0500         0.1600         5.3000         7953           0.0000        
+Bengaluru    plus1p5    0.0561         0.0500         0.2000         4.2000         7261           0.0000        
+Bengaluru    plus3p0    0.0559         0.0500         0.2000         4.1900         7464           0.0000        
+------------------------------------------------------------------------------------------------------------
+
+Overall Minimum Per-File Mean |diff| across 10 pairs: 0.0531 degC
+Overall Maximum Per-File Mean |diff| across 10 pairs: 0.0767 degC
+
+Paper Sentence (strictly bound by verified disk data):
+  "the correction changed dew point by 0.0531 to 0.0767 degC on average"
+
+==========================================================================================
+ITEM C. NESTED FOLDER AUDIT
+==========================================================================================
+Directory: D:\Projects\Comfort-home-main\Comfort-home-main\Comfort-home-main
+
+- git ls-files count under nested directory: 139
+- whether any tracked file is there         : yes
+
+- git check-ignore -v on three sample paths:
+    Path: Comfort-home-main/README.md
+      Status: not ignored (exit code 1)
+    Path: Comfort-home-main/src/models/__pycache__/train_surrogates.cpython-313.pyc
+      Status: ignored -> Comfort-home-main/.gitignore:1:__pycache__/	Comfort-home-main/src/models/__pycache__/train_surrogates.cpython-313.pyc
+    Path: Comfort-home-main/tools/__pycache__/test_throwaway_resume.cpython-313-pytest-9.1.1.pyc
+      Status: ignored -> Comfort-home-main/.gitignore:1:__pycache__/	Comfort-home-main/tools/__pycache__/test_throwaway_resume.cpython-313-pytest-9.1.1.pyc
+
+- Total file count: 156
+- Total size      : 4388859 bytes (4.19 MB)
+
+- Newest file modification path     : Comfort-home-main/tools/__pycache__/test_throwaway_resume.cpython-313-pytest-9.1.1.pyc
+- Newest file modification timestamp: 2026-11-02 00:30:11 (epoch: 1793559611.655013)
+
+- Total files with same relative path and DIFFERENT SHA-256: 37
+- Total files with same relative path and IDENTICAL SHA-256: 117
+- Total files present in nested directory but MISSING in root: 2
+
+  First 20 paths with different SHA-256 (nested vs root):
+     1. .gitignore
+     2. docs/FOLDER_GUIDE.md
+     3. docs/HOW_TO_RUN.md
+     4. docs/PHASES.md
+     5. docs/PROJECT_SPEC.md
+     6. docs/TRACKER.md
+     7. README.md
+     8. README_draft.md
+     9. requirements.txt
+    10. src/__pycache__/__init__.cpython-313.pyc
+    11. src/app/app.py
+    12. src/models/__pycache__/__init__.cpython-313.pyc
+    13. src/models/__pycache__/train_surrogates.cpython-313.pyc
+    14. src/models/explain.py
+    15. src/optimize/__pycache__/__init__.cpython-313.pyc
+    16. src/optimize/__pycache__/coupling.cpython-313.pyc
+    17. src/optimize/coupling.py
+    18. src/optimize/nsga2.py
+    19. src/optimize/references.py
+    20. src/sim/__pycache__/__init__.cpython-313.pyc
+
+Safe to remove: no
+Evidence on disk:
+1. Exactly 139 files inside 'Comfort-home-main' are actively tracked in git.
+   Deleting this folder from disk would stage deletions of tracked repository files.
+2. Exactly 37 files have divergent SHA-256 hashes compared to root workspace versions.
+   These files represent earlier/distinct iterations of source code, models, and docs,
+   meaning content would be irrevocably destroyed if deleted without explicit git archival.
+
+==========================================================================================
+ITEM D. LEFTOVER UNSUPPORTED TEXT SEARCH
+==========================================================================================
+Search Scope  : files under reports/ and tools/ (text files only)
+Search Terms  : 1ecea7d, 2648cca, kushok, kusuda, heat gain, overhang, sensible-only, alternative internal, hallucination, unsupported
+Total Hits    : 101
+Marked (yes)  : 35
+Unmarked (no) : 66
+
+Idx  File                                     Line   Marked   Matched Terms             Line Text (Truncated to 200 chars)
+---------------------------------------------------------------------------------------------------------------------------------------
+1    reports/audit_fix_plan.md                132    no       heat gain                 - **`shading_depth` in Shimla:** Pinned to lower bound ($0.0\text{ m}$) in **88% of designs**, because cold mountain climates prioritize passive solar heat gain.
+2    reports/audit_fix_plan.md                280    no       overhang                  - Discretize design variables (insulation in 25 mm steps, overhang $\ge 0.3\text{ m}$).
+3    reports/final_results_v2.md              55     no       hallucination             - Verification Rigor: 10,000 paired EnergyPlus simulations (5,000 free-running, 5,000 ideal-loads HVAC). 25 surrogate models trained with GroupKFold cross-validation. 50 candidate Pareto points simula
+4    reports/hindi_translation_audit.md       59     no       overhang                  | `wizard_step5_wwr_shading` | Window-to-Wall Ratio (WWR) with exterior overhang |
+5    reports/item1_station_identity.txt       493    yes      kushok, unsupported       - Station Coordinates: Latitude 34.136 deg N, Longitude 77.547 deg E, Elevation 3255.9 m (Leh Airport [name Kushok marked unsupported] runway elevation).
+6    reports/item3_duplicates.txt             127    yes      kusuda, unsupported       - OneBuilding calculates undisturbed earth temperatures using the [Kusuda: marked unsupported] annual sinusoidal annual sinusoidal soil heat diffusion model:
+7    reports/item3_shimla_r1.txt              56     yes      overhang, unsupported     - R3 (Code-Compliant: insulated envelope, external shading [overhang: marked unsupported]) blocks solar gain almost entirely.
+8    reports/item6_sources.txt                32     yes      kushok, unsupported       * Station: Leh airport runway elevation [Kushok: marked unsupported].
+9    reports/item6_sources.txt                57     yes      heat gain, unsupported    'Zone Opaque Surface Inside Faces Total Conduction Transfer Rate', or 'Surface Window Heat Transfer Rate' [terms 'heat gain' marked unsupported]).
+10   reports/item6_sources.txt                59     yes      unsupported               The EnergyPlus Ideal Loads Air System operates at the zone thermal balance level. It computes the net thermal heating and cooling load [term sensible marked unsupported] required to maintain the zone 
+11   reports/item7_git_closure.txt            21     yes      2648cca, unsupported      [2648cca: marked unsupported] HEAD@{14}: commit: feat(batch): complete generic pipeline, verified 24-city EPW registry, and Chennai pipeline run
+12   reports/pass4_closure.txt                65     no       overhang, sensible-only   - Deleted untested heat-schedule, overhang, and sensible-only narrative from tools/run_pass3_drift.py and reports/pass3_drift.txt.
+13   reports/pass4_closure.txt                102    no       hallucination             - Cause: cause not established (conversational hallucination citing legacy unverified IDs).
+14   reports/pass4_closure.txt                394    no       1ecea7d                   data/processed/active_learning_shimla/shimla_baselines_summary.csv       | 1ecea7d  | 2026-11-02 11:36:24 +0530    | True
+15   reports/pass4_closure.txt                403    no       1ecea7d                   - Commit 1ecea7d was authored on 2026-11-02 11:36:24 +0530 (3.5 hours AFTER c33a954).
+16   reports/pass4_closure.txt                404    no       2648cca                   - Commit 2648cca was authored on 2026-11-02 13:48:04 +0530 (5.6 hours AFTER c33a954).
+17   reports/pass4_closure.txt                405    yes      1ecea7d, 2648cca          - The earlier claim that 'commits prior to 1ecea7d / 2648cca' lacked D-035 is DROPPED as factually incorrect.
+18   reports/pass4_closure.txt                406    yes      unsupported               - The unsupported narrative regarding item7/item6 envelope load breakdown is DROPPED.
+19   reports/pass5_closure.txt                337    yes      unsupported               ITEM 7: TEXT SEARCH, UNSUPPORTED TERMS REMOVAL & HEADER SAMPLE STATUS
+20   reports/pass5_closure.txt                340    yes      1ecea7d, unsupported      - '1ecea7d'  : Removed or marked unsupported.
+21   reports/pass5_closure.txt                341    yes      2648cca, unsupported      - '2648cca'  : Removed or marked unsupported.
+22   reports/pass5_closure.txt                342    yes      kushok, unsupported       - 'Kushok'   : Removed or marked unsupported from item6_sources.txt and item1_station_identity.txt.
+23   reports/pass5_closure.txt                343    yes      kusuda, unsupported       - 'Kusuda'   : Removed or marked unsupported from item3_duplicates.txt.
+24   reports/pass5_closure.txt                344    yes      heat gain, unsupported    - 'heat gain': Removed or marked unsupported from item6_sources.txt.
+25   reports/pass5_closure.txt                345    yes      overhang, unsupported     - 'overhang' : Removed or marked unsupported from item3_shimla_r1.txt.
+26   reports/pass5_closure.txt                346    yes      unsupported               - 'sensible' : Removed or marked unsupported from item6_sources.txt.
+27   reports/pass6_closure.txt                12     no       hallucination             Cause: chat hallucination / unsourced string insertion; cause not established.
+28   reports/phase3_sim.md                    41     no       overhang                  | `shading_depth` | Overhang overhang depth | 0.0 to 1.0 m | Uniform continuous |
+29   reports/phase5_optimization.md           74     no       overhang                  6. Shading overhang depth: $[0.0, 1.0]\text{ m}$
+30   reports/phase5_optimization.md           116    no       overhang                  | City | Roof Insulation (mm) | Wall Insulation (mm) | Wall Mass Class | Roof Solar Absorptance | Window-to-Wall Ratio (WWR) | Orientation (deg) | Shading Overhang (m) | Natural Ventilation (ACH) |
+31   reports/phase5_optimization.md           126    no       overhang                  2. **Mumbai (Warm-Humid):** Designs exhibit minimal wall insulation ($8$–$19\text{ mm}$ on comfort-focused designs, preventing nocturnal internal heat trapping) coupled with deep solar shading overhan
+32   reports/phase5_optimization.md           129    no       heat gain                 5. **Shimla (Cold):** Verified Pareto designs cluster around high roof solar absorptance ($0.71$–$0.88$), large south/south-east facing window apertures ($\text{WWR}$ up to $34\%$), minimal shading ($
+33   reports/phase6_dashboard.md              80     no       overhang                  - For $O_{1,\text{ml}}$ discomfort: Shading depth and Roof solar absorptance dominate; deep overhangs block solar radiation while uninsulated walls prevent nocturnal heat retention.
+34   reports/phase8_building_types.md         20     no       overhang                  2. **Multi-Storey Apartment Unit (`apartment`):** 2 thermal zones (Living 33 m², Bedroom 22 m² = 55 m² total, 3.0 m height), South and East exterior walls with windows/overhangs, North and West adiaba
+35   reports/phase8_building_types.md         60     no       overhang                  7. `shading_depth` ($0.0\text{ to }1.0\text{ m}$): Exterior horizontal window overhangs.
+36   reports/phase8_building_types.md         175    no       overhang                  2. **Commercial Daylighting vs Cooling Load:** For commercial offices, cooling loads are dominated by weekday internal equipment and lighting gains; solar overhangs and moderate WWR (20–25%) are criti
+37   reports/ui_data_consistency.md           33     no       overhang                  | `"cuts solar window loads by 68%"` | Recommender (Step 5: `page.tsx`) | Hard-coded text in fenestration description | None in `data/processed/` | MATCHES (RESOLVED) | Removed percentage claim; descr
+38   reports/evidence/bom_validation_output.txt 26     no       overhang                  - shading_overhang_cantilever    | Status: Awaiting manual entry from CPWD DSR book | Reason: RATE_IS_NULL
+39   reports/evidence/bom_validation_output.txt 27     no       overhang                  Desc: Cantilever horizontal exterior RCC / metallic window sunshade overhang
+40   reports/evidence/ground_temp_quantification.txt 14     no       heat gain                 into an infinite heat sink that masked solar and conductive heat gains during 44 C summer heat.
+41   reports/evidence/jodhpur_pilot_execution_output.txt 35     no       overhang                  Envelope parameters enforced: Insulation in 25 mm steps [0.0..0.150 m], Overhang >= 0.30 m.
+42   reports/evidence/jodhpur_pilot_execution_output_ground18.txt 35     no       overhang                  Envelope parameters enforced: Insulation in 25 mm steps [0.0..0.150 m], Overhang >= 0.30 m.
+43   reports/evidence/reverify/webtest.txt    35     no       overhang                  ✔ Formatters: overhang to 2 decimals and ventilation to 1.0 ACH (0.070167ms)
+44   tools/audit_hindi_strings.py             106    no       overhang                  ("wizard_step5_wwr_shading", "Window-to-Wall Ratio (WWR) with exterior overhang"),
+45   tools/check1_git.py                      23     no       1ecea7d                   # 1. git show --stat 1ecea7d
+46   tools/check1_git.py                      24     no       1ecea7d                   run_cmd(["git", "show", "--stat", "1ecea7d"])
+47   tools/check1_git.py                      32     no       1ecea7d                   print("Files in commit 1ecea7d bigger than 5 MB (5,242,880 bytes):")
+48   tools/check1_git.py                      33     no       1ecea7d                   out = subprocess.check_output(["git", "ls-tree", "-r", "-l", "1ecea7d"], text=True)
+49   tools/check1_git.py                      47     no       1ecea7d                   print("  NONE. No file in commit 1ecea7d exceeds 5 MB.")
+50   tools/check1_git.py                      49     no       1ecea7d                   # Also check specifically files added/modified in 1ecea7d:
+51   tools/check1_git.py                      50     no       1ecea7d                   print("\nFile sizes modified/added in commit 1ecea7d:")
+52   tools/check1_git.py                      51     no       1ecea7d                   changed = subprocess.check_output(["git", "show", "--name-only", "--format=", "1ecea7d"], text=True).strip().splitlines()
+53   tools/check1_git.py                      56     no       1ecea7d                   tree_info = subprocess.check_output(["git", "ls-tree", "-l", "1ecea7d", f.strip()], text=True).strip()
+54   tools/export_web_data.py                 302    no       overhang                  {"id": "shading_depth", "name": "Overhang Shading Depth", "unit": "m", "min": 0.0, "max": 1.0, "step": 0.05, "default": 0.4, "description": "Horizontal overhang projection over windows."},
+55   tools/quantify_ground_temps.py           122    no       overhang                  # Shading overhangs
+56   tools/quantify_ground_temps.py           126    no       overhang                  Shading:Overhang, SouthWindow_Overhang, South_Window, 0.1, 90, 0.2, 0.2, {shading_depth:.3f};
+57   tools/quantify_ground_temps.py           127    no       overhang                  Shading:Overhang, NorthWindow_Overhang, North_Window, 0.1, 90, 0.2, 0.2, {shading_depth:.3f};
+58   tools/quantify_ground_temps.py           493    no       heat gain                 lines.append("     into an infinite heat sink that masked solar and conductive heat gains during 44 C summer heat.")
+59   tools/report_diversity.py                42     no       overhang                  if 'overhang' in sname:
+60   tools/report_item1_station_identity.py   244    no       kushok                    lines.append(f"   - Station Coordinates: Latitude {leh_epw_lat:.3f} deg N, Longitude {leh_epw_lon:.3f} deg E, Elevation {leh_epw_elev:.1f} m (Kushok Bakula Rimpochee Airport runway elevation).")
+61   tools/report_item1_weather_audit.py      232    no       2648cca                   - The initial batch EPW manifest was committed in git commit 2648cca on Nov 2, 2026 at 13:48:58.
+62   tools/report_item2_file_identity.py      130    no       kushok                    - WMO 427053 is the official IMD meteorological station at Leh Airport (Kushok Bakula Rimpochee Airport),
+63   tools/report_item2_valid_hours.py        9      no       hallucination             - Document functions and explain historical "6,864" prose hallucination for Jammu.
+64   tools/report_item2_valid_hours.py        139    no       hallucination             print("     - The figure 6,864 was a human prose hallucination / transcription error hand-typed into")
+65   tools/report_item3_duplicates.py         216    no       kusuda                    lines.append("      - OneBuilding calculates undisturbed earth temperatures using the Kusuda-Achenbach annual sinusoidal soil heat diffusion model:")
+66   tools/report_item3_shimla_r1.py          190    no       overhang                  lines.append(f"   - R3 (Code-Compliant: insulated envelope, external overhang shading) blocks solar gain almost entirely.")
+67   tools/report_item4_round4.py             72     yes      unsupported               print("   Therefore, claims of 'strictly superior' Pareto fronts are physically unsupported by surrogate precision.")
+68   tools/report_item6_safety.py             73     no       hallucination             print("     and '10 h' for Jodhpur worst-on-front) were human transcription errors / hallucinations hand-typed into")
+69   tools/report_item6_sources_p2.py         61     no       kushok                    lines.append("     * Station: Kushok Bakula Rimpochee Airport runway elevation.")
+70   tools/report_item6_sources_p2.py         88     no       heat gain                 lines.append("     'Zone Opaque Surface Inside Faces Total Conduction Heat Gain Rate', or 'Surface Window Heat Gain Rate').")
+71   tools/run_jodhpur_pilot.py               253    no       overhang                  log(f"Envelope parameters enforced: Insulation in 25 mm steps [0.0..0.150 m], Overhang >= 0.30 m.")
+72   tools/run_leh_pilot.py                   209    no       overhang                  """Generates Latin Hypercube samples enforcing 25mm insulation increments and >= 0.3m overhang."""
+73   tools/run_pass4_closure.py               128    no       overhang, sensible-only   lines.append("  - Deleted untested heat-schedule, overhang, and sensible-only narrative from tools/run_pass3_drift.py and reports/pass3_drift.txt.")
+74   tools/run_pass4_closure.py               169    no       hallucination             lines.append("     - Cause: cause not established (conversational hallucination citing legacy unverified IDs).")
+75   tools/run_pass4_closure.py               476    yes      1ecea7d, 2648cca, unsupported # 6.3 Drop 1ecea7d/2648cca claim and unsupported narrative
+76   tools/run_pass4_closure.py               479    no       1ecea7d                   lines.append("  - Commit 1ecea7d was authored on 2026-11-02 11:36:24 +0530 (3.5 hours AFTER c33a954).")
+77   tools/run_pass4_closure.py               480    no       2648cca                   lines.append("  - Commit 2648cca was authored on 2026-11-02 13:48:04 +0530 (5.6 hours AFTER c33a954).")
+78   tools/run_pass4_closure.py               481    yes      1ecea7d, 2648cca          lines.append("  - The earlier claim that 'commits prior to 1ecea7d / 2648cca' lacked D-035 is DROPPED as factually incorrect.")
+79   tools/run_pass4_closure.py               482    yes      unsupported               lines.append("  - The unsupported narrative regarding item7/item6 envelope load breakdown is DROPPED.")
+80   tools/run_pass5_closure.py               638    yes      unsupported               lines.append("ITEM 7: TEXT SEARCH, UNSUPPORTED TERMS REMOVAL & HEADER SAMPLE STATUS")
+81   tools/run_pass5_closure.py               641    yes      1ecea7d, unsupported      lines.append("  - '1ecea7d'  : Removed or marked unsupported.")
+82   tools/run_pass5_closure.py               642    yes      2648cca, unsupported      lines.append("  - '2648cca'  : Removed or marked unsupported.")
+83   tools/run_pass5_closure.py               643    yes      kushok, unsupported       lines.append("  - 'Kushok'   : Removed or marked unsupported from item6_sources.txt and item1_station_identity.txt.")
+84   tools/run_pass5_closure.py               644    yes      kusuda, unsupported       lines.append("  - 'Kusuda'   : Removed or marked unsupported from item3_duplicates.txt.")
+85   tools/run_pass5_closure.py               645    yes      heat gain, unsupported    lines.append("  - 'heat gain': Removed or marked unsupported from item6_sources.txt.")
+86   tools/run_pass5_closure.py               646    yes      overhang, unsupported     lines.append("  - 'overhang' : Removed or marked unsupported from item3_shimla_r1.txt.")
+87   tools/run_pass5_closure.py               647    yes      unsupported               lines.append("  - 'sensible' : Removed or marked unsupported from item6_sources.txt.")
+88   tools/run_pass6_closure.py               135    no       hallucination             lines.append("   Cause: chat hallucination / unsourced string insertion; cause not established.")
+89   tools/run_shimla_pilot.py                171    no       overhang                  """Generates Latin Hypercube samples enforcing 25mm insulation increments and >= 0.3m overhang."""
+90   tools/update_item7_text.py               7      no       1ecea7d, 2648cca, kushok, kusuda, heat gain, overhang - Search for "1ecea7d", "2648cca", "Kushok", "Kusuda", "heat gain", "overhang", "sensible"
+91   tools/update_item7_text.py               8      yes      unsupported               - Remove or mark each as unsupported
+92   tools/update_item7_text.py               22     no       kushok                    '* Station: Kushok Bakula Rimpochee Airport runway elevation.',
+93   tools/update_item7_text.py               23     yes      kushok, unsupported       '* Station: Leh airport runway elevation [Kushok: marked unsupported].'
+94   tools/update_item7_text.py               26     no       heat gain                 "'Zone Opaque Surface Inside Faces Total Conduction Heat Gain Rate', or 'Surface Window Heat Gain Rate'",
+95   tools/update_item7_text.py               27     yes      heat gain, unsupported    "'Zone Opaque Surface Inside Faces Total Conduction Transfer Rate', or 'Surface Window Heat Transfer Rate' [terms 'heat gain' marked unsupported]"
+96   tools/update_item7_text.py               31     yes      unsupported               'It computes the net thermal heating and cooling load [term sensible marked unsupported]',
+97   tools/update_item7_text.py               42     yes      2648cca, unsupported      content = content.replace('2648cca', '[2648cca: marked unsupported]')
+98   tools/update_item7_text.py               87     no       kushok                    # Check Kushok in text
+99   tools/update_item7_text.py               88     no       kushok                    if 'Kushok' in line:
+100  tools/update_item7_text.py               89     yes      kushok, unsupported       line = line.replace('Kushok Bakula Rimpochee Airport', 'Leh Airport [name Kushok marked unsupported]')
+101  tools/validate_costs.py                  26     no       overhang                  "shading_overhang_cantilever"
+---------------------------------------------------------------------------------------------------------------------------------------
+
+==========================================================================================
+CLEANUP & FINAL DISPOSITION
+==========================================================================================
+Cleaned up temporary restore directory: C:\Users\SUMIT\AppData\Local\Temp\comfort_home_hygiene1_restore_f_l9g2vs
+==========================================================================================
