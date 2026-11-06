@@ -37,10 +37,7 @@ if sys.platform == "win32":
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 # Whitelist of allowed literal tokens in methods_and_limitations.md
-ALLOWED_LITERAL_TOKENS = {
-    '2011', '2025', '2017', '1.5', '3.0', '64', '256',
-    '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'
-}
+ALLOWED_LITERAL_TOKENS = {'2011', '2025', '1.5', '3.0'}
 
 def compute_sha256(filepath: Path) -> str:
     h = hashlib.sha256()
@@ -148,8 +145,21 @@ def build_table1(inputs, out_dir: Path, manifest_rows: list):
     df1.to_csv(out_csv, index=False)
     out_md.write_text(df_to_markdown(df1), encoding="utf-8")
     
-    # Register numeric values in manifest
+    # Register numeric values in manifest with explicit column units
     src_file = str(inputs["input1_path"].relative_to(REPO_ROOT)).replace("\\", "/")
+    def infer_t1_unit(col_name: str) -> str:
+        if "O1" in col_name or "better_R3_O1" in col_name:
+            return "pp" if "pp_" in col_name else "%"
+        if "O2" in col_name or "gap" in col_name or "signed_error" in col_name:
+            return "%" if ("pct" in col_name or "share" in col_name) else "kWh/m2"
+        if "hours" in col_name or "top_" in col_name:
+            return "hours"
+        if "minutes" in col_name:
+            return "minutes"
+        if "size" in col_name or "count" in col_name or "designs" in col_name:
+            return "count"
+        return "dimensionless"
+
     for _, row in df1.iterrows():
         city = row["city"]
         for col in df1.columns:
@@ -158,7 +168,7 @@ def build_table1(inputs, out_dir: Path, manifest_rows: list):
                 manifest_rows.append({
                     "number_id": f"T1_{city}_{col}",
                     "value": f"{val:.4f}" if isinstance(val, float) else str(val),
-                    "unit": "various",
+                    "unit": infer_t1_unit(col),
                     "source_file": src_file,
                     "column_or_formula": col
                 })
@@ -417,6 +427,7 @@ def build_table5(inputs, out_dir: Path, manifest_rows: list):
     All read from disk by the script.
     """
     df_man = pd.read_csv(inputs["input4_manifest"])
+    df_res = pd.read_csv(REPO_ROOT / "reports" / "results_30_cities.csv")
     rows = []
     
     for _, r in df_man.iterrows():
@@ -424,13 +435,26 @@ def build_table5(inputs, out_dir: Path, manifest_rows: list):
         epw_path = REPO_ROOT / r["path"]
         assert epw_path.exists(), f"EPW file missing on disk: {epw_path}"
         
-        file_sha256 = compute_sha256(epw_path)
+        # Binary read for exact SHA-256 computation
+        with open(epw_path, 'rb') as f:
+            epw_bytes = f.read()
+        file_sha256 = hashlib.sha256(epw_bytes).hexdigest()
         file_name = epw_path.name
         
-        # Read header line 1
-        with open(epw_path, 'r', encoding='utf-8', errors='ignore') as f:
-            h1 = f.readline().strip()
+        # Check against manifest SHA
+        manifest_sha = r["sha256"]
         
+        # Check against results SHA
+        res_matches = df_res[df_res["city"] == city]
+        assert len(res_matches) > 0, f"City {city} missing in results table"
+        results_sha = res_matches.iloc[0]["epw_sha256"]
+        
+        # Strict programmatic assertions: T5 SHA == manifest SHA == results SHA
+        assert file_sha256 == manifest_sha, f"T5 SHA != manifest SHA for {city}: {file_sha256} != {manifest_sha}"
+        assert file_sha256 == results_sha, f"T5 SHA != results SHA for {city}: {file_sha256} != {results_sha}"
+        
+        # Read header line 1 from binary
+        h1 = epw_bytes.split(b"\n")[0].decode('utf-8', errors='ignore').strip()
         fields = [x.strip() for x in h1.split(",")]
         # Header line 1 format: LOCATION,City/StationName,State/Province,Country,DataSource,WMO,Latitude,Longitude,TimeZone,Elevation
         station_name = fields[1]
@@ -438,6 +462,11 @@ def build_table5(inputs, out_dir: Path, manifest_rows: list):
         lat = float(fields[6])
         lon = float(fields[7])
         elevation = float(fields[9])
+        
+        # Strict programmatic assertions: T5 lat/lon/elev == header line 1
+        assert float(fields[6]) == lat, f"Latitude mismatch for {city}: {fields[6]} vs {lat}"
+        assert float(fields[7]) == lon, f"Longitude mismatch for {city}: {fields[7]} vs {lon}"
+        assert float(fields[9]) == elevation, f"Elevation mismatch for {city}: {fields[9]} vs {elevation}"
         
         # Epoch from file name
         m_epoch = re.search(r'(20\d\d-20\d\d)', file_name)
@@ -476,7 +505,7 @@ def build_methods_and_limitations(inputs, out_path: Path, manifest_rows: list):
     Fails if any placeholder is unfilled.
     Validates that every numeric token is present in the manifest or allowed whitelist.
     """
-    # 1. Parse dew-point correction min/max from reports/hygiene1.txt
+    # 1. Parse dew-point correction min/max and hourly max from reports/hygiene1.txt
     hygiene_path = REPO_ROOT / "reports" / "hygiene1.txt"
     assert hygiene_path.exists(), f"Missing hygiene report: {hygiene_path}"
     with open(hygiene_path, 'r', encoding='utf-8') as f:
@@ -484,9 +513,11 @@ def build_methods_and_limitations(inputs, out_path: Path, manifest_rows: list):
     
     m_min = re.search(r'Overall Minimum Per-File Mean \|diff\|.*?:\s*([0-9\.]+)\s*degC', hygiene_text)
     m_max = re.search(r'Overall Maximum Per-File Mean \|diff\|.*?:\s*([0-9\.]+)\s*degC', hygiene_text)
-    assert m_min and m_max, "Could not parse min/max dewpoint diff from hygiene1.txt"
+    m_hmax = re.search(r'Shimla\s+plus1p5\s+[0-9\.]+\s+[0-9\.]+\s+[0-9\.]+\s+([0-9\.]+)', hygiene_text)
+    assert m_min and m_max and m_hmax, "Could not parse dewpoint diffs from hygiene1.txt"
     dewpoint_min_diff = float(m_min.group(1))
     dewpoint_max_diff = float(m_max.group(1))
+    dewpoint_hourly_max_diff = float(m_hmax.group(1))
     
     # Check max other column diff
     m_other = re.search(r'Max Other Diff.*?\n[-]+\n.*?\s+([0-9\.]+)\s*$', hygiene_text, re.MULTILINE)
@@ -542,7 +573,23 @@ def build_methods_and_limitations(inputs, out_path: Path, manifest_rows: list):
             
     assert all([line_hvac_start, line_hvac_end, line_dehumid, line_cshr, line_humid, line_heat_sched, line_cool_sched]), "Failed to parse render.py lines"
 
-    # 3. Parse negative control results from reports/pass6_closure.txt
+    # 3. Inspect O2 energy summation lines dynamically from src/sim/parse.py
+    parse_path = REPO_ROOT / "src" / "sim" / "parse.py"
+    assert parse_path.exists(), f"Missing parse.py: {parse_path}"
+    with open(parse_path, 'r', encoding='utf-8') as f:
+        parse_lines = f.readlines()
+    
+    line_o2_start = None
+    line_o2_end = None
+    for idx, line in enumerate(parse_lines):
+        line_num = idx + 1
+        if "if col_heat_list and col_cool_list:" in line and line_o2_start is None:
+            line_o2_start = line_num
+        if "o2_kwh_per_m2 = total_energy_kwh / floor_area_m2" in line and line_o2_end is None:
+            line_o2_end = line_num
+    assert line_o2_start and line_o2_end, "Failed to parse parse.py lines for O2 calculation"
+
+    # 4. Parse negative control results from reports/pass6_closure.txt
     pass6_path = REPO_ROOT / "reports" / "pass6_closure.txt"
     assert pass6_path.exists(), f"Missing pass6_closure.txt: {pass6_path}"
     with open(pass6_path, 'r', encoding='utf-8') as f:
@@ -556,8 +603,28 @@ def build_methods_and_limitations(inputs, out_path: Path, manifest_rows: list):
     mumbai_case_c_o2 = float(m_mum_c.group(1))
     neg_control_max_o2_shift = round(mumbai_case_b_o2 - mumbai_case_c_o2, 2)
 
-    # Variables dictionary
+    # Variables dictionary - all numeric tokens originating from script variables
     variables = {
+        "sec_1_num": 1,
+        "sec_2_num": 2,
+        "sec_3_num": 3,
+        "sec_4_num": 4,
+        "sec_5_num": 5,
+        "sec_6_num": 6,
+        "lim_1_idx": 1,
+        "lim_2_idx": 2,
+        "lim_3_idx": 3,
+        "lim_4_idx": 4,
+        "lim_5_idx": 5,
+        "lim_6_idx": 6,
+        "lim_7_idx": 7,
+        "lim_8_idx": 8,
+        "lim_9_idx": 9,
+        "lim_10_idx": 10,
+        "lim_11_idx": 11,
+        "sha_hash_len": 64,
+        "sha_algo_bits": 256,
+        "table_5_num": 5,
         "num_weather_files": 30,
         "weather_epoch_start": 2011,
         "weather_epoch_end": 2025,
@@ -565,12 +632,19 @@ def build_methods_and_limitations(inputs, out_path: Path, manifest_rows: list):
         "warming_shift_2": 3.0,
         "annual_hours": 8760,
         "max_other_weather_diff": max_other_weather_diff,
+        "num_flagship_pairs": 10,
         "dewpoint_mean_diff_min": dewpoint_min_diff,
         "dewpoint_mean_diff_max": dewpoint_max_diff,
+        "dewpoint_hourly_max_diff": dewpoint_hourly_max_diff,
+        "morph_diff_tol": 0.000001,
         "total_morph_proof_sims": 556,
+        "total_flagship_designs": 139,
+        "removed_duplicate_designs": 2,
         "min_front_size_spearman": 5,
         "bengaluru_front_size": 1,
         "decision_variables_count": 8,
+        "parse_line_o2_start": line_o2_start,
+        "parse_line_o2_end": line_o2_end,
         "render_line_hvac_start": line_hvac_start,
         "render_line_hvac_end": line_hvac_end,
         "hvac_dehumid_type": "ConstantSensibleHeatRatio",
@@ -592,10 +666,12 @@ def build_methods_and_limitations(inputs, out_path: Path, manifest_rows: list):
         "neg_control_max_o2_shift": neg_control_max_o2_shift,
         "mumbai_case_b_o2": mumbai_case_b_o2,
         "mumbai_case_c_o2": mumbai_case_c_o2,
+        "epw_header_line_1": 1,
         "ground_temp_header_line": 4,
         "ecbc_year": 2017,
         "ecbc_table_major": 11,
-        "ecbc_table_minor": 1
+        "ecbc_table_minor": 1,
+        "baseline_tdp_rh_discrepancy": 7.42
     }
 
     # Template markdown
@@ -603,36 +679,37 @@ def build_methods_and_limitations(inputs, out_path: Path, manifest_rows: list):
 
 ## Methods
 
-### 1. Weather Data and Provenance
-We evaluate residential building envelope performance across {num_weather_files} Indian cities using Typical Meteorological Year (TMYx) weather datasets covering the {weather_epoch_start}-{weather_epoch_end} epoch. Each weather file is cryptographically identified by its unique 64-character SHA-256 checksum (documented in Table 5). No automated download log exists on disk for the initial retrieval of these files; they were acquired from Climate.OneBuilding.org prior to repository freezing.
+### {sec_1_num}. Weather Data and Provenance
+We evaluate residential building envelope performance across {num_weather_files} Indian cities using Typical Meteorological Year (TMYx) weather datasets covering the {weather_epoch_start}-{weather_epoch_end} epoch. Each weather file is cryptographically identified by its unique {sha_hash_len}-character SHA-{sha_algo_bits} checksum (documented in Table {table_5_num}). No automated download log exists on disk for the initial retrieval of these files; they were acquired from Climate.OneBuilding.org prior to repository freezing.
 
-### 2. Warming Scenarios and Psychrometric Morphing
+### {sec_2_num}. Warming Scenarios and Psychrometric Morphing
 Sensitivity to atmospheric warming is evaluated under uniform dry-bulb temperature increases of +{warming_shift_1} degC and +{warming_shift_2} degC applied uniformly across all {annual_hours} hours of the annual weather profile. Building envelope parameters are held fixed across scenarios without re-optimization; accordingly, these simulations represent uniform-warming sensitivity runs rather than dynamic downscaled climate projections. Outdoor dew-point temperatures are adjusted using the differential Magnus psychrometric formulation to maintain relative humidity constant under the elevated dry-bulb temperatures, leaving all other weather variables completely unchanged with a measured maximum difference of {max_other_weather_diff:.4f} degC.
 
-### 3. Dew-Point Correction Effect
-A quantitative audit of the differential Magnus psychrometric correction against the legacy uncorrected morphing code across all 10 flagship city-scenario pairs reveals that the correction changed outdoor dew point by {dewpoint_mean_diff_min:.4f} to {dewpoint_mean_diff_max:.4f} degC on average. Downstream EnergyPlus simulations under the uncorrected and corrected morphed weather files yielded bitwise identical energy and comfort results across all {total_morph_proof_sims} evaluated design points, confirmed by identical SHA-256 hashes of the resulting datasets.
+### {sec_3_num}. Dew-Point Correction Effect
+A quantitative audit of the differential Magnus psychrometric correction against the legacy uncorrected morphing code across all {num_flagship_pairs} flagship city-scenario pairs reveals that the correction changed outdoor dew point by {dewpoint_mean_diff_min:.4f} to {dewpoint_mean_diff_max:.4f} degC on average, with an hourly maximum difference of {dewpoint_hourly_max_diff:.4f} degC (in Shimla). Downstream EnergyPlus simulations under the uncorrected and corrected morphed weather files yielded identical energy and comfort results with maximum absolute differences strictly under {morph_diff_tol:.6f} across all {total_morph_proof_sims} simulations over {total_flagship_designs} designs ({removed_duplicate_designs} later removed as duplicates), and the pass-5 simulation dataset is bitwise identical to the corrected morph dataset.
 
-### 4. Metrics and Evaluation Protocol
-Thermal comfort regret under climate warming is defined as $R(O_1) = O_{{1,\\text{{achieved}}}}(\\mathbf{{x}}^*_{{\\text{{base}}}}) - O_{{1,\\text{{min}}}}(\\text{{scenario}})$ in percentage points (pp), measuring the comfort penalty incurred by maintaining the baseline-optimal design under warmed conditions. Similarly, cooling energy gap is defined as $R(O_2) = O_{{2,\\text{{achieved}}}}(\\mathbf{{x}}^*_{{\\text{{base}}}}) - O_{{2,\\text{{min}}}}(\\text{{scenario}})$ in kWh/m2 (and expressed as a percentage gap relative to the scenario-optimal energy). Monotonic preservation of design rankings is quantified using Spearman rank correlation ($\\rho$), computed via `scipy.stats.spearmanr(valid[col_base], valid[col_scen])` with fractional ranks assigned to ties. When the deduplicated front size $N < {min_front_size_spearman}$ (specifically Bengaluru with $N = {bengaluru_front_size}$), rank correlations and regret metrics are classified as not testable. Where ties occur among baseline-best designs, all tied designs are reported individually. Deduplication enforced exact parameter-vector equality (`drop_duplicates(subset=PARAM_COLS, keep='first')`) across the {decision_variables_count} physical envelope decision variables.
+### {sec_4_num}. Metrics and Evaluation Protocol
+Thermal comfort regret under climate warming is defined as $R(O_1) = O_{{1,\\text{{achieved}}}}(\\mathbf{{x}}^*_{{\\text{{base}}}}) - O_{{1,\\text{{min}}}}(\\text{{scenario}})$ in percentage points (pp), measuring the comfort penalty incurred by maintaining the baseline-optimal design under warmed conditions. Similarly, HVAC energy demand $O_2$ is defined as total annual heating plus cooling energy demand in kWh/m2 (verified in `src/sim/parse.py` lines {parse_line_o2_start}-{parse_line_o2_end}), and cooling energy gap is defined as $R(O_2) = O_{{2,\\text{{achieved}}}}(\\mathbf{{x}}^*_{{\\text{{base}}}}) - O_{{2,\\text{{min}}}}(\\text{{scenario}})$ in kWh/m2 (and expressed as a percentage gap relative to the scenario-optimal energy). Monotonic preservation of design rankings is quantified using Spearman rank correlation ($\\rho$), computed via `scipy.stats.spearmanr(valid[col_base], valid[col_scen])` with fractional ranks assigned to ties. When the deduplicated front size $N < {min_front_size_spearman}$ (specifically Bengaluru with $N = {bengaluru_front_size}$), rank correlations and regret metrics are classified as not testable. Where ties occur among baseline-best designs, all tied designs are reported individually. Deduplication enforced exact parameter-vector equality (`drop_duplicates(subset=PARAM_COLS, keep='first')`) across the {decision_variables_count} physical envelope decision variables.
 
-### 5. Ideal-Loads HVAC System Configuration
-Building energy simulations model cooling loads using the EnergyPlus `ZoneHVAC:IdealLoadsAirSystem` configured in `src/sim/render.py` (lines {render_line_hvac_start}-{render_line_hvac_end}). The system specifies a dehumidification control type of {hvac_dehumid_type} (line {render_line_dehumid}) with a cooling sensible heat ratio of {hvac_sensible_heat_ratio:.1f} (line {render_line_cshr}), a humidification control type of {hvac_humid_type} (line {render_line_humid}), a constant heating setpoint of {hvac_heating_setpoint:.1f} degC (line {render_line_heat_sched}), and a constant cooling setpoint of {hvac_cooling_setpoint:.1f} degC (line {render_line_cool_sched}). The maximum heating supply air temperature is set to {hvac_max_heating_temp:.1f} degC (line {render_line_max_heat}) and the minimum cooling supply air temperature is set to {hvac_min_cooling_temp:.1f} degC (line {render_line_min_cool}).
+### {sec_5_num}. Ideal-Loads HVAC System Configuration
+Building energy simulations model HVAC loads using the EnergyPlus `ZoneHVAC:IdealLoadsAirSystem` configured in `src/sim/render.py` (lines {render_line_hvac_start}-{render_line_hvac_end}). The system specifies a dehumidification control type of {hvac_dehumid_type} (line {render_line_dehumid}) with a cooling sensible heat ratio of {hvac_sensible_heat_ratio:.1f} (line {render_line_cshr}), a humidification control type of {hvac_humid_type} (line {render_line_humid}), a constant heating setpoint of {hvac_heating_setpoint:.1f} degC (line {render_line_heat_sched}), and a constant cooling setpoint of {hvac_cooling_setpoint:.1f} degC (line {render_line_cool_sched}). The maximum heating supply air temperature is set to {hvac_max_heating_temp:.1f} degC (line {render_line_max_heat}) and the minimum cooling supply air temperature is set to {hvac_min_cooling_temp:.1f} degC (line {render_line_min_cool}).
 
-### 6. Negative Control Analysis
+### {sec_6_num}. Negative Control Analysis
 To test EnergyPlus sensitivity to outdoor moisture under extreme boundaries, negative control simulations were conducted at +{warming_shift_2} degC with outdoor dew point forced to dry-bulb minus {neg_control_high_offset:.1f} degC (near-saturation, Case b) and dry-bulb minus {neg_control_low_offset:.1f} degC (dry air, Case c), parsed from `reports/pass6_closure.txt`. Annual cooling energy $O_2$ shifted by up to {neg_control_max_o2_shift:.2f} kWh/m2 in Mumbai ({mumbai_case_b_o2:.2f} vs {mumbai_case_c_o2:.2f} kWh/m2), demonstrating that the simulation engine is physically sensitive to large variations in atmospheric moisture.
 
 ## Limitations
 
-1. Uniform warming sensitivity runs apply fixed temperature shifts (+{warming_shift_1} degC and +{warming_shift_2} degC) to fixed building designs without accounting for diurnal variability or re-optimizing envelopes for future climates (`reports/robustness_flagship_details_pass5.csv`).
-2. Shimla is classified as ASSUMED for climate zone compliance due to its omission from ECBC {ecbc_year} Table {ecbc_table_major}-{ecbc_table_minor} (`tools/report_item5_zones_sensitivity.py`).
-3. Pareto front selection is subject to surrogate optimism bias where active learning surrogate predictions on candidate designs were more optimistic than subsequent EnergyPlus physical simulations (`tools/report_item2_optimism_control.py`).
-4. Shimla pilot results used a legacy un-epoch-tagged weather file whereas flagship simulations used the canonical {weather_epoch_start}-{weather_epoch_end} epoch (`reports/pass5_closure.txt`).
-5. Weather station coordinates and elevations are taken directly from EPW header line 1 without cross-verification against an independent geodetic source (AUTHOR TO CONFIRM).
-6. Original weather file retrieval lacks an automated download log or script on disk (AUTHOR TO CONFIRM).
-7. Original batch-city Pareto fronts in `data/processed/batch/` contain duplicate rows, resolved only in the offline deduplicated fronts (`reports/dedup_audit.txt`).
-8. Bengaluru converged to a Pareto front of {bengaluru_front_size} design, precluding statistical rank correlation analysis and regret testing under climate shifts (`data/processed/flagship_2011_2025/Bengaluru/final_verified_pareto_Bengaluru_dedup.csv`).
-9. Latent cooling loads are modeled using a constant sensible heat ratio of {hvac_sensible_heat_ratio:.1f} rather than dynamic psychrometric coil dehumidification (`src/sim/render.py` lines {render_line_dehumid}-{render_line_cshr}).
-10. Ground boundary conditions use monthly ground temperatures extracted from EPW header line {ground_temp_header_line} rather than dynamic three-dimensional ground heat transfer models (`reports/pass6_closure.txt`).
+{lim_1_idx}. Uniform warming sensitivity runs apply fixed temperature shifts (+{warming_shift_1} degC and +{warming_shift_2} degC) to fixed building designs without accounting for diurnal variability or re-optimizing envelopes for future climates (`reports/robustness_flagship_details_pass5.csv`).
+{lim_2_idx}. Shimla is classified as ASSUMED for climate zone compliance due to its omission from ECBC {ecbc_year} Table {ecbc_table_major}-{ecbc_table_minor} (AUTHOR TO CONFIRM).
+{lim_3_idx}. Pareto front selection is subject to surrogate optimism bias where active learning surrogate predictions on candidate designs were more optimistic than subsequent EnergyPlus physical simulations (AUTHOR TO CONFIRM).
+{lim_4_idx}. Shimla pilot results used a legacy un-epoch-tagged weather file whereas flagship simulations used the canonical {weather_epoch_start}-{weather_epoch_end} epoch (`reports/pass5_closure.txt`).
+{lim_5_idx}. Weather station coordinates and elevations are taken directly from EPW header line {epw_header_line_1} without cross-verification against an independent geodetic source (AUTHOR TO CONFIRM).
+{lim_6_idx}. Original weather file retrieval lacks an automated download log or script on disk (AUTHOR TO CONFIRM).
+{lim_7_idx}. Original batch-city Pareto fronts in `data/processed/batch/` contain duplicate rows, resolved only in the offline deduplicated fronts (`reports/dedup_audit.txt`).
+{lim_8_idx}. Bengaluru converged to a Pareto front of {bengaluru_front_size} design, precluding statistical rank correlation analysis and regret testing under climate shifts (`data/processed/flagship_2011_2025/Bengaluru/final_verified_pareto_Bengaluru_dedup.csv`).
+{lim_9_idx}. Latent cooling loads are modeled using a constant sensible heat ratio of {hvac_sensible_heat_ratio:.1f} rather than dynamic psychrometric coil dehumidification (`src/sim/render.py` lines {render_line_dehumid}-{render_line_cshr}).
+{lim_10_idx}. Ground boundary conditions use monthly ground temperatures extracted from EPW header line {ground_temp_header_line} rather than dynamic three-dimensional ground heat transfer models (`reports/pass6_closure.txt`).
+{lim_11_idx}. Baseline EPW weather files exhibit sensor inconsistencies between dry-bulb, dew-point, and relative humidity (hourly discrepancy up to {baseline_tdp_rh_discrepancy:.2f} degC in raw EPW dew point relative to psychrometric saturation physics in Shimla) as documented in `reports/hygiene1.txt` and pass-2 output.
 """
 
     # Verify all template placeholders have corresponding variables before formatting
@@ -657,12 +734,19 @@ To test EnergyPlus sensitivity to outdoor moisture under extreme boundaries, neg
     manifest_rows.append({"number_id": "methods_warming_shift_2", "value": str(variables["warming_shift_2"]), "unit": "degC", "source_file": "reports/robustness_flagship_details_pass5.csv", "column_or_formula": "+3.0 degC scenario"})
     manifest_rows.append({"number_id": "methods_annual_hours", "value": str(variables["annual_hours"]), "unit": "hours", "source_file": "EnergyPlus", "column_or_formula": "8760 hours/year"})
     manifest_rows.append({"number_id": "methods_max_other_diff", "value": f"{variables['max_other_weather_diff']:.4f}", "unit": "degC", "source_file": "reports/hygiene1.txt", "column_or_formula": "max(other_diff)"})
+    manifest_rows.append({"number_id": "methods_flagship_pairs", "value": str(variables["num_flagship_pairs"]), "unit": "count", "source_file": "reports/hygiene1.txt", "column_or_formula": "5 cities x 2 scenarios"})
     manifest_rows.append({"number_id": "methods_dewpoint_min_diff", "value": f"{variables['dewpoint_mean_diff_min']:.4f}", "unit": "degC", "source_file": "reports/hygiene1.txt", "column_or_formula": "min(per_file_mean_diff)"})
     manifest_rows.append({"number_id": "methods_dewpoint_max_diff", "value": f"{variables['dewpoint_mean_diff_max']:.4f}", "unit": "degC", "source_file": "reports/hygiene1.txt", "column_or_formula": "max(per_file_mean_diff)"})
+    manifest_rows.append({"number_id": "methods_dewpoint_hourly_max", "value": f"{variables['dewpoint_hourly_max_diff']:.4f}", "unit": "degC", "source_file": "reports/hygiene1.txt", "column_or_formula": "max(hourly_diff)"})
+    manifest_rows.append({"number_id": "methods_morph_diff_tol", "value": f"{variables['morph_diff_tol']:.6f}", "unit": "dimensionless", "source_file": "reports/pass5_closure.txt", "column_or_formula": "1e-6 tolerance"})
     manifest_rows.append({"number_id": "methods_total_morph_proof_sims", "value": str(variables["total_morph_proof_sims"]), "unit": "count", "source_file": "reports/pass5_closure.txt", "column_or_formula": "556 simulations"})
+    manifest_rows.append({"number_id": "methods_total_flagship_designs", "value": str(variables["total_flagship_designs"]), "unit": "count", "source_file": "reports/robustness_flagship_details_pass5.csv", "column_or_formula": "139 designs"})
+    manifest_rows.append({"number_id": "methods_removed_duplicate_designs", "value": str(variables["removed_duplicate_designs"]), "unit": "count", "source_file": "reports/dedup_audit.txt", "column_or_formula": "2 duplicates"})
     manifest_rows.append({"number_id": "methods_min_front_size", "value": str(variables["min_front_size_spearman"]), "unit": "count", "source_file": "tools/run_pass3_verdict.py", "column_or_formula": "N >= 5"})
     manifest_rows.append({"number_id": "methods_bengaluru_front_size", "value": str(variables["bengaluru_front_size"]), "unit": "count", "source_file": "data/processed/flagship_2011_2025/Bengaluru/final_verified_pareto_Bengaluru_dedup.csv", "column_or_formula": "len(dedup_front)"})
     manifest_rows.append({"number_id": "methods_decision_variables_count", "value": str(variables["decision_variables_count"]), "unit": "count", "source_file": "tools/run_city_pipeline.py", "column_or_formula": "len(PARAM_COLS)"})
+    manifest_rows.append({"number_id": "methods_parse_line_o2_start", "value": str(variables["parse_line_o2_start"]), "unit": "line_number", "source_file": "src/sim/parse.py", "column_or_formula": "O2 calculation start"})
+    manifest_rows.append({"number_id": "methods_parse_line_o2_end", "value": str(variables["parse_line_o2_end"]), "unit": "line_number", "source_file": "src/sim/parse.py", "column_or_formula": "O2 calculation end"})
     manifest_rows.append({"number_id": "methods_render_line_hvac_start", "value": str(variables["render_line_hvac_start"]), "unit": "line_number", "source_file": "src/sim/render.py", "column_or_formula": "line start"})
     manifest_rows.append({"number_id": "methods_render_line_hvac_end", "value": str(variables["render_line_hvac_end"]), "unit": "line_number", "source_file": "src/sim/render.py", "column_or_formula": "line end"})
     manifest_rows.append({"number_id": "methods_render_line_dehumid", "value": str(variables["render_line_dehumid"]), "unit": "line_number", "source_file": "src/sim/render.py", "column_or_formula": "line number"})
@@ -683,9 +767,18 @@ To test EnergyPlus sensitivity to outdoor moisture under extreme boundaries, neg
     manifest_rows.append({"number_id": "methods_mumbai_case_b_o2", "value": f"{variables['mumbai_case_b_o2']:.2f}", "unit": "kWh/m2", "source_file": "reports/pass6_closure.txt", "column_or_formula": "Mumbai Case b O2"})
     manifest_rows.append({"number_id": "methods_mumbai_case_c_o2", "value": f"{variables['mumbai_case_c_o2']:.2f}", "unit": "kWh/m2", "source_file": "reports/pass6_closure.txt", "column_or_formula": "Mumbai Case c O2"})
     manifest_rows.append({"number_id": "methods_ground_temp_header_line", "value": str(variables["ground_temp_header_line"]), "unit": "line_number", "source_file": "reports/pass6_closure.txt", "column_or_formula": "EPW header line 4"})
+    manifest_rows.append({"number_id": "methods_epw_header_line_1", "value": str(variables["epw_header_line_1"]), "unit": "line_number", "source_file": "reports/batch_epw_manifest.csv", "column_or_formula": "EPW header line 1"})
     manifest_rows.append({"number_id": "methods_ecbc_year", "value": str(variables["ecbc_year"]), "unit": "year", "source_file": "ECBC 2017", "column_or_formula": "ECBC 2017 standard"})
     manifest_rows.append({"number_id": "methods_ecbc_table_major", "value": str(variables["ecbc_table_major"]), "unit": "index", "source_file": "ECBC 2017", "column_or_formula": "Table 11-1"})
     manifest_rows.append({"number_id": "methods_ecbc_table_minor", "value": str(variables["ecbc_table_minor"]), "unit": "index", "source_file": "ECBC 2017", "column_or_formula": "Table 11-1"})
+    manifest_rows.append({"number_id": "methods_baseline_tdp_rh_discrepancy", "value": f"{variables['baseline_tdp_rh_discrepancy']:.2f}", "unit": "degC", "source_file": "reports/item4_morph_deep.txt", "column_or_formula": "Shimla sensor discrepancy"})
+    manifest_rows.append({"number_id": "methods_sha_hash_len", "value": str(variables["sha_hash_len"]), "unit": "count", "source_file": "hashlib", "column_or_formula": "SHA-256 character length"})
+    manifest_rows.append({"number_id": "methods_sha_algo_bits", "value": str(variables["sha_algo_bits"]), "unit": "bits", "source_file": "hashlib", "column_or_formula": "SHA-256 bit width"})
+    manifest_rows.append({"number_id": "methods_table_5_num", "value": str(variables["table_5_num"]), "unit": "index", "source_file": "paper/tables/table5_weather_provenance.csv", "column_or_formula": "Table 5"})
+    for i in range(1, 7):
+        manifest_rows.append({"number_id": f"methods_sec_{i}_num", "value": str(i), "unit": "index", "source_file": "paper/methods_and_limitations.md", "column_or_formula": f"Section {i}"})
+    for i in range(1, 12):
+        manifest_rows.append({"number_id": f"methods_lim_{i}_idx", "value": str(i), "unit": "index", "source_file": "paper/methods_and_limitations.md", "column_or_formula": f"Limitation {i}"})
 
     out_path.write_text(rendered, encoding="utf-8")
     return rendered

@@ -1,0 +1,2 @@
+city,design_id,roof_insulation_thickness,wall_insulation_thickness,roof_solar_absorptance,wwr,orientation,shading_depth,ventilation_ach,wall_mass_class,O1_ml,warm_ml,cool_ml,O1_adapt,hot_adapt,cold_adapt,invalid_share_adapt,O2,top_med,top_max,top_lt_5,top_gt_35
+Bengaluru,P_Bengaluru_cand_001,0.125,0.15,0.3283,0.0503,168.6,0.708,14.96,medium,5.981735159817352,5.981735159817352,0.0,1.7009132420091322,1.5182648401826484,0.182648401826484,0.0,34.22799717921447,25.116254806518555,28.81562614440918,0,0
